@@ -1,5 +1,5 @@
 
-### Pre-requested software version in development mode
+### Version dependency in development
 
 
 `$node -v`\
@@ -17,12 +17,16 @@ Version 4.1.3
 `$npx -v`\
 6.4.1
 
-we use `createl-react-app` to build this app from scrach
 
 `$npx create-react-app  starcoin-web  --template typescript
 `
 
 ## How to run
+
+> check for updates first if needed
+>
+>`$git pull`\
+>`$yarn install`
 
 `$yarn start`
 
