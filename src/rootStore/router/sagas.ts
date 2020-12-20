@@ -1,6 +1,6 @@
 import { push, goBack } from 'connected-react-router';
 import { put, takeEvery } from 'redux-saga/effects';
-import { withBaseRoute } from '../../utils/helper';
+import { withBaseRoute } from '@/utils/helper';
 
 export function* pushLocation({ params }: any) {
     const route = params.abs ? params.path : withBaseRoute(params.path);

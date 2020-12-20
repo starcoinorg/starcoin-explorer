@@ -8,7 +8,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import omit from 'lodash/omit';
 import Layout from './common/Layout';
 import './index.css';
-import { withBaseRoute } from './utils/helper';
+import { withBaseRoute } from '@/utils/helper';
 import store, { history } from './rootStore';
 
 const Home = lazy(() => import('./modules/Home'));
