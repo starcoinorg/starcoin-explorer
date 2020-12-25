@@ -6,7 +6,7 @@ import { SCOPENAME } from "./constants";
 
 const selector = (state: any) => state[SCOPENAME];
 
-export default {
+const store = {
   SCOPENAME,
   selector,
   reducer,
@@ -14,3 +14,4 @@ export default {
   sagas
 }
 
+export default store;

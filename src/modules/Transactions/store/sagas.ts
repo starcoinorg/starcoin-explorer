@@ -20,6 +20,8 @@ function* watchGetTransaction() {
   yield takeLatest(types.GET_TRANSACTION, getTransaction)
 }
 
-export default [
+const sagas = [
   watchGetTransaction
 ];
+
+export default sagas;

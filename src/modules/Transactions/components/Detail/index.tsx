@@ -7,6 +7,7 @@ class Index extends PureComponent {
             <React.Fragment>
                 <div>
                   Transactions Detail
+                  <br /><br />
                   <BaseRouteLink to="../">List</BaseRouteLink>
                 </div>
             </React.Fragment>

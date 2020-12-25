@@ -1,5 +1,6 @@
 import React, { FC, memo } from 'react';
-import BaseRouteLink from '../BaseRouteLink';
+import Header from './header'
+
 export interface LayoutProps {
   children?: React.ReactNode
 }
@@ -8,13 +9,8 @@ const Layout: FC<LayoutProps> = (props) => {
   const { children } = props;
   return (
     <div>
-      <div>
-        <BaseRouteLink to="/">Home</BaseRouteLink>
-        <BaseRouteLink to="/blocks">Blocks</BaseRouteLink>
-        <BaseRouteLink to="/transactions">Transactions</BaseRouteLink>
-        <BaseRouteLink to="/ecosystems">Ecosystems</BaseRouteLink>
-        <BaseRouteLink to="/faq">Faq</BaseRouteLink>
-      </div>
+      <Header />
+      <hr />
       <div>
         {children}
       </div>
