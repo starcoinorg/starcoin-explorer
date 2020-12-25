@@ -13,7 +13,7 @@ import store, { history } from './rootStore';
 
 const Home = lazy(() => import('./modules/Home'));
 const Blocks = lazy(() => import('./modules/Blocks'));
-const Transactions = lazy(() => import('./modules/Transactions'));
+const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
 const Faq = lazy(() => import('./modules/Faq'));
 
@@ -23,7 +23,10 @@ const RouteWithLayout = (props: any) => {
   const title = props.title;
   const rest = omit(props, ['component', 'layout', 'title']);
 
-  return <Layout title={title}><Component {...rest} /></Layout>;
+  return (
+    <Layout title={title}><Component {...rest} /></Layout>
+  );
+
 };
 
 const MainLayout = (props: any) => {
@@ -50,8 +53,8 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <Switch>
         <RouteWithLayout exact path={withBaseRoute('/')} title="Home" layout={MainLayout} component={Home} />
-        <RouteWithLayout exact path={withBaseRoute('/blocks')} title="Blocks" layout={MainLayout} component={Blocks} />
-        <RouteWithLayout exact path={withBaseRoute('/transactions')} title="Transactions" layout={MainLayout} component={Transactions} />
+        <RouteWithLayout path={withBaseRoute('/blocks')} layout={MainLayout} component={Blocks} />
+        <RouteWithLayout path={withBaseRoute('/transactions')} layout={MainLayout} component={Transactions} />
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystems" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
       </Switch>

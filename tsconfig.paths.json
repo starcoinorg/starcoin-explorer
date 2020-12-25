@@ -2,6 +2,9 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
+      "@/sagaMiddleware/*": ["sagaMiddleware/*"],
+      "@/service/*": ["service/*"],
+      "@/Transactions/*": ["modules/Transactions/*"],
       "@/utils/*": ["utils/*"]
     }
   }

@@ -1,8 +1,9 @@
 import * as types from './constants';
 
-export function getTransaction() {
+export function getTransaction(payload: any) {
   return {
-    type: types.GET_TRANSACTION
+    type: types.GET_TRANSACTION,
+    payload
   };
 }
 

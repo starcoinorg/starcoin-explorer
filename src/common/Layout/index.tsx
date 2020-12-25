@@ -7,7 +7,7 @@ export interface LayoutProps {
 const Layout: FC<LayoutProps> = (props) => {
   const { children } = props;
   return (
-    <React.Fragment>
+    <div>
       <div>
         <BaseRouteLink to="/">Home</BaseRouteLink>
         <BaseRouteLink to="/blocks">Blocks</BaseRouteLink>
@@ -18,7 +18,7 @@ const Layout: FC<LayoutProps> = (props) => {
       <div>
         {children}
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
