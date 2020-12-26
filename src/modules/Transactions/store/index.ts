@@ -12,6 +12,6 @@ const store = {
   reducer,
   actions,
   sagas
-}
+};
 
 export default store;
