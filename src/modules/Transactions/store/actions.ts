@@ -13,3 +13,18 @@ export function setTransaction(payload: any) {
     payload
   };
 }
+
+export function getTransactionList(payload: any, callback?: any) {
+  return {
+    type: types.GET_TRANSACTION_LIST,
+    payload,
+    callback
+  };
+}
+
+export function setTransactionList(payload: any) {
+  return {
+    type: types.SET_TRANSACTION_LIST,
+    payload
+  };
+}

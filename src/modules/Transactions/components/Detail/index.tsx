@@ -30,10 +30,13 @@ class Index extends PureComponent<IndexProps> {
             go to <BaseRouteLink to="../">List</BaseRouteLink>
           </p>
           <p>hash={hash}</p>
-          <p>response of xhr:</p>
-          <pre>
-            {JSON.stringify(this.props.transaction,null, 2)}
-          </pre>
+          <hr />
+          <h3>xhr response:</h3>
+          <div style={{ width: '80%', height: '400px', overflow: 'auto' }}>
+            <pre>
+              {JSON.stringify(this.props.transaction,null, 2)}
+            </pre>
+          </div>
         </div>
       </React.Fragment>
     );

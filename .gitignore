@@ -22,7 +22,6 @@ yarn-error.log*
 
 .eslintcache
 lintout.json
-/src/react-app-env.d.ts
 
 # editors
 .idea

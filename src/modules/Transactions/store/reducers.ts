@@ -10,7 +10,7 @@ export default function reducers(state: any = initState, action: any) {
     case types.SET_TRANSACTION: {
       return { ...state, transaction: action.payload };
     }
-    case types.SET_TRANSACTIONS_LIST: {
+    case types.SET_TRANSACTION_LIST: {
       return { ...state, transactionList: action.payload };
     }
     default:
