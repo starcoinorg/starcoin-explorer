@@ -12,7 +12,7 @@ import { withBaseRoute } from '@/utils/helper';
 import store, { history } from './rootStore';
 
 const Home = lazy(() => import('./modules/Home'));
-const Blocks = lazy(() => import('./modules/Blocks'));
+const Blocks = lazy(() => import('./modules/Blocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
 const Faq = lazy(() => import('./modules/Faq'));

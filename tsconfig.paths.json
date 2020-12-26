@@ -5,6 +5,7 @@
       "@/common/*": ["common/*"],
       "@/sagaMiddleware/*": ["sagaMiddleware/*"],
       "@/rootStore/*": ["rootStore/*"],
+      "@/Blocks/*": ["modules/Blocks/*"],
       "@/Transactions/*": ["modules/Transactions/*"],
       "@/utils/*": ["utils/*"]
     }
