@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
-import * as api from '@/service/Transaction';
+import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
 

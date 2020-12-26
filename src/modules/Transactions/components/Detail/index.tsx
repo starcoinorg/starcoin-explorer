@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 // import withLoading from '@/common/LoadingMasker/withLoading';
-import BaseRouteLink from "../../../../common/BaseRouteLink";
+import BaseRouteLink from "@/common/BaseRouteLink";
 
 interface IndexProps {
   match: any;
@@ -23,18 +23,19 @@ class Index extends PureComponent<IndexProps> {
   render() {
     const hash = this.props.match.params.hash;
     return (
-        <React.Fragment>
-            <div>
-              Transactions Detail
-              <p>
-                go to <BaseRouteLink to="../">List</BaseRouteLink>
-              </p>
-              <p>hash={hash}</p>
-              <pre>
-                {JSON.stringify(this.props.transaction)}
-              </pre>
-            </div>
-        </React.Fragment>
+      <React.Fragment>
+        <div>
+          Transactions Detail
+          <p>
+            go to <BaseRouteLink to="../">List</BaseRouteLink>
+          </p>
+          <p>hash={hash}</p>
+          <p>response of xhr:</p>
+          <pre>
+            {JSON.stringify(this.props.transaction,null, 2)}
+          </pre>
+        </div>
+      </React.Fragment>
     );
   }
 }

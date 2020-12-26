@@ -9,7 +9,6 @@ interface TransactionsRouterProps {
 
 class TransactionsRouter extends PureComponent<TransactionsRouterProps> {
   render() {
-    // TODO: checkout why match is not working(use computedMatch indeed)
     const { computedMatch: match } = this.props;
     return (
       <Fragment>

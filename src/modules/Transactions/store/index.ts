@@ -3,7 +3,6 @@ import reducer from  './reducers';
 import sagas from './sagas';
 import { SCOPENAME } from "./constants";
 
-
 const selector = (state: any) => state[SCOPENAME];
 
 const store = {

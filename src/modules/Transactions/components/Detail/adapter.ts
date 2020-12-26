@@ -21,4 +21,4 @@ const selector = createSelector(
 
 export default connect(selector, {
   getTransaction: actions.getTransaction
-})(Index);
+})(Index) as any;
