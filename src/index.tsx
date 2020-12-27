@@ -11,7 +11,7 @@ import './index.css';
 import { withBaseRoute } from '@/utils/helper';
 import store, { history } from './rootStore';
 
-const Home = lazy(() => import('./modules/Home'));
+const Home = lazy(() => import('./modules/Home/adapter'));
 const Blocks = lazy(() => import('./modules/Blocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
