@@ -11,21 +11,21 @@ import Index from './index';
 const { selector: currentSelectorBlocks, actions: actionsBlocks } = storeBlocks;
 const { selector: currentSelectorTransactions, actions: actionsTransactions } = storeTransactions;
 
-const loadingSelector = createLoadingSelector([typesBlocks.GET_BLOCK_LIST, typesTransactions.GET_TRANSACTION_LIST]);
+const loadingSelector = createLoadingSelector([typesBlocks.GET_BLOCK, typesTransactions.GET_TRANSACTION]);
 
 const selector = createSelector(
   currentSelectorBlocks,
   currentSelectorTransactions,
   loadingSelector,
   (currentBlocks, currentTransactions, loading) => ({
-    blockList: currentBlocks.blockList,
-    transactionList: currentTransactions.transactionList,
+    block: currentBlocks.block,
+    transaction: currentTransactions.transaction,
     loading
   })
 );
 
 export default connect(selector, {
-  getBlockList: actionsBlocks.getBlockList,
-  getTransactionList: actionsTransactions.getTransactionList,
+  getBlock: actionsBlocks.getBlock,
+  getTransaction: actionsTransactions.getTransaction,
   pushLocation
 })(Index) as any;

@@ -11,6 +11,7 @@ import './index.css';
 import { withBaseRoute } from '@/utils/helper';
 import store, { history } from './rootStore';
 
+const Search = lazy(() => import('./modules/Search/adapter'));
 const Home = lazy(() => import('./modules/Home/adapter'));
 const Blocks = lazy(() => import('./modules/Blocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
@@ -53,6 +54,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <Switch>
         <RouteWithLayout exact path={withBaseRoute('/')} title="Home" layout={MainLayout} component={Home} />
+        <RouteWithLayout path={withBaseRoute('/search/:hash')} layout={MainLayout} component={Search} />
         <RouteWithLayout path={withBaseRoute('/blocks')} layout={MainLayout} component={Blocks} />
         <RouteWithLayout path={withBaseRoute('/transactions')} layout={MainLayout} component={Transactions} />
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystems" layout={MainLayout} component={Ecosystems} />

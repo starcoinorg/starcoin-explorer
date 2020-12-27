@@ -75,7 +75,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
             hits.map((item: any) => {
               const url = `/transactions/detail/${item._id}`;
               return(
-                <li>
+                <li key={item._id}>
                   <BaseRouteLink to={url}>{item._id}</BaseRouteLink>
                 </li>
               )
