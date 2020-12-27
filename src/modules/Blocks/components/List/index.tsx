@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
+import Typography from '@material-ui/core/Typography';
 // import withLoading from '@/common/LoadingMasker/withLoading';
 import BaseRouteLink from "@/common/BaseRouteLink";
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -12,7 +13,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import formatTime from '@/utils/formatTime';
 
 interface IndexProps {
   classes: any;
@@ -114,13 +115,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
                   hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number).map((row: any) => {
                     const header = row._source.header;
                     const blockUrl = `/blocks/detail/${header.block_hash}`;
+                    // TODO: author info need to be decoded from sdk
                     const authorUrl = `/author/${header.author}`;
                     return(
                       <StyledTableRow key={header.block_hash}>
                         <StyledTableCell component="th" scope="row">
                           <BaseRouteLink to={blockUrl}>{header.number}</BaseRouteLink>
                         </StyledTableCell>
-                        <StyledTableCell align="right">{header.timestamp}</StyledTableCell>
+                        <StyledTableCell align="right"><Typography>{formatTime(header.timestamp)}</Typography></StyledTableCell>
                         <StyledTableCell align="right">{row._source.body.Full.length}</StyledTableCell>
                         <StyledTableCell align="right">
                           <BaseRouteLink to={authorUrl}>{header.author}</BaseRouteLink>
