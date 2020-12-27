@@ -2,11 +2,42 @@ import React, { PureComponent } from 'react';
 import BaseRouteLink from "@/common/BaseRouteLink";
 // import withLoading from '@/common/LoadingMasker/withLoading';
 // import BaseRouteLink from "@/common/BaseRouteLink";
-import { withStyles, Theme } from '@material-ui/core/styles';
+import {withStyles, Theme, createStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {pushLocation} from "@/rootStore/router/actions";
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableBody from '@material-ui/core/TableBody';
+import formatTime from '@/utils/formatTime';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableCell from '@material-ui/core/TableCell';
+
+
+const StyledTableCell = withStyles((theme: Theme) =>
+  createStyles({
+    head: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    body: {
+      fontSize: 14,
+    },
+  }),
+)(TableCell);
+
+const StyledTableRow = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }),
+)(TableRow);
 
 const useStyles = (theme: Theme) => ({
   root: {
@@ -25,6 +56,9 @@ const useStyles = (theme: Theme) => ({
   },
   search: {
     // color: theme.custom.colors.common.white,
+  },
+  table: {
+    minWidth: 700,
   },
 });
 
@@ -106,33 +140,62 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <br />
         <div>
           Blocks List <BaseRouteLink to="/blocks">View All</BaseRouteLink>
-          <ul>
-          {
-            hitsBlocks.map((item: any) => {
-              const url = `/blocks/detail/${item._id}`;
-              return(
-                <li key={item._id}>
-                  <BaseRouteLink to={url}>{item._id}</BaseRouteLink>
-                </li>
-              )
-            })
-          }
-          </ul>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Height</StyledTableCell>
+                  <StyledTableCell align="right">Time</StyledTableCell>
+                  <StyledTableCell align="right">Transactions</StyledTableCell>
+                  <StyledTableCell align="right">Author</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {
+                  hitsBlocks.slice(0, 10).sort((a: any, b: any) => b._source.header.number - a._source.header.number).map((row: any) => {
+                    const header = row._source.header;
+                    const blockUrl = `/blocks/detail/${header.block_hash}`;
+                    // TODO: author info need to be decoded from sdk
+                    const authorUrl = `/author/${header.author}`;
+                    return(
+                      <StyledTableRow key={header.block_hash}>
+                        <StyledTableCell component="th" scope="row">
+                          <BaseRouteLink to={blockUrl}>{header.number}</BaseRouteLink>
+                        </StyledTableCell>
+                        <StyledTableCell align="right"><Typography>{formatTime(header.timestamp)}</Typography></StyledTableCell>
+                        <StyledTableCell align="right">{row._source.body.Full.length}</StyledTableCell>
+                        <StyledTableCell align="right">
+                          <BaseRouteLink to={authorUrl}>{header.author}</BaseRouteLink>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  })
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
         <div>
           Transaction List <BaseRouteLink to="/transactions">View All</BaseRouteLink>
-          <ul>
-            {
-              hitsTransactions.map((item: any) => {
-                const url = `/transactions/detail/${item._id}`;
-                return(
-                  <li key={item._id}>
-                    <BaseRouteLink to={url}>{item._id}</BaseRouteLink>
-                  </li>
-                )
-              })
-            }
-          </ul>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableBody>
+                {
+                  hitsTransactions.slice(0, 10).map((row: any) => {
+                    const transaction_hash = row._source.transaction_hash;
+                    const transactionUrl = `/transactions/detail/${transaction_hash}`;
+                    return(
+                      <StyledTableRow key={transaction_hash}>
+                        <StyledTableCell component="th" scope="row">
+                          <BaseRouteLink to={transactionUrl}>{transaction_hash}</BaseRouteLink>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  })
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </React.Fragment>
     );
