@@ -1,27 +1,24 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import BaseRouteLink from '@/common/BaseRouteLink';
 // import withLoading from '@/common/LoadingMasker/withLoading';
 // import BaseRouteLink from '@/common/BaseRouteLink';
 import StyledTableRow from '@/common/Table/StyledTableRow';
 import StyledTableCell from '@/common/Table/StyledTableCell';
-import { withStyles, Theme } from '@material-ui/core/styles';
-// import { type Theme } from '@/styles/createTheme';
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 // import { pushLocation } from '@/rootStore/router/actions';
 import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import formatTime from '@/utils/formatTime';
 import TableContainer from '@material-ui/core/TableContainer';
-// import TableCard from './TableCard';
-import Checkbox from '@material-ui/core/Checkbox';
-// import { orange } from '@material-ui/core/colors';
 
-const useStyles = (theme: Theme) => ({
+const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
     root: {
       padding: theme.spacing(1),
@@ -80,6 +77,29 @@ const useStyles = (theme: Theme) => ({
     display: 'flex',
     flex: '1 1 auto',
   },
+  card: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardHeader: {
+    alignItems: 'center',
+    borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+  },
+  blocksAndTransactions: {
+    display: 'flex',
+  },
+  blocks: {
+    flex: '1 1 auto',
+  },
+  blocksSpacer: {},
+  transactionsSpacer: {},
+  transactions: {
+    flex: '1 1 auto',
+  },
   searchField: {
     display: 'flex',
   },
@@ -90,7 +110,7 @@ const useStyles = (theme: Theme) => ({
     marginRight: theme.spacing(1),
   },
   search: {
-    // color: theme.custom.colors.common.white,
+    // color: theme.custom.palette.main,
   },
   table: {
     minWidth: 700,
@@ -109,20 +129,6 @@ interface IndexProps {
 interface IndexState {
   value: string
 }
-//
-// declare module '@material-ui/core/styles/createMuiTheme' {
-//   interface Theme {
-//     status: {
-//       danger: string;
-//     };
-//   }
-//   // allow configuration using `createMuiTheme`
-//   interface ThemeOptions {
-//     status?: {
-//       danger?: string;
-//     };
-//   }
-// }
 
 class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
@@ -157,6 +163,26 @@ class Index extends PureComponent<IndexProps, IndexState> {
     this.props.pushLocation(`/search/${this.state.value.trim()}`);
   };
 
+  renderCard = (
+    title: string,
+    url: string,
+    content: any,
+    cardClassName: any,
+    cardSpacerClassName: any,
+  ) => (
+    <div className={cardClassName}>
+      <div className={cardSpacerClassName}>
+        <Card className={this.props.classes.card}>
+          <div className={this.props.classes.cardHeader}>
+            <Typography>{title}</Typography>
+            <BaseRouteLink to={url}>View All</BaseRouteLink>
+          </div>
+          {content}
+        </Card>
+      </div>
+    </div>
+  );
+
   generateBlocks = () => {
     const { blockList, classes } = this.props;
     const hitsBlocks = blockList ? blockList.hits.hits : [];
@@ -178,6 +204,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 const blockUrl = `/blocks/detail/${header.block_hash}`;
                 // TODO: author info need to be decoded from sdk
                 const authorUrl = `/author/${header.author}`;
+                console.log(row);
                 return (
                   <StyledTableRow key={header.block_hash}>
                     <StyledTableCell component="th" scope="row">
@@ -225,12 +252,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   render() {
-    const { blockList, transactionList } = this.props;
     // if (!blockList || !transactionList) {
     //   return null;
     // }
-    const hitsBlocks = blockList ? blockList.hits.hits : [];
-    const hitsTransactions = transactionList ? transactionList.hits.hits : [];
     const { classes } = this.props;
     return (
       <>
@@ -253,72 +277,21 @@ class Index extends PureComponent<IndexProps, IndexState> {
             </Typography>
           </Button>
         </div>
-        <br />
-        <Checkbox
-          defaultChecked
-          classes={{
-            root: classes.root,
-            checked: classes.checked,
-          }}
-        />
-        <div>
-          Blocks List <BaseRouteLink to="/blocks">View All</BaseRouteLink>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Height</StyledTableCell>
-                  <StyledTableCell align="right">Time</StyledTableCell>
-                  <StyledTableCell align="right">Transactions</StyledTableCell>
-                  <StyledTableCell align="right">Author</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {
-                  hitsBlocks.slice(0, 10).sort((a: any, b: any) => b._source.header.number - a._source.header.number).map((row: any) => {
-                    const header = row._source.header;
-                    const blockUrl = `/blocks/detail/${header.block_hash}`;
-                    // TODO: author info need to be decoded from sdk
-                    const authorUrl = `/author/${header.author}`;
-                    return (
-                      <StyledTableRow key={header.block_hash}>
-                        <StyledTableCell component="th" scope="row">
-                          <BaseRouteLink to={blockUrl}>{header.number}</BaseRouteLink>
-                        </StyledTableCell>
-                        <StyledTableCell align="right"><Typography>{formatTime(header.timestamp)}</Typography></StyledTableCell>
-                        <StyledTableCell align="right">{row._source.body.Full.length}</StyledTableCell>
-                        <StyledTableCell align="right">
-                          <BaseRouteLink to={authorUrl}>{header.author}</BaseRouteLink>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-        <div>
-          Transaction List <BaseRouteLink to="/transactions">View All</BaseRouteLink>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableBody>
-                {
-                  hitsTransactions.slice(0, 10).map((row: any) => {
-                    const transaction_hash = row._source.transaction_hash;
-                    const transactionUrl = `/transactions/detail/${transaction_hash}`;
-                    return (
-                      <StyledTableRow key={transaction_hash}>
-                        <StyledTableCell component="th" scope="row">
-                          <BaseRouteLink to={transactionUrl}>{transaction_hash}</BaseRouteLink>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <div className={classes.blocksAndTransactions}>
+          {this.renderCard(
+            'Explore Blocks',
+            '/blocks',
+            this.generateBlocks(),
+            classes.blocks,
+            classes.blocksSpacer,
+          )}
+          {this.renderCard(
+            'Explore Blocks',
+            '/transactions',
+            this.generateTransactions(),
+            classes.transactions,
+            classes.transactionsSpacer,
+          )}
         </div>
       </>
     );
