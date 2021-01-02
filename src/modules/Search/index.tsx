@@ -11,6 +11,7 @@ interface IndexProps {
 }
 
 class Index extends PureComponent<IndexProps> {
+  // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     computedMatch: {},
     block: null,
@@ -54,18 +55,15 @@ class Index extends PureComponent<IndexProps> {
     if (url) {
       this.props.pushLocation(url);
     }
-    if (!url && showNone){
+    if (!url && showNone) {
       return (
-        <React.Fragment>
-          <div>
-            <h3>Sorry, that page was not found.</h3>
-            Try going back to where you were or heading to the home page.
-          </div>
-        </React.Fragment>
+        <div>
+          <h3>Sorry, that page was not found.</h3>
+          Try going back to where you were or heading to the home page.
+        </div>
       );
     }
     return null;
-
   }
 }
 

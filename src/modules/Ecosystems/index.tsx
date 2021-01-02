@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 
-class Blocks extends PureComponent {
-    render() {
-        return (
-            <React.Fragment>
-                <div>
-                    Ecosystems
-                </div>
-            </React.Fragment>
-        );
-    }
+class Index extends PureComponent {
+  render() {
+    return (
+      <div>
+        Ecosystems
+      </div>
+    );
+  }
 }
 
-export default Blocks;
+export default Index;

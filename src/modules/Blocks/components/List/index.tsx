@@ -4,7 +4,7 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Typography from '@material-ui/core/Typography';
 // import withLoading from '@/common/LoadingMasker/withLoading';
-import BaseRouteLink from "@/common/BaseRouteLink";
+import BaseRouteLink from '@/common/BaseRouteLink';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -25,35 +25,32 @@ interface IndexState {
   currentPage: number
 }
 
-const StyledTableCell = withStyles((theme: Theme) =>
-  createStyles({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }),
-)(TableCell);
+const StyledTableCell = withStyles((theme: Theme) => createStyles({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
+const StyledTableRow = withStyles((theme: Theme) => createStyles({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
     },
-  }),
-)(TableRow);
+  },
+}))(TableRow);
 
-const useStyles = (theme: Theme) => ({
+const useStyles = () => ({
   table: {
     minWidth: 700,
   },
 });
 
 class Index extends PureComponent<IndexProps, IndexState> {
+  // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     blockList: null,
     getBlockList: () => {}
@@ -72,18 +69,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   fetchListPage = (page: number) => {
     console.log('fetchListPage', page);
-    this.props.getBlockList({ page })
+    this.props.getBlockList({ page });
   };
 
   pagination = (type: string) => {
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getBlockList({ page}, () => { this.setState({ currentPage: page}) });
-    }else if (type === 'next') {
+      this.props.getBlockList({ page }, () => { this.setState({ currentPage: page }); });
+    } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getBlockList({ page}, () => { this.setState({ currentPage: page}) });
+      this.props.getBlockList({ page }, () => { this.setState({ currentPage: page }); });
     }
-
   };
 
   render() {
@@ -94,57 +90,55 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const { classes } = this.props;
     const hits = blockList.hits.hits;
     const size = 20;
-    const from = (this.state.currentPage -1) * size + 1;
+    const from = (this.state.currentPage - 1) * size + 1;
     const to = this.state.currentPage * size;
     return (
-      <React.Fragment>
-        <div>
-          Blocks List
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Height</StyledTableCell>
-                  <StyledTableCell align="right">Time</StyledTableCell>
-                  <StyledTableCell align="right">Transactions</StyledTableCell>
-                  <StyledTableCell align="right">Author</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {
-                  hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number).map((row: any) => {
-                    const header = row._source.header;
-                    const blockUrl = `/blocks/detail/${header.block_hash}`;
-                    // TODO: author info need to be decoded from sdk
-                    const authorUrl = `/author/${header.author}`;
-                    return(
-                      <StyledTableRow key={header.block_hash}>
-                        <StyledTableCell component="th" scope="row">
-                          <BaseRouteLink to={blockUrl}>{header.number}</BaseRouteLink>
-                        </StyledTableCell>
-                        <StyledTableCell align="right"><Typography>{formatTime(header.timestamp)}</Typography></StyledTableCell>
-                        <StyledTableCell align="right">{row._source.body.Full.length}</StyledTableCell>
-                        <StyledTableCell align="right">
-                          <BaseRouteLink to={authorUrl}>{header.author}</BaseRouteLink>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    )
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <p>
-            {from} - {to}
-            <IconButton aria-label="prev" onClick={() => this.pagination('prev')} disabled={this.state.currentPage === 1} >
-              <ArrowBackIos />
-            </IconButton>
-            <IconButton aria-label="next" onClick={() => this.pagination('next')}>
-              <ArrowForwardIos />
-            </IconButton>
-          </p>
-        </div>
-      </React.Fragment>
+      <div>
+        Blocks List
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Height</StyledTableCell>
+                <StyledTableCell align="right">Time</StyledTableCell>
+                <StyledTableCell align="right">Transactions</StyledTableCell>
+                <StyledTableCell align="right">Author</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number).map((row: any) => {
+                  const header = row._source.header;
+                  const blockUrl = `/blocks/detail/${header.block_hash}`;
+                  // TODO: author info need to be decoded from sdk
+                  const authorUrl = `/author/${header.author}`;
+                  return (
+                    <StyledTableRow key={header.block_hash}>
+                      <StyledTableCell component="th" scope="row">
+                        <BaseRouteLink to={blockUrl}>{header.number}</BaseRouteLink>
+                      </StyledTableCell>
+                      <StyledTableCell align="right"><Typography>{formatTime(header.timestamp)}</Typography></StyledTableCell>
+                      <StyledTableCell align="right">{row._source.body.Full.length}</StyledTableCell>
+                      <StyledTableCell align="right">
+                        <BaseRouteLink to={authorUrl}>{header.author}</BaseRouteLink>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
+                })
+              }
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <p>
+          {from} - {to}
+          <IconButton aria-label="prev" onClick={() => this.pagination('prev')} disabled={this.state.currentPage === 1}>
+            <ArrowBackIos />
+          </IconButton>
+          <IconButton aria-label="next" onClick={() => this.pagination('next')}>
+            <ArrowForwardIos />
+          </IconButton>
+        </p>
+      </div>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { FC, memo } from 'react';
-import Header from './header'
+import Header from './header';
 
 export interface LayoutProps {
   children?: React.ReactNode

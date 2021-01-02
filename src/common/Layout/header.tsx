@@ -1,7 +1,7 @@
 import React from 'react';
-import BaseRouteLink from '../BaseRouteLink'
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import BaseRouteLink from '../BaseRouteLink';
 
 const useStyles = makeStyles((theme) => ({
   root: {

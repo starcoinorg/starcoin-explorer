@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import omit from 'lodash/omit';
+import { withBaseRoute } from '@/utils/helper';
 import Layout from './common/Layout';
 import './index.css';
-import { withBaseRoute } from '@/utils/helper';
 import store, { history } from './rootStore';
 
 const Search = lazy(() => import('./modules/Search/adapter'));
@@ -27,7 +27,6 @@ const RouteWithLayout = (props: any) => {
   return (
     <Layout title={title}><Component {...rest} /></Layout>
   );
-
 };
 
 const MainLayout = (props: any) => {
@@ -50,7 +49,7 @@ MainLayout.prototype = {
 };
 
 ReactDOM.render(
-  <Provider store={store as any}>
+  <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
         <RouteWithLayout exact path={withBaseRoute('/')} title="Home" layout={MainLayout} component={Home} />

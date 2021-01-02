@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from 'react';
 // import withLoading from '@/common/LoadingMasker/withLoading';
-import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
@@ -12,9 +11,9 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import formatTime from '@/utils/formatTime';
-import BaseRouteLink from "@/common/BaseRouteLink";
 import TableHead from '@material-ui/core/TableHead';
+import StyledTableRow from '@/common/Table/StyledTableRow';
+import StyledTableCell from '@/common/Table/StyledTableCell';
 
 interface IndexProps {
   classes: any;
@@ -23,36 +22,14 @@ interface IndexProps {
   getTransaction: (data: any, callback?: any) => any;
 }
 
-
-const StyledTableCell = withStyles((theme: Theme) =>
-  createStyles({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }),
-)(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }),
-)(TableRow);
-
-const useStyles = (theme: Theme) => ({
+const useStyles = () => ({
   table: {
     minWidth: 700,
   },
 });
 
 class Index extends PureComponent<IndexProps> {
+  // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     match: {},
     transaction: null,
@@ -61,7 +38,7 @@ class Index extends PureComponent<IndexProps> {
 
   componentDidMount() {
     const hash = this.props.match.params.hash;
-    this.props.getTransaction({ hash })
+    this.props.getTransaction({ hash });
   }
 
   render() {
@@ -81,7 +58,7 @@ class Index extends PureComponent<IndexProps> {
       ['Gas Used', source.gas_used],
     ];
     return (
-      <React.Fragment>
+      <>
         <div>
           <h3>{`Transaction ${hash}`}</h3>
           <TableContainer component={Paper}>
@@ -89,7 +66,7 @@ class Index extends PureComponent<IndexProps> {
               <TableBody>
                 {
                   columns.map((column: any, index: number) => {
-                    return(
+                    return (
                       <StyledTableRow key={index}>
                         <StyledTableCell component="th" scope="row">
                           {column[0]}
@@ -98,7 +75,7 @@ class Index extends PureComponent<IndexProps> {
                           {column[1]}
                         </StyledTableCell>
                       </StyledTableRow>
-                    )
+                    );
                   })
                 }
               </TableBody>
@@ -126,14 +103,14 @@ class Index extends PureComponent<IndexProps> {
                   <TableBody>
                     {
                       source.events.map((row: any) => {
-                        return(
+                        return (
                           <StyledTableRow key={row.data}>
                             <StyledTableCell component="th" scope="row">{row.data}</StyledTableCell>
                             <StyledTableCell component="th" scope="row">{row.event_key}</StyledTableCell>
                             <StyledTableCell component="th" scope="row">{row.event_seq_number}</StyledTableCell>
 
                           </StyledTableRow>
-                        )
+                        );
                       })
                     }
                   </TableBody>
@@ -142,7 +119,7 @@ class Index extends PureComponent<IndexProps> {
             </AccordionDetails>
           </Accordion>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }
