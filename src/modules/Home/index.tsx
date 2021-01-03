@@ -20,10 +20,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
-    root: {
-      padding: theme.spacing(1),
-    },
-    marketCard: {
+    searchCard: {
       marginBottom: theme.spacing(1),
     },
     blocks: {
@@ -33,17 +30,20 @@ const useStyles = (theme: Theme) => createStyles({
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
     },
+    searchField: {
+      padding: theme.spacing(1),
+    },
   },
   [theme.breakpoints.up('sm')]: {
-    root: {
-      padding: theme.spacing(2),
-    },
-    marketCard: {
+    searchCard: {
       marginBottom: theme.spacing(2),
     },
     cardHeader: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
+    },
+    searchField: {
+      padding: theme.spacing(2),
     },
   },
   [theme.breakpoints.down('md')]: {
@@ -77,6 +77,8 @@ const useStyles = (theme: Theme) => createStyles({
     display: 'flex',
     flex: '1 1 auto',
   },
+  searchCard: {
+  },
   card: {
     display: 'flex',
     flexDirection: 'column',
@@ -89,6 +91,7 @@ const useStyles = (theme: Theme) => createStyles({
     paddingBottom: theme.spacing(2),
     paddingTop: theme.spacing(2),
   },
+
   blocksAndTransactions: {
     display: 'flex',
   },
@@ -101,13 +104,17 @@ const useStyles = (theme: Theme) => createStyles({
     flex: '1 1 auto',
   },
   searchField: {
+    alignItems: 'center',
     display: 'flex',
+    flex: '1 1 auto',
   },
   textField: {
     display: 'flex',
     flex: '1 1 auto',
-    width: '30%',
     marginRight: theme.spacing(1),
+  },
+  button: {
+    height: theme.spacing(5),
   },
   search: {
     // color: theme.custom.palette.main,
@@ -233,7 +240,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <Table className={classes.table} aria-label="customized table">
           <TableBody>
             {
-              hitsTransactions.slice(0, 10).map((row: any) => {
+              hitsTransactions.slice(0, 12).map((row: any) => {
                 const transaction_hash = row._source.transaction_hash;
                 const transactionUrl = `/transactions/detail/${transaction_hash}`;
                 return (
@@ -258,24 +265,31 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const { classes } = this.props;
     return (
       <>
-        <div className={classes.searchField}>
-          <TextField
-            id="standard-basic"
-            className={classes.textField}
-            value={this.state.value}
-            label="Search by block/tx hash"
-            onChange={this.onChange}
-          />
-          <Button
-            className={classes.search}
-            color="primary"
-            variant="contained"
-            onClick={this.onSearch}
-          >
-            <Typography className={classes.search} variant="body1">
-              SEARCH
-            </Typography>
-          </Button>
+        <div className={classes.searchCard}>
+          <Card className={this.props.classes.card}>
+            <div className={this.props.classes.cardHeader}>
+              <Typography>Starcoin Explorer</Typography>
+            </div>
+            <div className={classes.searchField}>
+              <TextField
+                id="standard-basic"
+                className={classes.textField}
+                value={this.state.value}
+                label="Search by block/tx hash"
+                onChange={this.onChange}
+              />
+              <Button
+                className={classes.button}
+                color="primary"
+                variant="contained"
+                onClick={this.onSearch}
+              >
+                <Typography className={classes.search} variant="body1">
+                  SEARCH
+                </Typography>
+              </Button>
+            </div>
+          </Card>
         </div>
         <div className={classes.blocksAndTransactions}>
           {this.renderCard(
