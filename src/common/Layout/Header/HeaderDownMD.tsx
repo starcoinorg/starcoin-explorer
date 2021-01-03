@@ -1,39 +1,208 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import React, { PureComponent } from 'react';
+import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Collapse from '@material-ui/core/Collapse';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import MenuIcon from '@material-ui/icons/Menu';
 
-const useStyles = makeStyles((theme: any) => ({
-  [theme.breakpoints.down('md')]: {
-    headerUpMD: {
-      display: 'none',
-    },
-    headerDownMD: {
-      display: 'initial',
+const useStyles = (theme: Theme) => createStyles({
+  [theme.breakpoints.down('sm')]: {
+    // padding: {
+    // paddingLeft: theme.spacing(1),
+    // paddingRight: theme.spacing(1),
+    // },
+    title: {
+      marginRight: theme.spacing(1),
     },
   },
-  [theme.breakpoints.up('md')]: {
-    headerUpMD: {
-      display: 'initial',
-    },
-    headerDownMD: {
-      display: 'none',
+  [theme.breakpoints.up('sm')]: {
+    // padding: {
+    //   paddingLeft: theme.spacing(2),
+    //   paddingRight: theme.spacing(2),
+    // },
+    title: {
+      marginRight: theme.spacing(2),
     },
   },
-  headerUpMD: {},
-  headerDownMD: {},
-}));
+  root: {
+    backgroundColor: '#fff',
+  },
+  header: {
+    alignItems: 'center',
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    flexDirection: 'row',
+    height: theme.spacing(8),
+    justifyContent: 'space-between',
 
-export default function HeaderDownMD() {
-  const classes = useStyles();
+  },
+  title: {},
+  padding: {},
+  selected: {
+    color: theme.palette.primary.main,
+  },
+  menuButton: {
+    height: theme.spacing(6),
+  },
+  menu: {
+    display: 'flex',
+    borderTop: '1px solid rgba(0, 0, 0, 0.075)',
+    flexDirection: 'column',
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+  },
+  link: {
+    textDecoration: 'none',
+  },
+  button: {
+    width: '100%',
+  },
+  logo: {
+    fontFamily: 'Bauhaus93',
+    fontSize: `${theme.spacing(6)}px`,
+    letterSpacing: `-${theme.spacing(2 / 4)}px`,
+    textAlign: 'left',
+    marginRight: theme.spacing(2),
+    lineHeight: 1,
+    textTransform: 'none'
+  },
+});
 
-  return (
-    <Typography className={classes.root}>
-      <BaseRouteLink to="/">Home</BaseRouteLink>
-      <BaseRouteLink to="/blocks">Blocks</BaseRouteLink>
-      <BaseRouteLink to="/transactions">Transactions</BaseRouteLink>
-      <BaseRouteLink to="/ecosystems">Ecosystems</BaseRouteLink>
-      <BaseRouteLink to="/faq">Faq</BaseRouteLink>
-    </Typography>
-  );
+interface IndexProps {
+  classes: any;
 }
+
+interface IndexState {
+  showMenu: boolean
+}
+
+class Index extends PureComponent<IndexProps, IndexState> {
+  constructor(props: IndexProps) {
+    super(props);
+    this.state = {
+      showMenu: false,
+    };
+  }
+
+  onClickButton = () => {
+    console.log('onClickButton');
+    if (this.state.showMenu) {
+      this.setState({ showMenu: false });
+    }
+  };
+
+  onHideMenu = (event: any) => {
+    console.log('onHideMenu');
+    if (this.state.showMenu) {
+      event.preventDefault();
+      this.setState({ showMenu: false });
+    }
+  };
+
+  onShowMenu = (event: any) => {
+    console.log('onShowMenu');
+    event.preventDefault();
+    if (!this.state.showMenu) {
+      this.setState({ showMenu: true });
+    }
+  };
+
+  onClickMenu = (event: any) => {
+    console.log('onClickMenu', this.state.showMenu);
+    event.preventDefault();
+    if (this.state.showMenu) {
+      this.onHideMenu(event);
+    } else {
+      this.onShowMenu(event);
+    }
+  };
+
+  onClickAway = (event: any) => {
+    console.log('onClickAway', this.state.showMenu);
+    if (this.state.showMenu) {
+      event.preventDefault();
+      this.setState({ showMenu: false });
+    } else {
+      this.setState({ showMenu: true });
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+    const location = window.location;
+    const buttons = [
+      {
+        className: classes.button,
+        id: 'blocks',
+        label: 'Blocks',
+        selected: location.pathname.startsWith('/blocks'),
+        href: '/blocks',
+      },
+      {
+        className: classes.button,
+        id: 'transactions',
+        label: 'Transactions',
+        selected: location.pathname.startsWith('/transactions'),
+        href: '/transactions',
+      },
+      {
+        className: classes.button,
+        id: 'ecosystem',
+        label: 'Ecosystem',
+        selected: location.pathname.startsWith('/ecosystem'),
+        href: '/ecosystems',
+      },
+      {
+        className: classes.button,
+        id: 'faq',
+        label: 'FAQ',
+        selected: location.pathname.startsWith('/faq'),
+        href: 'faq',
+      },
+    ];
+
+    console.log('showMenu', this.state.showMenu);
+    return (
+      <div className={classes.root}>
+        <div className={classNames(classes.header, classes.padding)}>
+          <BaseRouteLink to="/" underline="none">
+            <Button>
+              <Typography className={classes.logo} variant="h3">
+                Starcoin
+              </Typography>
+            </Button>
+          </BaseRouteLink>
+          <IconButton
+            className={classes.menuButton}
+            onMouseUp={this.onClickMenu}
+          >
+            <MenuIcon />
+          </IconButton>
+        </div>
+        <Collapse in={this.state.showMenu} timeout="auto">
+          <ClickAwayListener onClickAway={this.onClickAway}>
+            <div className={classNames(classes.menu, classes.padding)}>
+              {buttons.map((button) => (
+                <BaseRouteLink key={button.id} className={classes.link} to={button.href}>
+                  <Button
+                    color={button.selected ? 'primary' : 'default'}
+                    className={button.className}
+                    onClick={this.onClickButton}
+                  >
+                    <Typography variant="body1">{button.label}</Typography>
+                  </Button>
+                </BaseRouteLink>
+              ))}
+            </div>
+          </ClickAwayListener>
+        </Collapse>
+      </div>
+    );
+  }
+}
+
+export default withStyles(useStyles)(Index);

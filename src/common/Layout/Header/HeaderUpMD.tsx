@@ -52,9 +52,6 @@ const useStyles = makeStyles((theme: any) => ({
     paddingBottom: theme.spacing(1),
     paddingTop: theme.spacing(1),
   },
-  link: {
-    textDecoration: 'none',
-  },
   logo: {
     fontFamily: 'Bauhaus93',
     fontSize: `${theme.spacing(6)}px`,

@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import Header from './Header/index';
-import Footer from './footer';
+import Footer from './Footer/index';
 
 const styles = (theme: Theme) => createStyles({
   '@global': {
@@ -25,12 +25,20 @@ const styles = (theme: Theme) => createStyles({
   root: {
     height: '100%',
   },
+  header: {
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1100,
+    position: 'fixed'
+  },
   content: {
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
   },
   contentNormal: {
+    top: theme.spacing(8),
     minHeight: `calc(100% - ${theme.spacing(8)}px)`,
   },
   contentInner: {
@@ -75,7 +83,9 @@ const Layout: FC<LayoutProps> = (props) => {
           href="/safari-pinned-tab.svg"
         />
       </Helmet>
-      <Header />
+      <div className={classes.header}>
+        <Header />
+      </div>
       <div
         className={classNames({
           [classes.content]: true,
