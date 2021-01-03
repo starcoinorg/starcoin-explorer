@@ -1,17 +1,30 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import BaseRouteLink from '../BaseRouteLink';
+import BaseRouteLink from '@/common/BaseRouteLink';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > * + *': {
-      marginLeft: theme.spacing(2),
+const useStyles = makeStyles((theme: any) => ({
+  [theme.breakpoints.down('md')]: {
+    headerUpMD: {
+      display: 'none',
+    },
+    headerDownMD: {
+      display: 'initial',
     },
   },
+  [theme.breakpoints.up('md')]: {
+    headerUpMD: {
+      display: 'initial',
+    },
+    headerDownMD: {
+      display: 'none',
+    },
+  },
+  headerUpMD: {},
+  headerDownMD: {},
 }));
 
-export default function Header() {
+export default function HeaderDownMD() {
   const classes = useStyles();
 
   return (

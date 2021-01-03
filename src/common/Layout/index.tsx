@@ -2,7 +2,7 @@ import React, { FC, memo } from 'react';
 import Helmet from 'react-helmet';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import Header from './header';
+import Header from './Header/index';
 import Footer from './footer';
 
 const styles = (theme: Theme) => createStyles({
@@ -32,11 +32,6 @@ const styles = (theme: Theme) => createStyles({
   },
   contentNormal: {
     minHeight: `calc(100% - ${theme.spacing(8)}px)`,
-    top: theme.spacing(8),
-  },
-  contentWallet: {
-    minHeight: `calc(100% - ${theme.spacing(14)}px)`,
-    top: theme.spacing(14),
   },
   contentInner: {
     flex: '1 1 auto',

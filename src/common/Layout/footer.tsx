@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   root: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: '#3d454d',
+    color: '#9babaf',
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: theme.spacing(2),
@@ -51,7 +52,7 @@ export default function Header() {
     <div className={classes.root}>
       <div className={classes.secondRow}>
         <Typography className={classes.copyright} variant="caption">
-          StarCoin © 2019-{year}
+          © 2018-{year} Starcoin.org All rights reserved.
         </Typography>
       </div>
     </div>

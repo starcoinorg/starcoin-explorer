@@ -117,7 +117,10 @@ const useStyles = (theme: Theme) => createStyles({
     height: theme.spacing(5),
   },
   search: {
-    // color: theme.custom.palette.main,
+  },
+  title: {
+    fontSize: '1.3125rem',
+    fontWeight: 700
   },
   table: {
     minWidth: 700,
@@ -161,12 +164,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   onChange = (event: any) => {
     const { value } = event.target;
-    console.log('onChange', value);
     this.setState({ value });
   };
 
   onSearch = () => {
-    console.log('onSearch', this.state.value);
     this.props.pushLocation(`/search/${this.state.value.trim()}`);
   };
 
@@ -181,8 +182,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
       <div className={cardSpacerClassName}>
         <Card className={this.props.classes.card}>
           <div className={this.props.classes.cardHeader}>
-            <Typography>{title}</Typography>
-            <BaseRouteLink to={url}>View All</BaseRouteLink>
+            <Typography className={this.props.classes.title} variant="h4">{title}</Typography>
+            <Button
+              className={this.props.classes.button}
+              color="primary"
+              variant="contained"
+              onClick={() => this.props.pushLocation(url)}
+            >
+              <Typography className={this.props.classes.search} variant="body1">
+                View All
+              </Typography>
+            </Button>
           </div>
           {content}
         </Card>
@@ -268,7 +278,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <div className={classes.searchCard}>
           <Card className={this.props.classes.card}>
             <div className={this.props.classes.cardHeader}>
-              <Typography>Starcoin Explorer</Typography>
+              <Typography className={classes.title} variant="h4">Starcoin Explorer</Typography>
             </div>
             <div className={classes.searchField}>
               <TextField
