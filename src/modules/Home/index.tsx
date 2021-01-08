@@ -4,7 +4,6 @@ import BaseRouteLink from '@/common/BaseRouteLink';
 // import BaseRouteLink from '@/common/BaseRouteLink';
 import StyledTableRow from '@/common/Table/StyledTableRow';
 import StyledTableCell from '@/common/Table/StyledTableCell';
-import BlockTable from '@/common/Block/BlockTable';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -15,6 +14,7 @@ import Card from '@material-ui/core/Card';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
+import BlockTable from '../Blocks/components/BlockTable';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {

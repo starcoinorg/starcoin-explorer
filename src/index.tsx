@@ -53,10 +53,10 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <Switch>
         <RouteWithLayout exact path={withBaseRoute('/')} title="Home" layout={MainLayout} component={Home} />
-        <RouteWithLayout path={withBaseRoute('/search/:hash')} layout={MainLayout} component={Search} />
-        <RouteWithLayout path={withBaseRoute('/blocks')} layout={MainLayout} component={Blocks} />
-        <RouteWithLayout path={withBaseRoute('/transactions')} layout={MainLayout} component={Transactions} />
-        <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystems" layout={MainLayout} component={Ecosystems} />
+        <RouteWithLayout path={withBaseRoute('/search/:hash')} title="Search" layout={MainLayout} component={Search} />
+        <RouteWithLayout path={withBaseRoute('/blocks')} title="Block" layout={MainLayout} component={Blocks} />
+        <RouteWithLayout path={withBaseRoute('/transactions')} title="Transaction" layout={MainLayout} component={Transactions} />
+        <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
       </Switch>
     </ConnectedRouter>
