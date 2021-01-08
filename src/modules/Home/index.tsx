@@ -4,6 +4,7 @@ import BaseRouteLink from '@/common/BaseRouteLink';
 // import BaseRouteLink from '@/common/BaseRouteLink';
 import StyledTableRow from '@/common/Table/StyledTableRow';
 import StyledTableCell from '@/common/Table/StyledTableCell';
+import BlockTable from '@/common/Block/BlockTable';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -12,10 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
-import formatTime from '@/utils/formatTime';
 import TableContainer from '@material-ui/core/TableContainer';
 
 const useStyles = (theme: Theme) => createStyles({
@@ -200,48 +198,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
     </div>
   );
 
-  generateBlocks = () => {
-    const { blockList, classes } = this.props;
-    const hitsBlocks = blockList ? blockList.hits.hits : [];
-    return (
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Height</StyledTableCell>
-              <StyledTableCell align="right">Time</StyledTableCell>
-              <StyledTableCell align="right">Transactions</StyledTableCell>
-              <StyledTableCell align="right">Author</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              hitsBlocks.slice(0, 10).sort((a: any, b: any) => b._source.header.number - a._source.header.number).map((row: any) => {
-                const header = row._source.header;
-                const blockUrl = `/blocks/detail/${header.block_hash}`;
-                // TODO: author info need to be decoded from sdk
-                const authorUrl = `/author/${header.author}`;
-                console.log(row);
-                return (
-                  <StyledTableRow key={header.block_hash}>
-                    <StyledTableCell component="th" scope="row">
-                      <BaseRouteLink to={blockUrl}>{header.number}</BaseRouteLink>
-                    </StyledTableCell>
-                    <StyledTableCell align="right"><Typography>{formatTime(header.timestamp)}</Typography></StyledTableCell>
-                    <StyledTableCell align="right">{row._source.body.Full.length}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      <BaseRouteLink to={authorUrl}>{header.author}</BaseRouteLink>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                );
-              })
-            }
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  };
-
   generateTransactions = () => {
     const { transactionList, classes } = this.props;
     const hitsTransactions = transactionList ? transactionList.hits.hits : [];
@@ -272,7 +228,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
     // if (!blockList || !transactionList) {
     //   return null;
     // }
-    const { classes } = this.props;
+    const { blockList, classes } = this.props;
+    const blocksHit = blockList ? blockList.hits.hits : [];
+    const blocks = blocksHit.slice(0, 10).sort((a: any, b: any) => b._source.header.number - a._source.header.number);
     return (
       <>
         <div className={classes.searchCard}>
@@ -305,7 +263,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
           {this.renderCard(
             'Explore Blocks',
             '/blocks',
-            this.generateBlocks(),
+            <BlockTable
+              blocks={blocks}
+              sizeVisibleAt="xs"
+              validatorVisibleAt="md"
+            />,
             classes.blocks,
             classes.blocksSpacer,
           )}
