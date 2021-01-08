@@ -230,7 +230,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     // }
     const { blockList, classes } = this.props;
     const blocksHit = blockList ? blockList.hits.hits : [];
-    const blocks = blocksHit.slice(0, 10).sort((a: any, b: any) => b._source.header.number - a._source.header.number);
+    const blocks = blocksHit.slice(0, 12).sort((a: any, b: any) => b._source.header.number - a._source.header.number);
     return (
       <>
         <div className={classes.searchCard}>
@@ -266,7 +266,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
             <BlockTable
               blocks={blocks}
               sizeVisibleAt="xs"
-              validatorVisibleAt="md"
+              authorVisibleAt="md"
             />,
             classes.blocks,
             classes.blocksSpacer,

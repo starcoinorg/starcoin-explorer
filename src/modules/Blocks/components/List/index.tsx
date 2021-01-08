@@ -71,7 +71,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <BlockTable
           blocks={blocks}
           sizeVisibleAt="xs"
-          validatorVisibleAt="md"
+          authorVisibleAt="md"
         />
         <p>
           {from} - {to}
