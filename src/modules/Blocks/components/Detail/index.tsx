@@ -60,7 +60,6 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    const hash = this.props.match.params.hash;
     const { classes } = this.props;
     const { block } = this.props;
     if (!block) {
@@ -79,7 +78,6 @@ class Index extends PureComponent<IndexProps> {
     const transactions = block.hits.hits[0]._source.body.Full;
     return (
       <div>
-        <h3>{`Block ${hash}`}</h3>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="customized table">
             <TableBody>

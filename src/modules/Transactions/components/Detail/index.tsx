@@ -42,7 +42,6 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    const hash = this.props.match.params.hash;
     const { classes } = this.props;
     const { transaction } = this.props;
     if (!transaction) {
@@ -58,68 +57,65 @@ class Index extends PureComponent<IndexProps> {
       ['Gas Used', source.gas_used],
     ];
     return (
-      <>
-        <div>
-          <h3>{`Transaction ${hash}`}</h3>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableBody>
-                {
-                  columns.map((column: any, index: number) => {
-                    return (
-                      <StyledTableRow key={index}>
-                        <StyledTableCell component="th" scope="row">
-                          {column[0]}
-                        </StyledTableCell>
-                        <StyledTableCell component="th" scope="row">
-                          {column[1]}
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <br />
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className={classes.heading}>Events</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>data</StyledTableCell>
-                      <StyledTableCell>event_key</StyledTableCell>
-                      <StyledTableCell>event_seq_number</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {
-                      source.events.map((row: any) => {
-                        return (
-                          <StyledTableRow key={row.data}>
-                            <StyledTableCell component="th" scope="row">{row.data}</StyledTableCell>
-                            <StyledTableCell component="th" scope="row">{row.event_key}</StyledTableCell>
-                            <StyledTableCell component="th" scope="row">{row.event_seq_number}</StyledTableCell>
+      <div>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="customized table">
+            <TableBody>
+              {
+                columns.map((column: any, index: number) => {
+                  return (
+                    <StyledTableRow key={index}>
+                      <StyledTableCell component="th" scope="row">
+                        {column[0]}
+                      </StyledTableCell>
+                      <StyledTableCell component="th" scope="row">
+                        {column[1]}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
+                })
+              }
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <br />
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>Events</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>data</StyledTableCell>
+                    <StyledTableCell>event_key</StyledTableCell>
+                    <StyledTableCell>event_seq_number</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    source.events.map((row: any) => {
+                      return (
+                        <StyledTableRow key={row.data}>
+                          <StyledTableCell component="th" scope="row">{row.data}</StyledTableCell>
+                          <StyledTableCell component="th" scope="row">{row.event_key}</StyledTableCell>
+                          <StyledTableCell component="th" scope="row">{row.event_seq_number}</StyledTableCell>
 
-                          </StyledTableRow>
-                        );
-                      })
-                    }
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </AccordionDetails>
-          </Accordion>
-        </div>
-      </>
+                        </StyledTableRow>
+                      );
+                    })
+                  }
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </AccordionDetails>
+        </Accordion>
+      </div>
     );
   }
 }

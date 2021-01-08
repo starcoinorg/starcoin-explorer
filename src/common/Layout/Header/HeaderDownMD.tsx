@@ -11,19 +11,19 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
-    // padding: {
-    // paddingLeft: theme.spacing(1),
-    // paddingRight: theme.spacing(1),
-    // },
+    pad: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
     title: {
       marginRight: theme.spacing(1),
     },
   },
   [theme.breakpoints.up('sm')]: {
-    // padding: {
-    //   paddingLeft: theme.spacing(2),
-    //   paddingRight: theme.spacing(2),
-    // },
+    pad: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
     title: {
       marginRight: theme.spacing(2),
     },
@@ -41,7 +41,7 @@ const useStyles = (theme: Theme) => createStyles({
 
   },
   title: {},
-  padding: {},
+  pad: {},
   selected: {
     color: theme.palette.primary.main,
   },
@@ -64,6 +64,7 @@ const useStyles = (theme: Theme) => createStyles({
   logo: {
     fontFamily: 'Bauhaus93',
     fontSize: `${theme.spacing(6)}px`,
+    color: '#3d454d',
     letterSpacing: `-${theme.spacing(2 / 4)}px`,
     textAlign: 'left',
     marginRight: theme.spacing(2),
@@ -89,14 +90,12 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   onClickButton = () => {
-    console.log('onClickButton');
     if (this.state.showMenu) {
       this.setState({ showMenu: false });
     }
   };
 
   onHideMenu = (event: any) => {
-    console.log('onHideMenu');
     if (this.state.showMenu) {
       event.preventDefault();
       this.setState({ showMenu: false });
@@ -104,7 +103,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   onShowMenu = (event: any) => {
-    console.log('onShowMenu');
     event.preventDefault();
     if (!this.state.showMenu) {
       this.setState({ showMenu: true });
@@ -112,7 +110,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   onClickMenu = (event: any) => {
-    console.log('onClickMenu', this.state.showMenu);
     event.preventDefault();
     if (this.state.showMenu) {
       this.onHideMenu(event);
@@ -122,7 +119,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   onClickAway = (event: any) => {
-    console.log('onClickAway', this.state.showMenu);
     if (this.state.showMenu) {
       event.preventDefault();
       this.setState({ showMenu: false });
@@ -165,10 +161,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
       },
     ];
 
-    console.log('showMenu', this.state.showMenu);
     return (
       <div className={classes.root}>
-        <div className={classNames(classes.header, classes.padding)}>
+        <div className={classNames(classes.header, classes.pad)}>
           <BaseRouteLink to="/" underline="none">
             <Button>
               <Typography className={classes.logo} variant="h3">
@@ -185,7 +180,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         </div>
         <Collapse in={this.state.showMenu} timeout="auto">
           <ClickAwayListener onClickAway={this.onClickAway}>
-            <div className={classNames(classes.menu, classes.padding)}>
+            <div className={classNames(classes.menu, classes.pad)}>
               {buttons.map((button) => (
                 <BaseRouteLink key={button.id} className={classes.link} to={button.href}>
                   <Button

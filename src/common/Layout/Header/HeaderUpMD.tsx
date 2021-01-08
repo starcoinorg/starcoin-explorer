@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: any) => ({
   title: {
     marginRight: theme.spacing(2),
   },
-  padding: {
+  pad: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme: any) => ({
   logo: {
     fontFamily: 'Bauhaus93',
     fontSize: `${theme.spacing(6)}px`,
+    color: '#3d454d',
     letterSpacing: `-${theme.spacing(2 / 4)}px`,
     textAlign: 'left',
     marginRight: theme.spacing(2),
@@ -110,7 +111,7 @@ export default function HeaderUpMD() {
       <div
         className={classNames({
           [classes.mainHeader]: true,
-          [classes.padding]: true,
+          [classes.pad]: true,
         })}
       >
         <div className={classes.tabs}>
