@@ -143,7 +143,7 @@ class Index extends React.PureComponent<Props> {
       >
         <div
           className={classNames({
-            [classes.paddingLeft]: !firstCol,
+            [classes.pad]: !firstCol,
             [classes.firstCol]: firstCol,
             [classes.baseRow]: true,
             [classes.numeric]: !!numeric,

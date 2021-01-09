@@ -7,6 +7,7 @@
       "@/rootStore/*": ["rootStore/*"],
       "@/Blocks/*": ["modules/Blocks/*"],
       "@/Transactions/*": ["modules/Transactions/*"],
+      "@/Address/*": ["modules/Address/*"],
       "@/utils/*": ["utils/*"]
     }
   }

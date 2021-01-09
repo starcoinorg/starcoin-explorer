@@ -4,7 +4,7 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 // import withLoading from '@/common/LoadingMasker/withLoading';
 import { withStyles } from '@material-ui/core/styles';
-import BlockTable from '../BlockTable';
+import BlockTable from '../Table';
 
 interface IndexProps {
   classes: any;

@@ -14,7 +14,7 @@ import Card from '@material-ui/core/Card';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
-import BlockTable from '../Blocks/components/BlockTable';
+import BlockTable from '../Blocks/components/Table';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {

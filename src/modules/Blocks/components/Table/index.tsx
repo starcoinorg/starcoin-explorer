@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import formatTime from '@/utils/formatTime';
 import formatNumber from '@/utils/formatNumber';
+import AddressLink from '@/Address/Link';
 
 const useStyles = () => createStyles({
   transactionsCol: {
@@ -46,8 +47,7 @@ class Index extends React.PureComponent<Props> {
       timeValues.push(<Typography>{formatTime(header.timestamp)}</Typography>);
       transactionsValues.push(formatNumber(block._source.body.Full.length));
       authorValues.push(
-        // <AddressLink addressHash={header.author} />
-        <BaseRouteLink to={authorUrl}>{header.author}</BaseRouteLink>
+        <AddressLink path={authorUrl} title={header.author} />
       );
     });
     const columns = [
