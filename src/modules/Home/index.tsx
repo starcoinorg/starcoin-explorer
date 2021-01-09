@@ -272,7 +272,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
             classes.blocksSpacer,
           )}
           {this.renderCard(
-            'Explore Blocks',
+            'Explore Transactions',
             '/transactions',
             this.generateTransactions(),
             classes.transactions,

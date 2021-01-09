@@ -1,11 +1,10 @@
 import React from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@/common/Table';
-import Typography from '@material-ui/core/Typography';
 import BaseRouteLink from '@/common/BaseRouteLink';
-import formatTime from '@/utils/formatTime';
 import formatNumber from '@/utils/formatNumber';
 import AddressLink from '@/Address/Link';
+import BlockTime from '../Time';
 
 const useStyles = () => createStyles({
   transactionsCol: {
@@ -41,10 +40,9 @@ class Index extends React.PureComponent<Props> {
       const blockUrl = `/blocks/detail/${header.block_hash}`;
       // TODO: author info need to be decoded from sdk 3
       const authorUrl = `/author/${header.author}`;
-      // heightValues.push(<BlockIndexLink blockIndex={header.number} />);
-      // timeValues.push(<BlockTime blockTime={header.timestamp} />);
-      heightValues.push(<BaseRouteLink to={blockUrl}>{header.number}</BaseRouteLink>);
-      timeValues.push(<Typography>{formatTime(header.timestamp)}</Typography>);
+      heightValues.push(<BaseRouteLink to={blockUrl}>{formatNumber(header.number)}</BaseRouteLink>);
+      // timeValues.push(<BlockTime blockTime={Date.now() - 55000} />);
+      timeValues.push(<BlockTime blockTime={header.timestamp} />);
       transactionsValues.push(formatNumber(block._source.body.Full.length));
       authorValues.push(
         <AddressLink path={authorUrl} title={header.author} />
