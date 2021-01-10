@@ -51,7 +51,6 @@ class Index extends PureComponent<Props, IndexState> {
   }
 
   fetchListPage = (page: number) => {
-    console.log('fetchListPage', page);
     this.props.getBlockList({ page });
   };
 

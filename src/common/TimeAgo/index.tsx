@@ -27,11 +27,10 @@ interface IndexState {
 }
 
 class Index extends React.PureComponent<Props, IndexState> {
-  private timer: number | null;
+  private timer: number = 0;
 
   constructor(props: Props) {
     super(props);
-    this.timer = null;
     this.state = {
       status: true,
     };
@@ -44,7 +43,7 @@ class Index extends React.PureComponent<Props, IndexState> {
   }
 
   componentWillUnmount() {
-    this.timer = null;
+    window.clearInterval(this.timer);
   }
 
   flip() {
