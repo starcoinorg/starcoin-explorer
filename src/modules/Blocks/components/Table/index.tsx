@@ -3,7 +3,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@/common/Table';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import formatNumber from '@/utils/formatNumber';
-import AddressLink from '@/Address/Link';
+import CommonLink from '@/common/Link';
 import BlockTime from '../Time';
 
 const useStyles = () => createStyles({
@@ -45,7 +45,7 @@ class Index extends React.PureComponent<Props> {
       timeValues.push(<BlockTime blockTime={header.timestamp} />);
       transactionsValues.push(formatNumber(block._source.body.Full.length));
       authorValues.push(
-        <AddressLink path={authorUrl} title={header.author} />
+        <CommonLink path={authorUrl} title={header.author} />
       );
     });
     const columns = [

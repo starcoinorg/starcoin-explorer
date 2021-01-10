@@ -1,35 +1,35 @@
 import React, { PureComponent } from 'react';
+import Helmet from 'react-helmet';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 // import withLoading from '@/common/LoadingMasker/withLoading';
-import { withStyles } from '@material-ui/core/styles';
+import CommonList from '@/common/List';
 import BlockTable from '../Table';
 
-interface IndexProps {
-  classes: any;
+interface ExternalProps {
+  className?: string,
+}
+
+interface InternalProps {
   blockList: any;
   getBlockList: (data: any, callback?: any) => any;
 }
+
+interface Props extends ExternalProps, InternalProps {}
 
 interface IndexState {
   currentPage: number
 }
 
-const useStyles = () => ({
-  table: {
-    minWidth: 700,
-  },
-});
-
-class Index extends PureComponent<IndexProps, IndexState> {
+class Index extends PureComponent<Props, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     blockList: null,
     getBlockList: () => {}
   };
 
-  constructor(props: IndexProps) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       currentPage: 1
@@ -55,7 +55,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     }
   };
 
-  render() {
+  generateList() {
     const { blockList } = this.props;
     if (!blockList) {
       return null;
@@ -67,7 +67,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const to = this.state.currentPage * size;
     return (
       <div>
-        Blocks List
         <BlockTable
           blocks={blocks}
           sizeVisibleAt="xs"
@@ -85,6 +84,35 @@ class Index extends PureComponent<IndexProps, IndexState> {
       </div>
     );
   }
+
+  render() {
+    const { className } = this.props;
+    return (
+      <div>
+        <Helmet>
+          <title>Browse Blocks</title>
+        </Helmet>
+        <CommonList
+          className={className}
+          name="Block"
+          pluralName="Blocks"
+          content={this.generateList()}
+          // content={
+          //   <BlockPagingView
+          //     blocks={blocks}
+          //     isInitialLoad={currentProps == null}
+          //     isLoadingMore={props == null}
+          //     page={page}
+          //     hasNextPage={hasNextPage}
+          //     hasPreviousPage={hasPreviousPage}
+          //     pageSize={PAGE_SIZE}
+          //     onUpdatePage={onUpdatePage}
+          //   />
+          // }
+        />
+      </div>
+    );
+  }
 }
 
-export default withStyles(useStyles)(Index);
+export default Index;
