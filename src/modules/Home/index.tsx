@@ -111,9 +111,6 @@ const useStyles = (theme: Theme) => createStyles({
     fontSize: '1.3125rem',
     fontWeight: 700
   },
-  table: {
-    minWidth: 700,
-  },
 });
 
 interface IndexProps {
