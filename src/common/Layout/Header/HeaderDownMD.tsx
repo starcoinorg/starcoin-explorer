@@ -90,6 +90,8 @@ interface IndexState {
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
+  private timer: number = 0;
+
   constructor(props: IndexProps) {
     super(props);
     this.state = {
@@ -103,16 +105,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
     }
   };
 
-  onHideMenu = (event: any) => {
+  onHideMenu = () => {
     if (this.state.showMenu) {
-      event.preventDefault();
       this.setState({ showMenu: false });
     }
   };
 
   onShowMenu = (event: any) => {
+    this.timer = Date.now();
     event.preventDefault();
     if (!this.state.showMenu) {
+      this.timer = Date.now();
       this.setState({ showMenu: true });
     }
   };
@@ -120,18 +123,16 @@ class Index extends PureComponent<IndexProps, IndexState> {
   onClickMenu = (event: any) => {
     event.preventDefault();
     if (this.state.showMenu) {
-      this.onHideMenu(event);
+      this.onHideMenu();
     } else {
       this.onShowMenu(event);
     }
   };
 
   onClickAway = (event: any) => {
-    if (this.state.showMenu) {
+    if (this.state.showMenu && (Date.now() - this.timer) > 50) {
       event.preventDefault();
       this.setState({ showMenu: false });
-    } else {
-      this.setState({ showMenu: true });
     }
   };
 
@@ -182,6 +183,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           <IconButton
             className={classes.menuButton}
             onMouseUp={this.onClickMenu}
+            onTouchEnd={this.onClickMenu}
           >
             <MenuIcon />
           </IconButton>
