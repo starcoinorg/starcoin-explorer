@@ -15,7 +15,7 @@ const selector = createSelector(
   loadingSelector,
   (current, loading) => ({
     blockList: current.blockList,
-    loading
+    isLoadingMore: current.isLoadingMore,
   })
 );
 

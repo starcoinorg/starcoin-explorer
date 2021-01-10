@@ -1,19 +1,28 @@
 import React, { PureComponent } from 'react';
 import Helmet from 'react-helmet';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
-// import withLoading from '@/common/LoadingMasker/withLoading';
-import CommonList from '@/common/List';
+import { createStyles, withStyles } from '@material-ui/core/styles';
+import Loading from '@/common/Loading';
+import ListView from '@/common/View/ListView';
+import Pagination from '@/common/View/Pagination';
 import BlockTable from '../Table';
+
+const useStyles = () => createStyles({
+  pagerArea: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+});
 
 interface ExternalProps {
   className?: string,
 }
 
 interface InternalProps {
-  blockList: any;
-  getBlockList: (data: any, callback?: any) => any;
+  blockList: any,
+  isLoadingMore: boolean,
+  getBlockList: (data: any, callback?: any) => any,
+  classes: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
@@ -26,6 +35,7 @@ class Index extends PureComponent<Props, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     blockList: null,
+    isLoadingMore: false,
     getBlockList: () => {}
   };
 
@@ -55,64 +65,46 @@ class Index extends PureComponent<Props, IndexState> {
     }
   };
 
-  generateList() {
-    const { blockList } = this.props;
-    if (!blockList) {
-      return null;
-    }
-    const hits = blockList.hits.hits;
-    const blocks = hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number);
-    const size = 20;
-    const from = (this.state.currentPage - 1) * size + 1;
-    const to = this.state.currentPage * size;
-    return (
-      <div>
-        <BlockTable
-          blocks={blocks}
-          sizeVisibleAt="xs"
-          authorVisibleAt="md"
-        />
-        <p>
-          {from} - {to}
-          <IconButton aria-label="prev" onClick={() => this.pagination('prev')} disabled={this.state.currentPage === 1}>
-            <ArrowBackIos />
-          </IconButton>
-          <IconButton aria-label="next" onClick={() => this.pagination('next')}>
-            <ArrowForwardIos />
-          </IconButton>
-        </p>
-      </div>
-    );
-  }
-
   render() {
     const { className } = this.props;
+    const { blockList, classes } = this.props;
+    const isInitialLoad = !blockList;
+    const hits = blockList && blockList.hits.hits || [];
+    const blocks = hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number);
     return (
       <div>
         <Helmet>
           <title>Browse Blocks</title>
         </Helmet>
-        <CommonList
+        <ListView
           className={className}
           name="Block"
           pluralName="Blocks"
-          content={this.generateList()}
-          // content={
-          //   <BlockPagingView
-          //     blocks={blocks}
-          //     isInitialLoad={currentProps == null}
-          //     isLoadingMore={props == null}
-          //     page={page}
-          //     hasNextPage={hasNextPage}
-          //     hasPreviousPage={hasPreviousPage}
-          //     pageSize={PAGE_SIZE}
-          //     onUpdatePage={onUpdatePage}
-          //   />
-          // }
+          content={
+            <div>
+              {isInitialLoad ? <Loading /> : <BlockTable
+                blocks={blocks}
+                sizeVisibleAt="xs"
+                authorVisibleAt="md"
+              />}
+              <div className={classes.pagerArea}>
+                <Pagination
+                  page={this.state.currentPage}
+                  pageSize={20}
+                  currentPageSize={blocks.length}
+                  hasPreviousPage={this.state.currentPage > 1}
+                  hasNextPage={!!true}
+                  onPrevPage={() => this.pagination('prev')}
+                  onNextPage={() => this.pagination('next')}
+                  isLoading={this.props.isLoadingMore}
+                />
+              </div>
+            </div>
+          }
         />
       </div>
     );
   }
 }
 
-export default Index;
+export default withStyles(useStyles)(Index);
