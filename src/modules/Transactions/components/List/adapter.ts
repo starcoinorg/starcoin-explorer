@@ -15,6 +15,7 @@ const selector = createSelector(
   loadingSelector,
   (current, loading) => ({
     transactionList: current.transactionList,
+    isLoadingMore: current.isLoadingMore,
     loading
   })
 );

@@ -35,7 +35,7 @@ class Index extends PureComponent<Props, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     blockList: null,
-    isLoadingMore: false,
+    isLoadingMore: undefined,
     getBlockList: () => {}
   };
 
@@ -65,8 +65,7 @@ class Index extends PureComponent<Props, IndexState> {
   };
 
   render() {
-    const { className } = this.props;
-    const { blockList, classes } = this.props;
+    const { blockList, classes, className, isLoadingMore } = this.props;
     const isInitialLoad = !blockList;
     const hits = blockList && blockList.hits.hits || [];
     const blocks = hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number);
@@ -90,12 +89,12 @@ class Index extends PureComponent<Props, IndexState> {
                 <Pagination
                   page={this.state.currentPage}
                   pageSize={20}
-                  currentPageSize={blocks.length}
+                  currentPageSize={blocks == null ? null : blocks.length}
                   hasPreviousPage={this.state.currentPage > 1}
                   hasNextPage={!!true}
                   onPrevPage={() => this.pagination('prev')}
                   onNextPage={() => this.pagination('next')}
-                  isLoading={this.props.isLoadingMore}
+                  isLoading={isLoadingMore}
                 />
               </div>
             </div>

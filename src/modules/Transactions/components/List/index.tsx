@@ -1,41 +1,45 @@
 import React, { PureComponent } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
-// import withLoading from '@/common/LoadingMasker/withLoading';
-import BaseRouteLink from '@/common/BaseRouteLink';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
-import Paper from '@material-ui/core/Paper';
-import StyledTableRow from '@/common/Table/StyledTableRow';
-import StyledTableCell from '@/common/Table/StyledTableCell';
+import Helmet from 'react-helmet';
+import { createStyles, withStyles } from '@material-ui/core/styles';
+import Loading from '@/common/Loading';
+import ListView from '@/common/View/ListView';
+import Pagination from '@/common/View/Pagination';
+import TransactionTable from '../Table';
 
-interface IndexProps {
-  classes: any;
-  transactionList: any;
-  getTransactionList: (data: any, callback?: any) => any;
+const useStyles = () => createStyles({
+  pagerArea: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+});
+
+interface ExternalProps {
+  className?: string,
 }
+
+interface InternalProps {
+  transactionList: any,
+  isLoadingMore: boolean,
+  getTransactionList: (data: any, callback?: any) => any,
+  classes: any,
+}
+
+interface Props extends ExternalProps, InternalProps {}
 
 interface IndexState {
   currentPage: number
 }
 
-const useStyles = () => ({
-  table: {
-    minWidth: 700,
-  },
-});
-
-class Index extends PureComponent<IndexProps, IndexState> {
+class Index extends PureComponent<Props, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     transactionList: null,
+    isLoadingMore: undefined,
     getTransactionList: () => {}
   };
 
-  constructor(props: IndexProps) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       currentPage: 1
@@ -47,7 +51,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   fetchListPage = (page: number) => {
-    console.log('fetchListPage', page);
     this.props.getTransactionList({ page });
   };
 
@@ -62,49 +65,39 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   render() {
-    const { transactionList } = this.props;
-    if (!transactionList) {
-      return null;
-    }
-    const { classes } = this.props;
-    const hits = transactionList.hits.hits;
-    const size = 20;
-    const from = (this.state.currentPage - 1) * size + 1;
-    const to = this.state.currentPage * size;
+    const { transactionList, isLoadingMore, className, classes } = this.props;
+    const isInitialLoad = !transactionList;
+    const transactions = transactionList && transactionList.hits.hits || [];
     return (
-      <>
-        <div>
-          Transactions List
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableBody>
-                {
-                  hits.map((row: any) => {
-                    const transaction_hash = row._source.transaction_hash;
-                    const transactionUrl = `/transactions/detail/${transaction_hash}`;
-                    return (
-                      <StyledTableRow key={transaction_hash}>
-                        <StyledTableCell component="th" scope="row">
-                          <BaseRouteLink to={transactionUrl}>{transaction_hash}</BaseRouteLink>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <p>
-            {from} - {to}
-            <IconButton aria-label="prev" onClick={() => this.pagination('prev')} disabled={this.state.currentPage === 1}>
-              <ArrowBackIos />
-            </IconButton>
-            <IconButton aria-label="next" onClick={() => this.pagination('next')}>
-              <ArrowForwardIos />
-            </IconButton>
-          </p>
-        </div>
-      </>
+      <div>
+        <Helmet>
+          <title>Transactions</title>
+        </Helmet>
+        <ListView
+          className={className}
+          name="Transactions"
+          pluralName="Transactions"
+          content={
+            <div>
+              {isInitialLoad ? <Loading /> : <TransactionTable
+                transactions={transactions}
+              />}
+              <div className={classes.pagerArea}>
+                <Pagination
+                  page={this.state.currentPage}
+                  pageSize={20}
+                  currentPageSize={transactions == null ? null : transactions.length}
+                  hasPreviousPage={this.state.currentPage > 1}
+                  hasNextPage={!!true}
+                  onPrevPage={() => this.pagination('prev')}
+                  onNextPage={() => this.pagination('next')}
+                  isLoading={isLoadingMore}
+                />
+              </div>
+            </div>
+          }
+        />
+      </div>
     );
   }
 }

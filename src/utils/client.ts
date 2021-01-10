@@ -12,7 +12,6 @@ const clientConfig = {
 };
 
 const successHandler = (result: any) => {
-  console.log('successHandler result=', result);
   const response = result.data;
   if (response.code !== undefined) {
     if (response.code >= 200 && response.code < 300) {
