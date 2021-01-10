@@ -73,7 +73,7 @@ class Index extends PureComponent<Props, IndexState> {
     return (
       <div>
         <Helmet>
-          <title>Browse Blocks</title>
+          <title>Blocks</title>
         </Helmet>
         <ListView
           className={className}

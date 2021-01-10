@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
-// import withLoading from '@/common/LoadingMasker/withLoading';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import PageView from '@/common/View/PageView';
+import CommonLink from '@/common/Link';
+import formatNumber from '@/utils/formatNumber';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,8 +14,9 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import formatTime from '@/utils/formatTime';
 import BaseRouteLink from '@/common/BaseRouteLink';
+
+import BlockTime from '../Time';
 
 interface IndexProps {
   classes: any;
@@ -59,45 +62,11 @@ class Index extends PureComponent<IndexProps> {
     this.props.getBlock({ hash });
   }
 
-  render() {
-    const { classes } = this.props;
+  generateExtra() {
     const { block } = this.props;
-    if (!block) {
-      return null;
-    }
-    const header = block.hits.hits[0]._source.header;
-    const columns = [
-      ['Hash', header.block_hash],
-      ['Height', header.number],
-      ['Author', header.author],
-      ['Difficulty', header.difficulty],
-      ['Gas Used', header.gas_used],
-      ['Parant Hash', header.parent_hash],
-      ['Time', formatTime(header.timestamp)],
-    ];
     const transactions = block.hits.hits[0]._source.body.Full;
     return (
       <div>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableBody>
-              {
-                columns.map((column: any, index: number) => {
-                  return (
-                    <StyledTableRow key={index}>
-                      <StyledTableCell component="th" scope="row">
-                        {column[0]}
-                      </StyledTableCell>
-                      <StyledTableCell component="th" scope="row">
-                        {column[1]}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  );
-                })
-              }
-            </TableBody>
-          </Table>
-        </TableContainer>
         <br />
         <Accordion>
           <AccordionSummary
@@ -105,11 +74,11 @@ class Index extends PureComponent<IndexProps> {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography className={classes.heading}>Transaction</Typography>
+            <Typography variant="h5" gutterBottom>Transaction</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="customized table">
+              <Table aria-label="customized table">
                 <TableBody>
                   {
                     transactions.map((row: any) => {
@@ -136,13 +105,43 @@ class Index extends PureComponent<IndexProps> {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography className={classes.heading}>Events</Typography>
+            <Typography variant="h5" gutterBottom>Events</Typography>
           </AccordionSummary>
           <AccordionDetails>
             TODO
           </AccordionDetails>
         </Accordion>
       </div>
+    );
+  }
+
+  render() {
+    const { block } = this.props;
+    if (!block) {
+      return null;
+    }
+    const header = block.hits.hits[0]._source.header;
+    // const transactions = block.hits.hits[0]._source.body.Full;
+    const columns = [
+      ['Hash', header.block_hash],
+      ['Height', formatNumber(header.number)],
+      ['Time', <BlockTime blockTime={block.time} />],
+      ['Author', <CommonLink path={`/author/${header.author}`} title={header.author} />],
+      ['Difficulty', header.difficulty],
+      ['Gas Used', header.gas_used],
+      ['Parant Hash', <CommonLink path={`/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
+    ];
+
+    return (
+      <PageView
+        id={header.block_hash}
+        title="Block"
+        name="Block"
+        pluralName="Blocks"
+        searchRoute="/blocks"
+        bodyColumns={columns}
+        extra={this.generateExtra()}
+      />
     );
   }
 }

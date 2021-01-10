@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
-import CommonLink from '@/common/Link';
+import Link from '@/common/Link';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
@@ -14,6 +14,7 @@ const useStyles = (theme: Theme) => createStyles({
     },
     leftHeader: {
       marginBottom: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
     rightHeader: {
       marginBottom: theme.spacing(1),
@@ -26,21 +27,33 @@ const useStyles = (theme: Theme) => createStyles({
       paddingTop: theme.spacing(2),
     },
     leftHeader: {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
     rightHeader: {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(1),
+    },
+  },
+  [theme.breakpoints.down('md')]: {
+    root: {
+      flexWrap: 'wrap',
+    },
+  },
+  [theme.breakpoints.up('md')]: {
+    root: {
+      flexWrap: 'nowrap',
     },
   },
   root: {
     alignItems: 'center',
     display: 'flex',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
   leftHeader: {
     alignItems: 'center',
     display: 'flex',
+    flex: '0 1 auto',
+    minWidth: '0',
   },
   rightHeader: {
     alignItems: 'center',
@@ -54,6 +67,8 @@ const useStyles = (theme: Theme) => createStyles({
   },
   text: {
     color: '#fff',
+  },
+  title: {
     fontSize: '1.3125rem',
     fontWeight: 700,
   },
@@ -71,14 +86,20 @@ const useStyles = (theme: Theme) => createStyles({
   backgroundColor: {
     backgroundColor: '#3d454d',
   },
+  id: {
+    flex: '0 1 auto',
+    minWidth: '0',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 });
 
 interface ExternalProps {
-  id?: string,
-  title?: string,
+  id: string,
+  title: string,
   name: string,
   pluralName: string,
-  searchRoute?: string,
+  searchRoute: string,
   icon?: string,
   backgroundColorClassName?: string,
   className?: string,
@@ -108,40 +129,6 @@ class Index extends React.PureComponent<Props> {
         <Icon className={classNames(classes.margin, classes.text)}>{icon}</Icon>
       );
     }
-
-    let idElement = null;
-    let infoElement = null;
-    let searchElement = (
-      <Typography
-        className={classNames(classes.linkSelected, classes.static)}
-        variant={breadcrumbVariant}
-      >
-        {pluralName}
-      </Typography>
-    );
-    if (id != null && searchRoute != null) {
-      idElement = (
-        <Typography className={classes.text} variant="body2">
-          {id}
-        </Typography>
-      );
-      searchElement = (
-        <CommonLink
-          className={classNames(classes.link, classes.margin, classes.static)}
-          variant={breadcrumbVariant}
-          path={searchRoute}
-          title={pluralName}
-        />
-      );
-      infoElement = (
-        <Typography
-          className={classNames(classes.linkSelected, classes.static)}
-          variant={breadcrumbVariant}
-        >
-          {name} Information
-        </Typography>
-      );
-    }
     return (
       <div
         className={classNames(
@@ -155,24 +142,39 @@ class Index extends React.PureComponent<Props> {
         <div className={classes.leftHeader}>
           {iconElement}
           <Typography
-            className={classNames(classes.margin, classes.text)}
-            component="h4"
+            className={classNames(classes.margin, classes.text, classes.title)}
+            component="h1"
           >
-            {title == null ? pluralName : title}
+            {title}
           </Typography>
-          {idElement}
+          <Typography
+            className={classNames(classes.text, classes.id)}
+            variant="body2"
+          >
+            {id}
+          </Typography>
         </div>
         <div className={classes.rightHeader}>
-          <CommonLink
+          <Link
             className={classNames(classes.link, classes.margin, classes.static)}
             variant={breadcrumbVariant}
             path="/"
             title="Home"
           />
           {slash}
-          {searchElement}
-          {infoElement == null ? null : slash}
-          {infoElement}
+          <Link
+            className={classNames(classes.link, classes.margin, classes.static)}
+            variant={breadcrumbVariant}
+            path={searchRoute}
+            title={pluralName}
+          />
+          {slash}
+          <Typography
+            className={classNames(classes.linkSelected, classes.static)}
+            variant={breadcrumbVariant}
+          >
+            {name}
+          </Typography>
         </div>
       </div>
     );
