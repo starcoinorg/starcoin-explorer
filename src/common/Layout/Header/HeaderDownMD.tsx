@@ -61,12 +61,20 @@ const useStyles = (theme: Theme) => createStyles({
   button: {
     width: '100%',
   },
+  logoLink: {
+    display: 'grid',
+    gridGap: '10px',
+    gridAutoFlow: 'column',
+    alignItems: 'center',
+    textDecoration: 'none',
+  },
   logo: {
     fontFamily: 'Bauhaus93',
     fontSize: `${theme.spacing(6)}px`,
     color: '#3d454d',
     letterSpacing: `-${theme.spacing(2 / 4)}px`,
     textAlign: 'left',
+    marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     lineHeight: 1,
     textTransform: 'none'
@@ -165,11 +173,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
       <div className={classes.root}>
         <div className={classNames(classes.header, classes.pad)}>
           <BaseRouteLink to="/" underline="none">
-            <Button>
+            <div className={classes.logoLink}>
               <Typography className={classes.logo} variant="h3">
                 Starcoin
               </Typography>
-            </Button>
+            </div>
           </BaseRouteLink>
           <IconButton
             className={classes.menuButton}

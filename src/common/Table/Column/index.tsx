@@ -53,8 +53,8 @@ const useStyles = (theme: Theme) => createStyles({
   },
   header: {
     fontFamily: theme.typography.fontFamily,
-    fontSize: 13,
-    fontWeight: theme.typography.fontWeightMedium,
+    fontSize: 14,
+    fontWeight: theme.typography.fontWeightBold,
     color: theme.palette.text.secondary,
   },
   textRowBase: {

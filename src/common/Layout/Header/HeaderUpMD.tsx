@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Tabs from './Tabs';
 
@@ -52,13 +51,22 @@ const useStyles = makeStyles((theme: any) => ({
     paddingBottom: theme.spacing(1),
     paddingTop: theme.spacing(1),
   },
+  logoLink: {
+    display: 'grid',
+    gridGap: '10px',
+    gridAutoFlow: 'column',
+    alignItems: 'center',
+    textDecoration: 'none',
+  },
   logo: {
     fontFamily: 'Bauhaus93',
     fontSize: `${theme.spacing(6)}px`,
     color: '#3d454d',
     letterSpacing: `-${theme.spacing(2 / 4)}px`,
     textAlign: 'left',
+    marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(1),
     lineHeight: 1,
     textTransform: 'none'
   },
@@ -116,11 +124,11 @@ export default function HeaderUpMD() {
       >
         <div className={classes.tabs}>
           <BaseRouteLink to="/" underline="none">
-            <Button>
+            <div className={classes.logoLink}>
               <Typography className={classes.logo} variant="h3">
                 Starcoin
               </Typography>
-            </Button>
+            </div>
           </BaseRouteLink>
           {tabs}
         </div>

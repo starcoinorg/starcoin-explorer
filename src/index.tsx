@@ -34,7 +34,7 @@ const MainLayout = (props: any) => {
     <Layout>
       <Helmet>
         <title>
-          {props.title || 'starcoin'}
+          {props.title || 'Starcoin'}
         </title>
       </Helmet>
       <Suspense fallback={<div>Loading...</div>}>
