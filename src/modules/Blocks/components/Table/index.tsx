@@ -4,7 +4,7 @@ import Table from '@/common/Table';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import formatNumber from '@/utils/formatNumber';
 import CommonLink from '@/common/Link';
-import BlockTime from '../Time';
+import CommonTime from '../../../../common/Time';
 
 const useStyles = () => createStyles({
   transactionsCol: {
@@ -41,8 +41,8 @@ class Index extends React.PureComponent<Props> {
       // TODO: author info need to be decoded from sdk 3
       const authorUrl = `/author/${header.author}`;
       heightValues.push(<BaseRouteLink to={blockUrl}>{formatNumber(header.number)}</BaseRouteLink>);
-      // timeValues.push(<BlockTime blockTime={Date.now() - 5000} />);
-      timeValues.push(<BlockTime blockTime={header.timestamp} />);
+      // timeValues.push(<CommonTime time={Date.now() - 5000} />);
+      timeValues.push(<CommonTime time={header.timestamp} />);
       transactionsValues.push(formatNumber(block._source.body.Full.length));
       authorValues.push(
         <CommonLink path={authorUrl} title={header.author} />

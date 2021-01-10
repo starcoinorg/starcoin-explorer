@@ -12,7 +12,7 @@ const useStyles = () => createStyles({
 });
 
 interface ExternalProps {
-  blockTime: number,
+  time: number,
   className?: string,
 }
 
@@ -24,11 +24,11 @@ interface Props extends ExternalProps, InternalProps {}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { blockTime, className, classes } = this.props;
+    const { time, className, classes } = this.props;
     return (
       <TimeAgo
         className={classNames(className, classes.root)}
-        time={blockTime}
+        time={time}
       />
     );
   }

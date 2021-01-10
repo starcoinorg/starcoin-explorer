@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
+import CommonTime from '@/common/Time';
 import formatNumber from '@/utils/formatNumber';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,8 +16,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import BaseRouteLink from '@/common/BaseRouteLink';
-
-import BlockTime from '../Time';
 
 interface IndexProps {
   classes: any;
@@ -125,7 +124,7 @@ class Index extends PureComponent<IndexProps> {
     const columns = [
       ['Hash', header.block_hash],
       ['Height', formatNumber(header.number)],
-      ['Time', <BlockTime blockTime={block.time} />],
+      ['Time', <CommonTime time={block.time} />],
       ['Author', <CommonLink path={`/author/${header.author}`} title={header.author} />],
       ['Difficulty', header.difficulty],
       ['Gas Used', header.gas_used],

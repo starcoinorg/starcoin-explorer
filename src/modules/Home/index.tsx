@@ -1,20 +1,11 @@
 import React, { PureComponent } from 'react';
-import BaseRouteLink from '@/common/BaseRouteLink';
-// import withLoading from '@/common/LoadingMasker/withLoading';
-// import BaseRouteLink from '@/common/BaseRouteLink';
-import StyledTableRow from '@/common/Table/StyledTableRow';
-import StyledTableCell from '@/common/Table/StyledTableCell';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import { pushLocation } from '@/rootStore/router/actions';
-import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
 import BlockTable from '../Blocks/components/Table';
+import TransactionTable from '../Transactions/components/Table';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
@@ -198,39 +189,15 @@ class Index extends PureComponent<IndexProps, IndexState> {
     </div>
   );
 
-  generateTransactions = () => {
-    const { transactionList, classes } = this.props;
-    const hitsTransactions = transactionList ? transactionList.hits.hits : [];
-    return (
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableBody>
-            {
-              hitsTransactions.slice(0, 12).map((row: any) => {
-                const transaction_hash = row._source.transaction_hash;
-                const transactionUrl = `/transactions/detail/${transaction_hash}`;
-                return (
-                  <StyledTableRow key={transaction_hash}>
-                    <StyledTableCell component="th" scope="row">
-                      <BaseRouteLink to={transactionUrl}>{transaction_hash}</BaseRouteLink>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                );
-              })
-            }
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  };
-
   render() {
     // if (!blockList || !transactionList) {
     //   return null;
     // }
-    const { blockList, classes } = this.props;
+    const { blockList, transactionList, classes } = this.props;
     const blocksHit = blockList ? blockList.hits.hits : [];
-    const blocks = blocksHit.slice(0, 12).sort((a: any, b: any) => b._source.header.number - a._source.header.number);
+    const blocks = blocksHit.slice(0, 12);
+    const transactionHit = transactionList ? transactionList.hits.hits : [];
+    const transactions = transactionHit.slice(0, 15);
     return (
       <>
         <div className={classes.searchCard}>
@@ -274,7 +241,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
           {this.renderCard(
             'Explore Transactions',
             '/transactions',
-            this.generateTransactions(),
+            <TransactionTable
+              transactions={transactions}
+            />,
             classes.transactions,
             classes.transactionsSpacer,
           )}
