@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.11",
+    "@types/markdown-it": "^12.0.1",
     "@types/react-helmet": "^6.1.0",
     "@types/react-redux": "^7.1.12",
     "@types/react-router-dom": "^5.1.6",
@@ -52,6 +53,7 @@
     "eslint-plugin-react": "^7.22.0",
     "less": "^4.0.0",
     "less-loader": "^7.1.0",
+    "markdown-it": "^12.0.4",
     "react-ga": "^3.3.0",
     "redux-saga": "^1.1.3"
   },
