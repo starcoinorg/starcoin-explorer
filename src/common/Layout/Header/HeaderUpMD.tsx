@@ -92,13 +92,13 @@ export default function HeaderUpMD() {
           selected: location.pathname.startsWith('/transactions'),
           href: '/transactions',
         },
-        {
-          className: classes.button,
-          id: 'ecosystem',
-          label: 'Ecosystem',
-          selected: location.pathname.startsWith('/ecosystem'),
-          href: '/ecosystems',
-        },
+//         {
+//           className: classes.button,
+//           id: 'ecosystem',
+//           label: 'Ecosystem',
+//           selected: location.pathname.startsWith('/ecosystem'),
+//           href: '/ecosystems',
+//         },
         {
           className: classes.button,
           id: 'faq',
