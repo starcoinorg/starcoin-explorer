@@ -5,6 +5,7 @@ import Markdown from '@/common/Markdown';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CenteredView from '@/common/View/CenteredView';
+import FAQ from './faq.md';
 
 const useStyles = (theme: Theme) => createStyles({
   root: {
@@ -34,17 +35,6 @@ const useStyles = (theme: Theme) => createStyles({
 interface IndexProps {
   classes: any;
 }
-
-const FAQ = `
-## Q1
-answer
-
-
-## Q2
-answer
-`;
-
-console.log(FAQ);
 
 class Index extends PureComponent<IndexProps> {
   render() {
