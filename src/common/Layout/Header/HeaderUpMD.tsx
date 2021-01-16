@@ -1,13 +1,19 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
+import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Tooltip from '@material-ui/core/Tooltip';
+import LanguageIcon from '@material-ui/icons/Translate';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { LANGUAGES_LABEL } from '@/utils/constants';
 import Tabs from './Tabs';
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = (theme: Theme) => createStyles({
   header: {
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.getContrastText(theme.palette.background.paper),
@@ -72,75 +78,142 @@ const useStyles = makeStyles((theme: any) => ({
     lineHeight: 1,
     textTransform: 'none'
   },
-}));
+  language: {
+    margin: theme.spacing(0, 0.5, 0, 1),
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+  },
+});
 
-export default function HeaderUpMD() {
-  const { t, i18n } = useTranslation('translation', { useSuspense: false });
-  const handleChange = (lang: string) => {
-    i18n.changeLanguage(lang);
+interface ExternalProps {
+}
+
+interface InternalProps {
+  classes: any,
+  t: any,
+  i18n: any,
+}
+
+interface Props extends ExternalProps, InternalProps { }
+
+interface IndexState {
+  languageMenu: null | HTMLElement
+}
+
+class Index extends PureComponent<Props, IndexState> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      languageMenu: null
+    };
+  }
+
+  handleLanguageIconClick = (e: any) => {
+    this.setState({ languageMenu: e.target });
   };
-  const location = window.location;
-  const classes = useStyles();
-  const tabs = (
-    <Tabs
-      tabs={[
-        {
-          className: classes.button,
-          id: 'blocks',
-          label: t('header.blocks'),
-          selected: location.pathname.startsWith('/blocks'),
-          href: '/blocks',
-        },
-        {
-          className: classes.button,
-          id: 'transactions',
-          label: t('header.transactions'),
-          selected: location.pathname.startsWith('/transactions'),
-          href: '/transactions',
-        },
-        //         {
-        //           className: classes.button,
-        //           id: 'ecosystem',
-        //           label: 'Ecosystem',
-        //           selected: location.pathname.startsWith('/ecosystem'),
-        //           href: '/ecosystems',
-        //         },
-        {
-          className: classes.button,
-          id: 'faq',
-          label: t('header.faq'),
-          selected: location.pathname.startsWith('/faq'),
-          href: 'faq',
-        },
-      ]}
-    />
-  );
-  return (
-    <div
-      className={classNames({
-        [classes.header]: true,
-        [classes.headerNormal]: true,
-      })}
-    >
+
+  handleLanguageMenuClose = (lang: string) => {
+    this.props.i18n.changeLanguage(lang);
+    this.setState({ languageMenu: null });
+  };
+
+  render() {
+    const { t, i18n, classes } = this.props;
+    const userLanguage = i18n.language || 'en';
+    const location = window.location;
+    const tabs = (
+      <Tabs
+        tabs={[
+          {
+            className: classes.button,
+            id: 'blocks',
+            label: t('header.blocks'),
+            selected: location.pathname.startsWith('/blocks'),
+            href: '/blocks',
+          },
+          {
+            className: classes.button,
+            id: 'transactions',
+            label: t('header.transactions'),
+            selected: location.pathname.startsWith('/transactions'),
+            href: '/transactions',
+          },
+          //         {
+          //           className: classes.button,
+          //           id: 'ecosystem',
+          //           label: 'Ecosystem',
+          //           selected: location.pathname.startsWith('/ecosystem'),
+          //           href: '/ecosystems',
+          //         },
+          {
+            className: classes.button,
+            id: 'faq',
+            label: t('header.faq'),
+            selected: location.pathname.startsWith('/faq'),
+            href: 'faq',
+          },
+        ]}
+      />
+    );
+    return (
       <div
         className={classNames({
-          [classes.mainHeader]: true,
-          [classes.pad]: true,
+          [classes.header]: true,
+          [classes.headerNormal]: true,
         })}
       >
-        <div className={classes.tabs}>
-          <BaseRouteLink to="/" underline="none">
-            <div className={classes.logoLink}>
-              <Typography className={classes.logo} variant="h3">
-                Starcoin
-              </Typography>
-            </div>
-          </BaseRouteLink>
-          {tabs}
-          <Button onClick={() => { handleChange('en'); }}>EN</Button>
-          <Button onClick={() => { handleChange('zh'); }}>ZH</Button>
+        <div
+          className={classNames({
+            [classes.mainHeader]: true,
+            [classes.pad]: true,
+          })}
+        >
+          <div className={classes.tabs}>
+            <BaseRouteLink to="/" underline="none">
+              <div className={classes.logoLink}>
+                <Typography className={classes.logo} variant="h3">
+                  Starcoin
+                </Typography>
+              </div>
+            </BaseRouteLink>
+            {tabs}
+            <Tooltip title={t('header.changeLanguage')} enterDelay={300}>
+              <Button
+                color="inherit"
+                aria-owns={this.state.languageMenu ? 'language-menu' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleLanguageIconClick}
+              >
+                <LanguageIcon />
+                <span className={classes.language}>
+                  {LANGUAGES_LABEL.filter((language) => language.code === userLanguage)[0].text}
+                </span>
+                <ExpandMoreIcon fontSize="small" />
+              </Button>
+            </Tooltip>
+            <Menu
+              id="language-menu"
+              anchorEl={this.state.languageMenu}
+              open={Boolean(this.state.languageMenu)}
+              onClose={this.handleLanguageMenuClose}
+            >
+              {LANGUAGES_LABEL.map((language) => (
+                <MenuItem
+                  key={language.code}
+                  selected={userLanguage === language.code}
+                  onClick={() => this.handleLanguageMenuClose(language.code)}
+                >
+                  {language.text}
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
+export default withStyles(useStyles)(withTranslation()(Index));

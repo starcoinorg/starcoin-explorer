@@ -31,7 +31,7 @@ export default function Index() {
   return (
     <div>
       <div className={classes.headerUpMD}>
-        <HeaderUpMD />
+        <HeaderUpMD useSuspense={false} />
       </div>
       <div className={classes.headerDownMD}>
         <HeaderDownMD />

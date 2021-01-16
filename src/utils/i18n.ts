@@ -15,34 +15,12 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
+    lng: 'zh',
     fallbackLng: 'en',
+    debug: false,
     react: {
       wait: true
     }
   });
-
-// i18n
-//   .use(Backend)
-//   .use(initReactI18next)
-//   .init({
-//     lng: 'en',
-//     backend: {
-//       /* translation file path */
-//       loadPath: '/public/locales/{{ns}}/trans.json'
-//     },
-//     fallbackLng: 'en',
-//     debug: true,
-//     /* can have multiple namespace, in case you want to divide a huge translation into smaller pieces and load them on demand */
-//     ns: ['translations'],
-//     defaultNS: 'translations',
-//     keySeparator: false,
-//     interpolation: {
-//       escapeValue: false,
-//       formatSeparator: ','
-//     },
-//     react: {
-//       wait: true
-//     }
-//   })
 
 export default i18n;
