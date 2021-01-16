@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import CommonTime from '@/common/Time';
 import CommonLink from '@/common/Link';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { encoding } from '@starcoin/starcoin';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
@@ -56,8 +57,13 @@ interface Props extends ExternalProps, InternalProps {}
 class Index extends PureComponent<Props> {
   render() {
     const { transaction, className, classes } = this.props;
+    const source = transaction._source;
+    const payloadInHex = source.user_transaction.raw_txn.payload || '';
+    const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
+    const type = Object.keys(txnPayload)[0];
     return (
       <div className={classNames(classes.root, className)}>
+        {type}&nbsp;
         <CommonLink path={`/transactions/detail/${transaction._source.transaction_hash}`} title={transaction._source.transaction_hash} />
         <div className={classes.rightHeader}>
           <CommonTime

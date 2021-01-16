@@ -98,17 +98,17 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    console.log('asdf');
-    const payloadInHex = '0x00ea01a11ceb0b0100000007010004030416041a04051e1d073b42087d10068d010a0000000101020000000003010201010004020300000504050101010803080103010a020105010103060c05040004060c050a020403050103010900074163636f756e74064572726f727310696e76616c69645f617267756d656e740e6372656174655f6163636f756e74096578697374735f6174087061795f66726f6d0000000000000000000000000000000103086500000000000000010106071a0a01110220030505150b0238000c040a010a0421070011000c060c050b0503150b00010b06270b000a010a0338010201070000000000000000000000000000000103535443035354430003030000000000000000000000000a550c18040002e8030000000000000000000000000000';
-    const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
-    console.log(JSON.stringify(txnPayload, undefined, 2));
     const { transaction } = this.props;
     if (!transaction) {
       return null;
     }
     const source = transaction.hits.hits[0]._source;
+    const payloadInHex = source.user_transaction.raw_txn.payload || '';
+    const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
+    const type = Object.keys(txnPayload)[0];
     const columns = [
       ['Hash', source.transaction_hash],
+      ['Type', type],
       ['Block Hash', <CommonLink path={`/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
       ['Block Height', formatNumber(source.block_number)],
       ['Time', <CommonTime time={source.user_transaction.raw_txn.expiration_timestamp_secs * 1000} />],
