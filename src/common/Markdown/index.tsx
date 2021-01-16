@@ -3,6 +3,7 @@ import classNames from 'classnames';
 // @ts-ignore
 import { MarkdownIt } from 'markdown-it';
 import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
 
 const styles = (theme: Theme) => {
   return {
@@ -74,24 +75,24 @@ interface ExternalProps {
 
 interface InternalProps {
   classes: any,
+  t: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { source, md: externalMD, 'data-test': dataTest, className, classes } = this.props;
+    const { t, md: externalMD, 'data-test': dataTest, className, classes } = this.props;
     const md = externalMD || defaultMD;
-
     return (
       <div
         data-test={dataTest}
         className={classNames(classes.root, className)}
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: md.render(source) }}
+        dangerouslySetInnerHTML={{ __html: md.render(t('faq')) }}
       />
     );
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

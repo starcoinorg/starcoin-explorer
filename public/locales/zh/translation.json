@@ -1,0 +1,9 @@
+{
+  "header": {
+    "blocks": "区块",
+    "transactions": "交易",
+    "faq": "问答"
+  },
+  "faq": "## Starcoin 是什么?\n\nStarcoin 是一个分层的，去中心化的区块链系统。\n\n## 白皮书有吗？\n\n有。 可以在 Starcoin 官网下载: http://starcoin.org/\n\n## Starcoin 采用什么共识？\n\nStarcoin 一层使用 POW 共识算法。\n\n## 使用什么语言编写合约？\n\nStarcoin 采用和 [diem](https://github.com/diem/diem) 相同的合约语言： [Move](https://github.com/diem/diem/master/language/move-lang) 。\nMove 是专门为链上资产所设计的合约语言。合约可以做形式化验证，相比 Solidity，有更高的安全性。\n\n## Starcoin 代币模型是怎么样的？\n\nSTC 是 Starcoin 的原生代币，采用和 Bitcoin 类似的代币发放模型：每四年减半。\n\n## Starcoin 有自己的 Token 标准吗，类似 ERC20 ？\n有。 Starcoin 内置了 Token 合约，定义了一系列 Token 标准。 开发者可以基于该合约开发自己的 Token。\n\n## Starcoin 支持去中心化治理吗？\n\n支持。 Starcoin 内置了 DAO 合约，可用来对链本身的参数做去中心化的治理。\n同时开发者自定义的 Token 也可以接入该 DAO 标准，从而实现 Token 的 DAO 功能。\n\n## Starcoin 支持多签账户吗？\n\n支持。"
+
+}

@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Tabs from './Tabs';
 
 const useStyles = makeStyles((theme: any) => ({
@@ -73,6 +75,10 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 export default function HeaderUpMD() {
+  const { t, i18n } = useTranslation('translation', { useSuspense: false });
+  const handleChange = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
   const location = window.location;
   const classes = useStyles();
   const tabs = (
@@ -81,14 +87,14 @@ export default function HeaderUpMD() {
         {
           className: classes.button,
           id: 'blocks',
-          label: 'Blocks',
+          label: t('header.blocks'),
           selected: location.pathname.startsWith('/blocks'),
           href: '/blocks',
         },
         {
           className: classes.button,
           id: 'transactions',
-          label: 'Transactions',
+          label: t('header.transactions'),
           selected: location.pathname.startsWith('/transactions'),
           href: '/transactions',
         },
@@ -102,7 +108,7 @@ export default function HeaderUpMD() {
         {
           className: classes.button,
           id: 'faq',
-          label: 'FAQ',
+          label: t('header.faq'),
           selected: location.pathname.startsWith('/faq'),
           href: 'faq',
         },
@@ -131,6 +137,8 @@ export default function HeaderUpMD() {
             </div>
           </BaseRouteLink>
           {tabs}
+          <Button onClick={() => { handleChange('en'); }}>EN</Button>
+          <Button onClick={() => { handleChange('zh'); }}>ZH</Button>
         </div>
       </div>
     </div>

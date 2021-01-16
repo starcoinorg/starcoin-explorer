@@ -1,3 +1,4 @@
+import './utils/i18n';
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';

@@ -1,0 +1,8 @@
+{
+  "header": {
+    "blocks": "Blocks",
+    "transactions": "Transactions",
+    "faq": "Faq"
+  },
+  "faq": "## What is Starcoin?\n\nStarcoin is a hierarchical, decentralized blockchain system.\n\n## Is there a white paper?\n\nHave. It can be downloaded on Starcoin official website: http://starcoin.org/\n\n## What consensus does Starcoin adopt?\n\nThe first layer of Starcoin uses the POW consensus algorithm.\n\n## What language is used to write the contract?\n\nStarcoin adopts the same contract language as [diem](https://github.com/diem/diem): [Move](https://github.com/diem/diem/master/language/move-lang).\nMove is a contract language specially designed for on-chain assets. The contract can be formally verified, which has higher security than Solidity.\n\n## What is the Starcoin token model?\n\nSTC is the native token of Starcoin and adopts a token issuance model similar to Bitcoin: it is halved every four years.\n\n## Does Starcoin have its own Token standard, similar to ERC20?\nHave. Starcoin has a built-in Token contract, which defines a series of Token standards. Developers can develop their own tokens based on this contract.\n\n## Does Starcoin support decentralized governance?\n\nstand by. Starcoin has a built-in DAO contract, which can be used to decentralize the parameters of the chain itself.\nAt the same time, the developer-defined token can also be connected to the DAO standard to realize the DAO function of the token.\n\n## Does Starcoin support multi-signature accounts?\n\nYes."
+}
