@@ -36,7 +36,9 @@ export default function Index() {
         </Suspense>
       </div>
       <div className={classes.headerDownMD}>
-        <HeaderDownMD />
+        <Suspense fallback={<div>Loading...</div>}>
+          <HeaderDownMD />
+        </Suspense>
       </div>
     </div>
   );

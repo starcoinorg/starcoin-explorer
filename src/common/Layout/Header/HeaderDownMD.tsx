@@ -1,4 +1,6 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
@@ -8,6 +10,12 @@ import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MenuIcon from '@material-ui/icons/Menu';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Accordion from '@material-ui/core/Accordion';
+import LanguageIcon from '@material-ui/icons/Translate';
+import { LANGUAGES_LABEL } from '@/utils/constants';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
@@ -61,11 +69,16 @@ const useStyles = (theme: Theme) => createStyles({
   button: {
     width: '100%',
   },
+  buttonLabel: {
+    width: '100%',
+    textAlign: 'left',
+    marginLeft: theme.spacing(1),
+  },
   logoLink: {
     display: 'grid',
     gridGap: '10px',
     gridAutoFlow: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
     textDecoration: 'none',
   },
   logo: {
@@ -79,135 +92,174 @@ const useStyles = (theme: Theme) => createStyles({
     lineHeight: 1,
     textTransform: 'none'
   },
+  i18n: {
+    marginTop: theme.spacing(1),
+    border: 'none',
+    alignItems: 'center',
+  },
+  i18nMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
 });
+let showMenuTimer: number = 0;
+function Index(props: any) {
+  const { t, i18n }: { t: any, i18n: any } = useTranslation();
+  const userLanguage = i18n.language || 'en';
+  const [showMenu, setShowMenu] = React.useState(false);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
 
-interface IndexProps {
-  classes: any;
-}
+  const handleI18nExpandedChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  const onClickButtonI18n = (lang?: string) => {
+    if (lang !== userLanguage) {
+      i18n.changeLanguage(lang);
+    }
+    setExpanded(false);
+    setShowMenu(false);
+  };
 
-interface IndexState {
-  showMenu: boolean
-}
-
-class Index extends PureComponent<IndexProps, IndexState> {
-  private timer: number = 0;
-
-  constructor(props: IndexProps) {
-    super(props);
-    this.state = {
-      showMenu: false,
-    };
-  }
-
-  onClickButton = () => {
-    if (this.state.showMenu) {
-      this.setState({ showMenu: false });
+  const onClickButton = () => {
+    if (showMenu) {
+      setExpanded(false);
+      setShowMenu(false);
     }
   };
 
-  onHideMenu = () => {
-    if (this.state.showMenu) {
-      this.setState({ showMenu: false });
+  const onHideMenu = () => {
+    if (showMenu) {
+      setExpanded(false);
+      setShowMenu(false);
     }
   };
 
-  onShowMenu = (event: any) => {
-    this.timer = Date.now();
+  const onShowMenu = (event: any) => {
     event.preventDefault();
-    if (!this.state.showMenu) {
-      this.timer = Date.now();
-      this.setState({ showMenu: true });
+    if (!showMenu) {
+      showMenuTimer = Date.now();
+      setShowMenu(true);
     }
   };
 
-  onClickMenu = (event: any) => {
+  const onClickMenu = (event: any) => {
     event.preventDefault();
-    if (this.state.showMenu) {
-      this.onHideMenu();
+    if (showMenu) {
+      onHideMenu();
     } else {
-      this.onShowMenu(event);
+      onShowMenu(event);
     }
   };
 
-  onClickAway = (event: any) => {
-    if (this.state.showMenu && (Date.now() - this.timer) > 50) {
+  const onClickAway = (event: any) => {
+    if (showMenu && (Date.now() - showMenuTimer) > 50) {
       event.preventDefault();
-      this.setState({ showMenu: false });
+      setShowMenu(false);
     }
   };
 
-  render() {
-    const { classes } = this.props;
-    const location = window.location;
-    const buttons = [
-      {
-        className: classes.button,
-        id: 'blocks',
-        label: 'Blocks',
-        selected: location.pathname.startsWith('/blocks'),
-        href: '/blocks',
-      },
-      {
-        className: classes.button,
-        id: 'transactions',
-        label: 'Transactions',
-        selected: location.pathname.startsWith('/transactions'),
-        href: '/transactions',
-      },
-      {
-        className: classes.button,
-        id: 'ecosystem',
-        label: 'Ecosystem',
-        selected: location.pathname.startsWith('/ecosystem'),
-        href: '/ecosystems',
-      },
-      {
-        className: classes.button,
-        id: 'faq',
-        label: 'FAQ',
-        selected: location.pathname.startsWith('/faq'),
-        href: 'faq',
-      },
-    ];
+  const { classes } = props;
+  const location = window.location;
+  const buttons = [
+    {
+      className: classes.button,
+      id: 'blocks',
+      label: t('header.blocks'),
+      selected: location.pathname.startsWith('/blocks'),
+      href: '/blocks',
+    },
+    {
+      className: classes.button,
+      id: 'transactions',
+      label: t('header.transactions'),
+      selected: location.pathname.startsWith('/transactions'),
+      href: '/transactions',
+    },
+    {
+      className: classes.button,
+      id: 'ecosystem',
+      label: t('header.ecosystems'),
+      selected: location.pathname.startsWith('/ecosystem'),
+      href: '/ecosystems',
+    },
+    {
+      className: classes.button,
+      id: 'faq',
+      label: t('header.faq'),
+      selected: location.pathname.startsWith('/faq'),
+      href: 'faq',
+    },
+  ];
 
-    return (
-      <div className={classes.root}>
-        <div className={classNames(classes.header, classes.pad)}>
-          <BaseRouteLink to="/" underline="none">
-            <div className={classes.logoLink}>
-              <Typography className={classes.logo} variant="h3">
-                Starcoin
-              </Typography>
-            </div>
-          </BaseRouteLink>
-          <IconButton
-            className={classes.menuButton}
-            onMouseUp={this.onClickMenu}
-            onTouchEnd={this.onClickMenu}
-          >
-            <MenuIcon />
-          </IconButton>
-        </div>
-        <Collapse in={this.state.showMenu} timeout="auto">
-          <ClickAwayListener onClickAway={this.onClickAway}>
-            <div className={classNames(classes.menu, classes.pad)}>
-              {buttons.map((button) => (
-                <BaseRouteLink key={button.id} className={classes.link} to={button.href}>
-                  <Button
-                    color={button.selected ? 'primary' : 'default'}
-                    className={button.className}
-                    onClick={this.onClickButton}
-                  >
-                    <Typography variant="body1">{button.label}</Typography>
-                  </Button>
-                </BaseRouteLink>
-              ))}
-            </div>
-          </ClickAwayListener>
-        </Collapse>
+  return (
+    <div className={classes.root}>
+      <div className={classNames(classes.header, classes.pad)}>
+        <BaseRouteLink to="/" underline="none">
+          <div className={classes.logoLink}>
+            <Typography className={classes.logo} variant="h3">
+              Starcoin
+            </Typography>
+          </div>
+        </BaseRouteLink>
+        <IconButton
+          className={classes.menuButton}
+          onMouseUp={onClickMenu}
+          onTouchEnd={onClickMenu}
+        >
+          <MenuIcon />
+        </IconButton>
       </div>
-    );
-  }
+      <Collapse in={showMenu} timeout="auto">
+        <ClickAwayListener onClickAway={onClickAway}>
+          <div className={classNames(classes.menu, classes.pad)}>
+            {buttons.map((button) => (
+              <BaseRouteLink key={button.id} className={classes.link} to={button.href}>
+                <Button
+                  color={button.selected ? 'primary' : 'default'}
+                  className={button.className}
+                  onClick={onClickButton}
+                >
+                  <Typography variant="body1" className={classes.buttonLabel}>{button.label}</Typography>
+                </Button>
+              </BaseRouteLink>
+            ))}
+            <Accordion expanded={expanded === 'panel1'} onChange={handleI18nExpandedChange('panel1')} className={classes.i18n}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <LanguageIcon />
+                <Typography variant="body1" gutterBottom>{LANGUAGES_LABEL.filter((language) => language.code === userLanguage)[0].text}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className={classes.i18nMenu}>
+                  {
+                    LANGUAGES_LABEL.map((language) => {
+                      return (
+                        <Button
+                          color={language.code === userLanguage ? 'primary' : 'default'}
+                          key={language.code}
+                          className={classes.button}
+                          onClick={() => onClickButtonI18n(language.code)}
+                        >
+                          <Typography variant="body1" className={classes.buttonLabel}>{language.text}</Typography>
+                        </Button>
+                      );
+                    })
+                  }
+                </div>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </ClickAwayListener>
+      </Collapse>
+    </div>
+  );
 }
+
+Index.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(useStyles)(Index);
