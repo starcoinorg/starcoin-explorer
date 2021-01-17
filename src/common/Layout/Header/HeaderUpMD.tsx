@@ -78,6 +78,9 @@ const useStyles = (theme: Theme) => createStyles({
     lineHeight: 1,
     textTransform: 'none'
   },
+  i18n: {
+    height: theme.spacing(6),
+  },
   language: {
     margin: theme.spacing(0, 0.5, 0, 1),
     display: 'none',
@@ -114,8 +117,10 @@ class Index extends PureComponent<Props, IndexState> {
     this.setState({ languageMenu: e.target });
   };
 
-  handleLanguageMenuClose = (lang: string) => {
-    this.props.i18n.changeLanguage(lang);
+  handleLanguageMenuClose = (lang?: string) => {
+    if (lang) {
+      this.props.i18n.changeLanguage(lang);
+    }
     this.setState({ languageMenu: null });
   };
 
@@ -181,6 +186,7 @@ class Index extends PureComponent<Props, IndexState> {
             {tabs}
             <Tooltip title={t('header.changeLanguage')} enterDelay={300}>
               <Button
+                className={classes.i18n}
                 color="inherit"
                 aria-owns={this.state.languageMenu ? 'language-menu' : undefined}
                 aria-haspopup="true"
@@ -197,7 +203,7 @@ class Index extends PureComponent<Props, IndexState> {
               id="language-menu"
               anchorEl={this.state.languageMenu}
               open={Boolean(this.state.languageMenu)}
-              onClose={this.handleLanguageMenuClose}
+              onClose={() => this.handleLanguageMenuClose()}
             >
               {LANGUAGES_LABEL.map((language) => (
                 <MenuItem
