@@ -125,13 +125,13 @@ function Index(props: any) {
           selected: pathname.startsWith('/transactions'),
           href: '/transactions',
         },
-        //         {
-        //           className: classes.button,
-        //           id: 'ecosystem',
-        //           label: 'Ecosystem',
-        //           selected: pathname.startsWith('/ecosystem'),
-        //           href: '/ecosystems',
-        //         },
+        {
+          className: classes.button,
+          id: 'ecosystems',
+          label: t('header.ecosystems'),
+          selected: pathname.startsWith('/ecosystems'),
+          href: '/ecosystems',
+        },
         {
           className: classes.button,
           id: 'faq',

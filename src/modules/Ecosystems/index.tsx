@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { sha3_256 } from 'js-sha3';
@@ -37,25 +38,27 @@ const useStyles = (theme: Theme) => createStyles({
 
 interface IndexProps {
   classes: any;
+  t: any;
 }
 
 class Index extends PureComponent<IndexProps> {
   render() {
-    const { classes } = this.props;
+    const { t, classes } = this.props;
+    const title = t('header.ecosystems');
     return (
       <div>
         <Helmet>
-          <title>Ecosystem</title>
+          <title>{title}</title>
         </Helmet>
         <CenteredView>
           <Card>
-            <CommonHeader name="Ecosystem" pluralName="Ecosystem" />
+            <CommonHeader name={title} pluralName={title} />
             <div className={classes.gridCards}>
-              {cards.map(({ title, description, link, image, cover }) => (
+              {cards.map(({ link, image, cover }, index) => (
                 <EcosystemCard
-                  key={sha3_256(title)}
-                  title={title}
-                  description={description}
+                  key={sha3_256(t(`ecosystems.cards.title_${index}`))}
+                  title={t(`ecosystems.cards.title_${index}`)}
+                  description={t(`ecosystems.cards.description_${index}`)}
                   link={link}
                   image={image}
                   cover={cover}
@@ -69,4 +72,4 @@ class Index extends PureComponent<IndexProps> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));
