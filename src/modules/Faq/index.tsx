@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import Markdown from '@/common/Markdown';
@@ -34,21 +35,23 @@ const useStyles = (theme: Theme) => createStyles({
 
 interface IndexProps {
   classes: any;
+  t: any,
 }
 
 class Index extends PureComponent<IndexProps> {
   render() {
-    const { classes } = this.props;
+    const { t, classes } = this.props;
+    const title = t('header.faq');
     return (
       <div>
         <Helmet>
-          <title>FAQ</title>
+          <title>{title}</title>
         </Helmet>
         <CenteredView>
           <Card>
             <div className={classes.header}>
               <Typography variant="h5" gutterBottom className={classes.title}>
-                FAQ
+                {title}
               </Typography>
             </div>
             <div className={classes.root}>
@@ -61,4 +64,4 @@ class Index extends PureComponent<IndexProps> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));
