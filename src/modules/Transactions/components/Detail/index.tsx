@@ -11,6 +11,7 @@ import PageView from '@/common/View/PageView';
 import Table from '@/common/Table';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding } from '@starcoin/starcoin';
+import { getTxnData } from '@/utils/sdk';
 
 const useStyles = () => createStyles({
   table: {
@@ -33,13 +34,24 @@ interface IndexProps {
   getTransaction: (data: any, callback?: any) => any;
 }
 
-class Index extends PureComponent<IndexProps> {
+interface IndexState {
+  txnData: any,
+}
+
+class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     match: {},
     transaction: null,
     getTransaction: () => {}
   };
+
+  constructor(props: IndexProps) {
+    super(props);
+    this.state = {
+      txnData: undefined
+    };
+  }
 
   componentDidMount() {
     const hash = this.props.match.params.hash;
@@ -106,6 +118,9 @@ class Index extends PureComponent<IndexProps> {
     const payloadInHex = source.user_transaction.raw_txn.payload || '';
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
     const type = Object.keys(txnPayload)[0];
+    getTxnData(source.transaction_hash).then(data => {
+      this.setState({ txnData: data });
+    });
     const columns = [
       ['Hash', source.transaction_hash],
       ['Type', type],
@@ -115,6 +130,7 @@ class Index extends PureComponent<IndexProps> {
       ['State Root Hash', <CommonLink path={`/blocks/detail/${source.state_root_hash}`} title={source.state_root_hash} />],
       ['Status', source.status],
       ['Gas Used', source.gas_used],
+      ['Txn Data', this.state.txnData ? JSON.stringify(this.state.txnData) : '...'],
     ];
 
     return (
