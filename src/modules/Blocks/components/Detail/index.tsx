@@ -1,21 +1,16 @@
 import React, { PureComponent } from 'react';
-import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import Loading from '@/common/Loading';
+import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
 import CommonTime from '@/common/Time';
 import formatNumber from '@/utils/formatNumber';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import BaseRouteLink from '@/common/BaseRouteLink';
 
 interface IndexProps {
   classes: any;
@@ -25,24 +20,6 @@ interface IndexProps {
   block: any;
   getBlock: (data: any, callback?: any) => any;
 }
-
-const StyledTableCell = withStyles((theme: Theme) => createStyles({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) => createStyles({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
 
 const useStyles = () => ({
   table: {
@@ -70,34 +47,8 @@ class Index extends PureComponent<IndexProps> {
 
   generateExtra() {
     const { block } = this.props;
-    const transactions = block.hits.hits[0]._source.body.Full;
-    console.log('transactions', transactions);
-    let transactionsDetail;
-    if (transactions && transactions.length) {
-      transactionsDetail = (
-        <TableContainer component={Paper}>
-          <Table aria-label="customized table">
-            <TableBody>
-              {
-                transactions.map((row: any) => {
-                  const transaction_hash = row.transaction_hash;
-                  const transactionUrl = `/transactions/detail/${transaction_hash}`;
-                  return (
-                    <StyledTableRow key={transaction_hash}>
-                      <StyledTableCell component="th" scope="row">
-                        <BaseRouteLink to={transactionUrl}>{transaction_hash}</BaseRouteLink>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  );
-                })
-              }
-            </TableBody>
-          </Table>
-        </TableContainer>
-      );
-    } else {
-      transactionsDetail = <Typography variant="body1">No Transaction Data</Typography>;
-    }
+    const isInitialLoad = !block;
+    const transactions = block.hits.hits[0]._source.body.Full || [];
     return (
       <div>
         <br />
@@ -110,7 +61,9 @@ class Index extends PureComponent<IndexProps> {
             <Typography variant="h5" gutterBottom>Transaction</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {transactionsDetail}
+            {isInitialLoad ? <Loading /> : <TransactionTable
+              transactions={transactions}
+            />}
           </AccordionDetails>
         </Accordion>
         <br />

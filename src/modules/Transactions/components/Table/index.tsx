@@ -17,7 +17,7 @@ class Index extends React.PureComponent<Props> {
       <div className={className}>
         {transactions.map((transaction: any) => (
           <TransactionSummary
-            key={transaction._id}
+            key={transaction._id || transaction.transaction_hash}
             transaction={transaction}
           />
         ))}

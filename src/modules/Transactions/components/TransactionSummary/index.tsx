@@ -57,18 +57,20 @@ interface Props extends ExternalProps, InternalProps {}
 class Index extends PureComponent<Props> {
   render() {
     const { transaction, className, classes } = this.props;
-    const source = transaction._source;
-    const payloadInHex = source.user_transaction.raw_txn.payload || '';
+    const isTransaction = !!transaction._source;
+    console.log('isTransaction', isTransaction);
+    const source = isTransaction ? transaction._source : transaction;
+    const payloadInHex = isTransaction ? (source.user_transaction.raw_txn.payload || '') : (source.raw_txn.payload || '');
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
     const type = Object.keys(txnPayload)[0];
     return (
       <div className={classNames(classes.root, className)}>
         {type}&nbsp;
-        <CommonLink path={`/transactions/detail/${transaction._source.transaction_hash}`} title={transaction._source.transaction_hash} />
+        <CommonLink path={`/transactions/detail/${source.transaction_hash}`} title={source.transaction_hash} />
         <div className={classes.rightHeader}>
           <CommonTime
             className={classes.time}
-            time={transaction._source.timestamp}
+            time={isTransaction ? source.timestamp : source.raw_txn.expiration_timestamp_secs}
           />
         </div>
       </div>
