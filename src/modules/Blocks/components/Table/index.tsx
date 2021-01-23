@@ -39,7 +39,7 @@ class Index extends React.PureComponent<Props> {
       const header = block._source.header;
       const blockUrl = `/blocks/detail/${header.block_hash}`;
       // TODO: author info need to be decoded from sdk 3
-      const authorUrl = `/author/${header.author}`;
+      const authorUrl = `/address/${header.author}`;
       heightValues.push(<BaseRouteLink to={blockUrl}>{formatNumber(header.number)}</BaseRouteLink>);
       // timeValues.push(<CommonTime time={Date.now() - 5000} />);
       timeValues.push(<CommonTime time={header.timestamp} />);

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -65,7 +66,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const keyValues: any[] = [];
     const seqNumberValues: any[] = [];
     source.events.forEach((event: any) => {
-      eventValues.push(<CommonLink path={`/events/detail/${event.data}`} title={event.data} />);
+      eventValues.push(event.data);
       keyValues.push(event.event_key);
       seqNumberValues.push(formatNumber(event.event_seq_number));
     });
@@ -109,6 +110,12 @@ class Index extends PureComponent<IndexProps, IndexState> {
     );
   }
 
+  doGetTxnData(hash: string) {
+    getTxnData(hash).then(data => {
+      this.setState({ txnData: data });
+    });
+  }
+
   render() {
     const { transaction } = this.props;
     if (!transaction) {
@@ -118,19 +125,22 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const payloadInHex = source.user_transaction.raw_txn.payload || '';
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
     const type = Object.keys(txnPayload)[0];
-    getTxnData(source.transaction_hash).then(data => {
-      this.setState({ txnData: data });
-    });
+    if (!this.state.txnData) {
+      // this.doGetTxnData(source.transaction_hash);
+      getTxnData(source.transaction_hash).then(data => {
+        this.setState({ txnData: data });
+      });
+    }
     const columns = [
       ['Hash', source.transaction_hash],
       ['Type', type],
       ['Block Hash', <CommonLink path={`/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
       ['Block Height', formatNumber(source.block_number)],
-      ['Time', <CommonTime time={source.user_transaction.raw_txn.expiration_timestamp_secs * 1000} />],
-      ['State Root Hash', <CommonLink path={`/blocks/detail/${source.state_root_hash}`} title={source.state_root_hash} />],
+      ['Time', <CommonTime time={source.timestamp} />],
+      ['State Root Hash', source.state_root_hash],
       ['Status', source.status],
       ['Gas Used', source.gas_used],
-      ['Txn Data', this.state.txnData ? JSON.stringify(this.state.txnData) : '...'],
+      ['Txn Data', this.state.txnData ? JSON.stringify(this.state.txnData) : <CircularProgress size="1rem" />],
     ];
 
     return (

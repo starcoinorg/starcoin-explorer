@@ -39,9 +39,30 @@ function* watchGetTransactionList() {
   yield takeLatest(types.GET_TRANSACTION_LIST, getTransactionList)
 }
 
+
+export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
+  try {
+    const res = yield call(withLoading, api.getAddresssTransactions, action.type, action.payload);
+    yield put(actions.setAddressTransactions(res));
+    if (action.callback) {
+      yield call(action.callback);
+    }
+  } catch (err) {
+    if (err.message) {
+      console.log(err.message);
+      // yield call(message.error, err.message);
+    }
+  }
+}
+
+function* watchGetAddressTransactions() {
+  yield takeLatest(types.GET_ADDRESS_TRANSACTIONS, getAddressTransactions)
+}
+
 const sagas = [
   watchGetTransaction,
-  watchGetTransactionList
+  watchGetTransactionList,
+  watchGetAddressTransactions
 ];
 
 export default sagas;

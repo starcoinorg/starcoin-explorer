@@ -9,7 +9,12 @@ export async function getTxnData(txnHash: string) {
   return result;
 }
 
-export async function getTxnInfoData(txnHash: string) {
-  const result = await provider.getTransactionInfo(txnHash);
+export async function getAddressData(hash: string) {
+  const result = await provider.getResource(hash, '0x1::Account::Account');
+  return result;
+}
+
+export async function getBalancesData(hash: string) {
+  const result = await provider.getBalances(hash);
   return result;
 }

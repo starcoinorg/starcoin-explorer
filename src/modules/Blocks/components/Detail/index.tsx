@@ -19,7 +19,9 @@ import BaseRouteLink from '@/common/BaseRouteLink';
 
 interface IndexProps {
   classes: any;
+  hash: any;
   match: any;
+  computedMatch: any;
   block: any;
   getBlock: (data: any, callback?: any) => any;
 }
@@ -51,19 +53,51 @@ const useStyles = () => ({
 class Index extends PureComponent<IndexProps> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
+    hash: '',
     match: {},
+    computedMatch: {},
     block: null,
     getBlock: () => {}
   };
 
   componentDidMount() {
+    console.log('detail');
+    console.log('props', this.props);
     const hash = this.props.match.params.hash;
+    console.log('hash', hash);
     this.props.getBlock({ hash });
   }
 
   generateExtra() {
     const { block } = this.props;
     const transactions = block.hits.hits[0]._source.body.Full;
+    console.log('transactions', transactions);
+    let transactionsDetail;
+    if (transactions && transactions.length) {
+      transactionsDetail = (
+        <TableContainer component={Paper}>
+          <Table aria-label="customized table">
+            <TableBody>
+              {
+                transactions.map((row: any) => {
+                  const transaction_hash = row.transaction_hash;
+                  const transactionUrl = `/transactions/detail/${transaction_hash}`;
+                  return (
+                    <StyledTableRow key={transaction_hash}>
+                      <StyledTableCell component="th" scope="row">
+                        <BaseRouteLink to={transactionUrl}>{transaction_hash}</BaseRouteLink>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
+                })
+              }
+            </TableBody>
+          </Table>
+        </TableContainer>
+      );
+    } else {
+      transactionsDetail = <Typography variant="body1">No Transaction Data</Typography>;
+    }
     return (
       <div>
         <br />
@@ -76,25 +110,7 @@ class Index extends PureComponent<IndexProps> {
             <Typography variant="h5" gutterBottom>Transaction</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <TableContainer component={Paper}>
-              <Table aria-label="customized table">
-                <TableBody>
-                  {
-                    transactions.map((row: any) => {
-                      const transaction_hash = row.transaction_hash;
-                      const transactionUrl = `/transactions/detail/${transaction_hash}`;
-                      return (
-                        <StyledTableRow key={transaction_hash}>
-                          <StyledTableCell component="th" scope="row">
-                            <BaseRouteLink to={transactionUrl}>{transaction_hash}</BaseRouteLink>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      );
-                    })
-                  }
-                </TableBody>
-              </Table>
-            </TableContainer>
+            {transactionsDetail}
           </AccordionDetails>
         </Accordion>
         <br />
@@ -125,10 +141,10 @@ class Index extends PureComponent<IndexProps> {
       ['Hash', header.block_hash],
       ['Height', formatNumber(header.number)],
       ['Time', <CommonTime time={block.time} />],
-      ['Author', <CommonLink path={`/author/${header.author}`} title={header.author} />],
+      ['Author', <CommonLink key={header.author} path={`/address/${header.author}`} title={header.author} />],
       ['Difficulty', header.difficulty],
       ['Gas Used', header.gas_used],
-      ['Parant Hash', <CommonLink path={`/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
+      ['Parant Hash', <CommonLink key={header.parent_hash} path={`/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
     ];
 
     return (

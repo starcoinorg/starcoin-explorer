@@ -28,3 +28,18 @@ export function setTransactionList(payload: any) {
     payload
   };
 }
+
+export function getAddressTransactions(payload: any, callback?: any) {
+  return {
+    type: types.GET_ADDRESS_TRANSACTIONS,
+    payload,
+    callback
+  };
+}
+
+export function setAddressTransactions(payload: any) {
+  return {
+    type: types.SET_ADDRESS_TRANSACTIONS,
+    payload
+  };
+}

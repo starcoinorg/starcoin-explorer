@@ -98,8 +98,8 @@ interface ExternalProps {
   id: string,
   title: string,
   name: string,
-  pluralName: string,
-  searchRoute: string,
+  pluralName?: string,
+  searchRoute?: string,
   icon?: string,
   backgroundColorClassName?: string,
   className?: string,
@@ -162,13 +162,17 @@ class Index extends React.PureComponent<Props> {
             title="Home"
           />
           {slash}
-          <Link
-            className={classNames(classes.link, classes.margin, classes.static)}
-            variant={breadcrumbVariant}
-            path={searchRoute}
-            title={pluralName}
-          />
-          {slash}
+          {
+            (pluralName && searchRoute) ? <>
+              <Link
+                className={classNames(classes.link, classes.margin, classes.static)}
+                variant={breadcrumbVariant}
+                path={searchRoute}
+                title={pluralName}
+              />
+              {slash}
+            </> : null
+          }
           <Typography
             className={classNames(classes.linkSelected, classes.static)}
             variant={breadcrumbVariant}

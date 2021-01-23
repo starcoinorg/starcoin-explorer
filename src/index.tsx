@@ -18,6 +18,7 @@ const Blocks = lazy(() => import('./modules/Blocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
 const Faq = lazy(() => import('./modules/Faq'));
+const Address = lazy(() => import('./modules/Address/adapter'));
 
 const RouteWithLayout = (props: any) => {
   const Component = props.component;
@@ -59,6 +60,7 @@ ReactDOM.render(
         <RouteWithLayout path={withBaseRoute('/transactions')} title="Transaction" layout={MainLayout} component={Transactions} />
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
+        <RouteWithLayout path={withBaseRoute('/address/:hash')} title="Address" layout={MainLayout} component={Address} />
       </Switch>
     </ConnectedRouter>
   </Provider>,
