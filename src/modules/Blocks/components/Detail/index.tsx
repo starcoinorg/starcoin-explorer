@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@material-ui/core/styles';
+import Table from '@/common/Table';
 import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
@@ -12,20 +13,30 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+const useStyles = () => createStyles({
+  table: {
+    width: '100%',
+    display: 'block',
+  },
+  shrinkMaxCol: {
+    flex: '1 100 auto',
+    minWidth: 60,
+  },
+  shrinkCol: {
+    flex: '1 10 auto',
+  },
+});
+
 interface IndexProps {
   classes: any;
   hash: any;
   match: any;
   computedMatch: any;
   block: any;
+  blockTransactions: any;
   getBlock: (data: any, callback?: any) => any;
+  getBlockTransactions: (data: any, callback?: any) => any;
 }
-
-const useStyles = () => ({
-  table: {
-    minWidth: 700,
-  },
-});
 
 class Index extends PureComponent<IndexProps> {
   // eslint-disable-next-line react/static-property-placement
@@ -34,21 +45,50 @@ class Index extends PureComponent<IndexProps> {
     match: {},
     computedMatch: {},
     block: null,
-    getBlock: () => {}
+    blockTransactions: null,
+    getBlock: () => {},
+    getBlockTransactions: () => {}
   };
 
   componentDidMount() {
-    console.log('detail');
-    console.log('props', this.props);
     const hash = this.props.match.params.hash;
-    console.log('hash', hash);
     this.props.getBlock({ hash });
+    this.props.getBlockTransactions({ hash });
   }
 
   generateExtra() {
-    const { block } = this.props;
+    const { block, blockTransactions, classes } = this.props;
+    console.log('blockTransactions', blockTransactions);
     const isInitialLoad = !block;
     const transactions = block.hits.hits[0]._source.body.Full || [];
+
+    const events = blockTransactions.hits.hits[0]._source.events || [];
+    const eventValues: any[] = [];
+    const keyValues: any[] = [];
+    const seqNumberValues: any[] = [];
+    events.forEach((event: any) => {
+      eventValues.push(event.data);
+      keyValues.push(event.event_key);
+      seqNumberValues.push(formatNumber(event.event_seq_number));
+    });
+    const columns = [
+      {
+        name: 'Event',
+        values: eventValues,
+        className: classes.shrinkMaxCol,
+      },
+      {
+        name: 'Key',
+        values: keyValues,
+        className: classes.shrinkCol,
+
+      },
+      {
+        name: 'SeqNumber',
+        values: seqNumberValues,
+        minWidth: true,
+      },
+    ];
     return (
       <div>
         <br />
@@ -61,9 +101,9 @@ class Index extends PureComponent<IndexProps> {
             <Typography variant="h5" gutterBottom>Transaction</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {isInitialLoad ? <Loading /> : <TransactionTable
+            {isInitialLoad ? <Loading /> : transactions.length ? <TransactionTable
               transactions={transactions}
-            />}
+            /> : <Typography variant="body1">No Transaction Data</Typography>}
           </AccordionDetails>
         </Accordion>
         <br />
@@ -76,7 +116,9 @@ class Index extends PureComponent<IndexProps> {
             <Typography variant="h5" gutterBottom>Events</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            TODO
+            <div className={classes.table}>
+              <Table columns={columns} />
+            </div>
           </AccordionDetails>
         </Accordion>
       </div>
@@ -84,8 +126,8 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    const { block } = this.props;
-    if (!block) {
+    const { block, blockTransactions } = this.props;
+    if (!block || !blockTransactions) {
       return null;
     }
     const header = block.hits.hits[0]._source.header;

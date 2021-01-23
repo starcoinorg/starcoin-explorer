@@ -59,10 +59,30 @@ function* watchGetAddressTransactions() {
   yield takeLatest(types.GET_ADDRESS_TRANSACTIONS, getAddressTransactions)
 }
 
+export function* getBlockTransactions(action: ReturnType<typeof actions.getBlockTransactions>) {
+  try {
+    const res = yield call(withLoading, api.getBlockTransactions, action.type, action.payload);
+    yield put(actions.setBlockTransactions(res));
+    if (action.callback) {
+      yield call(action.callback);
+    }
+  } catch (err) {
+    if (err.message) {
+      console.log(err.message);
+      // yield call(message.error, err.message);
+    }
+  }
+}
+
+function* watchGetBlockTransactions() {
+  yield takeLatest(types.GET_BLOCK_TRANSACTIONS, getBlockTransactions)
+}
+
 const sagas = [
   watchGetTransaction,
   watchGetTransactionList,
-  watchGetAddressTransactions
+  watchGetAddressTransactions,
+  watchGetBlockTransactions
 ];
 
 export default sagas;

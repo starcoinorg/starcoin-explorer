@@ -61,11 +61,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   generateExtra() {
     const { transaction, classes } = this.props;
-    const source = transaction.hits.hits[0]._source;
+    const events = transaction.hits.hits[0]._source.events || [];
     const eventValues: any[] = [];
     const keyValues: any[] = [];
     const seqNumberValues: any[] = [];
-    source.events.forEach((event: any) => {
+    events.forEach((event: any) => {
       eventValues.push(event.data);
       keyValues.push(event.event_key);
       seqNumberValues.push(formatNumber(event.event_seq_number));
@@ -110,12 +110,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
     );
   }
 
-  doGetTxnData(hash: string) {
-    getTxnData(hash).then(data => {
-      this.setState({ txnData: data });
-    });
-  }
-
   render() {
     const { transaction } = this.props;
     if (!transaction) {
@@ -126,7 +120,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
     const type = Object.keys(txnPayload)[0];
     if (!this.state.txnData) {
-      // this.doGetTxnData(source.transaction_hash);
       getTxnData(source.transaction_hash).then(data => {
         this.setState({ txnData: data });
       });

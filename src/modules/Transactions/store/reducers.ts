@@ -4,6 +4,7 @@ const initState = {
   transaction: null,
   transactionList: null,
   addressTransactions: null,
+  blockTransactions: null,
   isLoadingMore: false,
 };
 
@@ -24,6 +25,9 @@ export default function reducers(state: any = initState, action: any) {
     }
     case types.SET_ADDRESS_TRANSACTIONS: {
       return { ...state, addressTransactions: action.payload };
+    }
+    case types.SET_BLOCK_TRANSACTIONS: {
+      return { ...state, blockTransactions: action.payload };
     }
     default:
       return state;

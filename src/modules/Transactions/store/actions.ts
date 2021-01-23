@@ -43,3 +43,19 @@ export function setAddressTransactions(payload: any) {
     payload
   };
 }
+
+
+export function getBlockTransactions(payload: any, callback?: any) {
+  return {
+    type: types.GET_BLOCK_TRANSACTIONS,
+    payload,
+    callback
+  };
+}
+
+export function setBlockTransactions(payload: any) {
+  return {
+    type: types.SET_BLOCK_TRANSACTIONS,
+    payload
+  };
+}
