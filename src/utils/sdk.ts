@@ -18,3 +18,8 @@ export async function getBalancesData(hash: string) {
   const result = await provider.getBalances(hash);
   return result;
 }
+
+export async function getEpochData(hash: string) {
+  const result = await provider.getResource(hash, '0x1::Epoch::Epoch');
+  return result;
+}

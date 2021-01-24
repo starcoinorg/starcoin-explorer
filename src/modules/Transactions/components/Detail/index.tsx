@@ -9,7 +9,8 @@ import formatNumber from '@/utils/formatNumber';
 import CommonTime from '@/common/Time';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
-import Table from '@/common/Table';
+import PageViewTable from '@/common/View/PageViewTable';
+import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding } from '@starcoin/starcoin';
 import { getTxnData } from '@/utils/sdk';
@@ -61,33 +62,16 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   generateExtra() {
     const { transaction, classes } = this.props;
+    const isInitialLoad = !transaction;
     const events = transaction.hits.hits[0]._source.events || [];
-    const eventValues: any[] = [];
-    const keyValues: any[] = [];
-    const seqNumberValues: any[] = [];
+    const eventsTable: any[] = [];
     events.forEach((event: any) => {
-      eventValues.push(event.data);
-      keyValues.push(event.event_key);
-      seqNumberValues.push(formatNumber(event.event_seq_number));
+      const columns: any[] = [];
+      columns.push(['Data', event.data]);
+      columns.push(['Key', event.event_key]);
+      columns.push(['Seq', formatNumber(event.event_seq_number)]);
+      eventsTable.push(<PageViewTable columns={columns} />);
     });
-    const columns = [
-      {
-        name: 'Event',
-        values: eventValues,
-        className: classes.shrinkMaxCol,
-      },
-      {
-        name: 'Key',
-        values: keyValues,
-        className: classes.shrinkCol,
-
-      },
-      {
-        name: 'SeqNumber',
-        values: seqNumberValues,
-        minWidth: true,
-      },
-    ];
 
     return (
       <div>
@@ -102,7 +86,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
-              <Table columns={columns} />
+              <div className={classes.table}>
+                {isInitialLoad ? <Loading /> : events.length ? eventsTable : <Typography variant="body1">No Event Data</Typography>}
+              </div>
             </div>
           </AccordionDetails>
         </Accordion>

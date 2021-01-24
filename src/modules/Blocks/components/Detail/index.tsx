@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import Table from '@/common/Table';
 import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
@@ -12,6 +11,8 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PageViewTable from '@/common/View/PageViewTable';
+// import { getEpochData } from '@/utils/sdk';
 
 const useStyles = () => createStyles({
   table: {
@@ -38,7 +39,11 @@ interface IndexProps {
   getBlockTransactions: (data: any, callback?: any) => any;
 }
 
-class Index extends PureComponent<IndexProps> {
+interface IndexState {
+  epochData: any,
+}
+
+class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     hash: '',
@@ -50,6 +55,13 @@ class Index extends PureComponent<IndexProps> {
     getBlockTransactions: () => {}
   };
 
+  constructor(props: IndexProps) {
+    super(props);
+    this.state = {
+      epochData: undefined,
+    };
+  }
+
   componentDidMount() {
     const hash = this.props.match.params.hash;
     this.props.getBlock({ hash });
@@ -58,37 +70,18 @@ class Index extends PureComponent<IndexProps> {
 
   generateExtra() {
     const { block, blockTransactions, classes } = this.props;
-    console.log('blockTransactions', blockTransactions);
     const isInitialLoad = !block;
     const transactions = block.hits.hits[0]._source.body.Full || [];
-
     const events = blockTransactions.hits.hits[0]._source.events || [];
-    const eventValues: any[] = [];
-    const keyValues: any[] = [];
-    const seqNumberValues: any[] = [];
+    const eventsTable: any[] = [];
     events.forEach((event: any) => {
-      eventValues.push(event.data);
-      keyValues.push(event.event_key);
-      seqNumberValues.push(formatNumber(event.event_seq_number));
+      const columns: any[] = [];
+      columns.push(['Data', event.data]);
+      columns.push(['Key', event.event_key]);
+      columns.push(['Seq', formatNumber(event.event_seq_number)]);
+      eventsTable.push(<PageViewTable columns={columns} />);
     });
-    const columns = [
-      {
-        name: 'Event',
-        values: eventValues,
-        className: classes.shrinkMaxCol,
-      },
-      {
-        name: 'Key',
-        values: keyValues,
-        className: classes.shrinkCol,
 
-      },
-      {
-        name: 'SeqNumber',
-        values: seqNumberValues,
-        minWidth: true,
-      },
-    ];
     return (
       <div>
         <br />
@@ -101,9 +94,11 @@ class Index extends PureComponent<IndexProps> {
             <Typography variant="h5" gutterBottom>Transaction</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {isInitialLoad ? <Loading /> : transactions.length ? <TransactionTable
-              transactions={transactions}
-            /> : <Typography variant="body1">No Transaction Data</Typography>}
+            <div className={classes.table}>
+              {isInitialLoad ? <Loading /> : transactions.length ? <TransactionTable
+                transactions={transactions}
+              /> : <Typography variant="body1">No Transaction Data</Typography>}
+            </div>
           </AccordionDetails>
         </Accordion>
         <br />
@@ -117,7 +112,7 @@ class Index extends PureComponent<IndexProps> {
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
-              <Table columns={columns} />
+              {isInitialLoad ? <Loading /> : events.length ? eventsTable : <Typography variant="body1">No Event Data</Typography>}
             </div>
           </AccordionDetails>
         </Accordion>
@@ -131,7 +126,12 @@ class Index extends PureComponent<IndexProps> {
       return null;
     }
     const header = block.hits.hits[0]._source.header;
-    // const transactions = block.hits.hits[0]._source.body.Full;
+    // if (!this.state.epochData) {
+    //   getEpochData(header.author).then(data => {
+    //     console.log('epochData', data);
+    //     this.setState({ epochData: data });
+    //   });
+    // }
     const columns = [
       ['Hash', header.block_hash],
       ['Height', formatNumber(header.number)],

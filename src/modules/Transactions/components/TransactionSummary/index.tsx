@@ -58,7 +58,6 @@ class Index extends PureComponent<Props> {
   render() {
     const { transaction, className, classes } = this.props;
     const isTransaction = !!transaction._source;
-    console.log('isTransaction', isTransaction);
     const source = isTransaction ? transaction._source : transaction;
     const payloadInHex = isTransaction ? (source.user_transaction.raw_txn.payload || '') : (source.raw_txn.payload || '');
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
