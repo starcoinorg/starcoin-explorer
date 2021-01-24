@@ -8,7 +8,8 @@ import { Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import omit from 'lodash/omit';
 import { withBaseRoute } from '@/utils/helper';
-import Layout from './common/Layout';
+import Layout from '@/common/Layout';
+import Loading from '@/common/Loading';
 import './index.css';
 import store, { history } from './rootStore';
 
@@ -39,7 +40,7 @@ const MainLayout = (props: any) => {
           {props.title || 'Starcoin'}
         </title>
       </Helmet>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         {props.children}
       </Suspense>
     </Layout>

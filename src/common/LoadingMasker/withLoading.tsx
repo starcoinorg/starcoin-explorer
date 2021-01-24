@@ -1,11 +1,10 @@
 import React from 'react';
+import Loading from '@/common/Loading';
 
 const withLoading = (children: any) => {
   return (
-    <div>
-      Loading...
-    </div>
-  )
+    <Loading />
+  );
 };
 
 export default withLoading;

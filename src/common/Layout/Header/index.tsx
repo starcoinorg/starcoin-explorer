@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Loading from '@/common/Loading';
 import HeaderUpMD from './HeaderUpMD';
 import HeaderDownMD from './HeaderDownMD';
 
@@ -31,12 +32,12 @@ export default function Index() {
   return (
     <div>
       <div className={classes.headerUpMD}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
           <HeaderUpMD />
         </Suspense>
       </div>
       <div className={classes.headerDownMD}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
           <HeaderDownMD />
         </Suspense>
       </div>
