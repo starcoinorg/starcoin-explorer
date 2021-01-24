@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import { getEpochData } from '@/utils/sdk';
 import formatTime from '@/utils/formatTime';
+import formatNumber from '@/utils/formatNumber';
 import BlockTable from '../Blocks/components/Table';
 import TransactionTable from '../Transactions/components/Table';
 
@@ -25,6 +26,12 @@ const useStyles = (theme: Theme) => createStyles({
     searchField: {
       padding: theme.spacing(1),
     },
+    title: {
+      fontSize: '1.125rem',
+    },
+    metric: {
+      paddingLeft: theme.spacing(2),
+    }
   },
   [theme.breakpoints.up('sm')]: {
     cardContainer: {
@@ -37,6 +44,12 @@ const useStyles = (theme: Theme) => createStyles({
     searchField: {
       padding: theme.spacing(2),
     },
+    title: {
+      fontSize: '1.325rem',
+    },
+    metric: {
+      paddingLeft: theme.spacing(4),
+    }
   },
   [theme.breakpoints.down('md')]: {
     blocksAndTransactions: {
@@ -111,13 +124,11 @@ const useStyles = (theme: Theme) => createStyles({
   search: {
   },
   title: {
-    fontSize: '1.3125rem',
     fontWeight: 700
   },
   metric: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    paddingLeft: theme.spacing(4),
     borderLeft: '1px solid rgba(0, 0, 0, 0.075)',
   }
 });
@@ -209,9 +220,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const metrics: any[] = [];
     if (this.state.epochData) {
       metrics.push(['Epoch', `${this.state.epochData.number}th`]);
-      metrics.push(['Estimated Epoch Time', formatTime(this.state.epochData.start_time)]);
-      metrics.push(['Start - End Block Number', `${this.state.epochData.start_block_number} - ${this.state.epochData.end_block_number}`]);
-      metrics.push(['Target Block Time(m)', this.state.epochData.block_time_target]);
+      metrics.push(['Epoch Start Time', formatTime(this.state.epochData.start_time)]);
+      metrics.push(['Start - End Block', `${formatNumber(this.state.epochData.start_block_number)} - ${(this.state.epochData.end_block_number)}`]);
+      metrics.push(['Target Block Time(m)', formatNumber(this.state.epochData.block_time_target)]);
     }
     return (
       <>
@@ -252,7 +263,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                         <Typography className={classes.metricTitle} variant="body2">
                           {metric[0]}
                         </Typography>
-                        <Typography className={classes.title} variant="h4">
+                        <Typography className={classes.title}>
                           {metric[1]}
                         </Typography>
                       </div>
