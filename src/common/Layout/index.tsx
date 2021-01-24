@@ -1,11 +1,11 @@
-import React, { FC, memo } from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import Header from './Header/index';
 import Footer from './Footer/index';
 
-const styles = (theme: Theme) => createStyles({
+const useStyles = (theme: Theme) => createStyles({
   '@global': {
     body: {
       backgroundColor: theme.palette.grey[200],
@@ -46,57 +46,59 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
-export interface LayoutProps {
+export interface IndexProps {
   classes: any;
   children?: React.ReactNode;
 }
 
-const Layout: FC<LayoutProps> = (props) => {
-  const { children, classes } = props;
-  return (
-    <div className={classes.root}>
-      <Helmet titleTemplate="%s - StarCoin" title="StarCoin">
-        <html lang="en" />
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/manifest.json" />
-        <link
-          rel="mask-icon"
-          href="/safari-pinned-tab.svg"
-        />
-      </Helmet>
-      <div className={classes.header}>
-        <Header />
+class Index extends React.PureComponent<IndexProps> {
+  render() {
+    const { children, classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <Helmet titleTemplate="%s - StarCoin" title="StarCoin">
+          <html lang="en" />
+          <meta charSet="utf-8" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+          />
+          <link rel="manifest" href="/manifest.json" />
+          <link
+            rel="mask-icon"
+            href="/safari-pinned-tab.svg"
+          />
+        </Helmet>
+        <div className={classes.header}>
+          <Header />
+        </div>
+        <div
+          className={classNames({
+            [classes.content]: true,
+            [classes.contentNormal]: true,
+          })}
+        >
+          <div className={classes.contentInner}>{children}</div>
+          <Footer />
+        </div>
       </div>
-      <div
-        className={classNames({
-          [classes.content]: true,
-          [classes.contentNormal]: true,
-        })}
-      >
-        <div className={classes.contentInner}>{children}</div>
-        <Footer />
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default withStyles(styles)(memo(Layout));
+export default withStyles(useStyles)(Index);

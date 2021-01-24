@@ -1,7 +1,29 @@
 import React, { PureComponent } from 'react';
-// import withLoading from '@/common/LoadingMasker/withLoading';
+import Helmet from 'react-helmet';
+import { createStyles, withStyles } from '@material-ui/core/styles';
+import Loading from '@/common/Loading';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = () => createStyles({
+  root: {
+    padding: 16,
+  },
+  card: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  headline: {
+    paddingBottom: 8,
+  },
+});
 
 interface IndexProps {
+  classes: any;
   computedMatch: any;
   block: any;
   getBlock: (data: any, callback?: any) => any;
@@ -28,10 +50,12 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
+    const { classes } = this.props;
     const hash = this.props.computedMatch.params.hash;
     const { block, transaction } = this.props;
-    if (!block || !transaction) {
-      return null;
+    const isInitialLoad = !block || !transaction;
+    if (isInitialLoad) {
+      return <Loading />;
     }
     let url;
     let showNone = true;
@@ -55,11 +79,25 @@ class Index extends PureComponent<IndexProps> {
     if (url) {
       this.props.pushLocation(url);
     }
+
     if (!url && showNone) {
       return (
         <div>
-          <h3>Sorry, that page was not found.</h3>
-          Try going back to where you were or heading to the home page.
+          <Helmet>
+            <title>404</title>
+          </Helmet>
+          <Grid className={classes.root} container justify="center">
+            <Grid item xs={12} md={8} lg={4}>
+              <Card className={classes.card}>
+                <Typography variant="h5" className={classes.headline}>
+                  Sorry, that page was not found.
+                </Typography>
+                <Typography variant="subtitle1">
+                  Try going back to where you were or heading to the home page.
+                </Typography>
+              </Card>
+            </Grid>
+          </Grid>
         </div>
       );
     }
@@ -67,4 +105,4 @@ class Index extends PureComponent<IndexProps> {
   }
 }
 
-export default Index;
+export default withStyles(useStyles)(Index);
