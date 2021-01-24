@@ -10,12 +10,9 @@ interface BlocksRouterProps {
 class BlocksRouter extends PureComponent<BlocksRouterProps> {
   render() {
     const { computedMatch: match } = this.props;
-    console.log('BlocksRouter');
-    console.log('match', match);
-    console.log('props', this.props);
     return (
       <Switch>
-        <Route path={`${match.path}/detail/:hash`} render={(props: any) => (<Detail hash={props.match.params.hash} {...props} />)} />
+        <Route path={`${match.path}/detail/:hash`} render={(props: any) => (<Detail {...props} />)} />
         <Route exac path={`${match.path}`} render={(props: any) => (<List {...props} />)} />
       </Switch>
     );

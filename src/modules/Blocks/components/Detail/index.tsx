@@ -29,9 +29,7 @@ const useStyles = () => createStyles({
 
 interface IndexProps {
   classes: any;
-  hash: any;
   match: any;
-  computedMatch: any;
   block: any;
   blockTransactions: any;
   getBlock: (data: any, callback?: any) => any;
@@ -40,14 +38,13 @@ interface IndexProps {
 
 interface IndexState {
   epochData: any,
+  hash: string,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
-    hash: '',
     match: {},
-    computedMatch: {},
     block: null,
     blockTransactions: null,
     getBlock: () => {},
@@ -58,11 +55,29 @@ class Index extends PureComponent<IndexProps, IndexState> {
     super(props);
     this.state = {
       epochData: undefined,
+      hash: props.match.params.hash
     };
   }
 
   componentDidMount() {
-    const hash = this.props.match.params.hash;
+    this.fetchData();
+  }
+
+  static getDerivedStateFromProps(nextProps: any, prevState: any) {
+    if (nextProps.match.params.hash !== prevState.hash) {
+      return { ...prevState, hash: nextProps.match.params.hash };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (prevProps.match.params.hash !== this.state.hash && prevState.state !== this.state.hash) {
+      this.fetchData();
+    }
+  }
+
+  fetchData() {
+    const hash = this.state.hash;
     this.props.getBlock({ hash });
     this.props.getBlockTransactions({ hash });
   }
@@ -78,7 +93,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       columns.push(['Data', event.data]);
       columns.push(['Key', event.event_key]);
       columns.push(['Seq', formatNumber(event.event_seq_number)]);
-      eventsTable.push(<PageViewTable columns={columns} />);
+      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
     });
 
     return (
