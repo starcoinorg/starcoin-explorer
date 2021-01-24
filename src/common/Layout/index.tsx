@@ -39,7 +39,7 @@ const useStyles = (theme: Theme) => createStyles({
   },
   contentNormal: {
     top: theme.spacing(8),
-    minHeight: `calc(100% - ${theme.spacing(8)}px)`,
+    minHeight: `calc(100vh - ${theme.spacing(8)}px)`,
   },
   contentInner: {
     flex: '1 1 auto',
