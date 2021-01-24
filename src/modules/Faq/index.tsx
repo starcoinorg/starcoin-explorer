@@ -6,7 +6,6 @@ import Markdown from '@/common/Markdown';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CenteredView from '@/common/View/CenteredView';
-import FAQ from './faq.md';
 
 const useStyles = (theme: Theme) => createStyles({
   root: {
@@ -55,7 +54,7 @@ class Index extends PureComponent<IndexProps> {
               </Typography>
             </div>
             <div className={classes.root}>
-              <Markdown source={FAQ} />
+              <Markdown />
             </div>
           </Card>
         </CenteredView>

@@ -67,7 +67,6 @@ export const mdOptions = {
 const defaultMD = require('markdown-it')(mdOptions);
 
 interface ExternalProps {
-  source: string,
   'data-test'?: string,
   md?: MarkdownIt,
   className?: string,
