@@ -12,7 +12,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PageViewTable from '@/common/View/PageViewTable';
-// import { getEpochData } from '@/utils/sdk';
 
 const useStyles = () => createStyles({
   table: {
@@ -126,12 +125,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       return null;
     }
     const header = block.hits.hits[0]._source.header;
-    // if (!this.state.epochData) {
-    //   getEpochData(header.author).then(data => {
-    //     console.log('epochData', data);
-    //     this.setState({ epochData: data });
-    //   });
-    // }
+
     const columns = [
       ['Hash', header.block_hash],
       ['Height', formatNumber(header.number)],

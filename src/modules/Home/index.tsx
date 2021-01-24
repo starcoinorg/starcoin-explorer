@@ -4,12 +4,15 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import { getEpochData } from '@/utils/sdk';
+import formatTime from '@/utils/formatTime';
 import BlockTable from '../Blocks/components/Table';
 import TransactionTable from '../Transactions/components/Table';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
-    searchCard: {
+    cardContainer: {
       marginBottom: theme.spacing(1),
     },
     blocks: {
@@ -24,7 +27,7 @@ const useStyles = (theme: Theme) => createStyles({
     },
   },
   [theme.breakpoints.up('sm')]: {
-    searchCard: {
+    cardContainer: {
       marginBottom: theme.spacing(2),
     },
     cardHeader: {
@@ -66,7 +69,7 @@ const useStyles = (theme: Theme) => createStyles({
     display: 'flex',
     flex: '1 1 auto',
   },
-  searchCard: {
+  cardContainer: {
   },
   card: {
     display: 'flex',
@@ -111,6 +114,12 @@ const useStyles = (theme: Theme) => createStyles({
     fontSize: '1.3125rem',
     fontWeight: 700
   },
+  metric: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(4),
+    borderLeft: '1px solid rgba(0, 0, 0, 0.075)',
+  }
 });
 
 interface IndexProps {
@@ -123,7 +132,8 @@ interface IndexProps {
 }
 
 interface IndexState {
-  value: string
+  value: string,
+  epochData: any
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -139,13 +149,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
   constructor(props: IndexProps) {
     super(props);
     this.state = {
-      value: ''
+      value: '',
+      epochData: null
     };
   }
 
   componentDidMount() {
     this.props.getBlockList({ page: 1 });
     this.props.getTransactionList({ page: 1 });
+    getEpochData().then(data => {
+      this.setState({ epochData: data });
+    });
   }
 
   onChange = (event: any) => {
@@ -187,17 +201,21 @@ class Index extends PureComponent<IndexProps, IndexState> {
   );
 
   render() {
-    // if (!blockList || !transactionList) {
-    //   return null;
-    // }
     const { blockList, transactionList, classes } = this.props;
     const blocksHit = blockList ? blockList.hits.hits : [];
     const blocks = blocksHit.slice(0, 12);
     const transactionHit = transactionList ? transactionList.hits.hits : [];
     const transactions = transactionHit.slice(0, 15);
+    const metrics: any[] = [];
+    if (this.state.epochData) {
+      metrics.push(['Epoch', `${this.state.epochData.number}th`]);
+      metrics.push(['Estimated Epoch Time', formatTime(this.state.epochData.start_time)]);
+      metrics.push(['Start - End Block Number', `${this.state.epochData.start_block_number} - ${this.state.epochData.end_block_number}`]);
+      metrics.push(['Target Block Time(m)', this.state.epochData.block_time_target]);
+    }
     return (
       <>
-        <div className={classes.searchCard}>
+        <div className={classes.cardContainer}>
           <Card className={this.props.classes.card}>
             <div className={this.props.classes.cardHeader}>
               <Typography className={classes.title} variant="h4">Starcoin Explorer</Typography>
@@ -221,6 +239,28 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 </Typography>
               </Button>
             </div>
+          </Card>
+        </div>
+        <div className={classes.cardContainer}>
+          <Card className={this.props.classes.card}>
+            <Grid container className={classes.root} spacing={2}>
+              <Grid item xs={12}>
+                <Grid container justify="center" spacing={0}>
+                  {metrics.map((metric) => (
+                    <Grid key={metric[0]} item xs={6} md={3}>
+                      <div className={classes.metric}>
+                        <Typography className={classes.metricTitle} variant="body2">
+                          {metric[0]}
+                        </Typography>
+                        <Typography className={classes.title} variant="h4">
+                          {metric[1]}
+                        </Typography>
+                      </div>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+            </Grid>
           </Card>
         </div>
         <div className={classes.blocksAndTransactions}>

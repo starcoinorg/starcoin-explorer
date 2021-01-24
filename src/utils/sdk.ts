@@ -19,7 +19,7 @@ export async function getBalancesData(hash: string) {
   return result;
 }
 
-export async function getEpochData(hash: string) {
-  const result = await provider.getResource(hash, '0x1::Epoch::Epoch');
+export async function getEpochData() {
+  const result = await provider.getResource('0x1', '0x1::Epoch::Epoch');
   return result;
 }
