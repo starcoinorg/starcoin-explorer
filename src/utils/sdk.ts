@@ -5,21 +5,37 @@ const nodeUrl = process.env.REACT_APP_STARCOIN_NODE_URL;
 const provider = new providers.JsonrpcProvider(nodeUrl);
 
 export async function getTxnData(txnHash: string) {
-  const result = await provider.getTransaction(txnHash);
-  return result;
+  try {
+    const result = await provider.getTransaction(txnHash);
+    return result;
+  } catch (error: any) {
+    return false;
+  }
 }
 
 export async function getAddressData(hash: string) {
-  const result = await provider.getResource(hash, '0x1::Account::Account');
-  return result;
+  try {
+    const result = await provider.getResource(hash, '0x1::Account::Account');
+    return result;
+  } catch (error: any) {
+    return false;
+  }
 }
 
 export async function getBalancesData(hash: string) {
-  const result = await provider.getBalances(hash);
-  return result;
+  try {
+    const result = await provider.getBalances(hash);
+    return result;
+  } catch (error: any) {
+    return false;
+  }
 }
 
 export async function getEpochData() {
-  const result = await provider.getResource('0x1', '0x1::Epoch::Epoch');
-  return result;
+  try {
+    const result = await provider.getResource('0x1', '0x1::Epoch::Epoch');
+    return result;
+  } catch (error: any) {
+    return false;
+  }
 }

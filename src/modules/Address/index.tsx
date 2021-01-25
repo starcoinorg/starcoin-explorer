@@ -56,12 +56,16 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const hash = this.props.computedMatch.params.hash;
     if (!this.state.addressData) {
       getAddressData(hash).then(data => {
-        this.setState({ addressData: data });
+        if (data) {
+          this.setState({ addressData: data });
+        }
       });
     }
     if (!this.state.balancesData) {
       getBalancesData(hash).then(data => {
-        this.setState({ balancesData: data });
+        if (data) {
+          this.setState({balancesData: data});
+        }
       });
     }
     this.props.getAddressTransactions({ hash });

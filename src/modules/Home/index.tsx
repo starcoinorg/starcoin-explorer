@@ -169,7 +169,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
     this.props.getBlockList({ page: 1 });
     this.props.getTransactionList({ page: 1 });
     getEpochData().then(data => {
-      this.setState({ epochData: data });
+      if (data) {
+        this.setState({ epochData: data });
+      }
     });
   }
 
