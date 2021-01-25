@@ -29,7 +29,8 @@ export REACT_APP_STARCOIN_NODE_URL=<node_url>
 
 > check for updates first if needed
 >
->`$git pull`\
+>`$git clone git@github.com:starcoinorg/starcoin-explorer.git`\
+>`$cd starcoin-explorer`\
 >`$npm install`
 
 `$yarn start`
