@@ -1,7 +1,6 @@
 
 ### Version dependency in development
 
-
 `$node -v`\
 v10.12.0
 
@@ -18,8 +17,13 @@ Version 4.1.3
 6.4.1
 
 
-`$npx create-react-app  starcoin-web  --template typescript
+`$npx create-react-app  starcoin-explorer  --template typescript
 `
+## Set Environment Variable
+```
+export REACT_APP_STARCOIN_API_URL=<api_url>
+export REACT_APP_STARCOIN_NODE_URL=<node_url>
+```
 
 ## How to run
 
