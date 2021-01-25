@@ -123,12 +123,7 @@ class Index extends React.PureComponent<Props> {
         /
       </Typography>
     );
-    let iconElement = null;
-    if (icon != null) {
-      iconElement = (
-        <Icon className={classNames(classes.margin, classes.text)}>{icon}</Icon>
-      );
-    }
+    const iconElement = (icon != null) ? <Icon className={classNames(classes.margin, classes.text)}>{icon}</Icon> : null;
     return (
       <div
         className={classNames(
@@ -163,15 +158,17 @@ class Index extends React.PureComponent<Props> {
           />
           {slash}
           {
-            (pluralName && searchRoute) ? <>
-              <Link
-                className={classNames(classes.link, classes.margin, classes.static)}
-                variant={breadcrumbVariant}
-                path={searchRoute}
-                title={pluralName}
-              />
-              {slash}
-            </> : null
+            (pluralName && searchRoute) ? (
+              <>
+                <Link
+                  className={classNames(classes.link, classes.margin, classes.static)}
+                  variant={breadcrumbVariant}
+                  path={searchRoute}
+                  title={pluralName}
+                />
+                {slash}
+              </>
+            ) : null
           }
           <Typography
             className={classNames(classes.linkSelected, classes.static)}

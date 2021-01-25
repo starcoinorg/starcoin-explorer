@@ -14,7 +14,6 @@ import { getAddressData, getBalancesData } from '@/utils/sdk';
 const useStyles = () => createStyles({
   table: {
     width: '100%',
-    display: 'block',
   },
   shrinkMaxCol: {
     flex: '1 100 auto',
@@ -69,7 +68,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   generateExtra() {
-    const { addressTransactions } = this.props;
+    const { addressTransactions, classes } = this.props;
     const isInitialLoad = !addressTransactions;
     const transactions = addressTransactions && addressTransactions.hits.hits || [];
     return (
@@ -84,9 +83,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
             <Typography variant="h5" gutterBottom>Transactions</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {isInitialLoad ? <Loading /> : <TransactionTable
-              transactions={transactions}
-            />}
+            <div className={classes.table}>
+              {isInitialLoad ? <Loading /> : <TransactionTable
+                transactions={transactions}
+              />}
+            </div>
           </AccordionDetails>
         </Accordion>
       </div>
@@ -102,7 +103,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     let value;
     Object.keys(balancesData).forEach((key, idx) => {
       value = (idx === 0) ? key : '';
-      options.push(<option value={key}>{`${balancesData[key]} ${key.split('::')[2]}`}</option>);
+      options.push(<option key={key} value={key}>{`${balancesData[key]} ${key.split('::')[2]}`}</option>);
     });
 
     const token = (

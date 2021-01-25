@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -13,7 +12,6 @@ import PageViewTable from '@/common/View/PageViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding } from '@starcoin/starcoin';
-import { getTxnData } from '@/utils/sdk';
 
 const useStyles = () => createStyles({
   table: {
@@ -36,24 +34,13 @@ interface IndexProps {
   getTransaction: (data: any, callback?: any) => any;
 }
 
-interface IndexState {
-  txnData: any,
-}
-
-class Index extends PureComponent<IndexProps, IndexState> {
+class Index extends PureComponent<IndexProps> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     match: {},
     transaction: null,
     getTransaction: () => {}
   };
-
-  constructor(props: IndexProps) {
-    super(props);
-    this.state = {
-      txnData: undefined
-    };
-  }
 
   componentDidMount() {
     const hash = this.props.match.params.hash;
@@ -70,7 +57,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       columns.push(['Data', event.data]);
       columns.push(['Key', event.event_key]);
       columns.push(['Seq', formatNumber(event.event_seq_number)]);
-      eventsTable.push(<PageViewTable columns={columns} />);
+      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
     });
 
     return (
@@ -105,11 +92,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const payloadInHex = source.user_transaction.raw_txn.payload || '';
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
     const type = Object.keys(txnPayload)[0];
-    if (!this.state.txnData) {
-      getTxnData(source.transaction_hash).then(data => {
-        this.setState({ txnData: data });
-      });
-    }
+
     const columns = [
       ['Hash', source.transaction_hash],
       ['Type', type],
@@ -118,8 +101,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       ['Time', <CommonTime time={source.timestamp} />],
       ['State Root Hash', source.state_root_hash],
       ['Status', source.status],
-      ['Gas Used', source.gas_used],
-      ['Txn Data', this.state.txnData ? JSON.stringify(this.state.txnData) : <CircularProgress size="1rem" />],
+      ['Gas Used', source.gas_used]
     ];
 
     return (
