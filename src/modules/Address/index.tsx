@@ -64,7 +64,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     if (!this.state.balancesData) {
       getBalancesData(hash).then(data => {
         if (data) {
-          this.setState({balancesData: data});
+          this.setState({ balancesData: data });
         }
       });
     }
