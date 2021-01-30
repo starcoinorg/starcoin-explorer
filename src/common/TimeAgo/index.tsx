@@ -1,4 +1,5 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import formatTime from '@/utils/formatTime';
@@ -18,6 +19,7 @@ interface ExternalProps {
 
 interface InternalProps {
   classes: any,
+  i18n: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
@@ -53,12 +55,12 @@ class Index extends React.PureComponent<Props, IndexState> {
   }
 
   render() {
-    const { time, ...otherProps } = this.props;
-    const value = formatTime(time);
+    const { time, i18n, className, classes } = this.props;
+    const value = formatTime(time, i18n.language);
     return (
-      <Typography {...otherProps}>{value}</Typography>
+      <Typography className={className} classes={classes}>{value}</Typography>
     );
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

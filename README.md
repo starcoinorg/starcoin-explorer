@@ -1,5 +1,4 @@
-
-### Version dependency in development
+## Version dependency in development
 
 `$node -v`\
 v10.12.0
@@ -17,12 +16,12 @@ Version 4.1.3
 6.4.1
 
 
-`$npx create-react-app  starcoin-explorer  --template typescript
-`
-## Set Environment Variable
+`$npx create-react-app  starcoin-explorer  --template typescript`
+
+## Set Environment Variables
 ```
-export REACT_APP_STARCOIN_API_URL=<api_url>
-export REACT_APP_STARCOIN_NODE_URL=<node_url>
+export REACT_APP_STARCOIN_API_URL=<starcoin-explorer-api-url>
+export REACT_APP_STARCOIN_NODE_URL=<starcoin-js-sdk-node-url>
 ```
 
 ## How to run
@@ -51,16 +50,14 @@ Launches the test runner in the interactive watch mode.
 
 `$yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
-The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-You may serve it with a static server:
-
-  `npm install -g serve`\
-  `serve -s build`
-
-then visit: `http://localhost:5000` 
+>You may serve it locally with a static server for test before deploying.
+>
+>  `npm install -g serve`\
+>  `serve -s build`
+>
+>then visit: [http://localhost:5000](http://localhost:5000)
    

@@ -137,6 +137,7 @@ const useStyles = (theme: Theme) => createStyles({
 interface IndexProps {
   classes: any;
   t: any;
+  i18n: any;
   blockList: any;
   getBlockList: (data: any, callback?: any) => any;
   transactionList: any;
@@ -216,7 +217,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   );
 
   render() {
-    const { blockList, transactionList, classes, t } = this.props;
+    const { blockList, transactionList, classes, t, i18n } = this.props;
     const blocksHit = blockList ? blockList.hits.hits : [];
     const blocks = blocksHit.slice(0, 12);
     const transactionHit = transactionList ? transactionList.hits.hits : [];
@@ -224,7 +225,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const metrics: any[] = [];
     if (this.state.epochData) {
       metrics.push(['Epoch', `${this.state.epochData.number}th`]);
-      metrics.push([t('home.EpochStartTime'), formatTime(this.state.epochData.start_time)]);
+      metrics.push([t('home.EpochStartTime'), formatTime(this.state.epochData.start_time, i18n.language)]);
       metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${(this.state.epochData.end_block_number)}`]);
       metrics.push([t('home.TargetBlockTime'), formatNumber(this.state.epochData.block_time_target)]);
     }
