@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -29,6 +30,7 @@ const useStyles = () => createStyles({
 
 interface IndexProps {
   classes: any;
+  t: any;
   match: any;
   transaction: any;
   getTransaction: (data: any, callback?: any) => any;
@@ -48,15 +50,15 @@ class Index extends PureComponent<IndexProps> {
   }
 
   generateExtra() {
-    const { transaction, classes } = this.props;
+    const { transaction, classes, t } = this.props;
     const isInitialLoad = !transaction;
     const events = transaction.hits.hits[0]._source.events || [];
     const eventsTable: any[] = [];
     events.forEach((event: any) => {
       const columns: any[] = [];
-      columns.push(['Data', event.data]);
-      columns.push(['Key', event.event_key]);
-      columns.push(['Seq', formatNumber(event.event_seq_number)]);
+      columns.push([t('event.Data'), event.data]);
+      columns.push([t('event.Key'), event.event_key]);
+      columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
       eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
     });
 
@@ -69,12 +71,12 @@ class Index extends PureComponent<IndexProps> {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography variant="h5" gutterBottom>Events</Typography>
+            <Typography variant="h5" gutterBottom>{t('header.events')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
               <div className={classes.table}>
-                {isInitialLoad ? <Loading /> : events.length ? eventsTable : <Typography variant="body1">No Event Data</Typography>}
+                {isInitialLoad ? <Loading /> : events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>}
               </div>
             </div>
           </AccordionDetails>
@@ -84,7 +86,7 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    const { transaction } = this.props;
+    const { transaction, t } = this.props;
     if (!transaction) {
       return null;
     }
@@ -94,22 +96,22 @@ class Index extends PureComponent<IndexProps> {
     const type = Object.keys(txnPayload)[0];
 
     const columns = [
-      ['Hash', source.transaction_hash],
-      ['Type', type],
-      ['Block Hash', <CommonLink path={`/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
-      ['Block Height', formatNumber(source.block_number)],
-      ['Time', <CommonTime time={source.timestamp} />],
-      ['State Root Hash', source.state_root_hash],
-      ['Status', source.status],
-      ['Gas Used', source.gas_used]
+      [t('common.Hash'), source.transaction_hash],
+      [t('transaction.Type'), type],
+      [t('transaction.BlockHash'), <CommonLink path={`/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
+      [t('transaction.BlockHeight'), formatNumber(source.block_number)],
+      [t('common.Time'), <CommonTime time={source.timestamp} />],
+      [t('transaction.StateRootHash'), source.state_root_hash],
+      [t('transaction.Status'), source.status],
+      [t('common.GasUsed'), source.gas_used]
     ];
 
     return (
       <PageView
         id={source.transaction_hash}
-        title="Transaction"
-        name="Transaction"
-        pluralName="Transaction"
+        title={t('transaction.title')}
+        name={t('transaction.title')}
+        pluralName={t('transaction.title')}
         searchRoute="/transaction"
         bodyColumns={columns}
         extra={this.generateExtra()}
@@ -118,4 +120,4 @@ class Index extends PureComponent<IndexProps> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

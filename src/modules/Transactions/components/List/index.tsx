@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
@@ -23,6 +24,7 @@ interface InternalProps {
   isLoadingMore: boolean,
   getTransactionList: (data: any, callback?: any) => any,
   classes: any,
+  t: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
@@ -65,19 +67,19 @@ class Index extends PureComponent<Props, IndexState> {
   };
 
   render() {
-    const { transactionList, isLoadingMore, className, classes } = this.props;
+    const { transactionList, isLoadingMore, className, classes, t } = this.props;
     const isInitialLoad = !transactionList;
     const transactions = transactionList && transactionList.hits.hits || [];
     return (
       <div>
         <Helmet>
-          <title>Transactions</title>
+          <title>{t('header.transactions')}</title>
         </Helmet>
         <ListView
           className={className}
-          title="Transactions"
-          name="Transactions"
-          pluralName="Transactions"
+          title={t('header.transactions')}
+          name={t('header.transactions')}
+          pluralName={t('header.transactions')}
           content={
             <div>
               {isInitialLoad ? <Loading /> : <TransactionTable
@@ -103,4 +105,4 @@ class Index extends PureComponent<Props, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

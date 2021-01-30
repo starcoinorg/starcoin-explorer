@@ -57,7 +57,7 @@ class Index extends React.PureComponent<Props> {
         minWidth: true,
       },
       {
-        name: t('block.Time'),
+        name: t('common.Time'),
         values: timeValues,
         minWidth: true,
       },

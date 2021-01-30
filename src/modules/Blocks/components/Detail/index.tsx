@@ -146,10 +146,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const columns = [
       [t('common.Hash'), header.block_hash],
       [t('block.Height'), formatNumber(header.number)],
-      [t('block.Time'), <CommonTime time={block.time} />],
+      [t('common.Time'), <CommonTime time={block.time} />],
       [t('block.Author'), <CommonLink key={header.author} path={`/address/${header.author}`} title={header.author} />],
       [t('block.Difficulty'), header.difficulty],
-      [t('block.GasUsed'), header.gas_used],
+      [t('common.GasUsed'), header.gas_used],
       [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
     ];
 
