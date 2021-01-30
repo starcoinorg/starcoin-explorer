@@ -62,6 +62,7 @@ class Index extends PureComponent<IndexProps> {
       eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
     });
 
+    const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
     return (
       <div>
         <br />
@@ -76,7 +77,7 @@ class Index extends PureComponent<IndexProps> {
           <AccordionDetails>
             <div className={classes.table}>
               <div className={classes.table}>
-                {isInitialLoad ? <Loading /> : events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>}
+                {isInitialLoad ? <Loading /> : eventsContent}
               </div>
             </div>
           </AccordionDetails>
