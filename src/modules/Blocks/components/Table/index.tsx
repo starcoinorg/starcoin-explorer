@@ -1,4 +1,5 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@/common/Table';
 import BaseRouteLink from '@/common/BaseRouteLink';
@@ -24,13 +25,14 @@ interface ExternalProps {
 
 interface InternalProps {
   classes: any,
+  t: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { blocks, authorVisibleAt, className, classes } = this.props;
+    const { blocks, authorVisibleAt, className, classes, t } = this.props;
     const heightValues: any[] = [];
     const timeValues: any[] = [];
     const transactionsValues: any[] = [];
@@ -50,17 +52,17 @@ class Index extends React.PureComponent<Props> {
     });
     const columns = [
       {
-        name: 'Height',
+        name: t('block.Height'),
         values: heightValues,
         minWidth: true,
       },
       {
-        name: 'Time',
+        name: t('block.Time'),
         values: timeValues,
         minWidth: true,
       },
       {
-        name: 'Transactions',
+        name: t('block.Transactions'),
         numeric: true,
         values: transactionsValues,
         className: classes.transactionsCol,
@@ -76,4 +78,4 @@ class Index extends React.PureComponent<Props> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

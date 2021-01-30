@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -135,6 +136,7 @@ const useStyles = (theme: Theme) => createStyles({
 
 interface IndexProps {
   classes: any;
+  t: any;
   blockList: any;
   getBlockList: (data: any, callback?: any) => any;
   transactionList: any;
@@ -203,7 +205,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
               onClick={() => this.props.pushLocation(url)}
             >
               <Typography className={this.props.classes.search} variant="body1">
-                View All
+                {this.props.t('home.viewAll')}
               </Typography>
             </Button>
           </div>
@@ -214,7 +216,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   );
 
   render() {
-    const { blockList, transactionList, classes } = this.props;
+    const { blockList, transactionList, classes, t } = this.props;
     const blocksHit = blockList ? blockList.hits.hits : [];
     const blocks = blocksHit.slice(0, 12);
     const transactionHit = transactionList ? transactionList.hits.hits : [];
@@ -222,23 +224,23 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const metrics: any[] = [];
     if (this.state.epochData) {
       metrics.push(['Epoch', `${this.state.epochData.number}th`]);
-      metrics.push(['Epoch Start Time', formatTime(this.state.epochData.start_time)]);
-      metrics.push(['Start - End Block', `${formatNumber(this.state.epochData.start_block_number)} - ${(this.state.epochData.end_block_number)}`]);
-      metrics.push(['Target Block Time(m)', formatNumber(this.state.epochData.block_time_target)]);
+      metrics.push([t('home.EpochStartTime'), formatTime(this.state.epochData.start_time)]);
+      metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${(this.state.epochData.end_block_number)}`]);
+      metrics.push([t('home.TargetBlockTime'), formatNumber(this.state.epochData.block_time_target)]);
     }
     return (
       <>
         <div className={classes.cardContainer}>
           <Card className={this.props.classes.card}>
             <div className={this.props.classes.cardHeader}>
-              <Typography className={classes.title} variant="h4">Starcoin Explorer</Typography>
+              <Typography className={classes.title} variant="h4">Starcoin {t('home.explorer')}</Typography>
             </div>
             <div className={classes.searchField}>
               <TextField
                 id="standard-basic"
                 className={classes.textField}
                 value={this.state.value}
-                label="Search by block/tx hash"
+                label={t('home.searchHint')}
                 onChange={this.onChange}
               />
               <Button
@@ -248,7 +250,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 onClick={this.onSearch}
               >
                 <Typography className={classes.search} variant="body1">
-                  SEARCH
+                  {t('home.search')}
                 </Typography>
               </Button>
             </div>
@@ -278,7 +280,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         </div>
         <div className={classes.blocksAndTransactions}>
           {this.renderCard(
-            'Explore Blocks',
+            t('home.ExploreBlocks'),
             '/blocks',
             <BlockTable
               blocks={blocks}
@@ -289,7 +291,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
             classes.blocksSpacer,
           )}
           {this.renderCard(
-            'Explore Transactions',
+            t('home.ExploreTransactions'),
             '/transactions',
             <TransactionTable
               transactions={transactions}
@@ -303,4 +305,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

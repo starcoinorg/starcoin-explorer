@@ -10,6 +10,25 @@
   "footer": {
     "content": "版权所有"
   },
+  "home": {
+    "title": "首页",
+    "explorer": "浏览器",
+    "search": "查找",
+    "searchHint": "查找区块/交易hash",
+    "viewAll": "更多",
+    "ExploreBlocks": "最新区块",
+    "ExploreTransactions": "最新交易",
+    "EpochStartTime": "Epoch开始时间",
+    "StartEndBlock": "开始 - 结束 区块",
+    "TargetBlockTime": "目标区块时间(分钟)",
+    "": ""
+  },
+  "block": {
+    "Height": "高度",
+    "Time": "时间",
+    "Transactions": "交易量",
+    "": ""
+  },
   "ecosystems": {
     "cards": {
       "title_0": "Starcoin",

@@ -10,6 +10,25 @@
   "footer": {
     "content": "All rights reserved"
   },
+  "home": {
+    "title": "Home",
+    "explorer": "Explorer",
+    "search": "SEARCH",
+    "searchHint": "Search by block/tx hash",
+    "viewAll": "VIEW ALL",
+    "ExploreBlocks": "Explore Blocks",
+    "ExploreTransactions": "Explore Transactions",
+    "EpochStartTime": "Epoch Start Time",
+    "StartEndBlock": "Start - End Block",
+    "TargetBlockTime": "Target Block Time(m)",
+    "": ""
+  },
+  "block": {
+    "Height": "Height",
+    "Time": "Time",
+    "Transactions": "Transactions",
+    "": ""
+  },
   "ecosystems": {
     "cards": {
       "title_0": "Starcoin",
