@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - 'releases/**'
+      - main
 
 jobs:
   publish:
@@ -25,7 +25,11 @@ jobs:
             ${{ runner.os }}-node-
 
       - run: npm ci
-      - run: npm run build
+      - name: Build
+        run: npm run build
+        env:
+          REACT_APP_STARCOIN_API_URL: http://8.131.48.230:8080
+          REACT_APP_STARCOIN_NODE_URL: http://39.102.35.25:9850
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
