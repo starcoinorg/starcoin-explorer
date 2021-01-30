@@ -95,6 +95,7 @@ function Index(props: any) {
   const { classes } = props;
   const { t, i18n }: { t: any, i18n: any } = useTranslation();
   const userLanguage = i18n.language || 'en';
+  console.log('userLanguage', userLanguage);
   const [languageMenu, setLanguageMenu] = React.useState(null);
   const handleLanguageIconClick = (event: any) => {
     setLanguageMenu(event.currentTarget);
@@ -142,6 +143,8 @@ function Index(props: any) {
       ]}
     />
   );
+  const current = LANGUAGES_LABEL.filter((language) => language.code === userLanguage);
+  const currentLabel = current[0] && current[0].text || '-';
   return (
     <div
       className={classNames({
@@ -174,7 +177,7 @@ function Index(props: any) {
             >
               <LanguageIcon />
               <span className={classes.language}>
-                {LANGUAGES_LABEL.filter((language) => language.code === userLanguage)[0].text}
+                {currentLabel}
               </span>
               <ExpandMoreIcon fontSize="small" />
             </Button>
