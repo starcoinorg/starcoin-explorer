@@ -2,6 +2,7 @@
   "header": {
     "home": "首页",
     "blocks": "区块",
+    "events": "事件",
     "transactions": "交易",
     "ecosystems": "生态圈",
     "faq": "常见问题",
@@ -11,10 +12,9 @@
     "content": "版权所有"
   },
   "home": {
-    "title": "首页",
     "explorer": "浏览器",
     "search": "查找",
-    "searchHint": "查找区块/交易hash",
+    "searchHint": "区块/交易哈希",
     "viewAll": "更多",
     "ExploreBlocks": "最新区块",
     "ExploreTransactions": "最新交易",
@@ -24,9 +24,32 @@
     "": ""
   },
   "block": {
+    "title": "区块",
     "Height": "高度",
     "Time": "时间",
+    "Author": "创建者",
+    "Difficulty": "难度",
+    "GasUsed": "Gas消耗",
+    "Difficulty": "难度",
+    "ParentHash": "父块哈希",
     "Transactions": "交易量",
+    "": ""
+  },
+  "transaction": {
+    "title": "交易",
+    "NoTransactionData": "没有交易数据",
+    "": ""
+  },
+  "event": {
+    "title": "事件",
+    "NoEventData": "没有事件数据",
+    "Data": "数据",
+    "Key": "键值",
+    "Seq": "序号",
+    "": ""
+  },
+  "common": {
+    "Hash": "哈希",
     "": ""
   },
   "ecosystems": {

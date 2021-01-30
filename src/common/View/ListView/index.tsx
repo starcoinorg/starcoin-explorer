@@ -4,6 +4,7 @@ import CenteredView from '@/common/View/CenteredView';
 import CommonHeader from '@/common/View/CommonHeader';
 
 interface ExternalProps {
+  title: string,
   name: string,
   pluralName: string,
   content: any,
@@ -12,11 +13,11 @@ interface ExternalProps {
 
 class Index extends React.PureComponent<ExternalProps> {
   render() {
-    const { name, pluralName, content, className } = this.props;
+    const { title, name, pluralName, content, className } = this.props;
     return (
       <CenteredView className={className}>
         <Card>
-          <CommonHeader name={name} pluralName={pluralName} />
+          <CommonHeader title={title} name={name} pluralName={pluralName} />
           {content}
         </Card>
       </CenteredView>

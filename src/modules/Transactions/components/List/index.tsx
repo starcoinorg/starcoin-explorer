@@ -75,6 +75,7 @@ class Index extends PureComponent<Props, IndexState> {
         </Helmet>
         <ListView
           className={className}
+          title="Transactions"
           name="Transactions"
           pluralName="Transactions"
           content={

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
@@ -23,6 +24,7 @@ interface InternalProps {
   isLoadingMore: boolean,
   getBlockList: (data: any, callback?: any) => any,
   classes: any,
+  t: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
@@ -65,19 +67,20 @@ class Index extends PureComponent<Props, IndexState> {
   };
 
   render() {
-    const { blockList, classes, className, isLoadingMore } = this.props;
+    const { blockList, classes, t, className, isLoadingMore } = this.props;
     const isInitialLoad = !blockList;
     const hits = blockList && blockList.hits.hits || [];
     const blocks = hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number);
     return (
       <div>
         <Helmet>
-          <title>Blocks</title>
+          <title>{t('header.blocks')}</title>
         </Helmet>
         <ListView
           className={className}
-          name="Block"
-          pluralName="Blocks"
+          title={t('header.blocks')}
+          name={t('header.blocks')}
+          pluralName={t('header.blocks')}
           content={
             <div>
               {isInitialLoad ? <Loading /> : <BlockTable
@@ -105,4 +108,4 @@ class Index extends PureComponent<Props, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

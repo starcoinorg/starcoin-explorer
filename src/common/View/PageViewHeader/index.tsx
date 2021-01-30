@@ -1,4 +1,5 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -107,13 +108,14 @@ interface ExternalProps {
 
 interface InternalProps {
   classes: any,
+  t: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { id, title, name, pluralName, searchRoute, icon, backgroundColorClassName, className, classes } = this.props;
+    const { id, title, name, pluralName, searchRoute, icon, backgroundColorClassName, className, classes, t } = this.props;
     const breadcrumbVariant = 'body1';
     const slash = (
       <Typography
@@ -154,7 +156,7 @@ class Index extends React.PureComponent<Props> {
             className={classNames(classes.link, classes.margin, classes.static)}
             variant={breadcrumbVariant}
             path="/"
-            title="Home"
+            title={t('header.home')}
           />
           {slash}
           {
@@ -182,4 +184,4 @@ class Index extends React.PureComponent<Props> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

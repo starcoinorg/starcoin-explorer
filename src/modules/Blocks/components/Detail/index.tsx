@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
@@ -29,6 +30,7 @@ const useStyles = () => createStyles({
 
 interface IndexProps {
   classes: any;
+  t: any;
   match: any;
   block: any;
   blockTransactions: any;
@@ -83,16 +85,16 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   generateExtra() {
-    const { block, blockTransactions, classes } = this.props;
+    const { block, blockTransactions, classes, t } = this.props;
     const isInitialLoad = !block;
     const transactions = block.hits.hits[0]._source.body.Full || [];
     const events = blockTransactions.hits.hits[0]._source.events || [];
     const eventsTable: any[] = [];
     events.forEach((event: any) => {
       const columns: any[] = [];
-      columns.push(['Data', event.data]);
-      columns.push(['Key', event.event_key]);
-      columns.push(['Seq', formatNumber(event.event_seq_number)]);
+      columns.push([t('event.Data'), event.data]);
+      columns.push([t('event.Key'), event.event_key]);
+      columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
       eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
     });
 
@@ -105,13 +107,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography variant="h5" gutterBottom>Transaction</Typography>
+            <Typography variant="h5" gutterBottom>{t('transaction.title')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
               {isInitialLoad ? <Loading /> : transactions.length ? <TransactionTable
                 transactions={transactions}
-              /> : <Typography variant="body1">No Transaction Data</Typography>}
+              /> : <Typography variant="body1">{t('transaction.NoTransactionData')}</Typography>}
             </div>
           </AccordionDetails>
         </Accordion>
@@ -122,11 +124,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography variant="h5" gutterBottom>Events</Typography>
+            <Typography variant="h5" gutterBottom>{t('header.events')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : events.length ? eventsTable : <Typography variant="body1">No Event Data</Typography>}
+              {isInitialLoad ? <Loading /> : events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>}
             </div>
           </AccordionDetails>
         </Accordion>
@@ -135,28 +137,28 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    const { block, blockTransactions } = this.props;
+    const { block, blockTransactions, t } = this.props;
     if (!block || !blockTransactions) {
       return null;
     }
     const header = block.hits.hits[0]._source.header;
 
     const columns = [
-      ['Hash', header.block_hash],
-      ['Height', formatNumber(header.number)],
-      ['Time', <CommonTime time={block.time} />],
-      ['Author', <CommonLink key={header.author} path={`/address/${header.author}`} title={header.author} />],
-      ['Difficulty', header.difficulty],
-      ['Gas Used', header.gas_used],
-      ['Parant Hash', <CommonLink key={header.parent_hash} path={`/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
+      [t('common.Hash'), header.block_hash],
+      [t('block.Height'), formatNumber(header.number)],
+      [t('block.Time'), <CommonTime time={block.time} />],
+      [t('block.Author'), <CommonLink key={header.author} path={`/address/${header.author}`} title={header.author} />],
+      [t('block.Difficulty'), header.difficulty],
+      [t('block.GasUsed'), header.gas_used],
+      [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
     ];
 
     return (
       <PageView
         id={header.block_hash}
-        title="Block"
-        name="Block"
-        pluralName="Blocks"
+        title={t('block.title')}
+        name={t('block.title')}
+        pluralName={t('header.blocks')}
         searchRoute="/blocks"
         bodyColumns={columns}
         extra={this.generateExtra()}
@@ -165,4 +167,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));
