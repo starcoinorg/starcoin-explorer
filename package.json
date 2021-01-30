@@ -1,6 +1,6 @@
 {
   "name": "starcoin-explorer",
-  "version": "0.3.0",
+  "version": "0.3.6",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.0.0",

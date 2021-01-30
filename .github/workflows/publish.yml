@@ -6,7 +6,7 @@ on:
       - release*
 
 jobs:
-  publish:
+  deploy:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -28,9 +28,9 @@ jobs:
       - run: npm run build
 
       - name: Deploy
-          uses: peaceiris/actions-gh-pages@v3
-          env:
-            ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-            EXTERNAL_REPOSITORY: starcoinorg/starcoin-explorer.github.io
-            PUBLISH_BRANCH: main
-            PUBLISH_DIR: ./build
+        uses: peaceiris/actions-gh-pages@v3
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          EXTERNAL_REPOSITORY: starcoinorg/starcoin-explorer.github.io
+          PUBLISH_BRANCH: main
+          PUBLISH_DIR: ./build
