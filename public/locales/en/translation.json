@@ -7,6 +7,9 @@
     "faq": "FAQ",
     "changeLanguage": "Change language"
   },
+  "footer": {
+    "content": "All rights reserved"
+  },
   "ecosystems": {
     "cards": {
       "title_0": "Starcoin",

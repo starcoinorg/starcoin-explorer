@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -47,12 +48,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Footer() {
   const classes = useStyles();
-
+  const { t } = useTranslation();
   return (
     <div className={classes.root}>
       <div className={classes.secondRow}>
         <Typography className={classes.copyright} variant="caption">
-          © 2018-{year} Starcoin.org All rights reserved.
+          © 2018-{year} Starcoin.org {t('footer.content')}.
         </Typography>
       </div>
     </div>

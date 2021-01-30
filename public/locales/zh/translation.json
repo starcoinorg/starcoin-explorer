@@ -7,6 +7,9 @@
     "faq": "常见问题",
     "changeLanguage": "更改语言"
   },
+  "footer": {
+    "content": "版权所有"
+  },
   "ecosystems": {
     "cards": {
       "title_0": "Starcoin",

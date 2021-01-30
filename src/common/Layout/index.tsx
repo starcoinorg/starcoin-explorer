@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Helmet from 'react-helmet';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Loading from '@/common/Loading';
 import classNames from 'classnames';
 import Header from './Header/index';
 import Footer from './Footer/index';
@@ -94,7 +95,9 @@ class Index extends React.PureComponent<IndexProps> {
           })}
         >
           <div className={classes.contentInner}>{children}</div>
-          <Footer />
+          <Suspense fallback={<Loading />}>
+            <Footer />
+          </Suspense>
         </div>
       </div>
     );
