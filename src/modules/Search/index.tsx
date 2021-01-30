@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
@@ -24,6 +25,7 @@ const useStyles = () => createStyles({
 
 interface IndexProps {
   classes: any;
+  t: any;
   computedMatch: any;
   block: any;
   getBlock: (data: any, callback?: any) => any;
@@ -50,7 +52,7 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
     const hash = this.props.computedMatch.params.hash;
     const { block, transaction } = this.props;
     const isInitialLoad = !block || !transaction;
@@ -90,10 +92,10 @@ class Index extends PureComponent<IndexProps> {
             <Grid item xs={12} md={8} lg={4}>
               <Card className={classes.card}>
                 <Typography variant="h5" className={classes.headline}>
-                  Sorry, that page was not found.
+                  {t('home.searchNotFound')}
                 </Typography>
                 <Typography variant="subtitle1">
-                  Try going back to where you were or heading to the home page.
+                  {t('home.searchNotFoundDetail')}
                 </Typography>
               </Card>
             </Grid>
@@ -105,4 +107,4 @@ class Index extends PureComponent<IndexProps> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));

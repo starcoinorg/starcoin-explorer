@@ -15,6 +15,8 @@
     "explorer": "Explorer",
     "search": "SEARCH",
     "searchHint": "Search by block/tx hash",
+    "searchNotFound": "Sorry, that page was not found.",
+    "searchNotFoundDetail": "Try going back to where you were or heading to the home page.",
     "viewAll": "VIEW ALL",
     "ExploreBlocks": "Explore Blocks",
     "ExploreTransactions": "Explore Transactions",
