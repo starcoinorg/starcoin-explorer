@@ -11,11 +11,13 @@ import Collapse from '@material-ui/core/Collapse';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
+import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Accordion from '@material-ui/core/Accordion';
 import LanguageIcon from '@material-ui/icons/Translate';
-import { LANGUAGES_LABEL } from '@/utils/constants';
+import { LANGUAGES_LABEL, AVAILABLE_NETWORKS } from '@/utils/constants';
+import { getNetwork } from '@/utils/helper';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
@@ -68,6 +70,9 @@ const useStyles = (theme: Theme) => createStyles({
   },
   button: {
     width: '100%',
+  },
+  noUpperCase: {
+    textTransform: 'none'
   },
   buttonLabel: {
     width: '100%',
@@ -187,9 +192,25 @@ function Index(props: any) {
       id: 'faq',
       label: t('header.faq'),
       selected: location.pathname.startsWith('/faq'),
-      href: 'faq',
+      href: '/faq',
     },
   ];
+
+  const userNetwork = getNetwork();
+  const handleNetworkExpandedChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  const onClickButtonNetwork = (network?: string) => {
+    if (network && network !== userNetwork) {
+      localStorage.setItem('network', network);
+      window.location.href = '/';
+    }
+    setExpanded(false);
+    setShowMenu(false);
+  };
+
+  const currentNetwork = AVAILABLE_NETWORKS.filter((network) => network === userNetwork);
+  const currentNetworkLabel = currentNetwork[0] || '-';
 
   // set a default value before locales/*/transaction.json is loaded
   const current = LANGUAGES_LABEL.filter((language) => language.code === userLanguage);
@@ -227,11 +248,39 @@ function Index(props: any) {
                 </Button>
               </BaseRouteLink>
             ))}
-            <Accordion expanded={expanded === 'panel1'} onChange={handleI18nExpandedChange('panel1')} className={classes.i18n}>
+            <Accordion expanded={expanded === 'panel1'} onChange={handleNetworkExpandedChange('panel1')} className={classes.i18n}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
+              >
+                <SettingsEthernetIcon fontSize="small" />&nbsp;
+                <Typography variant="body1" gutterBottom>{currentNetworkLabel}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className={classes.i18nMenu}>
+                  {
+                    AVAILABLE_NETWORKS.map((network) => {
+                      return (
+                        <Button
+                          color={network === userNetwork ? 'primary' : 'default'}
+                          key={network}
+                          className={classNames(classes.button, classes.noUpperCase)}
+                          onClick={() => onClickButtonNetwork(network)}
+                        >
+                          <Typography variant="body1" className={classes.buttonLabel}>{network}</Typography>
+                        </Button>
+                      );
+                    })
+                  }
+                </div>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion expanded={expanded === 'panel2'} onChange={handleI18nExpandedChange('panel2')} className={classes.i18n}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
               >
                 <LanguageIcon />
                 <Typography variant="body1" gutterBottom>{currentLabel}</Typography>
