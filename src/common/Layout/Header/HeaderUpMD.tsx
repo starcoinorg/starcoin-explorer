@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Tooltip from '@material-ui/core/Tooltip';
+import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import LanguageIcon from '@material-ui/icons/Translate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { LANGUAGES_LABEL } from '@/utils/constants';
@@ -107,6 +108,98 @@ function Index(props: any) {
     setLanguageMenu(null);
   };
 
+  // set a default value before locales/*/transaction.json is loaded
+  const current = LANGUAGES_LABEL.filter((language) => language.code === userLanguage);
+  const currentLabel = current[0] && current[0].text || '-';
+  const i18nMenu = (
+    <>
+      <Tooltip title={t('header.changeLanguage')} enterDelay={300}>
+        <Button
+          className={classes.i18n}
+          color="inherit"
+          aria-owns={languageMenu ? 'language-menu' : undefined}
+          aria-haspopup="true"
+          onClick={handleLanguageIconClick}
+        >
+          <LanguageIcon />
+          <span className={classes.language}>
+            {currentLabel}
+          </span>
+          <ExpandMoreIcon fontSize="small" />
+        </Button>
+      </Tooltip>
+      <Menu
+        id="language-menu"
+        anchorEl={languageMenu}
+        open={Boolean(languageMenu)}
+        onClose={() => handleLanguageMenuClose()}
+      >
+        {LANGUAGES_LABEL.map((language) => (
+          <MenuItem
+            key={language.code}
+            selected={userLanguage === language.code}
+            onClick={() => handleLanguageMenuClose(language.code)}
+          >
+            {language.text}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+
+  const userNetwork = localStorage.getItem('network') || 'halley';
+  const [networkMenu, setNetworkMenu] = React.useState(null);
+  const handleNetworkIconClick = (event: any) => {
+    setNetworkMenu(event.currentTarget);
+  };
+
+  const handleNetworkMenuClose = (network?: string) => {
+    if (network) {
+      localStorage.setItem('network', network);
+    }
+    setNetworkMenu(null);
+  };
+
+  const networkAviable = ['halley', 'proxima'];
+  // set a default value before locales/*/transaction.json is loaded
+  const currentNetwork = networkAviable.filter((network) => network === userNetwork);
+  const currentNetworkLabel = currentNetwork[0] || '-';
+  const networkMenus = (
+    <>
+      <Tooltip title={t('header.changeNetwork')} enterDelay={300}>
+        <Button
+          className={classes.i18n}
+          color="inherit"
+          aria-owns={networkMenu ? 'network-menu' : undefined}
+          aria-haspopup="true"
+          onClick={handleNetworkIconClick}
+        >
+          <SettingsEthernetIcon fontSize="small" />
+          <span className={classes.language}>
+            {currentNetworkLabel}
+          </span>
+          <ExpandMoreIcon fontSize="small" />
+        </Button>
+      </Tooltip>
+      <Menu
+        id="network-menu"
+        anchorEl={networkMenu}
+        open={Boolean(networkMenu)}
+        onClose={() => handleNetworkMenuClose()}
+      >
+        {networkAviable.map((network) => (
+          <MenuItem
+            key={network}
+            selected={userNetwork === network}
+            onClick={() => handleNetworkMenuClose(network)}
+          >
+            {network}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+
   const pathname = window.location.pathname;
   const tabs = (
     <Tabs
@@ -142,9 +235,7 @@ function Index(props: any) {
       ]}
     />
   );
-  // set a default value before locales/*/transaction.json is loaded
-  const current = LANGUAGES_LABEL.filter((language) => language.code === userLanguage);
-  const currentLabel = current[0] && current[0].text || '-';
+
   return (
     <div
       className={classNames({
@@ -167,37 +258,8 @@ function Index(props: any) {
             </div>
           </BaseRouteLink>
           {tabs}
-          <Tooltip title={t('header.changeLanguage')} enterDelay={300}>
-            <Button
-              className={classes.i18n}
-              color="inherit"
-              aria-owns={languageMenu ? 'language-menu' : undefined}
-              aria-haspopup="true"
-              onClick={handleLanguageIconClick}
-            >
-              <LanguageIcon />
-              <span className={classes.language}>
-                {currentLabel}
-              </span>
-              <ExpandMoreIcon fontSize="small" />
-            </Button>
-          </Tooltip>
-          <Menu
-            id="language-menu"
-            anchorEl={languageMenu}
-            open={Boolean(languageMenu)}
-            onClose={() => handleLanguageMenuClose()}
-          >
-            {LANGUAGES_LABEL.map((language) => (
-              <MenuItem
-                key={language.code}
-                selected={userLanguage === language.code}
-                onClick={() => handleLanguageMenuClose(language.code)}
-              >
-                {language.text}
-              </MenuItem>
-            ))}
-          </Menu>
+          {networkMenus}
+          {i18nMenu}
         </div>
       </div>
     </div>

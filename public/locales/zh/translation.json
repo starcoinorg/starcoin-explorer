@@ -6,7 +6,8 @@
     "transactions": "交易",
     "ecosystems": "生态圈",
     "faq": "常见问题",
-    "changeLanguage": "更改语言"
+    "changeLanguage": "更改语言",
+    "changeNetwork": "切换网络"
   },
   "footer": {
     "content": "版权所有"

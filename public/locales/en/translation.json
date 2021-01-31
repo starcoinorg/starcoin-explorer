@@ -6,7 +6,8 @@
     "events": "Events",
     "ecosystems": "Ecosystems",
     "faq": "FAQ",
-    "changeLanguage": "Change language"
+    "changeLanguage": "Change Language",
+    "changeNetwork": "Change Network"
   },
   "footer": {
     "content": "All rights reserved"
