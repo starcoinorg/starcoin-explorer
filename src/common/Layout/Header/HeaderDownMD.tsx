@@ -191,6 +191,10 @@ function Index(props: any) {
     },
   ];
 
+  // set a default value before locales/*/transaction.json is loaded
+  const current = LANGUAGES_LABEL.filter((language) => language.code === userLanguage);
+  const currentLabel = current[0] && current[0].text || '-';
+
   return (
     <div className={classes.root}>
       <div className={classNames(classes.header, classes.pad)}>
@@ -230,7 +234,7 @@ function Index(props: any) {
                 id="panel1a-header"
               >
                 <LanguageIcon />
-                <Typography variant="body1" gutterBottom>{LANGUAGES_LABEL.filter((language) => language.code === userLanguage)[0].text}</Typography>
+                <Typography variant="body1" gutterBottom>{currentLabel}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <div className={classes.i18nMenu}>
