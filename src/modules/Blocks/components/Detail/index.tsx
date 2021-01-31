@@ -5,7 +5,6 @@ import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
-import CommonTime from '@/common/Time';
 import formatNumber from '@/utils/formatNumber';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -145,11 +144,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
       return null;
     }
     const header = block.hits.hits[0]._source.header;
-
     const columns = [
       [t('common.Hash'), header.block_hash],
       [t('block.Height'), formatNumber(header.number)],
-      [t('common.Time'), <CommonTime time={block.time} />],
+      [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
       [t('block.Author'), <CommonLink key={header.author} path={`/address/${header.author}`} title={header.author} />],
       [t('block.Difficulty'), header.difficulty],
       [t('common.GasUsed'), header.gas_used],

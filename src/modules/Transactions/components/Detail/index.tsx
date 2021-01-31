@@ -6,7 +6,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
-import CommonTime from '@/common/Time';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
 import PageViewTable from '@/common/View/PageViewTable';
@@ -101,7 +100,7 @@ class Index extends PureComponent<IndexProps> {
       [t('transaction.Type'), type],
       [t('transaction.BlockHash'), <CommonLink path={`/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
       [t('transaction.BlockHeight'), formatNumber(source.block_number)],
-      [t('common.Time'), <CommonTime time={source.timestamp} />],
+      [t('common.Time'), new Date(parseInt(source.timestamp, 10)).toLocaleString()],
       [t('transaction.StateRootHash'), source.state_root_hash],
       [t('transaction.Status'), source.status],
       [t('common.GasUsed'), source.gas_used]
