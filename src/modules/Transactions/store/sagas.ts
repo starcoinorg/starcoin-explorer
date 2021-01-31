@@ -23,14 +23,13 @@ function* watchGetTransaction() {
 export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
   try {
     const res = yield call(withLoading, api.getTransactionList, action.type, action.payload);
-    yield put(actions.setTransactionList(res));
+    yield put(actions.setTransactionList(res.hits.hits));
     if (action.callback) {
       yield call(action.callback);
     }
   } catch (err) {
     if (err.message) {
-      console.log(err.message);
-      // yield call(message.error, err.message);
+      yield put(actions.setTransactionList([]));
     }
   }
 }

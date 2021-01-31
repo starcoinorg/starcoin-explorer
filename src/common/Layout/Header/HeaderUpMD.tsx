@@ -12,7 +12,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import LanguageIcon from '@material-ui/icons/Translate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { LANGUAGES_LABEL } from '@/utils/constants';
+import { LANGUAGES_LABEL, AVAILABLE_NETWORKS } from '@/utils/constants';
+import { getNetwork } from '@/utils/helper';
 import Tabs from './Tabs';
 
 const useStyles = (theme: Theme) => createStyles({
@@ -49,6 +50,9 @@ const useStyles = (theme: Theme) => createStyles({
   pad: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
+  },
+  noUpperCase: {
+    textTransform: 'none'
   },
   button: {
     height: theme.spacing(6),
@@ -147,7 +151,7 @@ function Index(props: any) {
     </>
   );
 
-  const userNetwork = localStorage.getItem('network') || 'halley';
+  const userNetwork = getNetwork();
   const [networkMenu, setNetworkMenu] = React.useState(null);
   const handleNetworkIconClick = (event: any) => {
     setNetworkMenu(event.currentTarget);
@@ -155,26 +159,27 @@ function Index(props: any) {
 
   const handleNetworkMenuClose = (network?: string) => {
     if (network) {
-      localStorage.setItem('network', network);
+      if (network !== userNetwork) {
+        localStorage.setItem('network', network);
+        window.location.href = '/';
+      }
     }
     setNetworkMenu(null);
   };
 
-  const networkAviable = ['halley', 'proxima'];
-  // set a default value before locales/*/transaction.json is loaded
-  const currentNetwork = networkAviable.filter((network) => network === userNetwork);
+  const currentNetwork = AVAILABLE_NETWORKS.filter((network) => network === userNetwork);
   const currentNetworkLabel = currentNetwork[0] || '-';
   const networkMenus = (
     <>
       <Tooltip title={t('header.changeNetwork')} enterDelay={300}>
         <Button
-          className={classes.i18n}
+          className={classNames(classes.i18n, classes.noUpperCase)}
           color="inherit"
           aria-owns={networkMenu ? 'network-menu' : undefined}
           aria-haspopup="true"
           onClick={handleNetworkIconClick}
         >
-          <SettingsEthernetIcon fontSize="small" />
+          <SettingsEthernetIcon fontSize="small" />&nbsp;
           <span className={classes.language}>
             {currentNetworkLabel}
           </span>
@@ -187,8 +192,9 @@ function Index(props: any) {
         open={Boolean(networkMenu)}
         onClose={() => handleNetworkMenuClose()}
       >
-        {networkAviable.map((network) => (
+        {AVAILABLE_NETWORKS.map((network) => (
           <MenuItem
+            className={classes.noUpperCase}
             key={network}
             selected={userNetwork === network}
             onClick={() => handleNetworkMenuClose(network)}
@@ -230,7 +236,7 @@ function Index(props: any) {
           id: 'faq',
           label: t('header.faq'),
           selected: pathname.startsWith('/faq'),
-          href: 'faq',
+          href: '/faq',
         },
       ]}
     />

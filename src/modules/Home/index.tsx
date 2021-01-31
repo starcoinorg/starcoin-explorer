@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import CenteredView from '@/common/View/CenteredView';
 import { getEpochData } from '@/utils/sdk';
 import formatTime from '@/utils/formatTime';
 import formatNumber from '@/utils/formatNumber';
@@ -220,7 +221,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const { blockList, transactionList, classes, t, i18n } = this.props;
     const blocksHit = blockList ? blockList.hits.hits : [];
     const blocks = blocksHit.slice(0, 12);
-    const transactionHit = transactionList ? transactionList.hits.hits : [];
+    const transactionHit = transactionList || [];
     const transactions = transactionHit.slice(0, 15);
     const metrics: any[] = [];
     if (this.state.epochData) {
@@ -229,6 +230,19 @@ class Index extends PureComponent<IndexProps, IndexState> {
       metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${(this.state.epochData.end_block_number)}`]);
       metrics.push([t('home.TargetBlockTime'), formatNumber(this.state.epochData.block_time_target)]);
     }
+    const transactionsList = transactions.length ? (
+      <TransactionTable
+        transactions={transactions}
+      />
+    ) : (
+      <CenteredView>
+        <div className={classes.header}>
+          <Typography variant="h5" gutterBottom className={classes.title}>
+            {t('transaction.NoTransactionData')}
+          </Typography>
+        </div>
+      </CenteredView>
+    );
     return (
       <>
         <div className={classes.cardContainer}>
@@ -294,9 +308,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           {this.renderCard(
             t('home.ExploreTransactions'),
             '/transactions',
-            <TransactionTable
-              transactions={transactions}
-            />,
+            transactionsList,
             classes.transactions,
             classes.transactionsSpacer,
           )}

@@ -9,3 +9,5 @@ export const LANGUAGES_LABEL = [
   },
 ];
 
+export const INIT_NETWORK = 'halley';
+export const AVAILABLE_NETWORKS = ['halley', 'proxima'];

@@ -1,7 +1,9 @@
 // @ts-ignore
 import client from '@/utils/client';
 
-const network = localStorage.getItem('network');
+import { getNetwork } from '@/utils/helper';
+
+const network = getNetwork();
 
 export const getTransaction = (params: any) => client.get(`transaction/${network}/hash/${params.hash}`);
 export const getTransactionList = (params: any) => client.get(`transaction/${network}/page/${params.page}`);

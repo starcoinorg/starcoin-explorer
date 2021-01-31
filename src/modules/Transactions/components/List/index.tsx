@@ -5,6 +5,8 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
 import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
+import Typography from '@material-ui/core/Typography';
+import CenteredView from '@/common/View/CenteredView';
 import TransactionTable from '../Table';
 
 const useStyles = () => createStyles({
@@ -69,7 +71,20 @@ class Index extends PureComponent<Props, IndexState> {
   render() {
     const { transactionList, isLoadingMore, className, classes, t } = this.props;
     const isInitialLoad = !transactionList;
-    const transactions = transactionList && transactionList.hits.hits || [];
+    const transactions = transactionList || [];
+    const transactionsList = transactions.length ? (
+      <TransactionTable
+        transactions={transactions}
+      />
+    ) : (
+      <CenteredView>
+        <div className={classes.header}>
+          <Typography variant="h5" gutterBottom className={classes.title}>
+            {t('transaction.NoTransactionData')}
+          </Typography>
+        </div>
+      </CenteredView>
+    );
     return (
       <div>
         <Helmet>
@@ -82,9 +97,7 @@ class Index extends PureComponent<Props, IndexState> {
           pluralName={t('header.transactions')}
           content={
             <div>
-              {isInitialLoad ? <Loading /> : <TransactionTable
-                transactions={transactions}
-              />}
+              {isInitialLoad ? <Loading /> : transactionsList}
               <div className={classes.pagerArea}>
                 <Pagination
                   page={this.state.currentPage}
