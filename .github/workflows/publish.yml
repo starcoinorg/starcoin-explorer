@@ -38,5 +38,4 @@ jobs:
           external_repository: starcoin-explorer/starcoin-explorer.github.io
           publish_branch: master
           publish_dir: ./build
-          cname: explorer.starcoin.org
-          commit_message: ${{ github.event.head_commit.message }}
+          full_commit_message: ${{ github.event.head_commit.message }}
