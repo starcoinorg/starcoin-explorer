@@ -12,6 +12,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PageViewTable from '@/common/View/PageViewTable';
+import get from 'lodash/get';
 
 const useStyles = () => createStyles({
   table: {
@@ -101,8 +102,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   generateExtra() {
     const { block, blockTransactions, classes, t } = this.props;
     const isInitialLoad = !block;
-    const transactions = block.hits.hits[0]._source.body.Full || [];
-    const events = blockTransactions.hits.hits[0]._source.events || [];
+    const transactions = get(block, 'hits.hits[0]._source.body.Full', []);
+    const events = get(blockTransactions, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
     events.forEach((event: any) => {
       const columns: any[] = [];
@@ -154,11 +155,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    console.log(this.props.match);
     const { block, blockTransactions, t } = this.props;
     const isInitialLoad = !block || !blockTransactions;
     if (isInitialLoad) {
       return <Loading />;
+    }
+    if (!block.hits.hits.length) {
+      return null;
     }
     const header = block.hits.hits[0]._source.header;
     const columns = [

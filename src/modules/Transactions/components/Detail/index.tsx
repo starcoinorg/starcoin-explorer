@@ -12,6 +12,7 @@ import PageViewTable from '@/common/View/PageViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding } from '@starcoin/starcoin';
+import get from 'lodash/get';
 
 const useStyles = () => createStyles({
   table: {
@@ -51,7 +52,7 @@ class Index extends PureComponent<IndexProps> {
   generateExtra() {
     const { transaction, classes, t } = this.props;
     const isInitialLoad = !transaction;
-    const events = transaction.hits.hits[0]._source.events || [];
+    const events = get(transaction, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
     events.forEach((event: any) => {
       const columns: any[] = [];
@@ -87,8 +88,8 @@ class Index extends PureComponent<IndexProps> {
 
   render() {
     const { transaction, t } = this.props;
-    if (!transaction) {
-      return null;
+    if (!transaction || !transaction.hits.hits.length) {
+      return <Loading />;
     }
     const source = transaction.hits.hits[0]._source;
     const payloadInHex = source.user_transaction.raw_txn.payload || '';

@@ -8,6 +8,7 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import get from 'lodash/get';
 import { getAddressData } from '@/utils/sdk';
+import { isHex } from '@/utils/helper';
 
 const useStyles = () => createStyles({
   root: {
@@ -35,14 +36,11 @@ interface IndexProps {
   getTransaction: (data: any, callback?: any) => any;
   addressTransactions: any;
   getAddressTransactions: (data: any, callback?: any) => any;
+  getBlockByHeight: (data: any, callback?: any) => any;
   pushLocation: (data: any) => any;
 }
 
-interface IndexState {
-  addressData: any,
-}
-
-class Index extends PureComponent<IndexProps, IndexState> {
+class Index extends PureComponent<IndexProps> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     computedMatch: {},
@@ -52,63 +50,64 @@ class Index extends PureComponent<IndexProps, IndexState> {
     getTransaction: () => {},
     addressTransactions: null,
     getAddressTransactions: () => {},
+    getBlockByHeight: () => {},
     pushLocation: () => {},
   };
 
-  constructor(props: IndexProps) {
-    super(props);
-    this.state = {
-      addressData: undefined,
-    };
-  }
-
   componentDidMount() {
     const hash = this.props.computedMatch.params.hash;
-    this.props.getBlock({ hash });
-    this.props.getTransaction({ hash });
-    this.props.getAddressTransactions({ hash });
+    if (isHex(hash)) {
+      this.props.getBlock({ hash });
+      this.props.getTransaction({ hash });
+      this.props.getAddressTransactions({ hash });
+    } else if (parseInt(hash, 10) >= 0) {
+      this.props.getBlockByHeight({ height: parseInt(hash, 10) });
+    }
+  }
+
+  getAddressData(hash: string) {
+    getAddressData(hash).then(data => {
+      if (data) {
+        if (get(data, 'withdraw_events.guid', '') === hash) {
+          const url = `/address/${hash}`;
+          this.props.pushLocation(url);
+        }
+      }
+    });
   }
 
   render() {
     const { classes, t } = this.props;
     const hash = this.props.computedMatch.params.hash;
     const { block, transaction, addressTransactions } = this.props;
-    const isInitialLoad = !block || !transaction || !addressTransactions;
-    if (isInitialLoad) {
+    if (isHex(hash) && (!block || !transaction || !addressTransactions)) {
       return <Loading />;
     }
     let url;
     let showNone = true;
-    if (block.hits.hits.length > 0) {
-      if (block.hits.hits[0]._id === hash) {
+
+    if (block && block.hits.hits.length > 0) {
+      if (isHex(hash) && get(block, 'hits.hits[0]._id') === hash) {
         url = `/blocks/detail/${block.hits.hits[0]._id}`;
-      } else {
-        showNone = false;
+      } else if (get(block, 'hits.hits[0]._source.header.number', undefined) === hash) {
+        url = `/blocks/height/${hash}`;
       }
     }
-    if (transaction.hits.hits.length > 0) {
-      if (transaction.hits.hits[0]._id === hash) {
+    if (isHex(hash) && transaction && transaction.hits.hits.length > 0) {
+      if (get(transaction, 'hits.hits[0]._id') === hash) {
         url = `/transactions/detail/${transaction.hits.hits[0]._id}`;
       } else {
         showNone = false;
       }
     }
-    if (addressTransactions.hits.hits.length > 0) {
-      getAddressData(hash).then(data => {
-        if (data) {
-          this.setState({ addressData: data });
-        }
-      });
+    if (isHex(hash) && addressTransactions && addressTransactions.hits.hits.length > 0) {
+      this.getAddressData(hash);
+      showNone = false;
     }
-    if (addressTransactions.hits.hits.length > 0) {
-      if (get(this.state.addressData, 'withdraw_events.guid', '') === hash) {
-        url = `/address/${hash}`;
-      } else {
-        showNone = false;
-      }
-    }
+
     if (url) {
       this.props.pushLocation(url);
+      return null;
     }
 
     if (!url && showNone) {
@@ -132,7 +131,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         </div>
       );
     }
-    return null;
+    return <Loading />;
   }
 }
 

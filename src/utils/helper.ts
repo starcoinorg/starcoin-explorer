@@ -19,3 +19,7 @@ export function getNetwork() {
   }
   return localStorage.getItem('network');
 }
+
+export function isHex(num: string) {
+  return Boolean(num.match(/^0x[0-9a-f]+$/i))
+}
