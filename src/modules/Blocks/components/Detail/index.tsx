@@ -34,12 +34,15 @@ interface IndexProps {
   block: any;
   blockTransactions: any;
   getBlock: (data: any, callback?: any) => any;
+  getBlockByHeight: (data: any, callback?: any) => any;
   getBlockTransactions: (data: any, callback?: any) => any;
+  getBlockTransactionsByHeight: (data: any, callback?: any) => any;
 }
 
 interface IndexState {
   epochData: any,
-  hash: string,
+  hash?: string,
+  height?: string,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -49,14 +52,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
     block: null,
     blockTransactions: null,
     getBlock: () => {},
-    getBlockTransactions: () => {}
+    getBlockByHeight: () => {},
+    getBlockTransactions: () => {},
+    getBlockTransactionsByHeight: () => {}
   };
 
   constructor(props: IndexProps) {
     super(props);
     this.state = {
       epochData: undefined,
-      hash: props.match.params.hash
+      hash: props.match.params.hash,
+      height: props.match.params.height
     };
   }
 
@@ -65,22 +71,31 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
+    // switch hash only in current page, won't switch height
+    // so only need to empty height while switch to /hash/xxx from height/xxx
     if (nextProps.match.params.hash !== prevState.hash) {
-      return { ...prevState, hash: nextProps.match.params.hash };
+      return { ...prevState, hash: nextProps.match.params.hash, height: '' };
     }
     return null;
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.match.params.hash !== this.state.hash && prevState.state !== this.state.hash) {
+    if (prevProps.match.params.hash !== this.state.hash && prevState.hash !== this.state.hash) {
       this.fetchData();
     }
   }
 
   fetchData() {
     const hash = this.state.hash;
-    this.props.getBlock({ hash });
-    this.props.getBlockTransactions({ hash });
+    const height = this.state.height;
+    if (hash) {
+      this.props.getBlock({ hash });
+      this.props.getBlockTransactions({ hash });
+    }
+    if (height) {
+      this.props.getBlockByHeight({ height });
+      this.props.getBlockTransactionsByHeight({ height });
+    }
   }
 
   generateExtra() {
@@ -139,9 +154,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
+    console.log(this.props.match);
     const { block, blockTransactions, t } = this.props;
-    if (!block || !blockTransactions) {
-      return null;
+    const isInitialLoad = !block || !blockTransactions;
+    if (isInitialLoad) {
+      return <Loading />;
     }
     const header = block.hits.hits[0]._source.header;
     const columns = [

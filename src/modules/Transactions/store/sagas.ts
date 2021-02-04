@@ -77,11 +77,32 @@ function* watchGetBlockTransactions() {
   yield takeLatest(types.GET_BLOCK_TRANSACTIONS, getBlockTransactions)
 }
 
+
+export function* getBlockTransactionsByHeight(action: ReturnType<typeof actions.getBlockTransactions>) {
+  try {
+    const res = yield call(withLoading, api.getBlockTransactionsByHeight, action.type, action.payload);
+    yield put(actions.setBlockTransactions(res));
+    if (action.callback) {
+      yield call(action.callback);
+    }
+  } catch (err) {
+    if (err.message) {
+      console.log(err.message);
+      // yield call(message.error, err.message);
+    }
+  }
+}
+
+function* watchGetBlockTransactionsByHeight() {
+  yield takeLatest(types.GET_BLOCK_TRANSACTIONS_BY_HEIGHT, getBlockTransactionsByHeight)
+}
+
 const sagas = [
   watchGetTransaction,
   watchGetTransactionList,
   watchGetAddressTransactions,
-  watchGetBlockTransactions
+  watchGetBlockTransactions,
+  watchGetBlockTransactionsByHeight
 ];
 
 export default sagas;

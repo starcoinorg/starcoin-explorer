@@ -20,6 +20,23 @@ function* watchGetBlock() {
   yield takeLatest(types.GET_BLOCK, getBlock)
 }
 
+
+export function* getBlockByHeight(action: ReturnType<typeof actions.getBlock>) {
+  try {
+    const res = yield call(withLoading, api.getBlockByHeight, action.type, action.payload);
+    yield put(actions.setBlock(res));
+  } catch (err) {
+    if (err.message) {
+      console.log(err.message);
+      // yield call(message.error, err.message);
+    }
+  }
+}
+
+function* watchGetBlockByHeight() {
+  yield takeLatest(types.GET_BLOCK_BY_HEIGHT, getBlockByHeight)
+}
+
 export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
   try {
     const res = yield call(withLoading, api.getBlockList, action.type, action.payload);
@@ -41,6 +58,7 @@ function* watchGetBlockList() {
 
 const sagas = [
   watchGetBlock,
+  watchGetBlockByHeight,
   watchGetBlockList
 ];
 

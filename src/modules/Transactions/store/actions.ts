@@ -59,3 +59,11 @@ export function setBlockTransactions(payload: any) {
     payload
   };
 }
+
+export function getBlockTransactionsByHeight(payload: any, callback?: any) {
+  return {
+    type: types.GET_BLOCK_TRANSACTIONS_BY_HEIGHT,
+    payload,
+    callback
+  };
+}

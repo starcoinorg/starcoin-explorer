@@ -39,7 +39,7 @@ class Index extends React.PureComponent<Props> {
     const authorValues: any[] = [];
     blocks.forEach((block: any) => {
       const header = block._source.header;
-      const blockUrl = `/blocks/detail/${header.block_hash}`;
+      const blockUrl = `/blocks/height/${header.number}`;
       // TODO: author info need to be decoded from sdk 3
       const authorUrl = `/address/${header.author}`;
       heightValues.push(<BaseRouteLink to={blockUrl}>{formatNumber(header.number)}</BaseRouteLink>);

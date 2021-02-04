@@ -14,6 +14,13 @@ export function setBlock(payload: any) {
   };
 }
 
+export function getBlockByHeight(payload: any) {
+  return {
+    type: types.GET_BLOCK_BY_HEIGHT,
+    payload
+  };
+}
+
 export function getBlockList(payload: any, callback?: any) {
   return {
     type: types.GET_BLOCK_LIST,

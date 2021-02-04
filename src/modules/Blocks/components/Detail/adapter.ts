@@ -10,7 +10,7 @@ import Index from './index';
 const { selector: currentSelector, actions } = store;
 const { selector: currentSelectorTransactions, actions: actionsTransactions } = storeTransactions;
 
-const loadingSelector = createLoadingSelector([types.GET_BLOCK, typesTransactions.GET_BLOCK_TRANSACTIONS]);
+const loadingSelector = createLoadingSelector([types.GET_BLOCK, types.GET_BLOCK_BY_HEIGHT, typesTransactions.GET_BLOCK_TRANSACTIONS, typesTransactions.GET_BLOCK_TRANSACTIONS_BY_HEIGHT]);
 
 const selector = createSelector(
   currentSelector,
@@ -25,5 +25,7 @@ const selector = createSelector(
 
 export default connect(selector, {
   getBlock: actions.getBlock,
-  getBlockTransactions: actionsTransactions.getBlockTransactions
+  getBlockByHeight: actions.getBlockByHeight,
+  getBlockTransactions: actionsTransactions.getBlockTransactions,
+  getBlockTransactionsByHeight: actionsTransactions.getBlockTransactionsByHeight
 })(Index) as any;

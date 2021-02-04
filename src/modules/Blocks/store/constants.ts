@@ -2,6 +2,7 @@ export const SCOPENAME = 'module:blocks';
 
 // info
 export const GET_BLOCK = `${SCOPENAME}/GET_BLOCK`;
+export const GET_BLOCK_BY_HEIGHT = `${SCOPENAME}/GET_BLOCK_BY_HEIGHT`;
 export const SET_BLOCK = `${SCOPENAME}/SET_BLOCK`;
 
 // list
