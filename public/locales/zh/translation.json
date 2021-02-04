@@ -15,10 +15,9 @@
   "home": {
     "explorer": "浏览器",
     "search": "查找",
-    "searchHint": "区块/交易哈希",
+    "searchHint": "请输入区块/交易/创建者的哈希, 或者区块高度",
     "searchNotFound": "对不起, 查无此页.",
     "searchNotFoundDetail": "请返回重试或者回到首页.",
-    "searchHint": "区块/交易哈希",
     "viewAll": "更多",
     "ExploreBlocks": "最新区块",
     "ExploreTransactions": "最新交易",

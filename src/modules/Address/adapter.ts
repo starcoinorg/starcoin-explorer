@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import createLoadingSelector  from '@/rootStore/loading/selector';
-import store from '@/Transactions/store';
 import * as types from '@/Transactions/store/constants';
 import storeTransactions from '@/Transactions/store';
 import Index from './index';

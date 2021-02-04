@@ -6,6 +6,8 @@ import Loading from '@/common/Loading';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+import get from 'lodash/get';
+import { getAddressData } from '@/utils/sdk';
 
 const useStyles = () => createStyles({
   root: {
@@ -31,10 +33,16 @@ interface IndexProps {
   getBlock: (data: any, callback?: any) => any;
   transaction: any;
   getTransaction: (data: any, callback?: any) => any;
+  addressTransactions: any;
+  getAddressTransactions: (data: any, callback?: any) => any;
   pushLocation: (data: any) => any;
 }
 
-class Index extends PureComponent<IndexProps> {
+interface IndexState {
+  addressData: any,
+}
+
+class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     computedMatch: {},
@@ -42,20 +50,30 @@ class Index extends PureComponent<IndexProps> {
     getBlock: () => {},
     transaction: null,
     getTransaction: () => {},
+    addressTransactions: null,
+    getAddressTransactions: () => {},
     pushLocation: () => {},
   };
+
+  constructor(props: IndexProps) {
+    super(props);
+    this.state = {
+      addressData: undefined,
+    };
+  }
 
   componentDidMount() {
     const hash = this.props.computedMatch.params.hash;
     this.props.getBlock({ hash });
     this.props.getTransaction({ hash });
+    this.props.getAddressTransactions({ hash });
   }
 
   render() {
     const { classes, t } = this.props;
     const hash = this.props.computedMatch.params.hash;
-    const { block, transaction } = this.props;
-    const isInitialLoad = !block || !transaction;
+    const { block, transaction, addressTransactions } = this.props;
+    const isInitialLoad = !block || !transaction || !addressTransactions;
     if (isInitialLoad) {
       return <Loading />;
     }
@@ -75,8 +93,19 @@ class Index extends PureComponent<IndexProps> {
         showNone = false;
       }
     }
-    if (transaction.hits.hits.length > 0 && transaction.hits.hits[0]._id === hash) {
-      url = `/transactions/detail/${transaction.hits.hits[0]._id}`;
+    if (addressTransactions.hits.hits.length > 0) {
+      getAddressData(hash).then(data => {
+        if (data) {
+          this.setState({ addressData: data });
+        }
+      });
+    }
+    if (addressTransactions.hits.hits.length > 0) {
+      if (get(this.state.addressData, 'withdraw_events.guid', '') === hash) {
+        url = `/address/${hash}`;
+      } else {
+        showNone = false;
+      }
     }
     if (url) {
       this.props.pushLocation(url);

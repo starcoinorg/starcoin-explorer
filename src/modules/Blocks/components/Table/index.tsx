@@ -68,7 +68,7 @@ class Index extends React.PureComponent<Props> {
         className: classes.transactionsCol,
       },
       {
-        name: 'Author',
+        name: t('block.Author'),
         values: authorValues,
         visibleAt: authorVisibleAt,
         className: classes.validatorCol,
