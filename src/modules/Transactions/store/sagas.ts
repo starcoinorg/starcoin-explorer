@@ -41,7 +41,7 @@ function* watchGetTransactionList() {
 
 export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
   try {
-    const res = yield call(withLoading, api.getAddresssTransactions, action.type, action.payload);
+    const res = yield call(withLoading, api.getAddressTransactions, action.type, action.payload);
     yield put(actions.setAddressTransactions(res));
     if (action.callback) {
       yield call(action.callback);
