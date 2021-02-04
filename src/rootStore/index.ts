@@ -2,15 +2,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware  from 'redux-saga';
-import ReactGA from 'react-ga';
 import createRootReducer from './reducers';
 import rootSaga from './sagas';
 
 export const history = createBrowserHistory();
-
-history.listen(() => {
-    ReactGA.pageview(window.location.href);
-});
 
 const sagaMiddleware = createSagaMiddleware();
 
