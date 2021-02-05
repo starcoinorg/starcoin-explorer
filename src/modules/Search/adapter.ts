@@ -1,34 +1,21 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import createLoadingSelector  from '@/rootStore/loading/selector';
-import { pushLocation }  from '@/rootStore/router/actions';
-import storeBlocks from '@/Blocks/store';
-import storeTransactions from '@/Transactions/store';
-import * as typesBlocks from '@/Blocks/store/constants';
-import * as typesTransactions from '@/Transactions/store/constants';
+import storeSearch from '@/Search/store';
+import * as typesSearch from '@/Search/store/constants';
 import Index from './index';
 
-const { selector: currentSelectorBlocks, actions: actionsBlocks } = storeBlocks;
-const { selector: currentSelectorTransactions, actions: actionsTransactions } = storeTransactions;
+const { actions } = storeSearch;
 
-const loadingSelector = createLoadingSelector([typesBlocks.GET_BLOCK, typesBlocks.GET_BLOCK_BY_HEIGHT, typesTransactions.GET_TRANSACTION, typesTransactions.GET_ADDRESS_TRANSACTIONS]);
+const loadingSelector = createLoadingSelector([typesSearch.SEARCH_KEYWORD]);
 
 const selector = createSelector(
-  currentSelectorBlocks,
-  currentSelectorTransactions,
   loadingSelector,
-  (currentBlocks, currentTransactions, loading) => ({
-    block: currentBlocks.block,
-    transaction: currentTransactions.transaction,
-    addressTransactions: currentTransactions.addressTransactions,
+  (loading) => ({
     loading
   })
 );
 
 export default connect(selector, {
-  getBlock: actionsBlocks.getBlock,
-  getTransaction: actionsTransactions.getTransaction,
-  getAddressTransactions: actionsTransactions.getAddressTransactions,
-  getBlockByHeight: actionsBlocks.getBlockByHeight,
-  pushLocation
+  searchKeyword: actions.searchKeyword,
 })(Index) as any;

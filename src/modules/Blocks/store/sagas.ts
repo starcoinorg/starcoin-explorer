@@ -11,7 +11,6 @@ export function* getBlock(action: ReturnType<typeof actions.getBlock>) {
   } catch (err) {
     if (err.message) {
       console.log(err.message);
-      // yield call(message.error, err.message);
     }
   }
 }
@@ -28,7 +27,6 @@ export function* getBlockByHeight(action: ReturnType<typeof actions.getBlock>) {
   } catch (err) {
     if (err.message) {
       console.log(err.message);
-      // yield call(message.error, err.message);
     }
   }
 }
@@ -47,7 +45,6 @@ export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
   } catch (err) {
     if (err.message) {
       console.log(err.message);
-      // yield call(message.error, err.message);
     }
   }
 }

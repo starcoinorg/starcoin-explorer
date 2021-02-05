@@ -11,7 +11,6 @@ export function* getTransaction(action: ReturnType<typeof actions.getTransaction
   } catch (err) {
     if (err.message) {
       console.log(err.message);
-      // yield call(message.error, err.message);
     }
   }
 }
@@ -49,7 +48,6 @@ export function* getAddressTransactions(action: ReturnType<typeof actions.getAdd
   } catch (err) {
     if (err.message) {
       console.log(err.message);
-      // yield call(message.error, err.message);
     }
   }
 }
@@ -68,7 +66,6 @@ export function* getBlockTransactions(action: ReturnType<typeof actions.getBlock
   } catch (err) {
     if (err.message) {
       console.log(err.message);
-      // yield call(message.error, err.message);
     }
   }
 }
@@ -88,7 +85,6 @@ export function* getBlockTransactionsByHeight(action: ReturnType<typeof actions.
   } catch (err) {
     if (err.message) {
       console.log(err.message);
-      // yield call(message.error, err.message);
     }
   }
 }
