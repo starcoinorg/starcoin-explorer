@@ -15,7 +15,7 @@
   "home": {
     "explorer": "Explorer",
     "search": "SEARCH",
-    "searchHint": "Search by block/tx/author hash or block height",
+    "searchHint": "block/tx/author hash or block height",
     "searchNotFound": "Sorry, that page was not found.",
     "searchNotFoundDetail": "Try going back to where you were or heading to the home page.",
     "viewAll": "VIEW ALL",

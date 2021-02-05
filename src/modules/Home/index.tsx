@@ -64,6 +64,9 @@ const useStyles = (theme: Theme) => createStyles({
     transactions: {
       width: '100%',
     },
+    textFieldLabel: {
+      fontSize: '0.75em'
+    }
   },
   [theme.breakpoints.up('md')]: {
     blocks: {
@@ -78,6 +81,9 @@ const useStyles = (theme: Theme) => createStyles({
     transactionsSpacer: {
       paddingLeft: theme.spacing(1),
     },
+    textFieldLabel: {
+      fontSize: '1em'
+    }
   },
   root: {
     alignItems: 'center',
@@ -120,6 +126,7 @@ const useStyles = (theme: Theme) => createStyles({
     flex: '1 1 auto',
     marginRight: theme.spacing(1),
   },
+  textFieldLabel: {},
   button: {
     height: theme.spacing(5),
   },
@@ -256,6 +263,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 className={classes.textField}
                 value={this.state.value}
                 label={t('home.searchHint')}
+                InputLabelProps={{ className: classes.textFieldLabel }}
                 onChange={this.onChange}
               />
               <Button
