@@ -8,6 +8,3 @@ export const LANGUAGES_LABEL = [
     text: '中文',
   },
 ];
-
-export const INIT_NETWORK = 'halley';
-export const AVAILABLE_NETWORKS = ['halley', 'proxima'];

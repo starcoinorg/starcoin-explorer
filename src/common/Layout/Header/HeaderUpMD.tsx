@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import LanguageIcon from '@material-ui/icons/Translate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { LANGUAGES_LABEL, AVAILABLE_NETWORKS } from '@/utils/constants';
+import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 import Tabs from './Tabs';
 
@@ -167,7 +167,9 @@ function Index(props: any) {
     setNetworkMenu(null);
   };
 
-  const currentNetwork = AVAILABLE_NETWORKS.filter((network) => network === userNetwork);
+  const networks = process.env.REACT_APP_STARCOIN_NETWORKS || '';
+  const availableNetworks = networks.split(',');
+  const currentNetwork = availableNetworks.filter((network) => network === userNetwork);
   const currentNetworkLabel = currentNetwork[0] || '-';
   const networkMenus = (
     <>
@@ -192,7 +194,7 @@ function Index(props: any) {
         open={Boolean(networkMenu)}
         onClose={() => handleNetworkMenuClose()}
       >
-        {AVAILABLE_NETWORKS.map((network) => (
+        {availableNetworks.map((network) => (
           <MenuItem
             className={classes.noUpperCase}
             key={network}

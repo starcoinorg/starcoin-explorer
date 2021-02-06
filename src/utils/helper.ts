@@ -1,5 +1,3 @@
-import {INIT_NETWORK} from "@/utils/constants";
-
 export function withBaseRoute(route: any = '') {
   // TODO: add logging/tracing code here
 
@@ -15,7 +13,8 @@ export function withBaseRoute(route: any = '') {
 export function getNetwork() {
   const network = localStorage.getItem('network');
   if (!network) {
-    localStorage.setItem('network', INIT_NETWORK);
+    const networks = process.env.REACT_APP_STARCOIN_NETWORKS || '';
+    localStorage.setItem('network', networks.split(',')[0]);
   }
   return localStorage.getItem('network');
 }

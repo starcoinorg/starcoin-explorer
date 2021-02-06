@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Accordion from '@material-ui/core/Accordion';
 import LanguageIcon from '@material-ui/icons/Translate';
-import { LANGUAGES_LABEL, AVAILABLE_NETWORKS } from '@/utils/constants';
+import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 
 const useStyles = (theme: Theme) => createStyles({
@@ -209,7 +209,9 @@ function Index(props: any) {
     setShowMenu(false);
   };
 
-  const currentNetwork = AVAILABLE_NETWORKS.filter((network) => network === userNetwork);
+  const networks = process.env.REACT_APP_STARCOIN_NETWORKS || '';
+  const availableNetworks = networks.split(',');
+  const currentNetwork = availableNetworks.filter((network) => network === userNetwork);
   const currentNetworkLabel = currentNetwork[0] || '-';
 
   // set a default value before locales/*/transaction.json is loaded
@@ -260,7 +262,7 @@ function Index(props: any) {
               <AccordionDetails>
                 <div className={classes.i18nMenu}>
                   {
-                    AVAILABLE_NETWORKS.map((network) => {
+                    availableNetworks.map((network) => {
                       return (
                         <Button
                           color={network === userNetwork ? 'primary' : 'default'}
