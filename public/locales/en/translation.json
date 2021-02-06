@@ -17,7 +17,7 @@
     "search": "SEARCH",
     "searchHint": "block/tx/author hash or block height",
     "searchNotFound": "Sorry, that page was not found.",
-    "searchNotFoundDetail": "Try going back to where you were or heading to the home page.",
+    "searchNotFoundDetail": "Try going back to where you were or heading to the <a href=\"/\">home</a> page.",
     "viewAll": "VIEW ALL",
     "ExploreBlocks": "Explore Blocks",
     "ExploreTransactions": "Explore Transactions",

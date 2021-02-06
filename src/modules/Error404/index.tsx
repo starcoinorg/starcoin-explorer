@@ -41,9 +41,7 @@ class Index extends PureComponent<IndexProps> {
               <Typography variant="h5" className={classes.headline}>
                 {t('home.searchNotFound')}
               </Typography>
-              <Typography variant="subtitle1">
-                {t('home.searchNotFoundDetail')}
-              </Typography>
+              <div dangerouslySetInnerHTML={{ __html: t('home.searchNotFoundDetail') }} />
             </Card>
           </Grid>
         </Grid>

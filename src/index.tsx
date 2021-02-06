@@ -63,7 +63,7 @@ ReactDOM.render(
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
         <RouteWithLayout path={withBaseRoute('/:network/address/:hash')} title="Address" layout={MainLayout} component={Address} />
-        <RouteWithLayout exact path={withBaseRoute('/404')} title="404" layout={MainLayout} component={Error404} />
+        <RouteWithLayout exact path={withBaseRoute('/error')} title="404" layout={MainLayout} component={Error404} />
         <RouteWithLayout path={undefined} title="404" layout={MainLayout} component={Error404} />
       </Switch>
     </ConnectedRouter>
