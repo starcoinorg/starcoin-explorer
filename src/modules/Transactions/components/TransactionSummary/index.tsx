@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import CommonTime from '@/common/Time';
 import CommonLink from '@/common/Link';
+import { getNetwork } from '@/utils/helper';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { encoding } from '@starcoin/starcoin';
 
@@ -65,7 +66,7 @@ class Index extends PureComponent<Props> {
     return (
       <div className={classNames(classes.root, className)}>
         {type}&nbsp;
-        <CommonLink path={`/transactions/detail/${source.transaction_hash}`} title={source.transaction_hash} />
+        <CommonLink path={`/${getNetwork()}/transactions/detail/${source.transaction_hash}`} title={source.transaction_hash} />
         <div className={classes.rightHeader}>
           <CommonTime
             className={classes.time}

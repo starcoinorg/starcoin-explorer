@@ -155,7 +155,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    const { block, blockTransactions, t } = this.props;
+    const { block, blockTransactions, match, t } = this.props;
+    const network = match.params.network;
     const isInitialLoad = !block || !blockTransactions;
     if (isInitialLoad) {
       return <Loading />;
@@ -168,10 +169,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.Hash'), header.block_hash],
       [t('block.Height'), formatNumber(header.number)],
       [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
-      [t('block.Author'), <CommonLink key={header.author} path={`/address/${header.author}`} title={header.author} />],
+      [t('block.Author'), <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
       [t('block.Difficulty'), header.difficulty],
       [t('common.GasUsed'), header.gas_used],
-      [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
+      [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
     ];
 
     return (
@@ -180,7 +181,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         title={t('block.title')}
         name={t('block.title')}
         pluralName={t('header.blocks')}
-        searchRoute="/blocks"
+        searchRoute={`/${network}/blocks`}
         bodyColumns={columns}
         extra={this.generateExtra()}
       />

@@ -6,6 +6,7 @@ import { getBlock, getBlockByHeight } from '@/Blocks/store/apis';
 import { getTransaction, getAddressTransactions } from '@/Transactions/store/apis';
 import { pushLocation }  from '@/rootStore/router/actions';
 import { getAddressData } from '@/utils/sdk';
+import { getNetwork } from '@/utils/helper';
 import * as actions from './actions';
 import * as types from './constants';
 
@@ -19,7 +20,7 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
         call(withLoading, getAddressTransactions, action.type, { hash: action.payload })
       ]);
     } else {
-      const height = parseInt(action.payload, 10)
+      const height = parseInt(action.payload, 10);
       if (height >= 0) {
         res = yield all([
           call(withLoading, getBlockByHeight, action.type, { height }),
@@ -31,16 +32,16 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
     if (res[0] && res[0].hits.hits.length > 0) {
       // by hash
       if (isHex(action.payload) && get(res[0], 'hits.hits[0]._id') === action.payload) {
-        url = `/blocks/detail/${action.payload}`;
+        url = `/${getNetwork()}/blocks/detail/${action.payload}`;
       // by height
       } else if (get(res[0], 'hits.hits[0]._source.header.number') === action.payload) {
-        url = `/blocks/height/${action.payload}`;
+        url = `/${getNetwork()}/blocks/height/${action.payload}`;
       }
     }
     // found transaction by hash
     if (!url && isHex(action.payload) && res[1] && res[1].hits.hits.length > 0) {
       if (get(res[1], 'hits.hits[0]._id') === action.payload) {
-        url = `/transactions/detail/${action.payload}`;
+        url = `/${getNetwork()}/transactions/detail/${action.payload}`;
       }
     }
     // found address by hash
@@ -48,16 +49,16 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
       const data = yield call(getAddressData, action.payload);
       if (data) {
         if (get(data, 'withdraw_events.guid') === action.payload) {
-          url = `/address/${action.payload}`;
+          url = `/${getNetwork()}/address/${action.payload}`;
         }
       }
     }
-
 
     if (url) {
       yield put(pushLocation(url));
     } else {
       if (action.callback) {
+        // hide loading, show not found
         yield call(action.callback);
       }
     }

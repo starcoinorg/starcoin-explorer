@@ -4,8 +4,9 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@/common/Table';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import formatNumber from '@/utils/formatNumber';
+import { getNetwork } from '@/utils/helper';
 import CommonLink from '@/common/Link';
-import CommonTime from '../../../../common/Time';
+import CommonTime from '@/common/Time';
 
 const useStyles = () => createStyles({
   transactionsCol: {
@@ -39,11 +40,9 @@ class Index extends React.PureComponent<Props> {
     const authorValues: any[] = [];
     blocks.forEach((block: any) => {
       const header = block._source.header;
-      const blockUrl = `/blocks/height/${header.number}`;
-      // TODO: author info need to be decoded from sdk 3
-      const authorUrl = `/address/${header.author}`;
+      const blockUrl = `/${getNetwork()}/blocks/height/${header.number}`;
+      const authorUrl = `/${getNetwork()}/address/${header.author}`;
       heightValues.push(<BaseRouteLink to={blockUrl}>{formatNumber(header.number)}</BaseRouteLink>);
-      // timeValues.push(<CommonTime time={Date.now() - 5000} />);
       timeValues.push(<CommonTime time={header.timestamp} />);
       transactionsValues.push(formatNumber(block._source.body.Full.length));
       authorValues.push(

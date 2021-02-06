@@ -49,8 +49,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidMount() {
-    const hash = this.props.computedMatch.params.hash;
-    this.props.searchKeyword(hash, () => this.showNotFound());
+    let keyword = this.props.computedMatch.params.keyword;
+    if (keyword.indexOf(',') > 0) {
+      keyword = keyword.replace(',', '');
+    }
+    this.props.searchKeyword(keyword, () => this.showNotFound());
   }
 
   showNotFound() {

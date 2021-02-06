@@ -163,39 +163,6 @@ function Index(props: any) {
     }
   };
 
-  const { classes } = props;
-  const location = window.location;
-  const buttons = [
-    {
-      className: classes.button,
-      id: 'blocks',
-      label: t('header.blocks'),
-      selected: location.pathname.startsWith('/blocks'),
-      href: '/blocks',
-    },
-    {
-      className: classes.button,
-      id: 'transactions',
-      label: t('header.transactions'),
-      selected: location.pathname.startsWith('/transactions'),
-      href: '/transactions',
-    },
-    {
-      className: classes.button,
-      id: 'ecosystem',
-      label: t('header.ecosystems'),
-      selected: location.pathname.startsWith('/ecosystem'),
-      href: '/ecosystems',
-    },
-    {
-      className: classes.button,
-      id: 'faq',
-      label: t('header.faq'),
-      selected: location.pathname.startsWith('/faq'),
-      href: '/faq',
-    },
-  ];
-
   const userNetwork = getNetwork();
   const handleNetworkExpandedChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
@@ -217,6 +184,39 @@ function Index(props: any) {
   // set a default value before locales/*/transaction.json is loaded
   const current = LANGUAGES_LABEL.filter((language) => language.code === userLanguage);
   const currentLabel = current[0] && current[0].text || '-';
+
+  const { classes } = props;
+  const location = window.location;
+  const buttons = [
+    {
+      className: classes.button,
+      id: 'blocks',
+      label: t('header.blocks'),
+      selected: location.pathname.startsWith('/blocks'),
+      href: `/${userNetwork}/blocks`,
+    },
+    {
+      className: classes.button,
+      id: 'transactions',
+      label: t('header.transactions'),
+      selected: location.pathname.startsWith('/transactions'),
+      href: `/${userNetwork}/transactions`,
+    },
+    {
+      className: classes.button,
+      id: 'ecosystem',
+      label: t('header.ecosystems'),
+      selected: location.pathname.startsWith('/ecosystem'),
+      href: '/ecosystems',
+    },
+    {
+      className: classes.button,
+      id: 'faq',
+      label: t('header.faq'),
+      selected: location.pathname.startsWith('/faq'),
+      href: '/faq',
+    },
+  ];
 
   return (
     <div className={classes.root}>

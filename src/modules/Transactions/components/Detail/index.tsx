@@ -87,10 +87,11 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    const { transaction, t } = this.props;
+    const { transaction, match, t } = this.props;
     if (!transaction || !transaction.hits.hits.length) {
       return <Loading />;
     }
+    const network = match.params.network;
     const source = transaction.hits.hits[0]._source;
     const payloadInHex = source.user_transaction.raw_txn.payload || '';
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
@@ -99,7 +100,7 @@ class Index extends PureComponent<IndexProps> {
     const columns = [
       [t('common.Hash'), source.transaction_hash],
       [t('transaction.Type'), type],
-      [t('transaction.BlockHash'), <CommonLink path={`/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
+      [t('transaction.BlockHash'), <CommonLink path={`/${network}/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
       [t('transaction.BlockHeight'), formatNumber(source.block_number)],
       [t('common.Time'), new Date(parseInt(source.timestamp, 10)).toLocaleString()],
       [t('transaction.StateRootHash'), source.state_root_hash],
@@ -113,7 +114,7 @@ class Index extends PureComponent<IndexProps> {
         title={t('transaction.title')}
         name={t('transaction.title')}
         pluralName={t('transaction.title')}
-        searchRoute="/transaction"
+        searchRoute={`/${network}/transactions`}
         bodyColumns={columns}
         extra={this.generateExtra()}
       />

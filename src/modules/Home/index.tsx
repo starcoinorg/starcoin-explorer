@@ -8,6 +8,7 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CenteredView from '@/common/View/CenteredView';
 import { getEpochData } from '@/utils/sdk';
+import { getNetwork } from '@/utils/helper';
 import formatTime from '@/utils/formatTime';
 import formatNumber from '@/utils/formatNumber';
 import BlockTable from '../Blocks/components/Table';
@@ -62,7 +63,7 @@ const useStyles = (theme: Theme) => createStyles({
       marginBottom: theme.spacing(2),
     },
     transactions: {
-      width: '100%',
+      width: '100%'
     },
     textFieldLabel: {
       fontSize: '0.75em'
@@ -304,7 +305,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <div className={classes.blocksAndTransactions}>
           {this.renderCard(
             t('home.ExploreBlocks'),
-            '/blocks',
+            `/${getNetwork()}/blocks`,
             <BlockTable
               blocks={blocks}
               sizeVisibleAt="xs"
@@ -315,7 +316,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           )}
           {this.renderCard(
             t('home.ExploreTransactions'),
-            '/transactions',
+            `/${getNetwork()}/transactions`,
             transactionsList,
             classes.transactions,
             classes.transactionsSpacer,
