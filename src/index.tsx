@@ -20,6 +20,7 @@ const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
 const Faq = lazy(() => import('./modules/Faq'));
 const Address = lazy(() => import('./modules/Address/adapter'));
+const Error404 = lazy(() => import('./modules/Error404'));
 
 const RouteWithLayout = (props: any) => {
   const Component = props.component;
@@ -62,6 +63,7 @@ ReactDOM.render(
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
         <RouteWithLayout path={withBaseRoute('/:network/address/:hash')} title="Address" layout={MainLayout} component={Address} />
+        <RouteWithLayout path={undefined} title="404" layout={MainLayout} component={Error404} />
       </Switch>
     </ConnectedRouter>
   </Provider>,
