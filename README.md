@@ -60,4 +60,13 @@ Your app is ready to be deployed!
 >  `serve -s build`
 >
 >then visit: [http://localhost:5000](http://localhost:5000)
-   
+
+## How to CI/CD
+ 
+ ```
+ $git tag vx.y.z
+ $git push --tag
+ ```
+ 
+ A github action will be triggered and deploy the newest version of `build` folder to [this repo](https://github.com/starcoin-explorer/starcoin-explorer.github.io).
+  
