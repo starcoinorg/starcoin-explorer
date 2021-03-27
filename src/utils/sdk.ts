@@ -1,7 +1,8 @@
 // https://www.npmjs.com/package/@starcoin/starcoin
 import { providers } from '@starcoin/starcoin';
 
-const nodeUrl = process.env.REACT_APP_STARCOIN_NODE_URL;
+const network = localStorage.getItem('network');
+const nodeUrl = `http://${network}.seed.starcoin.org:9850`;
 const provider = new providers.JsonrpcProvider(nodeUrl);
 
 export async function getTxnData(txnHash: string) {
@@ -33,6 +34,7 @@ export async function getBalancesData(hash: string) {
 
 export async function getEpochData() {
   try {
+    console.log('getEpochData');
     const result = await provider.getResource('0x1', '0x1::Epoch::Epoch');
     return result;
   } catch (error: any) {
