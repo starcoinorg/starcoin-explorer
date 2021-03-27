@@ -6,13 +6,13 @@ const network = localStorage.getItem('network');
 let ip;
 switch (network) {
   case 'barnard':
-    ip = '101.200.126.229';
+    ip = '39.102.35.25';
     break;
   case 'halley':
-    ip = '157.230.195.105';
+    ip = '39.102.35.25';
     break;
   case 'promima':
-    ip = '138.68.246.81';
+    ip = '39.102.35.25';
     break;
 }
 const nodeUrl = `http://${ip}:9850`;
