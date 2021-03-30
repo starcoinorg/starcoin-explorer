@@ -34,7 +34,6 @@ export async function getBalancesData(hash: string) {
 
 export async function getEpochData() {
   try {
-    console.log('getEpochData');
     const result = await provider.getResource('0x1', '0x1::Epoch::Epoch');
     return result;
   } catch (error: any) {

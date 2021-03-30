@@ -45,12 +45,17 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
       }
     }
     // found address by hash
-    if (!url && isHex(action.payload) && res[2] && res[2].hits.hits.length > 0) {
-      const data = yield call(getAddressData, action.payload);
-      if (data) {
-        if (get(data, 'withdraw_events.guid') === action.payload) {
-          url = `/${getNetwork()}/address/${action.payload}`;
+    if (!url && isHex(action.payload)) {
+      if (res[2] && res[2].hits.hits.length > 0) {
+        const data = yield call(getAddressData, action.payload);
+        if (data) {
+          if (get(data, 'withdraw_events.guid') === action.payload) {
+            url = `/${getNetwork()}/address/${action.payload}`;
+          }
         }
+      } else if (action.payload.length === 34) {
+        // fallback to determine address by hash length
+        url = `/${getNetwork()}/address/${action.payload}`;
       }
     }
 
