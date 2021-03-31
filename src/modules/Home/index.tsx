@@ -305,7 +305,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <div className={classes.blocksAndTransactions}>
           {this.renderCard(
             t('home.ExploreBlocks'),
-            `/${getNetwork()}/blocks`,
+            `/${getNetwork()}/blocks/1`,
             <BlockTable
               blocks={blocks}
               sizeVisibleAt="xs"

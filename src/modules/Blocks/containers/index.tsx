@@ -14,7 +14,7 @@ class BlocksRouter extends PureComponent<BlocksRouterProps> {
       <Switch>
         <Route path={`${match.path}/height/:height`} render={(props: any) => (<Detail {...props} />)} />
         <Route path={`${match.path}/detail/:hash`} render={(props: any) => (<Detail {...props} />)} />
-        <Route exac path={`${match.path}`} render={(props: any) => (<List {...props} />)} />
+        <Route path={`${match.path}/:page`} render={(props: any) => (<List {...props} />)} />
       </Switch>
     );
   }

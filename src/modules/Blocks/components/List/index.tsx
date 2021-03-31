@@ -5,6 +5,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
 import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
+import { getNetwork } from '@/utils/helper';
 import BlockTable from '../Table';
 
 const useStyles = () => createStyles({
@@ -25,6 +26,7 @@ interface InternalProps {
   getBlockList: (data: any, callback?: any) => any,
   classes: any,
   t: any,
+  match: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
@@ -44,7 +46,7 @@ class Index extends PureComponent<Props, IndexState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      currentPage: 1
+      currentPage: parseInt(props.match.params.page, 10) || 1,
     };
   }
 
@@ -59,11 +61,16 @@ class Index extends PureComponent<Props, IndexState> {
   pagination = (type: string) => {
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getBlockList({ page }, () => { this.setState({ currentPage: page }); });
+      this.props.getBlockList({ page }, () => { this.pagenationCallback(page); });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getBlockList({ page }, () => { this.setState({ currentPage: page }); });
+      this.props.getBlockList({ page }, () => { this.pagenationCallback(page); });
     }
+  };
+
+  pagenationCallback = (page: number) => {
+    this.setState({ currentPage: page });
+    window.history.replaceState(null, '', `/${getNetwork()}/blocks/${page}`);
   };
 
   render() {
