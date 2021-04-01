@@ -6,4 +6,4 @@ const network = getNetwork();
 
 export const getBlock = (params: any) => client.get(`block/${network}/hash/${params.hash}`);
 export const getBlockByHeight = (params: any) => client.get(`block/${network}/height/${params.height}`);
-export const getBlockList = (params: any) => client.get(`block/${network}/page/${params.page}`);
+export const getBlockList = (params: any) => client.get(`block/${network}/page/${params.page}${params.total ? `?total=${params.total}` : ''}`);

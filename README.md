@@ -21,7 +21,6 @@ Version 4.1.3
 ## Set Environment Variables
 ```
 export REACT_APP_STARCOIN_API_URL=<starcoin-explorer-api-url>
-export REACT_APP_STARCOIN_NODE_URL=<starcoin-js-sdk-node-url>
 ```
 
 ## How to run

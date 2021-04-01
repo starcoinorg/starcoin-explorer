@@ -28,8 +28,7 @@ jobs:
       - name: Build
         run: npm run build && cp build/index.html build/404.html
         env:
-          REACT_APP_STARCOIN_API_URL: http://8.131.48.230:8080
-          REACT_APP_STARCOIN_NODE_URL: http://39.102.35.25:9850
+          REACT_APP_STARCOIN_API_URL: http://8.140.163.31
           REACT_APP_STARCOIN_NETWORKS: ${{ secrets.AVAILABLE_NETWORKS }}
 
       - name: Deploy

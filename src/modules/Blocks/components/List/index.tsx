@@ -59,12 +59,13 @@ class Index extends PureComponent<Props, IndexState> {
   };
 
   pagination = (type: string) => {
+    const total = this.props.blockList && this.props.blockList.hits.total.value || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getBlockList({ page }, () => { this.pagenationCallback(page); });
+      this.props.getBlockList({ page, total }, () => { this.pagenationCallback(page); });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getBlockList({ page }, () => { this.pagenationCallback(page); });
+      this.props.getBlockList({ page, total }, () => { this.pagenationCallback(page); });
     }
   };
 
