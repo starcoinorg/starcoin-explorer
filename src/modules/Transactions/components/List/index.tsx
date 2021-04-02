@@ -7,6 +7,7 @@ import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
 import Typography from '@material-ui/core/Typography';
 import CenteredView from '@/common/View/CenteredView';
+import { getNetwork } from '@/utils/helper';
 import TransactionTable from '../Table';
 
 const useStyles = () => createStyles({
@@ -27,6 +28,7 @@ interface InternalProps {
   getTransactionList: (data: any, callback?: any) => any,
   classes: any,
   t: any,
+  match: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
@@ -46,7 +48,7 @@ class Index extends PureComponent<Props, IndexState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      currentPage: 1
+      currentPage: parseInt(props.match.params.page, 10) || 1,
     };
   }
 
@@ -59,19 +61,25 @@ class Index extends PureComponent<Props, IndexState> {
   };
 
   pagination = (type: string) => {
+    const total = this.props.transactionList && this.props.transactionList.total.value || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getTransactionList({ page }, () => { this.setState({ currentPage: page }); });
+      this.props.getTransactionList({ page, total }, () => { this.pagenationCallback(page); });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getTransactionList({ page }, () => { this.setState({ currentPage: page }); });
+      this.props.getTransactionList({ page, total }, () => { this.pagenationCallback(page); });
     }
+  };
+
+  pagenationCallback = (page: number) => {
+    this.setState({ currentPage: page });
+    window.history.replaceState(null, '', `/${getNetwork()}/transactions/${page}`);
   };
 
   render() {
     const { transactionList, isLoadingMore, className, classes, t } = this.props;
     const isInitialLoad = !transactionList;
-    const transactions = transactionList || [];
+    const transactions = transactionList && transactionList.hits || [];
     const transactionsList = transactions.length ? (
       <TransactionTable
         transactions={transactions}

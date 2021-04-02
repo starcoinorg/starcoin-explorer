@@ -229,7 +229,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const { blockList, transactionList, classes, t, i18n } = this.props;
     const blocksHit = blockList ? blockList.hits.hits : [];
     const blocks = blocksHit.slice(0, 12);
-    const transactionHit = transactionList || [];
+    const transactionHit = transactionList ? transactionList.hits : [];
     const transactions = transactionHit.slice(0, 15);
     const metrics: any[] = [];
     if (this.state.epochData) {
@@ -316,7 +316,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           )}
           {this.renderCard(
             t('home.ExploreTransactions'),
-            `/${getNetwork()}/transactions`,
+            `/${getNetwork()}/transactions/1`,
             transactionsList,
             classes.transactions,
             classes.transactionsSpacer,

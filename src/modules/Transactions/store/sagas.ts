@@ -22,7 +22,7 @@ function* watchGetTransaction() {
 export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
   try {
     const res = yield call(withLoading, api.getTransactionList, action.type, action.payload);
-    yield put(actions.setTransactionList(res.hits.hits));
+    yield put(actions.setTransactionList(res.hits));
     if (action.callback) {
       yield call(action.callback);
     }
