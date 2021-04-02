@@ -70,7 +70,7 @@ class Index extends PureComponent<Props> {
         <div className={classes.rightHeader}>
           <CommonTime
             className={classes.time}
-            time={isTransaction ? source.timestamp : source.raw_txn.expiration_timestamp_secs}
+            time={isTransaction ? source.timestamp : source.raw_txn.expiration_timestamp_secs * 1000}
           />
         </div>
       </div>
