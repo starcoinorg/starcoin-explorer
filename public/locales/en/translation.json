@@ -43,6 +43,7 @@
     "BlockHeight": "Block Height",
     "StateRootHash": "State Root Hash",
     "Status": "Status",
+    "Sender": "Sender",
     "": ""
   },
   "event": {
@@ -71,15 +72,3 @@
     "": ""
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
