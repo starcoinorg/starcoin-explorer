@@ -43,6 +43,7 @@
     "BlockHeight": "区块高度",
     "StateRootHash": "根哈希",
     "Status": "状态",
+    "Sender": "发送方",
     "": ""
   },
   "event": {

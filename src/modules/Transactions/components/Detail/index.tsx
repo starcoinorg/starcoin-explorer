@@ -94,6 +94,7 @@ class Index extends PureComponent<IndexProps> {
     const network = match.params.network;
     const source = transaction.hits.hits[0]._source;
     const payloadInHex = source.user_transaction.raw_txn.payload || '';
+    const sender = source.user_transaction.raw_txn.sender || '';
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
     const type = Object.keys(txnPayload)[0];
 
@@ -107,6 +108,10 @@ class Index extends PureComponent<IndexProps> {
       [t('transaction.Status'), source.status],
       [t('common.GasUsed'), source.gas_used]
     ];
+
+    if (sender) {
+      columns.splice(4, 0, [t('transaction.Sender'), <CommonLink path={`/${network}/address/${sender}`} title={sender} />]);
+    }
 
     return (
       <PageView
