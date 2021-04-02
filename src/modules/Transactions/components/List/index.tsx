@@ -7,7 +7,6 @@ import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
 import Typography from '@material-ui/core/Typography';
 import CenteredView from '@/common/View/CenteredView';
-import { getNetwork } from '@/utils/helper';
 import TransactionTable from '../Table';
 
 const useStyles = () => createStyles({
@@ -28,7 +27,6 @@ interface InternalProps {
   getTransactionList: (data: any, callback?: any) => any,
   classes: any,
   t: any,
-  match: any,
 }
 
 interface Props extends ExternalProps, InternalProps {}
@@ -48,7 +46,7 @@ class Index extends PureComponent<Props, IndexState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      currentPage: parseInt(props.match.params.page, 10) || 1,
+      currentPage: 1,
     };
   }
 
@@ -61,19 +59,21 @@ class Index extends PureComponent<Props, IndexState> {
   };
 
   pagination = (type: string) => {
-    const total = this.props.transactionList && this.props.transactionList.total.value || 0;
+    // transactions use timestamp as sort filed, so we can not jump to specific page
+    const hits = this.props.transactionList ? this.props.transactionList.hits : [];
+    const last = hits[hits.length - 1];
+    const after = last && last.sort[0] || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getTransactionList({ page, total }, () => { this.pagenationCallback(page); });
+      this.props.getTransactionList({ page, after }, () => { this.pagenationCallback(page); });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getTransactionList({ page, total }, () => { this.pagenationCallback(page); });
+      this.props.getTransactionList({ page, after }, () => { this.pagenationCallback(page); });
     }
   };
 
   pagenationCallback = (page: number) => {
     this.setState({ currentPage: page });
-    window.history.replaceState(null, '', `/${getNetwork()}/transactions/${page}`);
   };
 
   render() {

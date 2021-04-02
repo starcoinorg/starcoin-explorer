@@ -200,7 +200,7 @@ function Index(props: any) {
       id: 'transactions',
       label: t('header.transactions'),
       selected: location.pathname.startsWith('/transactions'),
-      href: `/${userNetwork}/transactions/1`,
+      href: `/${userNetwork}/transactions`,
     },
     {
       className: classes.button,

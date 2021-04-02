@@ -316,7 +316,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           )}
           {this.renderCard(
             t('home.ExploreTransactions'),
-            `/${getNetwork()}/transactions/1`,
+            `/${getNetwork()}/transactions`,
             transactionsList,
             classes.transactions,
             classes.transactionsSpacer,
