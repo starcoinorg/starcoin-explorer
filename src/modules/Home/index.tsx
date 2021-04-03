@@ -291,7 +291,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
               <Grid item xs={12}>
                 <Grid container justify="flex-start" spacing={0}>
                   {metrics.map((metric) => (
-                    <Grid key={metric[0]} item xs={6} md={4}>
+                    <Grid key={metric[0]} item xs={6} md={4} lg={2}>
                       <div className={classes.metric}>
                         <Typography className={classes.metricTitle} variant="body2">
                           {metric[0]}
