@@ -24,6 +24,7 @@
     "EpochStartTime": "Epoch Start Time",
     "StartEndBlock": "Start - End Block",
     "TargetBlockTime": "Target Block Time(m)",
+    "CurrentHashRate": "Current Hash Rate (H/s)",
     "": ""
   },
   "block": {
