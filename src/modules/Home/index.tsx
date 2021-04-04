@@ -237,7 +237,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       metrics.push([t('home.EpochStartTime'), formatTime(this.state.epochData.start_time, i18n.language)]);
       metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${formatNumber(this.state.epochData.end_block_number)}`]);
       metrics.push([t('home.TargetBlockTime'), formatNumber((this.state.epochData.block_time_target / 1000).toFixed(0))]);
-      if (blocks && blocks.length > 0) {
+      if (blocks && blocks.length > 0 && this.state.epochData.block_time_target > 0) {
         const currentBlockDiff = Number(blocks[0]._source.header.difficulty);
         const currentHashRate = formatNumber((currentBlockDiff / this.state.epochData.block_time_target * 1000).toFixed(0));
         metrics.push([t('home.CurrentHashRate'), currentHashRate]);
