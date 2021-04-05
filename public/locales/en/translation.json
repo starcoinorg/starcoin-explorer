@@ -23,7 +23,8 @@
     "ExploreTransactions": "Explore Transactions",
     "EpochStartTime": "Epoch Start Time",
     "StartEndBlock": "Start - End Block",
-    "TargetBlockTime": "Target Block Time(m)",
+    "TargetBlockTime": "Target Block Time(s)",
+    "CurrentHashRate": "Current Hash Rate(H/s)",
     "": ""
   },
   "block": {

@@ -235,8 +235,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
     if (this.state.epochData) {
       metrics.push(['Epoch', `${this.state.epochData.number}th`]);
       metrics.push([t('home.EpochStartTime'), formatTime(this.state.epochData.start_time, i18n.language)]);
-      metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${(this.state.epochData.end_block_number)}`]);
-      metrics.push([t('home.TargetBlockTime'), formatNumber(this.state.epochData.block_time_target)]);
+      metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${formatNumber(this.state.epochData.end_block_number)}`]);
+      metrics.push([t('home.TargetBlockTime'), formatNumber((this.state.epochData.block_time_target / 1000).toFixed(0))]);
+      if (blocks && blocks.length > 0 && this.state.epochData.block_time_target > 0) {
+        const currentBlockDiff = Number(blocks[0]._source.header.difficulty);
+        const currentHashRate = formatNumber((currentBlockDiff / this.state.epochData.block_time_target * 1000).toFixed(0));
+        metrics.push([t('home.CurrentHashRate'), currentHashRate]);
+      }
     }
     const transactionsList = transactions.length ? (
       <TransactionTable
@@ -284,9 +289,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
           <Card className={this.props.classes.card}>
             <Grid container className={classes.root} spacing={2}>
               <Grid item xs={12}>
-                <Grid container justify="center" spacing={0}>
+                <Grid container justify="flex-start" spacing={0}>
                   {metrics.map((metric) => (
-                    <Grid key={metric[0]} item xs={6} md={3}>
+                    <Grid key={metric[0]} item xs={6} md={4} lg={2}>
                       <div className={classes.metric}>
                         <Typography className={classes.metricTitle} variant="body2">
                           {metric[0]}
