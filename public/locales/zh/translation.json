@@ -24,7 +24,7 @@
     "EpochStartTime": "Epoch开始时间",
     "StartEndBlock": "开始 - 结束 区块",
     "TargetBlockTime": "目标区块时间(秒)",
-    "CurrentHashRate": "当前全网算力 (哈希/秒)",
+    "CurrentHashRate": "当前全网算力(哈希/秒)",
     "": ""
   },
   "block": {
