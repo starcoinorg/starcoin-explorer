@@ -22,3 +22,25 @@ export function getNetwork() {
 export function isHex(num: string) {
   return Boolean(num.match(/^0x[0-9a-f]+$/i))
 }
+
+export function hexToArrayBuffer (hex: string) {
+  if (typeof hex !== 'string') {
+    return new Uint8Array(0);
+  }
+
+  if (hex.startsWith('0x')){
+    hex = hex.slice(2);
+  }
+
+  if ((hex.length % 2) !== 0) {
+    return new Uint8Array(0);
+  }
+
+  var view = new Uint8Array(hex.length / 2)
+
+  for (var i = 0; i < hex.length; i += 2) {
+    view[i / 2] = parseInt(hex.substring(i, i + 2), 16)
+  }
+
+  return view
+}
