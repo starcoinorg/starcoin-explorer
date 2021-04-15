@@ -12,7 +12,7 @@ import PageViewTable from '@/common/View/PageViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding, types, bcs } from '@starcoin/starcoin';
-import { hexToArrayBuffer } from '@/utils/helper';
+import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
 
 const useStyles = () => createStyles({
@@ -111,7 +111,7 @@ class Index extends PureComponent<IndexProps> {
       const args = txnPayload.ScriptFunction.args;
       arg0 = args[0];
       arg1 = args[1];
-      const de2 = new bcs.BcsDeserializer(hexToArrayBuffer(args[2]));
+      const de2 = new bcs.BcsDeserializer(arrayify(args[2]));
       arg2 = de2.deserializeU128().toString();
     }
 
@@ -140,7 +140,7 @@ class Index extends PureComponent<IndexProps> {
       columns.push([t('transaction.arg1'), arg1]);
     }
     if (arg2) {
-      columns.push([t('transaction.arg2'), arg2]);
+      columns.push([t('transaction.arg2'), `${arg2} STC`]);
     }
 
     return (
