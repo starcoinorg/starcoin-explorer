@@ -45,6 +45,11 @@
     "StateRootHash": "根哈希",
     "Status": "状态",
     "Sender": "发送方",
+    "FunctionModuleName": "模块名",
+    "FunctionName": "函数名",
+    "arg0": "参数0",
+    "arg1": "参数1",
+    "arg2": "参数2",
     "": ""
   },
   "event": {

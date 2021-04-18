@@ -11,7 +11,8 @@ import PageView from '@/common/View/PageView';
 import PageViewTable from '@/common/View/PageViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { encoding } from '@starcoin/starcoin';
+import { encoding, types, bcs } from '@starcoin/starcoin';
+import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
 
 const useStyles = () => createStyles({
@@ -98,6 +99,22 @@ class Index extends PureComponent<IndexProps> {
     const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
     const type = Object.keys(txnPayload)[0];
 
+    let functionName;
+    let moduleName;
+    let arg0;
+    let arg1;
+    let arg2;
+    if ('ScriptFunction' in txnPayload) {
+      const func = txnPayload.ScriptFunction.func as { address: types.AccountAddress, module: types.Identifier, functionName: types.Identifier };
+      functionName = func.functionName;
+      moduleName = func.module;
+      const args = txnPayload.ScriptFunction.args;
+      arg0 = args[0];
+      arg1 = args[1];
+      const de2 = new bcs.BcsDeserializer(arrayify(args[2]));
+      arg2 = de2.deserializeU128().toString();
+    }
+
     const columns = [
       [t('common.Hash'), source.transaction_hash],
       [t('transaction.Type'), type],
@@ -106,11 +123,24 @@ class Index extends PureComponent<IndexProps> {
       [t('common.Time'), new Date(parseInt(source.timestamp, 10)).toLocaleString()],
       [t('transaction.StateRootHash'), source.state_root_hash],
       [t('transaction.Status'), source.status],
-      [t('common.GasUsed'), source.gas_used]
+      [t('common.GasUsed'), source.gas_used],
+      [t('transaction.Sender'), <CommonLink path={`/${network}/address/${sender}`} title={sender} />]
     ];
 
-    if (sender) {
-      columns.splice(4, 0, [t('transaction.Sender'), <CommonLink path={`/${network}/address/${sender}`} title={sender} />]);
+    if (moduleName) {
+      columns.push([t('transaction.FunctionModuleName'), moduleName]);
+    }
+    if (functionName) {
+      columns.push([t('transaction.FunctionName'), functionName]);
+    }
+    if (arg0) {
+      columns.push([t('transaction.arg0'), <CommonLink path={`/${network}/address/${arg0}`} title={arg0} />]);
+    }
+    if (arg1) {
+      columns.push([t('transaction.arg1'), arg1]);
+    }
+    if (arg2) {
+      columns.push([t('transaction.arg2'), `${arg2} STC`]);
     }
 
     return (
