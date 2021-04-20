@@ -10,6 +10,7 @@ import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { getAddressData, getBalancesData } from '@/utils/sdk';
+import { formatBalance } from '@/utils/helper';
 
 const useStyles = () => createStyles({
   table: {
@@ -107,7 +108,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     let value;
     Object.keys(balancesData).forEach((key, idx) => {
       value = (idx === 0) ? key : '';
-      options.push(<option key={key} value={key}>{`${balancesData[key]} ${key.split('::')[2]}`}</option>);
+      options.push(<option key={key} value={key}>{`${formatBalance(balancesData[key])} ${key.split('::')[2]}`}</option>);
     });
 
     const token = (

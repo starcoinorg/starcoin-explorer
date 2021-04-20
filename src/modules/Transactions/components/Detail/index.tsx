@@ -14,6 +14,7 @@ import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
+import { formatBalance } from '@/utils/helper';
 
 const useStyles = () => createStyles({
   table: {
@@ -140,7 +141,7 @@ class Index extends PureComponent<IndexProps> {
       columns.push([t('transaction.arg1'), arg1]);
     }
     if (arg2) {
-      columns.push([t('transaction.arg2'), `${arg2} STC`]);
+      columns.push([t('transaction.arg2'), `${formatBalance(arg2)} STC`]);
     }
 
     return (
