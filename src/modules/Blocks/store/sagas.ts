@@ -44,7 +44,7 @@ export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
     }
   } catch (err) {
     if (err.message) {
-      console.log(err.message);
+      yield put(actions.setBlockList([]));
     }
   }
 }

@@ -29,6 +29,7 @@
   },
   "block": {
     "title": "Block",
+    "NoBlockData": "No Block Data",
     "Height": "Height",
     "Author": "Author",
     "Difficulty": "Difficulty",

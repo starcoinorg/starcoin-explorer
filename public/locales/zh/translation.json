@@ -29,6 +29,7 @@
   },
   "block": {
     "title": "区块",
+    "NoBlockData": "没有区块数据",
     "Height": "高度",
     "Author": "创建者",
     "Difficulty": "难度",

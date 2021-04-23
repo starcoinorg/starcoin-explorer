@@ -5,6 +5,8 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
 import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
+import Typography from '@material-ui/core/Typography';
+import CenteredView from '@/common/View/CenteredView';
 import { getNetwork } from '@/utils/helper';
 import BlockTable from '../Table';
 
@@ -29,7 +31,7 @@ interface InternalProps {
   match: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps { }
 
 interface IndexState {
   currentPage: number
@@ -40,7 +42,7 @@ class Index extends PureComponent<Props, IndexState> {
   static defaultProps = {
     blockList: null,
     isLoadingMore: undefined,
-    getBlockList: () => {}
+    getBlockList: () => { }
   };
 
   constructor(props: Props) {
@@ -77,8 +79,23 @@ class Index extends PureComponent<Props, IndexState> {
   render() {
     const { blockList, classes, t, className, isLoadingMore } = this.props;
     const isInitialLoad = !blockList;
-    const hits = blockList && blockList.hits.hits || [];
+    const hits = blockList && blockList.hits && blockList.hits.hits || [];
     const blocks = hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number);
+    const blocksList = blocks.length ? (
+      <BlockTable
+        blocks={blocks}
+        sizeVisibleAt="xs"
+        authorVisibleAt="md"
+      />
+    ) : (
+      <CenteredView>
+        <div className={classes.header}>
+          <Typography variant="h5" gutterBottom className={classes.title}>
+            {t('block.NoBlockData')}
+          </Typography>
+        </div>
+      </CenteredView>
+    );
     return (
       <div>
         <Helmet>
@@ -91,11 +108,7 @@ class Index extends PureComponent<Props, IndexState> {
           pluralName={t('header.blocks')}
           content={
             <div>
-              {isInitialLoad ? <Loading /> : <BlockTable
-                blocks={blocks}
-                sizeVisibleAt="xs"
-                authorVisibleAt="md"
-              />}
+              {isInitialLoad ? <Loading /> : blocksList}
               <div className={classes.pagerArea}>
                 <Pagination
                   page={this.state.currentPage}

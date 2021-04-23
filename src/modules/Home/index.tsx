@@ -163,10 +163,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     blockList: null,
-    getBlockList: () => {},
+    getBlockList: () => { },
     transactionList: null,
-    getTransactionList: () => {},
-    pushLocation: () => {}
+    getTransactionList: () => { },
+    pushLocation: () => { }
   };
 
   constructor(props: IndexProps) {
@@ -227,9 +227,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   render() {
     const { blockList, transactionList, classes, t, i18n } = this.props;
-    const blocksHit = blockList ? blockList.hits.hits : [];
+    const blocksHit = blockList && blockList.hits && blockList.hits.hits ? blockList.hits.hits : [];
     const blocks = blocksHit.slice(0, 12);
-    const transactionHit = transactionList ? transactionList.hits : [];
+    const transactionHit = transactionList && transactionList.hits ? transactionList.hits : [];
     const transactions = transactionHit.slice(0, 15);
     const metrics: any[] = [];
     if (this.state.epochData) {
