@@ -35,6 +35,7 @@
     "Difficulty": "难度",
     "ParentHash": "父块哈希",
     "Transactions": "交易量",
+    "Uncles": "叔块",
     "": ""
   },
   "transaction": {

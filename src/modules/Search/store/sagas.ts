@@ -1,10 +1,10 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import get from "lodash/get";
 import withLoading from '@/sagaMiddleware/index';
-import {isHex} from "@/utils/helper";
+import { isHex } from "@/utils/helper";
 import { getBlock, getBlockByHeight } from '@/Blocks/store/apis';
 import { getTransaction, getAddressTransactions } from '@/Transactions/store/apis';
-import { pushLocation }  from '@/rootStore/router/actions';
+import { pushLocation } from '@/rootStore/router/actions';
 import { getAddressData } from '@/utils/sdk';
 import { getNetwork } from '@/utils/helper';
 import * as actions from './actions';
@@ -33,7 +33,7 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
       // by hash
       if (isHex(action.payload) && get(res[0], 'hits.hits[0]._id') === action.payload) {
         url = `/${getNetwork()}/blocks/detail/${action.payload}`;
-      // by height
+        // by height
       } else if (get(res[0], 'hits.hits[0]._source.header.number') === action.payload) {
         url = `/${getNetwork()}/blocks/height/${action.payload}`;
       }

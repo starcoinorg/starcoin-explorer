@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
+import get from 'lodash/get';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
@@ -12,7 +13,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PageViewTable from '@/common/View/PageViewTable';
-import get from 'lodash/get';
 
 const useStyles = () => createStyles({
   table: {
@@ -52,10 +52,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
     match: {},
     block: null,
     blockTransactions: null,
-    getBlock: () => {},
-    getBlockByHeight: () => {},
-    getBlockTransactions: () => {},
-    getBlockTransactionsByHeight: () => {}
+    getBlock: () => { },
+    getBlockByHeight: () => { },
+    getBlockTransactions: () => { },
+    getBlockTransactionsByHeight: () => { }
   };
 
   constructor(props: IndexProps) {
@@ -174,7 +174,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.GasUsed'), header.gas_used],
       [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
     ];
-
+    const uncles = block.hits.hits[0]._source.uncles;
+    if (uncles.length) {
+      const unclesList = uncles.map((item: any) => <CommonLink key={item.number} onClick={() => window.location.href = `/${network}/blocks/height/${item.number}`} path={`/${network}/blocks/height/${item.number}`} title={formatNumber(item.number)} />);
+      columns.push([t('block.Uncles'), unclesList]);
+    }
     return (
       <PageView
         id={header.block_hash}

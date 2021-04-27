@@ -35,6 +35,7 @@
     "Difficulty": "Difficulty",
     "ParentHash": "Parant Hash",
     "Transactions": "Transactions",
+    "Uncles": "Uncles",
     "": ""
   },
   "transaction": {
