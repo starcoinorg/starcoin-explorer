@@ -62,6 +62,10 @@
     "Seq": "序号",
     "": ""
   },
+  "uncle": {
+    "NoUncleData": "没有叔块数据",
+    "": ""
+  },
   "ecosystems": {
     "cards": {
       "title_0": "Starcoin",

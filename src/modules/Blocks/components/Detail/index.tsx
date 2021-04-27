@@ -100,7 +100,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   generateExtra() {
-    const { block, blockTransactions, classes, t } = this.props;
+    const { block, blockTransactions, classes, match, t } = this.props;
     const isInitialLoad = !block;
     const transactions = get(block, 'hits.hits[0]._source.body.Full', []);
     const events = get(blockTransactions, 'hits.hits[0]._source.events', []);
@@ -113,11 +113,27 @@ class Index extends PureComponent<IndexProps, IndexState> {
       eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
     });
 
+    const network = match.params.network;
+    const uncles = get(block, 'hits.hits[0]._source.uncles', []);
+    const unclesTable: any[] = [];
+    uncles.forEach((uncle: any) => {
+      const columns: any[] = [];
+      columns.push([t('common.Hash'), uncle.block_hash]);
+      columns.push([t('block.Height'), formatNumber(uncle.number)]);
+      columns.push([t('common.Time'), new Date(parseInt(uncle.timestamp, 10)).toLocaleString()]);
+      columns.push([t('block.Author'), <CommonLink key={uncle.author} path={`/${network}/address/${uncle.author}`} title={uncle.author} />]);
+      columns.push([t('block.Difficulty'), uncle.difficulty]);
+      columns.push([t('common.GasUsed'), uncle.gas_used]);
+      columns.push([t('block.ParentHash'), <CommonLink key={uncle.parent_hash} path={`/${network}/blocks/detail/${uncle.parent_hash}`} title={uncle.parent_hash} />]);
+      unclesTable.push(<PageViewTable key={uncle.number} columns={columns} />);
+    });
+
     const transactionsContent = transactions.length ? <TransactionTable
       transactions={transactions}
     /> : <Typography variant="body1">{t('transaction.NoTransactionData')}</Typography>;
 
     const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
+    const unclesContent = uncles.length ? unclesTable : <Typography variant="body1">{t('uncle.NoUncleData')}</Typography>;
     return (
       <div>
         <br />
@@ -150,6 +166,21 @@ class Index extends PureComponent<IndexProps, IndexState> {
             </div>
           </AccordionDetails>
         </Accordion>
+        <br />
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h5" gutterBottom>{t('block.Uncles')}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={classes.table}>
+              {isInitialLoad ? <Loading /> : unclesContent}
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </div>
     );
   }
@@ -174,11 +205,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.GasUsed'), header.gas_used],
       [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
     ];
-    const uncles = block.hits.hits[0]._source.uncles;
-    if (uncles.length) {
-      const unclesList = uncles.map((item: any) => <CommonLink key={item.number} onClick={() => window.location.href = `/${network}/blocks/height/${item.number}`} path={`/${network}/blocks/height/${item.number}`} title={formatNumber(item.number)} />);
-      columns.push([t('block.Uncles'), unclesList]);
-    }
+
     return (
       <PageView
         id={header.block_hash}
