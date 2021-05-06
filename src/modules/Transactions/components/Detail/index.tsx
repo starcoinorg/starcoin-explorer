@@ -15,6 +15,7 @@ import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
 import { formatBalance } from '@/utils/helper';
+import BaseRouteLink from '@/common/BaseRouteLink';
 
 const useStyles = () => createStyles({
   table: {
@@ -120,8 +121,8 @@ class Index extends PureComponent<IndexProps> {
       [t('common.Hash'), source.transaction_hash],
       [t('transaction.Type'), type],
       [t('transaction.BlockHash'), <CommonLink path={`/${network}/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
-      [t('transaction.BlockHeight'), formatNumber(source.block_number)],
-      [t('common.Time'), new Date(parseInt(source.timestamp, 10)).toLocaleString()],
+      [t('transaction.BlockHeight'), <BaseRouteLink to={`/${network}/blocks/height/${source.block_number}`}>{formatNumber(source.block_number)}</BaseRouteLink>],
+      // [t('common.Time'), new Date(parseInt(blockTime, 10)).toLocaleString()],
       [t('transaction.StateRootHash'), source.state_root_hash],
       [t('transaction.Status'), source.status],
       [t('common.GasUsed'), source.gas_used],
