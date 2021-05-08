@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import { Redirect } from 'react-router-dom';
 
 interface NetworkRedirectRouterProps {
-  computedMatch: any;
+  location: any;
 }
 
 class NetworkRedirectRouter extends PureComponent<NetworkRedirectRouterProps> {
   render() {
-    const { computedMatch: match } = this.props;
-    const redirectNetwork = match.params.network;
+    const { location } = this.props;
+    const redirectNetwork = location.pathname.slice(1);
     localStorage.setItem('network', redirectNetwork);
     return (
       <Redirect
