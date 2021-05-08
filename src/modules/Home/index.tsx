@@ -152,6 +152,7 @@ interface IndexProps {
   transactionList: any;
   getTransactionList: (data: any, callback?: any) => any;
   pushLocation: (data: any) => any;
+  location: any;
 }
 
 interface IndexState {
@@ -178,8 +179,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidMount() {
-    this.props.getBlockList({ page: 1 });
-    this.props.getTransactionList({ page: 1 });
+    // check redirection
+    const { location } = this.props;
+    if (location.state) {
+      const newNetwork = location.state.network;
+      localStorage.setItem('network', newNetwork);
+      this.props.getBlockList({ network: newNetwork, page: 1 });
+      this.props.getTransactionList({ network: newNetwork, page: 1 });
+    } else {
+      this.props.getBlockList({ page: 1 });
+      this.props.getTransactionList({ page: 1 });
+    }
     getEpochData().then(data => {
       if (data) {
         this.setState({ epochData: data });
