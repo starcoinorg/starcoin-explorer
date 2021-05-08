@@ -5,8 +5,8 @@ import { getNetwork } from '@/utils/helper';
 
 const network = getNetwork();
 
-export const getTransaction = (params: any) => client.get(`transaction/${network}/hash/${params.hash}`);
-export const getTransactionList = (params: any) => client.get(`transaction/${network}/page/${params.page}${params.page > 1 && params.after ? `?after=${params.after}` : ''}`);
-export const getAddressTransactions = (params: any) => client.get(`transaction/${network}/byAddress/${params.hash}`);
-export const getBlockTransactions = (params: any) => client.get(`transaction/${network}/byBlock/${params.hash}`);
-export const getBlockTransactionsByHeight = (params: any) => client.get(`transaction/${network}/byBlockHeight/${params.height}`);
+export const getTransaction = (params: any) => client.get(`transaction/${params.network ? params.network : network}/hash/${params.hash}`);
+export const getTransactionList = (params: any) => client.get(`transaction/${params.network ? params.network : network}/page/${params.page}${params.page > 1 && params.after ? `?after=${params.after}` : ''}`);
+export const getAddressTransactions = (params: any) => client.get(`transaction/${params.network ? params.network : network}/byAddress/${params.hash}`);
+export const getBlockTransactions = (params: any) => client.get(`transaction/${params.network ? params.network : network}/byBlock/${params.hash}`);
+export const getBlockTransactionsByHeight = (params: any) => client.get(`transaction/${params.network ? params.network : network}/byBlockHeight/${params.height}`);
