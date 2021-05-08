@@ -61,7 +61,10 @@ ReactDOM.render(
         <RouteWithLayout path={withBaseRoute('/search/:keyword')} title="Search" layout={MainLayout} component={Search} />
         <RouteWithLayout path={withBaseRoute('/:network/blocks')} title="Block" layout={MainLayout} component={Blocks} />
         <RouteWithLayout path={withBaseRoute('/:network/transactions')} title="Transaction" layout={MainLayout} component={Transactions} />
-        <RouteWithLayout path={withBaseRoute('/network/:network(barnard|proxima|halley)?')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
+        <RouteWithLayout exact path={withBaseRoute('/barnard')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
+        <RouteWithLayout exact path={withBaseRoute('/halley')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
+        <RouteWithLayout exact path={withBaseRoute('/proxima')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
+        <RouteWithLayout exact path={withBaseRoute('/main')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
         <RouteWithLayout path={withBaseRoute('/:network/address/:hash')} title="Address" layout={MainLayout} component={Address} />
