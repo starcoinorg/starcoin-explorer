@@ -8,14 +8,17 @@ interface NetworkRedirectRouterProps {
 class NetworkRedirectRouter extends PureComponent<NetworkRedirectRouterProps> {
   render() {
     const { computedMatch: match } = this.props;
-    const oldNetwork = localStorage.getItem('network');
-    const newNetwork = match.params.network;
-    if (oldNetwork !== newNetwork) {
-      localStorage.setItem('network', match.params.network);
-      window.location.href = '/';
-    }
+    const redirectNetwork = match.params.network;
+    localStorage.setItem('network', redirectNetwork);
     return (
-      <Redirect push to="/" />
+      <Redirect
+        to={{
+          pathname: '/',
+          state: {
+            network: redirectNetwork
+          }
+        }}
+      />
     );
   }
 }
