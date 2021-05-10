@@ -248,9 +248,18 @@ class Index extends PureComponent<IndexProps, IndexState> {
       metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${formatNumber(this.state.epochData.end_block_number)}`]);
       metrics.push([t('home.TargetBlockTime'), formatNumber((this.state.epochData.block_time_target / 1000).toFixed(0))]);
       if (blocks && blocks.length > 0 && this.state.epochData.block_time_target > 0) {
-        const currentBlockDiff = Number(blocks[0]._source.header.difficulty);
-        const currentHashRate = formatNumber((currentBlockDiff / this.state.epochData.block_time_target * 1000).toFixed(0));
-        metrics.push([t('home.CurrentHashRate'), currentHashRate]);
+        // const currentBlockDiff = Number(blocks[0]._source.header.difficulty);
+        // const currentHashRate = formatNumber((currentBlockDiff / this.state.epochData.block_time_target * 1000).toFixed(0));
+        let totalDiff = 0;
+        for (let i = 0; i < blocksHit.length; i++) {
+          totalDiff += blocksHit[i]._source.header.difficulty_number;
+        }
+        const averageBlockDiff = Number(totalDiff / blocksHit.length);
+        const endTime = blocksHit[0]._source.header.timestamp;
+        const startTime = blocksHit[blocksHit.length - 1]._source.header.timestamp;
+        const averageBlockTime = Number((endTime - startTime) / blocksHit.length);
+        const averageHashRate = formatNumber((averageBlockDiff / averageBlockTime * 1000).toFixed(0));
+        metrics.push([t('home.CurrentHashRate'), averageHashRate]);
       }
     }
     const transactionsList = transactions.length ? (
