@@ -10,7 +10,7 @@ import { getNetwork } from '@/utils/helper';
 import * as actions from './actions';
 import * as types from './constants';
 
-export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>) {
+export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>):any {
   try {
     let res = [];
     if (isHex(action.payload)) {
