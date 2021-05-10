@@ -4,7 +4,7 @@ import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
 
-export function* getBlock(action: ReturnType<typeof actions.getBlock>) {
+export function* getBlock(action: ReturnType<typeof actions.getBlock>):any {
   try {
     const res = yield call(withLoading, api.getBlock, action.type, action.payload);
     yield put(actions.setBlock(res));
@@ -20,7 +20,7 @@ function* watchGetBlock() {
 }
 
 
-export function* getBlockByHeight(action: ReturnType<typeof actions.getBlock>) {
+export function* getBlockByHeight(action: ReturnType<typeof actions.getBlock>):any {
   try {
     const res = yield call(withLoading, api.getBlockByHeight, action.type, action.payload);
     yield put(actions.setBlock(res));
@@ -35,7 +35,7 @@ function* watchGetBlockByHeight() {
   yield takeLatest(types.GET_BLOCK_BY_HEIGHT, getBlockByHeight)
 }
 
-export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
+export function* getBlockList(action: ReturnType<typeof actions.getBlockList>):any {
   try {
     const res = yield call(withLoading, api.getBlockList, action.type, action.payload);
     yield put(actions.setBlockList(res));

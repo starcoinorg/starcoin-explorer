@@ -4,7 +4,7 @@ import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
 
-export function* getTransaction(action: ReturnType<typeof actions.getTransaction>) {
+export function* getTransaction(action: ReturnType<typeof actions.getTransaction>):any {
   try {
     const res = yield call(withLoading, api.getTransaction, action.type, action.payload);
     yield put(actions.setTransaction(res));
@@ -19,7 +19,7 @@ function* watchGetTransaction() {
   yield takeLatest(types.GET_TRANSACTION, getTransaction)
 }
 
-export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
+export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>):any {
   try {
     const res = yield call(withLoading, api.getTransactionList, action.type, action.payload);
     yield put(actions.setTransactionList(res.hits));
@@ -38,7 +38,7 @@ function* watchGetTransactionList() {
 }
 
 
-export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
+export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>):any {
   try {
     const res = yield call(withLoading, api.getAddressTransactions, action.type, action.payload);
     yield put(actions.setAddressTransactions(res));
@@ -56,7 +56,7 @@ function* watchGetAddressTransactions() {
   yield takeLatest(types.GET_ADDRESS_TRANSACTIONS, getAddressTransactions)
 }
 
-export function* getBlockTransactions(action: ReturnType<typeof actions.getBlockTransactions>) {
+export function* getBlockTransactions(action: ReturnType<typeof actions.getBlockTransactions>):any {
   try {
     const res = yield call(withLoading, api.getBlockTransactions, action.type, action.payload);
     yield put(actions.setBlockTransactions(res));
@@ -75,7 +75,7 @@ function* watchGetBlockTransactions() {
 }
 
 
-export function* getBlockTransactionsByHeight(action: ReturnType<typeof actions.getBlockTransactions>) {
+export function* getBlockTransactionsByHeight(action: ReturnType<typeof actions.getBlockTransactions>):any {
   try {
     const res = yield call(withLoading, api.getBlockTransactionsByHeight, action.type, action.payload);
     yield put(actions.setBlockTransactions(res));

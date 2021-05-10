@@ -1,6 +1,6 @@
 import { put, call, all } from 'redux-saga/effects';
 
-function* withLoading(func: any, type: any, params: any) {
+function* withLoading(func: any, type: any, params: any):any {
   try {
     yield(put({ type: `${type}_REQUEST`}));
     let response;
