@@ -167,8 +167,9 @@ function Index(props: any) {
     setNetworkMenu(null);
   };
 
-  const networks = process.env.REACT_APP_STARCOIN_NETWORKS || '';
-  const availableNetworks = networks.split(',');
+  // const networks = process.env.REACT_APP_STARCOIN_NETWORKS || '';
+  // const availableNetworks = networks.split(',');
+  const availableNetworks = ['main', 'barnard', 'proxima', 'halley'];
   const currentNetwork = availableNetworks.filter((network) => network === userNetwork);
   const currentNetworkLabel = currentNetwork[0] || '-';
   const networkMenus = (
