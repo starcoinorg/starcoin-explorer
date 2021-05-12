@@ -82,5 +82,15 @@
     "Time": "Time",
     "GasUsed": "Gas Used",
     "": ""
+  },
+  "countdown": {
+    "day": "Day",
+    "hour": "Hour",
+    "minute": "Minute",
+    "second": "Second",
+    "countdown": "Launch Countdown",
+    "launchtime": "Estimated Launch Time",
+    "gettime": "Getting time...",
+    "title": "Blocks Left for Launching Starcoin Main Network"
   }
 }
