@@ -1,4 +1,4 @@
-import { call, put, takeLatest, take, fork, cancel, cancelled, delay } from 'redux-saga/effects';
+import { call, put, takeLatest, fork, delay } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
@@ -21,12 +21,16 @@ function* watchGetTransaction() {
   yield takeLatest(types.GET_TRANSACTION, getTransaction)
 }
 
-export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
+export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>): any {
   try {
     const res = yield call(withLoading, api.getTransactionList, action.type, action.payload);
     yield put(actions.setTransactionList(res.hits));
     if (action.callback) {
       yield call(action.callback);
+    }
+    if (action.payload.page === 1) {
+      yield delay(transactionPollingInterval);
+      yield fork(getTransactionList, action);
     }
   } catch (err) {
     if (err.message) {
@@ -35,29 +39,9 @@ export function* getTransactionList(action: ReturnType<typeof actions.getTransac
   }
 }
 
-function* transactionPolling(action: ReturnType<typeof actions.getTransactionList>) {
-  while (true) {
-    yield getTransactionList(action)
-    yield delay(transactionPollingInterval)
-  }
+function* watchGetTransactionList() {
+  yield takeLatest(types.GET_TRANSACTION_LIST, getTransactionList)
 }
-
-export function* transactionPollingManager() {
-  let action, pollingTask: any;
-  while (action = yield take(types.GET_TRANSACTION_LIST)) {
-    if (pollingTask) {
-      yield cancel(pollingTask);
-    }
-    const { page } = action.payload;
-    if (page === 0) continue;
-    if (page === 1) {
-      pollingTask = yield fork(transactionPolling, action);
-    } else {
-      yield getTransactionList(action)
-    }
-  }
-}
-
 
 export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
   try {
@@ -116,7 +100,7 @@ function* watchGetBlockTransactionsByHeight() {
 
 const sagas = [
   watchGetTransaction,
-  transactionPollingManager,
+  watchGetTransactionList,
   watchGetAddressTransactions,
   watchGetBlockTransactions,
   watchGetBlockTransactionsByHeight

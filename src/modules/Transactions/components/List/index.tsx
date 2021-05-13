@@ -54,11 +54,6 @@ class Index extends PureComponent<Props, IndexState> {
     this.fetchListPage(this.state.currentPage);
   }
 
-  componentWillUnmount() {
-    // stop tx polling
-    this.fetchListPage(0);
-  }
-
   fetchListPage = (page: number) => {
     this.props.getTransactionList({ page });
   };
