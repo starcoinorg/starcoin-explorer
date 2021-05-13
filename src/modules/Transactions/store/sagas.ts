@@ -1,8 +1,10 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, take, fork, cancel, cancelled, delay } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
+
+const transactionPollingInterval = 5000;
 
 export function* getTransaction(action: ReturnType<typeof actions.getTransaction>) {
   try {
@@ -33,8 +35,35 @@ export function* getTransactionList(action: ReturnType<typeof actions.getTransac
   }
 }
 
-function* watchGetTransactionList() {
-  yield takeLatest(types.GET_TRANSACTION_LIST, getTransactionList)
+function* transactionPolling(action: ReturnType<typeof actions.getTransactionList>) {
+  try {
+    while (true) {
+      yield getTransactionList(action)
+      yield delay(transactionPollingInterval)
+    }
+  } finally {
+    if (yield cancelled()) {
+      console.log('tx polling stopped')
+    }
+  }
+}
+
+export function* transactionPollingManager() {
+  let action, pollingTask: any;
+  console.log(`initial value transaction pollingTask: ${pollingTask}`);
+  while (action = yield take(types.GET_TRANSACTION_LIST)) {
+    console.log(action);
+    if (pollingTask) {
+      yield cancel(pollingTask);
+    }
+    const { page } = action.payload;
+    if (page === 1) {
+      console.log('startted tx polling');
+      pollingTask = yield fork(transactionPolling, action);
+    } else {
+      yield getTransactionList(action)
+    }
+  }
 }
 
 
@@ -95,7 +124,7 @@ function* watchGetBlockTransactionsByHeight() {
 
 const sagas = [
   watchGetTransaction,
-  watchGetTransactionList,
+  transactionPollingManager,
   watchGetAddressTransactions,
   watchGetBlockTransactions,
   watchGetBlockTransactionsByHeight

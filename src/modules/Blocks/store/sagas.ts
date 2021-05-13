@@ -1,8 +1,10 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, take, fork, cancel, cancelled, delay } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
+
+const blockPollingInterval = 5000;
 
 export function* getBlock(action: ReturnType<typeof actions.getBlock>) {
   try {
@@ -49,14 +51,41 @@ export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
   }
 }
 
-function* watchGetBlockList() {
-  yield takeLatest(types.GET_BLOCK_LIST, getBlockList)
+function* blockPolling(action: ReturnType<typeof actions.getBlockList>) {
+  try {
+    while (true) {
+      yield getBlockList(action)
+      yield delay(blockPollingInterval)
+    }
+  } finally {
+    if (yield cancelled()) {
+      console.log('block polling stopped')
+    }
+  }
+}
+
+export function* blockPollingManager() {
+  let action, pollingTask: any;
+  console.log(`initial value block pollingTask: ${pollingTask}`);
+  while (action = yield take(types.GET_BLOCK_LIST)) {
+    console.log(action);
+    if (pollingTask) {
+      yield cancel(pollingTask);
+    }
+    const { page } = action.payload;
+    if (page === 1) {
+      console.log('startted block polling');
+      pollingTask = yield fork(blockPolling, action);
+    } else {
+      yield getBlockList(action)
+    }
+  }
 }
 
 const sagas = [
   watchGetBlock,
   watchGetBlockByHeight,
-  watchGetBlockList
+  blockPollingManager
 ];
 
 export default sagas;

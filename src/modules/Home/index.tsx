@@ -202,6 +202,12 @@ class Index extends PureComponent<IndexProps, IndexState> {
     });
   }
 
+  componentWillUnmount() {
+    // stop block polling and tx polling
+    this.props.getBlockList({ page: 0 });
+    this.props.getTransactionList({ page: 0 });
+  }
+
   onChange = (event: any) => {
     const { value } = event.target;
     this.setState({ value });
