@@ -14,6 +14,13 @@ import { getEpochData, getBarnardLatestInfo } from '@/utils/sdk';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import 'dayjs/locale/en';
+import Timeline from '@material-ui/lab/Timeline';
+import TimelineItem from '@material-ui/lab/TimelineItem';
+import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
+import TimelineConnector from '@material-ui/lab/TimelineConnector';
+import TimelineContent from '@material-ui/lab/TimelineContent';
+import TimelineDot from '@material-ui/lab/TimelineDot';
+import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 
 const localizedFormat = require('dayjs/plugin/localizedFormat');
 
@@ -306,7 +313,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 <div
                   className=""
                   style={{
-                    fontSize: '5rem',
+                    fontSize: '4rem',
                     textAlign: 'center',
                     color: '#3F3F3F'
                   }}
@@ -332,7 +339,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 <div
                   className=""
                   style={{
-                    fontSize: '5rem',
+                    fontSize: '4rem',
                     textAlign: 'center',
                     color: '#3F3F3F'
                   }}
@@ -358,7 +365,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 <div
                   className=""
                   style={{
-                    fontSize: '5rem',
+                    fontSize: '4rem',
                     textAlign: 'center',
                     color: '#3F3F3F'
                   }}
@@ -384,7 +391,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 <div
                   className=""
                   style={{
-                    fontSize: '5rem',
+                    fontSize: '4rem',
                     textAlign: 'center',
                     color: '#3F3F3F'
                   }}
@@ -458,7 +465,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
           <Grid container spacing={3} justify="center">
             <Grid item xs={8} style={{ textAlign: 'center' }}>
               <br />
-              <br />
               <Grid container spacing={3} justify="center">
                 <Grid item xs={12} style={{ textAlign: 'center' }}>
                   <div
@@ -505,10 +511,23 @@ class Index extends PureComponent<IndexProps, IndexState> {
                     }}
                   />
                 </Grid>
+                <br />
+                <Grid item xs={12} style={{ textAlign: 'left', fontSize: '1.2rem' }}>
+                  <div style={{ marginBottom: '0.4rem' }}>
+                    { t('countdown.barnardBlock') }<strong>{ currentBlock || 0 }</strong>
+                  </div>
+                  <div style={{ marginBottom: '0.4rem' }}>
+                    { t('countdown.mainnetBlock') }<strong>310000</strong>
+                  </div>
+                  <div style={{ marginBottom: '0.4rem' }}>
+                    { t('countdown.launchtime') }
+                    <strong>
+                      { dayjs(dateTime).isValid() ? dayjs(dateTime).format('LLLL') : t('countdown.gettime') }
+                    </strong>
+                  </div>
+                </Grid>
               </Grid>
-              <br />
-              <br />
-              <br />
+              {/*
               <Grid container spacing={3} justify="center">
                 <Grid item xs={12} style={{ textAlign: 'center' }}>
                   <div
@@ -544,7 +563,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                   </Paper>
                 </Grid>
               </Grid>
-              <br />
+              */}
               <br />
               <br />
               <Grid container spacing={3} justify="center">
@@ -562,6 +581,361 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 </Grid>
               </Grid>
               <Countdown date={dateTime} renderer={renderer} />
+              <br />
+              <br />
+              <Grid container spacing={3} justify="center">
+                <Grid item xs={12} style={{ textAlign: 'center' }}>
+                  <div
+                    style={{
+                      fontSize: '1.6rem',
+                      fontWeight: 600,
+                      textAlign: 'center',
+                      color: '#3F3F3F'
+                    }}
+                  >
+                    Starcoin { t('countdown.eventsline') }
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3} justify="center">
+                <Grid item xs={12} style={{ textAlign: 'left' }}>
+                  <Paper
+                    elevation={3}
+                    style={{
+                      paddingTop: '1rem',
+                      paddingBottom: '1rem',
+                    }}
+                  >
+                    { (i18n.language === 'en') ? (
+                      <Timeline align="alternate">
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.7.1</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography color="textSecondary">Launch Starcoin Layer 2 Project</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.6.18</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography color="textSecondary">Launch First Batch of Starcoin Move Ecosystem Projects</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">
+                              { dayjs(dateTime).isValid() ? dayjs(dateTime).format('YYYY.MM.DD, HH:mm:ss') : t('countdown.gettime') }
+                            </Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="secondary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography color="textSecondary">
+                              <b>Launch Starcoin Main Network</b>
+                            </Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.5.1-5.15</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Third Round of Barnard Test Network Mining Competition Event</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.3.27-4.27</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Second Round of Barnard Test Network Mining Competition Event</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.3.24-4.24</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Starcoin Barnard Test Network Security Bounty Programm</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.3.27</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Release Starcoin v1.0.0.beta and Launch Barnard Test Network</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.2.6</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Launch Starcoin Blockchain Explorer</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2020.12.18-12.21</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>First Round of Test Network Mining Competition Event</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2020.8.6</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Release Starcoin v0.4 and Launch Proxima Test Network</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2020.4.9</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Release Starcoin v0.1 and Launch Halley Test Network</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">End of 2019</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Implement the Stargate Prototype，and Decide to Develop Starcoin Based on the Move Ecosystem</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">End of 2018</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Release First Version of the Starcoin Whitepaper</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                      </Timeline>
+                    ) : (
+                      <Timeline align="alternate">
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.7.1</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography color="textSecondary">启动 Starcoin Layer 2 计划</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.6.18</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography color="textSecondary">Starcoin 第一批 Move 生态项目正式启动</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">
+                              { dayjs(dateTime).isValid() ? dayjs(dateTime).format('YYYY.MM.DD, HH:mm:ss') : t('countdown.gettime') }
+                            </Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="secondary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography color="textSecondary">
+                              <b>预计 Starcoin 主网上线</b>
+                            </Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.5.1-5月中</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>第三轮测试网挖矿活动</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.3.27-4.27</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>第二轮测试网挖矿活动</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.3.24-4.24</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Starcoin 测试网安全赏金计划</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.3.27</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Starcoin v1.0.0.beta 版本发布并启动 Barnard 测试网络</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2021.2.6</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Starcoin 区块浏览器上线</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2020.12.18-12.21</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>第一轮测试网挖矿活动</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2020.8.6</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Starcoin v0.4 版本发布并启动 Proxima 测试网络</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2020.4.9</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>Starcoin v0.1 版本发布并启动 Halley 测试网络</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2019年底</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>完成 Stargate 原型实现，并正式决定基于 Move 体系开发</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                          <TimelineOppositeContent>
+                            <Typography color="textSecondary">2018年底</Typography>
+                          </TimelineOppositeContent>
+                          <TimelineSeparator>
+                            <TimelineDot color="primary" />
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography>发布第一版 Starcoin 白皮书</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                      </Timeline>
+                    )}
+                  </Paper>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </>

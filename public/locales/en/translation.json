@@ -89,8 +89,11 @@
     "minute": "Minute",
     "second": "Second",
     "countdown": "Launch Countdown",
-    "launchtime": "Estimated Launch Time",
+    "launchtime": "Estimated Launch Time: ",
     "gettime": "Getting time...",
-    "title": "Blocks Left for Launching Starcoin Main Network"
+    "title": "Blocks Left for Launching Starcoin Main Network",
+    "barnardBlock": "Barnard network latest block number: ",
+    "mainnetBlock": "Starcoin Main network will launch at: ",
+    "eventsline": "Key Events"
   }
 }
