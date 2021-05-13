@@ -52,29 +52,21 @@ export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
 }
 
 function* blockPolling(action: ReturnType<typeof actions.getBlockList>) {
-  try {
-    while (true) {
-      yield getBlockList(action)
-      yield delay(blockPollingInterval)
-    }
-  } finally {
-    if (yield cancelled()) {
-      console.log('block polling stopped')
-    }
+  while (true) {
+    yield getBlockList(action)
+    yield delay(blockPollingInterval)
   }
 }
 
 export function* blockPollingManager() {
   let action, pollingTask: any;
-  console.log(`initial value block pollingTask: ${pollingTask}`);
   while (action = yield take(types.GET_BLOCK_LIST)) {
-    console.log(action);
     if (pollingTask) {
       yield cancel(pollingTask);
     }
     const { page } = action.payload;
+    if (page === 0) continue;
     if (page === 1) {
-      console.log('startted block polling');
       pollingTask = yield fork(blockPolling, action);
     } else {
       yield getBlockList(action)

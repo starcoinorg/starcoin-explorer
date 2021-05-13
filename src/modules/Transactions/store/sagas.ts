@@ -36,29 +36,21 @@ export function* getTransactionList(action: ReturnType<typeof actions.getTransac
 }
 
 function* transactionPolling(action: ReturnType<typeof actions.getTransactionList>) {
-  try {
-    while (true) {
-      yield getTransactionList(action)
-      yield delay(transactionPollingInterval)
-    }
-  } finally {
-    if (yield cancelled()) {
-      console.log('tx polling stopped')
-    }
+  while (true) {
+    yield getTransactionList(action)
+    yield delay(transactionPollingInterval)
   }
 }
 
 export function* transactionPollingManager() {
   let action, pollingTask: any;
-  console.log(`initial value transaction pollingTask: ${pollingTask}`);
   while (action = yield take(types.GET_TRANSACTION_LIST)) {
-    console.log(action);
     if (pollingTask) {
       yield cancel(pollingTask);
     }
     const { page } = action.payload;
+    if (page === 0) continue;
     if (page === 1) {
-      console.log('startted tx polling');
       pollingTask = yield fork(transactionPolling, action);
     } else {
       yield getTransactionList(action)
