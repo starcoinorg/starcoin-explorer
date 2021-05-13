@@ -89,8 +89,11 @@
     "minute": "分",
     "second": "秒",
     "countdown": "上线倒计时",
-    "launchtime": "预计上线时间",
+    "launchtime": "预计上线时间: ",
     "gettime": "正在获取时间...",
-    "title": "Starcoin 主网上线剩余区块数"
+    "title": "Starcoin 主网上线剩余区块数",
+    "barnardBlock": "Barnard 网络最新区块高度: ",
+    "mainnetBlock": "Starcoin 主网上线高度: ",
+    "eventsline": "大事记"
   }
 }
