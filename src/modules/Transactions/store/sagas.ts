@@ -20,7 +20,7 @@ function* watchGetTransaction() {
   yield takeLatest(types.GET_TRANSACTION, getTransaction)
 }
 
-export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>): any {
+export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
   try {
     const res = yield call(withLoading, api.getTransactionList, action.type, action.payload);
     yield put(actions.setTransactionList(res.hits));
