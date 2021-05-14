@@ -1,10 +1,9 @@
-import { call, put, takeLatest, fork, delay } from 'redux-saga/effects';
+import { call, put, takeLatest, delay, fork } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
-
-const blockPollingInterval = 5000;
+import { POLLING_INTERVAL } from '@/utils/constants'
 
 export function* getBlock(action: ReturnType<typeof actions.getBlock>) {
   try {
@@ -37,21 +36,19 @@ function* watchGetBlockByHeight() {
   yield takeLatest(types.GET_BLOCK_BY_HEIGHT, getBlockByHeight)
 }
 
-export function* getBlockList(action: ReturnType<typeof actions.getBlockList>): any {
+export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
   try {
     const res = yield call(withLoading, api.getBlockList, action.type, action.payload);
     yield put(actions.setBlockList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-    if (action.payload.page === 1) {
-      yield delay(blockPollingInterval);
-      yield fork(getBlockList, action);
-    }
   } catch (err) {
     if (err.message) {
       yield put(actions.setBlockList([]));
     }
+  } finally {
+    yield put(actions.getBlockListInDelay(action.payload));
   }
 }
 
@@ -59,10 +56,22 @@ function* watchGetBlockList() {
   yield takeLatest(types.GET_BLOCK_LIST, getBlockList)
 }
 
+export function* getBlockListInDelay(action: ReturnType<typeof actions.getBlockList>) {
+  if (action.payload.page === 1) {
+    yield delay(POLLING_INTERVAL);
+    yield fork(getBlockList, actions.getBlockList(action.payload));
+  }
+}
+
+function* watchGetBlockListInDelay() {
+  yield takeLatest(types.GET_BLOCK_LIST_IN_DELAY, getBlockListInDelay)
+}
+
 const sagas = [
   watchGetBlock,
   watchGetBlockByHeight,
-  watchGetBlockList
+  watchGetBlockList,
+  watchGetBlockListInDelay
 ];
 
 export default sagas;
