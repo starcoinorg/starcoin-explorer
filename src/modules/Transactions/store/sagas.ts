@@ -1,8 +1,9 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, fork, delay } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
+import { POLLING_INTERVAL } from '@/utils/constants'
 
 export function* getTransaction(action: ReturnType<typeof actions.getTransaction>) {
   try {
@@ -30,13 +31,14 @@ export function* getTransactionList(action: ReturnType<typeof actions.getTransac
     if (err.message) {
       yield put(actions.setTransactionList([]));
     }
+  } finally {
+    yield put(actions.getTransactionListInDelay(action.payload));
   }
 }
 
 function* watchGetTransactionList() {
   yield takeLatest(types.GET_TRANSACTION_LIST, getTransactionList)
 }
-
 
 export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
   try {
@@ -93,9 +95,21 @@ function* watchGetBlockTransactionsByHeight() {
   yield takeLatest(types.GET_BLOCK_TRANSACTIONS_BY_HEIGHT, getBlockTransactionsByHeight)
 }
 
+export function* getTransactionListInDelay(action: ReturnType<typeof actions.getTransactionList>) {
+  if (action.payload.page === 1) {
+    yield delay(POLLING_INTERVAL);
+    yield fork(getTransactionList, actions.getTransactionList(action.payload));
+  }
+}
+
+function* watchGetTransactionListInDelay() {
+  yield takeLatest(types.GET_TRANSACTION_LIST_IN_DELAY, getTransactionListInDelay)
+}
+
 const sagas = [
   watchGetTransaction,
   watchGetTransactionList,
+  watchGetTransactionListInDelay,
   watchGetAddressTransactions,
   watchGetBlockTransactions,
   watchGetBlockTransactionsByHeight

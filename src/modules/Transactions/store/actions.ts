@@ -67,3 +67,10 @@ export function getBlockTransactionsByHeight(payload: any, callback?: any) {
     callback
   };
 }
+
+export function getTransactionListInDelay(payload: any) {
+  return {
+    type : types.GET_TRANSACTION_LIST_IN_DELAY,
+    payload
+  }
+}

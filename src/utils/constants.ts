@@ -8,3 +8,5 @@ export const LANGUAGES_LABEL = [
     text: '中文',
   },
 ];
+
+export const POLLING_INTERVAL = 5000;
