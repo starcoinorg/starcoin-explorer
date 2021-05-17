@@ -197,6 +197,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
       epochData: null,
       barnardLatestInfo: []
     };
+    this.intervalFunc = this.intervalFunc.bind(this); // Here
+    this.timeout = this.timeout.bind(this); // Here
   }
 
   componentDidMount() {
@@ -221,8 +223,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
         this.setState({ barnardLatestInfo: data });
       }
     });
+    this.timeout();
   }
-
+  
   onChange = (event: any) => {
     const { value } = event.target;
     this.setState({ value });
@@ -231,6 +234,19 @@ class Index extends PureComponent<IndexProps, IndexState> {
   onSearch = () => {
     this.props.pushLocation(`/search/${this.state.value.trim()}`);
   };
+
+  intervalFunc() {
+    getBarnardLatestInfo().then(data => {
+      if (data) {
+        this.setState({ barnardLatestInfo: data });
+        this.timeout(); // Here
+      }
+    });
+  }
+
+  timeout() {
+    window.setTimeout(this.intervalFunc, 19000); // Here
+  }
 
   renderCard = (
     title: string,
