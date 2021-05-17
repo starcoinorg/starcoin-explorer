@@ -57,7 +57,8 @@ function* watchGetBlockList() {
 }
 
 export function* getBlockListInDelay(action: ReturnType<typeof actions.getBlockList>) {
-  if (action.payload.page === 1) {
+  const url = window.location.href;
+  if (action.payload.page === 1 && (url.endsWith('/') || url.endsWith('/blocks') || url.endsWith('/blocks/1'))) {
     yield delay(POLLING_INTERVAL);
     yield fork(getBlockList, actions.getBlockList(action.payload));
   }
