@@ -9,4 +9,4 @@ export const LANGUAGES_LABEL = [
   },
 ];
 
-export const POLLING_INTERVAL = 5000;
+export const POLLING_INTERVAL = 19000;
