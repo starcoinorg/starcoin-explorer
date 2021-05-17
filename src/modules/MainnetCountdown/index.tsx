@@ -278,7 +278,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   );
 
   render() {
-    const Home = lazy(() => import('../Home/adapter'));
+    // const Home = lazy(() => import('../Home/adapter'));
+    const NetworkRedirect = lazy(() => import('../NetworkRedirect/index'));
 
     const { t, i18n } = this.props;
 
@@ -296,7 +297,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
     // let date;
 
     if (this.state.barnardLatestInfo !== []) {
-      currentBlock = this.state.barnardLatestInfo[0];
+      // currentBlock = this.state.barnardLatestInfo[0];
+      currentBlock = 310000;
       if (currentBlock >= mainnetBlock) {
         mainnetOnline = true;
       }
@@ -517,7 +519,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                   <LinearProgress
                     variant="determinate"
                     color="primary"
-                    value={(currentBlock / mainnetBlock) * 100}
+                    value={currentBlock ? ((currentBlock / mainnetBlock) * 100) : 100}
                     style={{
                       height: 10,
                       marginRight: '-1px',
@@ -956,7 +958,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </Grid>
         </>
       )
-        : <Home />
+        : <NetworkRedirect
+            location={{
+              pathname: '/main'
+            }}
+        />
     );
   }
 }
