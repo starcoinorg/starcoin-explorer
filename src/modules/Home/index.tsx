@@ -179,10 +179,12 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidMount() {
-    const currentNetwork = getNetwork();
+    // const currentNetwork = getNetwork();
+    /*
     if (currentNetwork === 'main') {
       window.location.href = '/main';
     }
+    */
 
     // check redirection
     const { location } = this.props;
