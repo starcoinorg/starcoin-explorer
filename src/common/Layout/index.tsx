@@ -57,7 +57,7 @@ class Index extends React.PureComponent<IndexProps> {
     const { children, classes } = this.props;
     return (
       <div className={classes.root}>
-        <Helmet titleTemplate="%s - StarCoin" title="StarCoin">
+        <Helmet titleTemplate="%s - Starcoin" title="Starcoin">
           <html lang="en" />
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
