@@ -96,7 +96,8 @@ function* watchGetBlockTransactionsByHeight() {
 }
 
 export function* getTransactionListInDelay(action: ReturnType<typeof actions.getTransactionList>) {
-  if (action.payload.page === 1) {
+  const url = window.location.href;
+  if (action.payload.page === 1 && (url.endsWith('/') || url.endsWith('/transactions') || url.endsWith('/transactions/1'))) {
     yield delay(POLLING_INTERVAL);
     yield fork(getTransactionList, actions.getTransactionList(action.payload));
   }
