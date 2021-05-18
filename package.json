@@ -1,7 +1,7 @@
 {
   "name": "starcoin-explorer",
-  "version": "0.4.1",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
   "dependencies": {
     "@craco/craco": "^6.0.0",
     "@ethersproject/bytes": "^5.1.0",
