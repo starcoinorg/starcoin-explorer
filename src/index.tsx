@@ -65,7 +65,7 @@ ReactDOM.render(
         <RouteWithLayout exact path={withBaseRoute('/barnard')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/halley')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/proxima')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
-        <RouteWithLayout exact path={withBaseRoute('/main')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
+        <RouteWithLayout exact path={withBaseRoute('/main')} title="Home" layout={MainLayout} component={Home} />
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
         <RouteWithLayout path={withBaseRoute('/:network/address/:hash')} title="Address" layout={MainLayout} component={Address} />
