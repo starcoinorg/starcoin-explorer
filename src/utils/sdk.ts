@@ -40,17 +40,3 @@ export async function getEpochData() {
     return false;
   }
 }
-
-export async function getBarnardLatestInfo() {
-  try {
-    const barnardNodeUrl = `https://barnard-seed.starcoin.org`;
-    const barnardProvider = new providers.JsonrpcProvider(barnardNodeUrl);
-    const blockNumber = await barnardProvider.getBlockNumber();
-    const epochData = await barnardProvider.getResource('0x1', '0x1::Epoch::Epoch');
-    const blockTime = epochData ? epochData.block_time_target : 10000;
-    const result = [blockNumber, blockTime];
-    return result;
-  } catch (error: any) {
-    return false;
-  }
-}

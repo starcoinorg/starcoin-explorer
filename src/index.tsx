@@ -16,7 +16,6 @@ import store, { history } from './rootStore';
 const Search = lazy(() => import('./modules/Search/adapter'));
 const Home = lazy(() => import('./modules/Home/adapter'));
 const NetworkRedirect = lazy(() => import('./modules/NetworkRedirect/index'));
-// const MainnetCountdown = lazy(() => import('./modules/MainnetCountdown/index'));
 const Blocks = lazy(() => import('./modules/Blocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
@@ -65,7 +64,7 @@ ReactDOM.render(
         <RouteWithLayout exact path={withBaseRoute('/barnard')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/halley')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/proxima')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
-        <RouteWithLayout exact path={withBaseRoute('/main')} title="Home" layout={MainLayout} component={Home} />
+        <RouteWithLayout exact path={withBaseRoute('/main')} title="Home" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
         <RouteWithLayout path={withBaseRoute('/:network/address/:hash')} title="Address" layout={MainLayout} component={Address} />

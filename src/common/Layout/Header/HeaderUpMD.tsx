@@ -159,15 +159,8 @@ function Index(props: any) {
 
   const handleNetworkMenuClose = (network?: string) => {
     if (network) {
-      /*
-      if (network === 'main') {
-        localStorage.setItem('network', 'main');
-        window.location.href = '/main';
-      } else if (network !== userNetwork) {
-      */
       localStorage.setItem('network', network);
       window.location.href = '/';
-      // }
     }
     setNetworkMenu(null);
   };
