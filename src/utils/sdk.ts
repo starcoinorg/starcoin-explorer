@@ -32,6 +32,15 @@ export async function getBalancesData(hash: string) {
   }
 }
 
+export async function getAddressSTCBalance(hash: string) {
+  try {
+    const result = await provider.getResource(hash, '0x1::Account::Balance<0x1::STC::STC>');
+    return result;
+  } catch (error: any) {
+    return false;
+  }
+}
+
 export async function getEpochData() {
   try {
     const result = await provider.getResource('0x1', '0x1::Epoch::Epoch');
