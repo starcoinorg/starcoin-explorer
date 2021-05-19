@@ -95,5 +95,9 @@
     "barnardBlock": "Barnard 网络最新区块高度: ",
     "mainnetBlock": "Starcoin 主网上线高度: ",
     "eventsline": "大事记"
+  },
+  "account": {
+    "address": "地址",
+    "notOnchain": "不在 Starcoin 链上"
   }
 }
