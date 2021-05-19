@@ -95,5 +95,9 @@
     "barnardBlock": "Barnard network latest block number: ",
     "mainnetBlock": "Starcoin Main network will launch at: ",
     "eventsline": "Key Events"
+  },
+  "account": {
+    "address": "Address",
+    "notOnchain": "Does Not Exist On the Starcoin Blockchain"
   }
 }
