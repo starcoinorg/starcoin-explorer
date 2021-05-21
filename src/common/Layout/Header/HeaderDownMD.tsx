@@ -216,6 +216,13 @@ function Index(props: any) {
       selected: location.pathname.startsWith('/faq'),
       href: '/faq',
     },
+    {
+      className: classes.button,
+      id: 'terms',
+      label: t('header.terms'),
+      selected: location.pathname.startsWith('/terms'),
+      href: '/terms',
+    },
   ];
 
   return (
