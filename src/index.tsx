@@ -20,6 +20,7 @@ const Blocks = lazy(() => import('./modules/Blocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
 const Faq = lazy(() => import('./modules/Faq'));
+const Terms = lazy(() => import('./modules/Terms'));
 const Address = lazy(() => import('./modules/Address/adapter'));
 const Error404 = lazy(() => import('./modules/Error404'));
 
@@ -67,6 +68,7 @@ ReactDOM.render(
         <RouteWithLayout exact path={withBaseRoute('/main')} title="Home" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/ecosystems')} title="Ecosystem" layout={MainLayout} component={Ecosystems} />
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
+        <RouteWithLayout exact path={withBaseRoute('/terms')} title="Terms" layout={MainLayout} component={Terms} />
         <RouteWithLayout path={withBaseRoute('/:network/address/:hash')} title="Address" layout={MainLayout} component={Address} />
         <RouteWithLayout exact path={withBaseRoute('/error')} title="404" layout={MainLayout} component={Error404} />
         <RouteWithLayout path={undefined} title="404" layout={MainLayout} component={Error404} />
