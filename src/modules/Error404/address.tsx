@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
+import { getNetwork } from '@/utils/helper';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -31,6 +32,8 @@ interface IndexProps {
 class Index extends PureComponent<IndexProps> {
   render() {
     const { classes, t, address } = this.props;
+    const networkString = getNetwork() || 'main';
+    const networkCapitalized = networkString.charAt(0).toUpperCase() + networkString.slice(1);
     return (
       <div>
         <Helmet>
@@ -40,7 +43,7 @@ class Index extends PureComponent<IndexProps> {
           <Grid item xs={12} md={8} lg={4}>
             <Card className={classes.card}>
               <Typography variant="h6" className={classes.headline}>
-                {t('account.address')} <strong>{address}</strong> {t('account.notOnchain')}
+                {t('account.address')} <strong>{address}</strong> {t('account.notOnchain')} {networkCapitalized} {t('account.network')}
               </Typography>
             </Card>
           </Grid>
