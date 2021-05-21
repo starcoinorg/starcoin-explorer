@@ -98,6 +98,7 @@
   },
   "account": {
     "address": "地址",
-    "notOnchain": "不在 Starcoin 链上"
+    "network": "网络上",
+    "notOnchain": "不在 Starcoin 的 "
   }
 }
