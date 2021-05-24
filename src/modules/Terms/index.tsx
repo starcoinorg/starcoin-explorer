@@ -40,7 +40,7 @@ interface IndexProps {
 class Index extends PureComponent<IndexProps> {
   render() {
     const { t, classes } = this.props;
-    const title = t('header.faq');
+    const title = t('header.terms');
     return (
       <div>
         <Helmet>
@@ -54,7 +54,7 @@ class Index extends PureComponent<IndexProps> {
               </Typography>
             </div>
             <div className={classes.root}>
-              <Markdown indexWord="faq" />
+              <Markdown indexWord="terms" />
             </div>
           </Card>
         </CenteredView>

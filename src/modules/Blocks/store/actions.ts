@@ -35,3 +35,10 @@ export function setBlockList(payload: any) {
     payload
   };
 }
+
+export function getBlockListInDelay(payload: any) {
+  return {
+    type: types.GET_BLOCK_LIST_IN_DELAY,
+    payload
+  };
+}

@@ -1,8 +1,9 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, delay, fork } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
+import { POLLING_INTERVAL } from '@/utils/constants'
 
 export function* getBlock(action: ReturnType<typeof actions.getBlock>):any {
   try {
@@ -46,6 +47,8 @@ export function* getBlockList(action: ReturnType<typeof actions.getBlockList>):a
     if (err.message) {
       yield put(actions.setBlockList([]));
     }
+  } finally {
+    yield put(actions.getBlockListInDelay(action.payload));
   }
 }
 
@@ -53,10 +56,23 @@ function* watchGetBlockList() {
   yield takeLatest(types.GET_BLOCK_LIST, getBlockList)
 }
 
+export function* getBlockListInDelay(action: ReturnType<typeof actions.getBlockList>) {
+  const url = window.location.href;
+  if (action.payload.page === 1 && (url.endsWith('/') || url.endsWith('/blocks') || url.endsWith('/blocks/1'))) {
+    yield delay(POLLING_INTERVAL);
+    yield fork(getBlockList, actions.getBlockList(action.payload));
+  }
+}
+
+function* watchGetBlockListInDelay() {
+  yield takeLatest(types.GET_BLOCK_LIST_IN_DELAY, getBlockListInDelay)
+}
+
 const sagas = [
   watchGetBlock,
   watchGetBlockByHeight,
-  watchGetBlockList
+  watchGetBlockList,
+  watchGetBlockListInDelay
 ];
 
 export default sagas;

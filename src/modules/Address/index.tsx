@@ -9,8 +9,9 @@ import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { getAddressData, getBalancesData } from '@/utils/sdk';
+import { getAddressData, getBalancesData, getAddressSTCBalance } from '@/utils/sdk';
 import { formatBalance } from '@/utils/helper';
+import AddressNotFound from '../Error404/address';
 
 const useStyles = () => createStyles({
   table: {
@@ -35,6 +36,7 @@ interface IndexProps {
 interface IndexState {
   addressData: any,
   balancesData: any,
+  accountStatus: any,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -49,12 +51,20 @@ class Index extends PureComponent<IndexProps, IndexState> {
     super(props);
     this.state = {
       addressData: undefined,
-      balancesData: undefined
+      balancesData: undefined,
+      accountStatus: undefined
     };
   }
 
   componentDidMount() {
     const hash = this.props.computedMatch.params.hash;
+    getAddressSTCBalance(hash).then(data => {
+      if (data) {
+        this.setState({ accountStatus: data });
+      } else {
+        this.setState({ accountStatus: 'nonexist' });
+      }
+    });
     if (!this.state.addressData) {
       getAddressData(hash).then(data => {
         if (data) {
@@ -100,7 +110,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    const { addressData, balancesData } = this.state;
+    const { addressData, balancesData, accountStatus } = this.state;
+    const hash = this.props.computedMatch.params.hash;
+    if (accountStatus === undefined) {
+      return <Loading />;
+    } else if (accountStatus === 'nonexist') {
+      return <AddressNotFound address={hash} />;
+    }
     if (!addressData || !balancesData) {
       return null;
     }

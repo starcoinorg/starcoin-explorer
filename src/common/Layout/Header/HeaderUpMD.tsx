@@ -159,10 +159,8 @@ function Index(props: any) {
 
   const handleNetworkMenuClose = (network?: string) => {
     if (network) {
-      if (network !== userNetwork) {
-        localStorage.setItem('network', network);
-        window.location.href = '/';
-      }
+      localStorage.setItem('network', network);
+      window.location.href = '/';
     }
     setNetworkMenu(null);
   };
@@ -239,6 +237,13 @@ function Index(props: any) {
           label: t('header.faq'),
           selected: pathname.startsWith('/faq'),
           href: '/faq',
+        },
+        {
+          className: classes.button,
+          id: 'terms',
+          label: t('header.terms'),
+          selected: pathname.startsWith('/terms'),
+          href: '/terms',
         },
       ]}
     />

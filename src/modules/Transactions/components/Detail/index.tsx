@@ -183,10 +183,15 @@ class Index extends PureComponent<IndexProps> {
       functionName = func.functionName;
       moduleName = func.module;
       const args = txnPayload.ScriptFunction.args;
-      arg0 = args[0];
-      arg1 = args[1];
-      const de2 = new bcs.BcsDeserializer(arrayify(args[2]));
-      arg2 = de2.deserializeU128().toString();
+      let de2;
+      try {
+        arg0 = args[0];
+        arg1 = args[1];
+        de2 = new bcs.BcsDeserializer(arrayify(args[2]));
+        arg2 = de2.deserializeU128().toString();
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     const columns = [

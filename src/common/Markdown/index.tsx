@@ -70,6 +70,7 @@ interface ExternalProps {
   'data-test'?: string,
   md?: MarkdownIt,
   className?: string,
+  indexWord?: string,
 }
 
 interface InternalProps {
@@ -77,18 +78,18 @@ interface InternalProps {
   t: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps { }
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { t, md: externalMD, 'data-test': dataTest, className, classes } = this.props;
+    const { t, md: externalMD, 'data-test': dataTest, className, classes, indexWord } = this.props;
     const md = externalMD || defaultMD;
     return (
       <div
         data-test={dataTest}
         className={classNames(classes.root, className)}
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: md.render(t('faq')) }}
+        dangerouslySetInnerHTML={{ __html: md.render(t(indexWord)) }}
       />
     );
   }
