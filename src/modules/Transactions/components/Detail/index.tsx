@@ -8,16 +8,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
-import PageViewTable from '@/common/View/PageViewTable';
+import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { encoding, types, bcs, onchain_event_types } from '@starcoin/starcoin';
-// import '@starcoin/starcoin/dist/src/onchain-events';
-// import * as allEvents from '@starcoin/starcoin/lib/runtime';
-// import bcsDecode from '@starcoin/starcoin/encoding';
+import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
-// import toString from 'lodash/toString';
 import { formatBalance } from '@/utils/helper';
 import BaseRouteLink from '@/common/BaseRouteLink';
 
@@ -60,50 +56,7 @@ class Index extends PureComponent<IndexProps> {
     const { transaction, classes, t } = this.props;
     const isInitialLoad = !transaction;
     const events = get(transaction, 'hits.hits[0]._source.events', []);
-
-    console.log({ events });
-    const eventZero = events[0];
-    const eventModule = eventZero.type_tag.Struct.module;
-    const eventName = eventZero.type_tag.Struct.name.toString();
-    const eventData = eventZero.data;
-
-    console.log('eventModule', eventModule);
-    console.log('eventName', eventName);
-    console.log('eventData', eventData);
-
-    const allEvents = onchain_event_types;
-    console.log({ allEvents });
-
-    console.log('encoding', encoding.bcsDecode);
-
-    if (eventName) {
-      const ex = encoding.bcsDecode(
-        get(onchain_event_types, eventName),
-        eventData
-      );
-
-      // @ts-ignore
-      console.log(ex.toJS());
-    }
-
     const eventsTable: any[] = [];
-    /*
-    events.forEach((event: any) => {
-      const columns: any[] = [];
-      console.log({ event });
-      const e:{} = encoding.bcsDecode(
-        get(onchain_event_types, event.type_tag.Struct.name.toString()),
-        event.data
-      );
-      console.log(e.toJS());
-      // columns.push([t('event.Data'), e]);
-      columns.push([t('event.Data'), e.toJS().toString()]);
-      columns.push([t('event.Key'), event.event_key]);
-      columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
-      console.log({ columns });
-      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
-    });
-    */
 
     function toObject(data: {}):string {
       return JSON.stringify(data, (key, value) => {
@@ -113,28 +66,38 @@ class Index extends PureComponent<IndexProps> {
           return value;
         }
         return value;
-        // return typeof value === 'bigint' ? value.toString() : value;
       });
-      // return JSON.stringify(data, (key, value) => (if (typeof value === 'bigint') { return `BIGINT::${value}` } else { return value} ));
     }
 
     for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
       const event = events[i];
       const eventName = event.type_tag.Struct.name;
-      console.log({ event });
-      const eventType = get(onchain_event_types, eventName.toString());
-      console.log({ eventType });
-      const evt:object = encoding.bcsDecode(
-        eventType,
-        event.data
-      );
-      console.log(evt); // columns.push([t('event.Data'), e]);
-      columns.push([t('event.Data'), toObject(evt)]);
-      columns.push([t('event.Key'), event.event_key]);
+      const eventModule = event.type_tag.Struct.module;
+      let eventDataDetail;
+      let eventKeyDetail;
+      try {
+        const de = encoding.decodeEventData(eventName, event.data);
+        eventDataDetail = toObject(de.toJS());
+      } catch (e) {
+        console.log(e);
+        eventDataDetail = event.data;
+      }
+
+      try {
+        const eventKeyInHex = event.event_key;
+        const de = encoding.decodeEventKey(eventKeyInHex);
+        eventKeyDetail = toObject(de);
+      } catch (e) {
+        console.log(e);
+        eventKeyDetail = event.event_key;
+      }
+      columns.push([t('event.Data'), eventDataDetail]);
+      columns.push([t('event.Module'), eventModule]);
+      columns.push([t('event.Name'), eventName]);
+      columns.push([t('event.Key'), eventKeyDetail]);
       columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
-      console.log({ columns });
-      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
+      eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
     }
 
     const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
