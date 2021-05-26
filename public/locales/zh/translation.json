@@ -58,6 +58,8 @@
   "event": {
     "title": "事件",
     "NoEventData": "没有事件数据",
+    "Module": "模块",
+    "Name": "名称",
     "Data": "数据",
     "Key": "键值",
     "Seq": "序号",

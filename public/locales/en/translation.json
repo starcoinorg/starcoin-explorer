@@ -58,6 +58,8 @@
   "event": {
     "title": "Event",
     "NoEventData": "No Event Data",
+    "Module": "Module",
+    "Name": "Name",
     "Data": "Data",
     "Key": "Key",
     "Seq": "Seq",
