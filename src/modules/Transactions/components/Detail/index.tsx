@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
-import PageViewTable from '@/common/View/PageViewTable';
+import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding, types, bcs } from '@starcoin/starcoin';
@@ -57,13 +57,48 @@ class Index extends PureComponent<IndexProps> {
     const isInitialLoad = !transaction;
     const events = get(transaction, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
-    events.forEach((event: any) => {
+
+    function toObject(data: {}):string {
+      return JSON.stringify(data, (key, value) => {
+        if (typeof value === 'bigint') {
+          return value.toString();
+        } else if (typeof value === 'object') {
+          return value;
+        }
+        return value;
+      });
+    }
+
+    for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
-      columns.push([t('event.Data'), event.data]);
-      columns.push([t('event.Key'), event.event_key]);
+      const event = events[i];
+      const eventName = event.type_tag.Struct.name;
+      const eventModule = event.type_tag.Struct.module;
+      let eventDataDetail;
+      let eventKeyDetail;
+      try {
+        const de = encoding.decodeEventData(eventName, event.data);
+        eventDataDetail = toObject(de.toJS());
+      } catch (e) {
+        console.log(e);
+        eventDataDetail = event.data;
+      }
+
+      try {
+        const eventKeyInHex = event.event_key;
+        const de = encoding.decodeEventKey(eventKeyInHex);
+        eventKeyDetail = toObject(de);
+      } catch (e) {
+        console.log(e);
+        eventKeyDetail = event.event_key;
+      }
+      columns.push([t('event.Data'), eventDataDetail]);
+      columns.push([t('event.Module'), eventModule]);
+      columns.push([t('event.Name'), eventName]);
+      columns.push([t('event.Key'), eventKeyDetail]);
       columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
-      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
-    });
+      eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
+    }
 
     const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
     return (
