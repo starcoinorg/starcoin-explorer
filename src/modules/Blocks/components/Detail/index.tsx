@@ -8,6 +8,7 @@ import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
+import { toObject } from '@/utils/helper';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -108,17 +109,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const events = get(blockTransactions, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
 
-    function toObject(data: {}):string {
-      return JSON.stringify(data, (key, value) => {
-        if (typeof value === 'bigint') {
-          return value.toString();
-        } else if (typeof value === 'object') {
-          return value;
-        }
-        return value;
-      });
-    }
-
     for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
       const event = events[i];
@@ -149,16 +139,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
       columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
       eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
     }
-
-    /*
-    events.forEach((event: any) => {
-      const columns: any[] = [];
-      columns.push([t('event.Data'), event.data]);
-      columns.push([t('event.Key'), event.event_key]);
-      columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
-      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
-    });
-    */
 
     const network = match.params.network;
     const uncles = get(block, 'hits.hits[0]._source.uncles', []);
