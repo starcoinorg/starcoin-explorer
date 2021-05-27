@@ -14,7 +14,7 @@ import { withStyles, createStyles } from '@material-ui/core/styles';
 import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
-import { formatBalance } from '@/utils/helper';
+import { formatBalance, toObject } from '@/utils/helper';
 import BaseRouteLink from '@/common/BaseRouteLink';
 
 const useStyles = () => createStyles({
@@ -57,17 +57,6 @@ class Index extends PureComponent<IndexProps> {
     const isInitialLoad = !transaction;
     const events = get(transaction, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
-
-    function toObject(data: {}):string {
-      return JSON.stringify(data, (key, value) => {
-        if (typeof value === 'bigint') {
-          return value.toString();
-        } else if (typeof value === 'object') {
-          return value;
-        }
-        return value;
-      });
-    }
 
     for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
