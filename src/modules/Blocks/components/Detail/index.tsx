@@ -112,8 +112,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
     for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
       const event = events[i];
-      const eventName = event.type_tag.Struct.name;
-      const eventModule = event.type_tag.Struct.module;
+      console.log({ event });
+      const eventTypeArray = event.type_tag.split('::');
+      console.log({ eventTypeArray });
+      const eventModule = eventTypeArray[1];
+      const eventName = eventTypeArray[2];
+      // const eventModule = 'Account';
+      // const eventName = 'WithdrawEvent';
       let eventDataDetail;
       let eventKeyDetail;
       try {
