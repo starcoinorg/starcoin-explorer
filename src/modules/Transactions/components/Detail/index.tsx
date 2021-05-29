@@ -11,7 +11,7 @@ import PageView from '@/common/View/PageView';
 import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { encoding, types, bcs } from '@starcoin/starcoin';
+import { onchain_events, encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
 import { formatBalance, toObject } from '@/utils/helper';
@@ -44,7 +44,7 @@ class Index extends PureComponent<IndexProps> {
   static defaultProps = {
     match: {},
     transaction: null,
-    getTransaction: () => {}
+    getTransaction: () => { }
   };
 
   componentDidMount() {
@@ -71,7 +71,7 @@ class Index extends PureComponent<IndexProps> {
       let eventDataDetail;
       let eventKeyDetail;
       try {
-        const de = encoding.decodeEventData(eventName, event.data);
+        const de = onchain_events.decodeEventData(eventName, event.data);
         eventDataDetail = toObject(de.toJS());
       } catch (e) {
         console.log(e);
@@ -80,7 +80,7 @@ class Index extends PureComponent<IndexProps> {
 
       try {
         const eventKeyInHex = event.event_key;
-        const de = encoding.decodeEventKey(eventKeyInHex);
+        const de = onchain_events.decodeEventKey(eventKeyInHex);
         eventKeyDetail = toObject(de);
       } catch (e) {
         console.log(e);

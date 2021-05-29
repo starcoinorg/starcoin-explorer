@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
-import { encoding } from '@starcoin/starcoin';
+import { onchain_events } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
@@ -122,7 +122,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       let eventDataDetail;
       let eventKeyDetail;
       try {
-        const de = encoding.decodeEventData(eventName, event.data);
+        const de = onchain_events.decodeEventData(eventName, event.data);
         eventDataDetail = toObject(de.toJS());
       } catch (e) {
         console.log(e);
@@ -131,7 +131,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
       try {
         const eventKeyInHex = event.event_key;
-        const de = encoding.decodeEventKey(eventKeyInHex);
+        const de = onchain_events.decodeEventKey(eventKeyInHex);
         eventKeyDetail = toObject(de);
       } catch (e) {
         console.log(e);
