@@ -1,18 +1,21 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
+import { onchain_events } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
+import { toObject } from '@/utils/helper';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PageViewTable from '@/common/View/PageViewTable';
+import EventViewTable from '@/common/View/EventViewTable';
 
 const useStyles = () => createStyles({
   table: {
@@ -105,13 +108,42 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const transactions = get(block, 'hits.hits[0]._source.body.Full', []);
     const events = get(blockTransactions, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
-    events.forEach((event: any) => {
+
+    for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
-      columns.push([t('event.Data'), event.data]);
-      columns.push([t('event.Key'), event.event_key]);
+      const event = events[i];
+      console.log({ event });
+      const eventTypeArray = event.type_tag.split('::');
+      console.log({ eventTypeArray });
+      const eventModule = eventTypeArray[1];
+      const eventName = eventTypeArray[2];
+      // const eventModule = 'Account';
+      // const eventName = 'WithdrawEvent';
+      let eventDataDetail;
+      let eventKeyDetail;
+      try {
+        const de = onchain_events.decodeEventData(eventName, event.data);
+        eventDataDetail = toObject(de.toJS());
+      } catch (e) {
+        console.log(e);
+        eventDataDetail = event.data;
+      }
+
+      try {
+        const eventKeyInHex = event.event_key;
+        const de = onchain_events.decodeEventKey(eventKeyInHex);
+        eventKeyDetail = toObject(de);
+      } catch (e) {
+        console.log(e);
+        eventKeyDetail = event.event_key;
+      }
+      columns.push([t('event.Data'), eventDataDetail]);
+      columns.push([t('event.Module'), eventModule]);
+      columns.push([t('event.Name'), eventName]);
+      columns.push([t('event.Key'), eventKeyDetail]);
       columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
-      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
-    });
+      eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
+    }
 
     const network = match.params.network;
     const uncles = get(block, 'hits.hits[0]._source.uncles', []);

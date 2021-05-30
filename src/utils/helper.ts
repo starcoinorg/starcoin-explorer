@@ -30,3 +30,13 @@ export function formatBalance(num :string | number) {
   const convertedValue = value.div(1000000000).toFormat();
   return convertedValue;
 }
+
+export function toObject(data: {}):string {
+  return JSON.stringify(data, (key, value) => {
+    if (typeof value === 'bigint') {
+      return value.toString();
+    }
+    return value;
+  });
+}
+

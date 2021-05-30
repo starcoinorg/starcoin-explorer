@@ -8,13 +8,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
-import PageViewTable from '@/common/View/PageViewTable';
+import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { encoding, types, bcs } from '@starcoin/starcoin';
+import { onchain_events, encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
-import { formatBalance } from '@/utils/helper';
+import { formatBalance, toObject } from '@/utils/helper';
 import BaseRouteLink from '@/common/BaseRouteLink';
 
 const useStyles = () => createStyles({
@@ -44,7 +44,7 @@ class Index extends PureComponent<IndexProps> {
   static defaultProps = {
     match: {},
     transaction: null,
-    getTransaction: () => {}
+    getTransaction: () => { }
   };
 
   componentDidMount() {
@@ -57,13 +57,42 @@ class Index extends PureComponent<IndexProps> {
     const isInitialLoad = !transaction;
     const events = get(transaction, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
-    events.forEach((event: any) => {
+
+    for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
-      columns.push([t('event.Data'), event.data]);
-      columns.push([t('event.Key'), event.event_key]);
+      const event = events[i];
+      console.log({ event });
+      const eventTypeArray = event.type_tag.split('::');
+      console.log({ eventTypeArray });
+      const eventModule = eventTypeArray[1];
+      const eventName = eventTypeArray[2];
+      // const eventModule = 'Account';
+      // const eventName = 'WithdrawEvent';
+      let eventDataDetail;
+      let eventKeyDetail;
+      try {
+        const de = onchain_events.decodeEventData(eventName, event.data);
+        eventDataDetail = toObject(de.toJS());
+      } catch (e) {
+        console.log(e);
+        eventDataDetail = event.data;
+      }
+
+      try {
+        const eventKeyInHex = event.event_key;
+        const de = onchain_events.decodeEventKey(eventKeyInHex);
+        eventKeyDetail = toObject(de);
+      } catch (e) {
+        console.log(e);
+        eventKeyDetail = event.event_key;
+      }
+      columns.push([t('event.Data'), eventDataDetail]);
+      columns.push([t('event.Module'), eventModule]);
+      columns.push([t('event.Name'), eventName]);
+      columns.push([t('event.Key'), eventKeyDetail]);
       columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
-      eventsTable.push(<PageViewTable key={event.event_key} columns={columns} />);
-    });
+      eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
+    }
 
     const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
     return (
