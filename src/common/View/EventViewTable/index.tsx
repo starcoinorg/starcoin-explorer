@@ -145,10 +145,10 @@ class Index extends React.PureComponent<Props> {
               key={column[1]}
               className={classes.label}
               variant="body1"
-              display="block"
+              display="inline"
             >
               { (idx === 0 || idx === 3) ? (
-                <code>
+                <code style={{ wordWrap: 'break-word' }}>
                   {column[1]}
                 </code>
               ) : column[1]}
