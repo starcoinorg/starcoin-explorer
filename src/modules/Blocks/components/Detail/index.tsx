@@ -106,15 +106,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const { block, blockTransactions, classes, match, t } = this.props;
     const isInitialLoad = !block;
     const transactions = get(block, 'hits.hits[0]._source.body.Full', []);
-    const events = get(blockTransactions, 'hits.hits[0]._source.events', []);
+    const blockTransactionHits = get(blockTransactions, 'hits.hits');
+    const blockEventsIndex = blockTransactionHits.length - 1;
+    const getBlockEventsString = `hits.hits[${blockEventsIndex.toString()}]._source.events`;
+    const events = get(blockTransactions, getBlockEventsString, []);
+    // const events = get(blockTransactions, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
 
     for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
       const event = events[i];
-      console.log({ event });
       const eventTypeArray = event.type_tag.split('::');
-      console.log({ eventTypeArray });
       const eventModule = eventTypeArray[1];
       const eventName = eventTypeArray[2];
       // const eventModule = 'Account';
