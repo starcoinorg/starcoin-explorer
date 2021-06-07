@@ -25,7 +25,7 @@ interface ExternalProps {
 interface InternalProps {
   blockList: any,
   isLoadingMore: boolean,
-  getBlockList: (data: any, callback?: any) => any,
+  getBlockList: (contents: any, callback?: any) => any,
   classes: any,
   t: any,
   match: any,
@@ -61,7 +61,7 @@ class Index extends PureComponent<Props, IndexState> {
   };
 
   pagination = (type: string) => {
-    const total = this.props.blockList && this.props.blockList.hits.total.value || 0;
+    const total = this.props.blockList && this.props.blockList.total.value || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
       this.props.getBlockList({ page, total }, () => { this.pagenationCallback(page); });

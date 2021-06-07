@@ -105,12 +105,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
   generateExtra() {
     const { block, blockTransactions, classes, match, t } = this.props;
     const isInitialLoad = !block;
-    const transactions = get(block, 'hits.hits[0]._source.body.Full', []);
-    const blockTransactionHits = get(blockTransactions, 'hits.hits');
+    const transactions = get(block, 'body.Full', []);
+    const blockTransactionHits = get(blockTransactions, 'contents');
     const blockEventsIndex = blockTransactionHits.length - 1;
-    const getBlockEventsString = `hits.hits[${blockEventsIndex.toString()}]._source.events`;
+    const getBlockEventsString = `contents[${blockEventsIndex.toString()}].events`;
     const events = get(blockTransactions, getBlockEventsString, []);
-    // const events = get(blockTransactions, 'hits.hits[0]._source.events', []);
     const eventsTable: any[] = [];
 
     for (let i = 0; i < events.length; i++) {
@@ -148,7 +147,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     }
 
     const network = match.params.network;
-    const uncles = get(block, 'hits.hits[0]._source.uncles', []);
+    const uncles = get(block, 'uncles', []);
     const unclesTable: any[] = [];
     uncles.forEach((uncle: any) => {
       const columns: any[] = [];
@@ -226,10 +225,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
     if (isInitialLoad) {
       return <Loading />;
     }
-    if (!block.hits.hits.length) {
+    if (!block.length) {
       return null;
     }
-    const header = block.hits.hits[0]._source.header;
+    const header = block.header;
     const columns = [
       [t('common.Hash'), header.block_hash],
       [t('block.Height'), formatNumber(header.number)],

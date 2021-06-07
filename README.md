@@ -21,7 +21,7 @@ Version 4.1.3
 ## Set Environment Variables
 ```
 export REACT_APP_STARCOIN_API_URL=<starcoin-explorer-api-url>
-export REACT_APP_STARCOIN_NETWORKS=<available-netwokrs>
+export REACT_APP_STARCOIN_NETWORKS=<available-networks>
 ```
 
 ## How to run
@@ -62,11 +62,10 @@ Your app is ready to be deployed!
 >then visit: [http://localhost:5000](http://localhost:5000)
 
 ## How to CI/CD
- 
+
  ```
  $git tag vx.y.z
  $git push --tag
  ```
- 
+
  A github action will be triggered and deploy the newest version of `build` folder to [this repo](https://github.com/starcoin-explorer/starcoin-explorer.github.io).
-  

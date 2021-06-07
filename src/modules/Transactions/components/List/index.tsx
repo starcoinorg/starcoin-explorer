@@ -24,7 +24,7 @@ interface ExternalProps {
 interface InternalProps {
   transactionList: any,
   isLoadingMore: boolean,
-  getTransactionList: (data: any, callback?: any) => any,
+  getTransactionList: (contents: any, callback?: any) => any,
   classes: any,
   t: any,
 }
@@ -62,7 +62,7 @@ class Index extends PureComponent<Props, IndexState> {
     // transactions use timestamp as sort filed, so we can not jump to specific page
     const hits = this.props.transactionList ? this.props.transactionList.contents : [];
     const last = hits[hits.length - 1];
-    const after = last && last.sort[0] || 0;
+    const after = last && last.sort || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
       this.props.getTransactionList({ page, after }, () => { this.pagenationCallback(page); });
