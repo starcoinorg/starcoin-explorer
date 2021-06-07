@@ -79,8 +79,8 @@ class Index extends PureComponent<Props, IndexState> {
   render() {
     const { blockList, classes, t, className, isLoadingMore } = this.props;
     const isInitialLoad = !blockList;
-    const hits = blockList && blockList.hits && blockList.hits.hits || [];
-    const blocks = hits.sort((a: any, b: any) => b._source.header.number - a._source.header.number);
+    const hits = blockList && blockList.contents || [];
+    const blocks = hits.sort((a: any, b: any) => b.header.number - a.header.number);
     const blocksList = blocks.length ? (
       <BlockTable
         blocks={blocks}

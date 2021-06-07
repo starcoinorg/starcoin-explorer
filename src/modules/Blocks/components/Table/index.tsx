@@ -39,12 +39,12 @@ class Index extends React.PureComponent<Props> {
     const transactionsValues: any[] = [];
     const authorValues: any[] = [];
     blocks.forEach((block: any) => {
-      const header = block._source.header;
+      const header = block.header;
       const blockUrl = `/${getNetwork()}/blocks/height/${header.number}`;
       const authorUrl = `/${getNetwork()}/address/${header.author}`;
       heightValues.push(<BaseRouteLink to={blockUrl}>{formatNumber(header.number)}</BaseRouteLink>);
       timeValues.push(<CommonTime time={header.timestamp} />);
-      transactionsValues.push(formatNumber(block._source.body.Full.length));
+      transactionsValues.push(0);
       authorValues.push(
         <CommonLink path={authorUrl} title={header.author} />
       );
