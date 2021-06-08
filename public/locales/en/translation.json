@@ -4,6 +4,7 @@
     "blocks": "Blocks",
     "transactions": "Transactions",
     "events": "Events",
+    "tools": "Tools",
     "ecosystems": "Ecosystems",
     "faq": "FAQ",
     "terms": "Terms",
@@ -104,5 +105,14 @@
     "address": "Address",
     "network": "Network",
     "notOnchain": "Does Not Exist On the Starcoin "
+  },
+  "tools": {
+    "transform": "Transform",
+    "input_publickey_hint": "Please Input Your Public Key Here",
+    "input_receipt_identifier_hint": "Please Input Your Receipt Identifier Here",
+    "output_receipt_identifier_hint": "Receipt Identifier",
+    "output_address_hint": "Address",
+    "publickey_to_receipt_identifier": "Transform Public Key to Receipt Identifier",
+    "receipt_identifier_to_address": "Transform Receipt Identifier to Address"
   }
 }
