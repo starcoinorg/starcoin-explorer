@@ -233,6 +233,13 @@ function Index(props: any) {
         },
         {
           className: classes.button,
+          id: 'tools',
+          label: t('header.tools'),
+          selected: pathname.startsWith('/tools'),
+          href: '/tools',
+        },
+        {
+          className: classes.button,
           id: 'faq',
           label: t('header.faq'),
           selected: pathname.startsWith('/faq'),
