@@ -225,7 +225,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     if (isInitialLoad) {
       return <Loading />;
     }
-    if (!block.length) {
+    if (!block.header) {
       return null;
     }
     const header = block.header;
