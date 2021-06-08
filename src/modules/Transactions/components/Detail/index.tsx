@@ -120,14 +120,19 @@ class Index extends PureComponent<IndexProps> {
 
   render() {
     const { transaction, match, t } = this.props;
-    if (!transaction || !transaction.length) {
+    console.log(transaction);
+    if (!transaction) {
       return <Loading />;
     }
     const network = match.params.network;
     const source = transaction;
-    const payloadInHex = source.user_transaction.raw_txn.payload || '';
-    const sender = source.user_transaction.raw_txn.sender || '';
-    const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
+    let payloadInHex = '';
+    let sender = '';
+    if (source.user_transaction && source.user_transaction.raw_txn) {
+      payloadInHex = source.user_transaction.raw_txn.payload;
+      sender = source.user_transaction.raw_txn.sender;
+    }
+    const txnPayload = payloadInHex ? encoding.decodeTransactionPayload(payloadInHex) : [];
     const type = Object.keys(txnPayload)[0];
 
     let functionName;
