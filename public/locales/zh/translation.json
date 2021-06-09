@@ -3,6 +3,7 @@
     "home": "首页",
     "blocks": "区块",
     "events": "事件",
+    "tools": "工具",
     "transactions": "交易",
     "ecosystems": "生态圈",
     "faq": "常见问题",
@@ -104,5 +105,14 @@
     "address": "地址",
     "network": "网络上",
     "notOnchain": "不在 Starcoin 的 "
+  },
+  "tools": {
+    "transform": "转换",
+    "input_publickey_hint": "请输入公钥",
+    "input_receipt_identifier_hint": "请输入收款识别码",
+    "output_receipt_identifier_hint": "收款识别码",
+    "output_address_hint": "地址",
+    "publickey_to_receipt_identifier": "公钥转换为收款识别码",
+    "receipt_identifier_to_address": "收款识别码转换为地址"
   }
 }
