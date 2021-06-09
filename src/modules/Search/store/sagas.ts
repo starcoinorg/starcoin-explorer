@@ -29,24 +29,25 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
     }
     let url;
     // found block
-    if (res[0] && res[0].hits.hits.length > 0) {
+    if (res[0]) {
       // by hash
-      if (isHex(action.payload) && get(res[0], 'hits.hits[0]._id') === action.payload) {
+      if (isHex(action.payload) && get(res[0], 'header.block_hash') === action.payload) {
         url = `/${getNetwork()}/blocks/detail/${action.payload}`;
         // by height
-      } else if (get(res[0], 'hits.hits[0]._source.header.number') === action.payload) {
+      } else if (get(res[0], 'header.number') == action.payload) {
         url = `/${getNetwork()}/blocks/height/${action.payload}`;
       }
+
     }
     // found transaction by hash
-    if (!url && isHex(action.payload) && res[1] && res[1].hits.hits.length > 0) {
-      if (get(res[1], 'hits.hits[0]._id') === action.payload) {
+    if (!url && isHex(action.payload) && res[1]) {
+      if (get(res[1], 'transaction_hash') === action.payload) {
         url = `/${getNetwork()}/transactions/detail/${action.payload}`;
       }
     }
     // found address by hash
     if (!url && isHex(action.payload)) {
-      if (res[2] && res[2].hits.hits.length > 0) {
+      if (res[2]) {
         const data = yield call(getAddressData, action.payload);
         if (data) {
           if (get(data, 'withdraw_events.guid') === action.payload) {

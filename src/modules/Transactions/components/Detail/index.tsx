@@ -55,7 +55,7 @@ class Index extends PureComponent<IndexProps> {
   generateExtra() {
     const { transaction, classes, t } = this.props;
     const isInitialLoad = !transaction;
-    const events = get(transaction, 'hits.hits[0]._source.events', []);
+    const events = get(transaction, 'events', []);
     const eventsTable: any[] = [];
 
     for (let i = 0; i < events.length; i++) {
@@ -120,14 +120,19 @@ class Index extends PureComponent<IndexProps> {
 
   render() {
     const { transaction, match, t } = this.props;
-    if (!transaction || !transaction.hits.hits.length) {
+    console.log(transaction);
+    if (!transaction) {
       return <Loading />;
     }
     const network = match.params.network;
-    const source = transaction.hits.hits[0]._source;
-    const payloadInHex = source.user_transaction.raw_txn.payload || '';
-    const sender = source.user_transaction.raw_txn.sender || '';
-    const txnPayload = encoding.decodeTransactionPayload(payloadInHex);
+    const source = transaction;
+    let payloadInHex = '';
+    let sender = '';
+    if (source.user_transaction && source.user_transaction.raw_txn) {
+      payloadInHex = source.user_transaction.raw_txn.payload;
+      sender = source.user_transaction.raw_txn.sender;
+    }
+    const txnPayload = payloadInHex ? encoding.decodeTransactionPayload(payloadInHex) : [];
     const type = Object.keys(txnPayload)[0];
 
     let functionName;

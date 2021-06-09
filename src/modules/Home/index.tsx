@@ -244,9 +244,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   render() {
     const { blockList, transactionList, classes, t, i18n } = this.props;
-    const blocksHit = blockList && blockList.hits && blockList.hits.hits ? blockList.hits.hits : [];
+    const blocksHit = blockList && blockList.contents && blockList.contents ? blockList.contents : [];
     const blocks = blocksHit.slice(0, 12);
-    const transactionHit = transactionList && transactionList.hits ? transactionList.hits : [];
+    const transactionHit = transactionList && transactionList.contents ? transactionList.contents : [];
     const transactions = transactionHit.slice(0, 15);
     const metrics: any[] = [];
     if (this.state.epochData) {
@@ -259,11 +259,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
         // const currentHashRate = formatNumber((currentBlockDiff / this.state.epochData.block_time_target * 1000).toFixed(0));
         let totalDiff = 0;
         for (let i = 0; i < blocksHit.length; i++) {
-          totalDiff += blocksHit[i]._source.header.difficulty_number;
+          totalDiff += blocksHit[i].header.difficulty_number;
         }
         const averageBlockDiff = Number(totalDiff / blocksHit.length);
-        const endTime = blocksHit[0]._source.header.timestamp;
-        const startTime = blocksHit[blocksHit.length - 1]._source.header.timestamp;
+        const endTime = blocksHit[0].header.timestamp;
+        const startTime = blocksHit[blocksHit.length - 1].header.timestamp;
         const averageBlockTime = Number((endTime - startTime) / blocksHit.length);
         const averageHashRate = formatNumber((averageBlockDiff / averageBlockTime * 1000).toFixed(0));
         metrics.push([t('home.CurrentHashRate'), averageHashRate]);
@@ -347,7 +347,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           )}
           {this.renderCard(
             t('home.ExploreTransactions'),
-            `/${getNetwork()}/transactions`,
+            `/${getNetwork()}/transactions/list`,
             transactionsList,
             classes.transactions,
             classes.transactionsSpacer,

@@ -85,7 +85,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   generateExtra() {
     const { addressTransactions, classes } = this.props;
     const isInitialLoad = !addressTransactions;
-    const transactions = addressTransactions && addressTransactions.hits.hits || [];
+    const transactions = addressTransactions && addressTransactions.contents || [];
     return (
       <div>
         <br />
