@@ -195,7 +195,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const inputPublicKey = (document.getElementById('publicKeyInput') as HTMLInputElement).value;
     let receipt_identifier:string;
     if (inputPublicKey.length !== 66) {
-      alert('Please input the correct public key!');
+      alert('Please input the correct public key!'); // eslint-disable-line no-alert
       receipt_identifier = '';
     } else {
       receipt_identifier = encoding.publicKeyToReceiptIdentifier(inputPublicKey);
@@ -212,7 +212,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const inputReceiptIdentifier = (document.getElementById('receiptIdentifierInput') as HTMLInputElement).value;
     let address:string;
     if (inputReceiptIdentifier.length !== 88) {
-      alert('Please input the correct receipt identifier!');
+      alert('Please input the correct receipt identifier!'); // eslint-disable-line no-alert
       address = '';
     } else {
       const decodedReceiptIdentifier = encoding.decodeReceiptIdentifier(inputReceiptIdentifier);
