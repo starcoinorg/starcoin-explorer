@@ -6,11 +6,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Loading from '@/common/Loading';
+import ResourceView from '@/common/View/ResourceView';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { getAddressData, getBalancesData, getAddressSTCBalance } from '@/utils/sdk';
-import { formatBalance } from '@/utils/helper';
+import { getAddressData, getBalancesData, getAddressSTCBalance, getAddressResources } from '@/utils/sdk';
+import { formatBalance, formatResources } from '@/utils/helper';
 import AddressNotFound from '../Error404/address';
 
 const useStyles = () => createStyles({
@@ -37,6 +38,7 @@ interface IndexState {
   addressData: any,
   balancesData: any,
   accountStatus: any,
+  accountResources: any,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -52,7 +54,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
     this.state = {
       addressData: undefined,
       balancesData: undefined,
-      accountStatus: undefined
+      accountStatus: undefined,
+      accountResources: undefined
     };
   }
 
@@ -80,11 +83,20 @@ class Index extends PureComponent<IndexProps, IndexState> {
       });
     }
     this.props.getAddressTransactions({ hash });
+
+    getAddressResources(hash).then(data => {
+      if (data) {
+        this.setState({ accountResources: formatResources(data) });
+      } else {
+        this.setState({ accountResources: 'noResource' });
+      }
+    });
   }
 
   generateExtra() {
     const { addressTransactions, classes } = this.props;
-    const isInitialLoad = !addressTransactions;
+    const { accountResources } = this.state;
+    const isInitialLoad = !addressTransactions && !accountResources;
     const transactions = addressTransactions && addressTransactions.contents || [];
     return (
       <div>
@@ -102,6 +114,21 @@ class Index extends PureComponent<IndexProps, IndexState> {
               {isInitialLoad ? <Loading /> : <TransactionTable
                 transactions={transactions}
               />}
+            </div>
+          </AccordionDetails>
+        </Accordion>
+        <br />
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h5" gutterBottom>Resources</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={classes.table}>
+              { isInitialLoad ? <Loading /> : <ResourceView resources={accountResources} /> }
             </div>
           </AccordionDetails>
         </Accordion>

@@ -23,6 +23,15 @@ export async function getAddressData(hash: string) {
   }
 }
 
+export async function getAddressResources(hash: string) {
+  try {
+    const result = await provider.getResources(hash);
+    return result;
+  } catch (error: any) {
+    return false;
+  }
+}
+
 export async function getBalancesData(hash: string) {
   try {
     const result = await provider.getBalances(hash);

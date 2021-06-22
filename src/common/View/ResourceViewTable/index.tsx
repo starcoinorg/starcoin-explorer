@@ -25,7 +25,7 @@ const useStyles = (theme: Theme) => createStyles({
     },
     firstRow: {
       overflowWrap: 'break-word',
-      minHeight: theme.spacing(1) * 6,
+      minHeight: theme.spacing(1) * 3,
     },
     root: {
       padding: theme.spacing(1) * 2,
@@ -132,7 +132,7 @@ class Index extends React.PureComponent<Props> {
               className={classes.label}
               variant="body1"
             >
-              {column[0]}
+              <b>{column[0]}</b>
             </Typography>,
             idx,
             column.length === 4 ? column[3] : null,
@@ -145,9 +145,8 @@ class Index extends React.PureComponent<Props> {
               key={column[1]}
               className={classes.label}
               variant="body1"
-              display="inline"
             >
-              { (idx === 0 || idx === 3) ? (
+              { (idx === 0 || idx === 1) ? (
                 <code style={{ wordWrap: 'break-word' }}>
                   {column[1]}
                 </code>
