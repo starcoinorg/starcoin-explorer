@@ -24,7 +24,8 @@ const useStyles = (theme: Theme) => createStyles({
       paddingRight: theme.spacing(1) * 2,
     },
     firstRow: {
-      overflowWrap: 'break-word'
+      overflowWrap: 'break-word',
+      minHeight: theme.spacing(1) * 6,
     },
     root: {
       padding: theme.spacing(1) * 2,
@@ -59,7 +60,6 @@ const useStyles = (theme: Theme) => createStyles({
   firstColRow: {},
   firstRow: {
     paddingBottom: theme.spacing(1) / 2,
-    minHeight: theme.spacing(1) * 6,
   },
   row: {
     paddingBottom: theme.spacing(1) / 2,
