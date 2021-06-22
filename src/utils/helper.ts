@@ -40,3 +40,17 @@ export function toObject(data: {}):string {
   });
 }
 
+export function formatResources(data: any) : any {
+  let resourcesArray = [];
+  let itemKey = '';
+  let itemValue = '';
+  const allKeys = Object.keys(data);
+  for (let i = 0; i < allKeys.length; i++) {
+    itemKey = allKeys[i];
+    let itemArray = [itemKey];
+    itemValue = JSON.stringify(data[itemKey]);
+    itemArray.push(itemValue);
+    resourcesArray.push(itemArray);
+  }
+  return resourcesArray;
+}
