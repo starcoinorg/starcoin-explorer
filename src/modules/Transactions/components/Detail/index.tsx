@@ -29,6 +29,10 @@ const useStyles = () => createStyles({
   shrinkCol: {
     flex: '1 10 auto',
   },
+  rawData: {
+    wordBreak: 'break-all',
+    overflow: 'auto',
+  }
 });
 
 interface IndexProps {
@@ -95,6 +99,7 @@ class Index extends PureComponent<IndexProps> {
     }
 
     const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
+    const rawContent = <pre>{JSON.stringify(transaction, null, 2)}</pre> || <Typography variant="body1">{t('transaction.NoRawData')}</Typography>;
     return (
       <div>
         <br />
@@ -111,6 +116,21 @@ class Index extends PureComponent<IndexProps> {
               <div className={classes.table}>
                 {isInitialLoad ? <Loading /> : eventsContent}
               </div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+        <br />
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h5" gutterBottom>{t('transaction.RawData')}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={classes.rawData}>
+              {isInitialLoad ? <Loading /> : rawContent}
             </div>
           </AccordionDetails>
         </Accordion>

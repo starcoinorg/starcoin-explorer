@@ -54,6 +54,8 @@
     "arg0": "Param0",
     "arg1": "Param1",
     "arg2": "Param2",
+    "RawData": "Raw Data",
+    "NoRawData": "No Raw Data",
     "": ""
   },
   "event": {
