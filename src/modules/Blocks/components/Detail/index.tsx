@@ -234,8 +234,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('block.Height'), formatNumber(header.number)],
       [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
       [t('block.Author'), <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
-      [t('block.Difficulty'), header.difficulty],
-      [t('common.GasUsed'), header.gas_used],
+      [t('block.Difficulty'), formatNumber(header.difficulty_number)],
+      [t('common.GasUsed'), formatNumber(header.gas_used)],
       [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
     ];
 

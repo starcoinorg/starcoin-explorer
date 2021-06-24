@@ -2,6 +2,7 @@
   "header": {
     "home": "Home",
     "blocks": "Blocks",
+    "uncleblocks": "Uncles",
     "transactions": "Transactions",
     "events": "Events",
     "tools": "Tools",
@@ -40,6 +41,19 @@
     "Uncles": "Uncles",
     "": ""
   },
+  "uncleblock": {
+    "title": "Uncle Blocks",
+    "header": "Uncle Block",
+    "NoUncleBlockData": "No Uncle Block Data",
+    "Height": "Height",
+    "Author": "Author",
+    "Difficulty": "Difficulty",
+    "ParentHash": "Parant Hash",
+    "Transactions": "Transactions",
+    "Uncles": "Uncles",
+    "BlockAccumulatorRoot": "Block Accumulator Root",
+    "": ""
+  },
   "transaction": {
     "title": "Transaction",
     "NoTransactionData": "No Transaction Data",
@@ -69,7 +83,7 @@
     "": ""
   },
   "uncle": {
-    "NoUncleData": "No Uncle Data",
+   "NoUncleData": "No Uncle Data",
     "": ""
   },
   "ecosystems": {
@@ -88,6 +102,7 @@
     "Hash": "Hash",
     "Time": "Time",
     "GasUsed": "Gas Used",
+    "Nonce": "Nonce",
     "": ""
   },
   "countdown": {

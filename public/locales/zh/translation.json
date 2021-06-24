@@ -2,6 +2,7 @@
   "header": {
     "home": "首页",
     "blocks": "区块",
+    "uncleblocks": "叔块",
     "events": "事件",
     "tools": "工具",
     "transactions": "交易",
@@ -40,6 +41,19 @@
     "Uncles": "叔块",
     "": ""
   },
+  "uncleblock": {
+    "title": "叔块",
+    "header": "叔块",
+    "NoBlockData": "没有叔块数据",
+    "Height": "高度",
+    "Author": "创建者",
+    "Difficulty": "难度",
+    "ParentHash": "父块哈希",
+    "Transactions": "交易量",
+    "Uncles": "叔块",
+    "BlockAccumulatorRoot": "区块累加器根",
+    "": ""
+  },
   "transaction": {
     "title": "交易",
     "NoTransactionData": "没有交易数据",
@@ -69,7 +83,7 @@
     "": ""
   },
   "uncle": {
-    "NoUncleData": "没有叔块数据",
+   "NoUncleData": "没有叔块数据",
     "": ""
   },
   "ecosystems": {
@@ -88,6 +102,7 @@
     "Hash": "哈希",
     "Time": "时间",
     "GasUsed": "Gas消耗",
+    "Nonce": "Nonce",
     "": ""
   },
   "countdown": {
