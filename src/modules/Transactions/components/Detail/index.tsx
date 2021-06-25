@@ -65,9 +65,7 @@ class Index extends PureComponent<IndexProps> {
     for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
       const event = events[i];
-      console.log({ event });
       const eventTypeArray = event.type_tag.split('::');
-      console.log({ eventTypeArray });
       const eventModule = eventTypeArray[1];
       const eventName = eventTypeArray[2];
       // const eventModule = 'Account';
@@ -98,8 +96,16 @@ class Index extends PureComponent<IndexProps> {
       eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
     }
 
+    const source = transaction;
+    let payloadInHex = '';
+    if (source.user_transaction && source.user_transaction.raw_txn) {
+      payloadInHex = source.user_transaction.raw_txn.payload;
+    }
+    const txnPayload = payloadInHex ? encoding.decodeTransactionPayload(payloadInHex) : [];
+
     const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
     const rawContent = <pre>{JSON.stringify(transaction, null, 2)}</pre> || <Typography variant="body1">{t('transaction.NoRawData')}</Typography>;
+    const decodedPayloadContent = <pre>{JSON.stringify(txnPayload, null, 2)}</pre> || <Typography variant="body1">{t('transaction.NoDecodedPayload')}</Typography>;
     return (
       <div>
         <br />
@@ -134,13 +140,27 @@ class Index extends PureComponent<IndexProps> {
             </div>
           </AccordionDetails>
         </Accordion>
+        <br />
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h5" gutterBottom>{t('transaction.decodedPayload')}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={classes.rawData}>
+              {isInitialLoad ? <Loading /> : decodedPayloadContent}
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </div>
     );
   }
 
   render() {
     const { transaction, match, t } = this.props;
-    console.log(transaction);
     if (!transaction) {
       return <Loading />;
     }
