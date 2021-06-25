@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
 import Tooltip from '@material-ui/core/Tooltip';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import LanguageIcon from '@material-ui/icons/Translate';
@@ -86,6 +87,9 @@ const useStyles = (theme: Theme) => createStyles({
   },
   i18n: {
     height: theme.spacing(6),
+  },
+  blockMenu: {
+    fontSize: '1rem',
   },
   language: {
     margin: theme.spacing(0, 0.5, 0, 1),
@@ -206,10 +210,64 @@ function Index(props: any) {
     </>
   );
 
+  // block menu: blocks, uncle blocks
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleBlockMenuIconClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleBlockMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleBlockClose = () => {
+    window.location.href = `/${userNetwork}/blocks/1`;
+    setAnchorEl(null);
+  };
+
+  const handleUncleBlockClose = () => {
+    window.location.href = `/${userNetwork}/uncleblocks/1`;
+    setAnchorEl(null);
+  };
+
+  const blockMenu = (
+    <>
+      <Tooltip title={t('header.chooseBlocks')} disableFocusListener enterDelay={300}>
+        <Button
+          className={classes.button}
+          color="inherit"
+          aria-owns={undefined}
+          aria-haspopup="true"
+          aria-controls="fade-menu"
+          onClick={handleBlockMenuIconClick}
+        >
+          <span className={classes.blockMenu}>
+            {t('header.blocks')}
+          </span>
+          <ExpandMoreIcon fontSize="small" />
+        </Button>
+      </Tooltip>
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleBlockMenuClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={handleBlockClose}>{t('header.blocks')}</MenuItem>
+        <MenuItem onClick={handleUncleBlockClose}>{t('header.uncleblocks')}</MenuItem>
+      </Menu>
+    </>
+  );
+
   const pathname = window.location.pathname;
   const tabs = (
     <Tabs
       tabs={[
+        /*
         {
           className: classes.button,
           id: 'blocks',
@@ -224,6 +282,7 @@ function Index(props: any) {
           selected: window.location.pathname.startsWith('/uncleblocks'),
           href: `/${userNetwork}/uncleblocks/1`,
         },
+        */
         {
           className: classes.button,
           id: 'transactions',
@@ -284,6 +343,7 @@ function Index(props: any) {
               </Typography>
             </div>
           </BaseRouteLink>
+          {blockMenu}
           {tabs}
           {networkMenus}
           {i18nMenu}
