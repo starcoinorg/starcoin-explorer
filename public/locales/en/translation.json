@@ -2,7 +2,8 @@
   "header": {
     "home": "Home",
     "blocks": "Blocks",
-    "uncleblocks": "Uncles",
+    "chooseBlocks": "Choose Blocks",
+    "uncleblocks": "Uncle Blocks",
     "transactions": "Transactions",
     "events": "Events",
     "tools": "Tools",
