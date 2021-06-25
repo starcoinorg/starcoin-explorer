@@ -78,7 +78,6 @@ class Index extends PureComponent<Props, IndexState> {
 
   render() {
     const { transactionList, isLoadingMore, className, classes, t } = this.props;
-    console.log({ transactionList });
     const isInitialLoad = !transactionList;
     const transactions = transactionList && transactionList.contents || [];
     const transactionsList = transactions.length ? (

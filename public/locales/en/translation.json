@@ -70,6 +70,8 @@
     "arg1": "Param1",
     "arg2": "Param2",
     "RawData": "Raw Data",
+    "decodedPayload": "Decoded Payload",
+    "NoDecodedPayload": "No Decoded Payload Data",
     "NoRawData": "No Raw Data",
     "": ""
   },
