@@ -12,8 +12,8 @@ class BlocksRouter extends PureComponent<BlocksRouterProps> {
     const { computedMatch: match } = this.props;
     return (
       <Switch>
-        <Route path={`${match.path}/height/:height`} render={(props: any) => (<Detail {...props} />)} />
-        <Route path={`${match.path}/detail/:hash`} render={(props: any) => (<Detail {...props} />)} />
+        <Route path={`${match.path}/height/:height/:author`} render={(props: any) => (<Detail {...props} />)} />
+        <Route path={`${match.path}/hash/:hash`} render={(props: any) => (<Detail {...props} />)} />
         <Route path={`${match.path}/:page`} render={(props: any) => (<List {...props} />)} />
       </Switch>
     );
