@@ -49,7 +49,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     this.state = {
       epochData: undefined,
       hash: props.match.params.hash,
-      height: props.match.params.height
+      height: props.match.params.height,
     };
   }
 
