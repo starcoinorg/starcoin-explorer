@@ -70,6 +70,8 @@
     "arg1": "参数1",
     "arg2": "参数2",
     "RawData": "原始数据",
+    "decodedPayload": "Payload 详情",
+    "NoDecodedPayload": "没有 Payload 详情",
     "NoRawData": "没有原始数据",
     "": ""
   },
