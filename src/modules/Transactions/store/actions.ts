@@ -14,6 +14,20 @@ export function setTransaction(payload: any) {
   };
 }
 
+export function getPendingTransaction(payload: any) {
+  return {
+    type: types.GET_PENDING_TRANSACTION,
+    payload
+  };
+}
+
+export function setPendingTransaction(payload: any) {
+  return {
+    type: types.SET_PENDING_TRANSACTION,
+    payload
+  };
+}
+
 export function getTransactionList(payload: any, callback?: any) {
   return {
     type: types.GET_TRANSACTION_LIST,
@@ -25,6 +39,21 @@ export function getTransactionList(payload: any, callback?: any) {
 export function setTransactionList(payload: any) {
   return {
     type: types.SET_TRANSACTION_LIST,
+    payload
+  };
+}
+
+export function getPendingTransactionList(payload: any, callback?: any) {
+  return {
+    type: types.GET_PENDING_TRANSACTION_LIST,
+    payload,
+    callback
+  };
+}
+
+export function setPendingTransactionList(payload: any) {
+  return {
+    type: types.SET_PENDING_TRANSACTION_LIST,
     payload
   };
 }
@@ -71,6 +100,13 @@ export function getBlockTransactionsByHeight(payload: any, callback?: any) {
 export function getTransactionListInDelay(payload: any) {
   return {
     type : types.GET_TRANSACTION_LIST_IN_DELAY,
+    payload
+  }
+}
+
+export function getPendingTransactionListInDelay(payload: any) {
+  return {
+    type : types.GET_PENDING_TRANSACTION_LIST_IN_DELAY,
     payload
   }
 }
