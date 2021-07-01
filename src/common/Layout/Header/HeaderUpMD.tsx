@@ -263,6 +263,59 @@ function Index(props: any) {
     </>
   );
 
+  // transaction menu: transactions, pending transactions
+  const [anchorTxn, setAnchorTxn] = React.useState(null);
+  const openTxn = Boolean(anchorTxn);
+
+  const handleTxnMenuIconClick = (event: any) => {
+    setAnchorTxn(event.currentTarget);
+  };
+
+  const handleTxnMenuClose = () => {
+    setAnchorTxn(null);
+  };
+
+  const handleTxnClose = () => {
+    window.location.href = `/${userNetwork}/transactions/1`;
+    setAnchorTxn(null);
+  };
+
+  const handlePendingTxnClose = () => {
+    window.location.href = `/${userNetwork}/pending_transactions/1`;
+    setAnchorTxn(null);
+  };
+
+  const txnMenu = (
+    <>
+      <Tooltip title={t('header.chooseTxn')} disableFocusListener enterDelay={300}>
+        <Button
+          className={classes.button}
+          color="inherit"
+          aria-owns={undefined}
+          aria-haspopup="true"
+          aria-controls="fade-menu"
+          onClick={handleTxnMenuIconClick}
+        >
+          <span className={classes.blockMenu}>
+            {t('header.transactions')}
+          </span>
+          <ExpandMoreIcon fontSize="small" />
+        </Button>
+      </Tooltip>
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorTxn}
+        keepMounted
+        open={openTxn}
+        onClose={handleTxnMenuClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={handleTxnClose}>{t('header.transactions')}</MenuItem>
+        <MenuItem onClick={handlePendingTxnClose}>{t('header.pendingTransactions')}</MenuItem>
+      </Menu>
+    </>
+  );
+
   const pathname = window.location.pathname;
   const tabs = (
     <Tabs
@@ -282,7 +335,6 @@ function Index(props: any) {
           selected: window.location.pathname.startsWith('/uncleblocks'),
           href: `/${userNetwork}/uncleblocks/1`,
         },
-        */
         {
           className: classes.button,
           id: 'transactions',
@@ -290,6 +342,7 @@ function Index(props: any) {
           selected: pathname.startsWith('/transactions'),
           href: `/${userNetwork}/transactions`,
         },
+        */
         {
           className: classes.button,
           id: 'ecosystems',
@@ -344,6 +397,7 @@ function Index(props: any) {
             </div>
           </BaseRouteLink>
           {blockMenu}
+          {txnMenu}
           {tabs}
           {networkMenus}
           {i18nMenu}
