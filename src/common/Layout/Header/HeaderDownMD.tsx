@@ -211,6 +211,13 @@ function Index(props: any) {
     },
     {
       className: classes.button,
+      id: 'pendingtransactions',
+      label: t('header.pendingTransactions'),
+      selected: location.pathname.startsWith('/pending_transactions'),
+      href: `/${userNetwork}/pending_transactions`,
+    },
+    {
+      className: classes.button,
       id: 'ecosystem',
       label: t('header.ecosystems'),
       selected: location.pathname.startsWith('/ecosystem'),

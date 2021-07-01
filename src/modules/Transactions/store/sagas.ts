@@ -20,6 +20,21 @@ function* watchGetTransaction() {
   yield takeLatest(types.GET_TRANSACTION, getTransaction)
 }
 
+export function* getPendingTransaction(action: ReturnType<typeof actions.getPendingTransaction>) {
+  try {
+    const res = yield call(withLoading, api.getPendingTransaction, action.type, action.payload);
+    yield put(actions.setPendingTransaction(res));
+  } catch (err) {
+    if (err.message) {
+      console.log(err.message);
+    }
+  }
+}
+
+function* watchGetPendingTransaction() {
+  yield takeLatest(types.GET_PENDING_TRANSACTION, getPendingTransaction)
+}
+
 export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
   try {
     const res = yield call(withLoading, api.getTransactionList, action.type, action.payload);
@@ -38,6 +53,26 @@ export function* getTransactionList(action: ReturnType<typeof actions.getTransac
 
 function* watchGetTransactionList() {
   yield takeLatest(types.GET_TRANSACTION_LIST, getTransactionList)
+}
+
+export function* getPendingTransactionList(action: ReturnType<typeof actions.getPendingTransactionList>) {
+  try {
+    const res = yield call(withLoading, api.getPendingTransactionList, action.type, action.payload);
+    yield put(actions.setPendingTransactionList(res));
+    if (action.callback) {
+      yield call(action.callback);
+    }
+  } catch (err) {
+    if (err.message) {
+      yield put(actions.setPendingTransactionList([]));
+    }
+  } finally {
+    yield put(actions.getPendingTransactionListInDelay(action.payload));
+  }
+}
+
+function* watchGetPendingTransactionList() {
+  yield takeLatest(types.GET_PENDING_TRANSACTION_LIST, getPendingTransactionList)
 }
 
 export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
@@ -109,7 +144,9 @@ function* watchGetTransactionListInDelay() {
 
 const sagas = [
   watchGetTransaction,
+  watchGetPendingTransaction,
   watchGetTransactionList,
+  watchGetPendingTransactionList,
   watchGetTransactionListInDelay,
   watchGetAddressTransactions,
   watchGetBlockTransactions,
