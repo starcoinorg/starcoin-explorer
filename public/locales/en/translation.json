@@ -3,8 +3,10 @@
     "home": "Home",
     "blocks": "Blocks",
     "chooseBlocks": "Choose Blocks",
+    "chooseTxn": "Choose Transactions",
     "uncleblocks": "Uncle Blocks",
     "transactions": "Transactions",
+    "pendingTransactions": "Pending Transactions",
     "events": "Events",
     "tools": "Tools",
     "ecosystems": "Ecosystems",
@@ -53,6 +55,11 @@
     "Transactions": "Transactions",
     "Uncles": "Uncles",
     "BlockAccumulatorRoot": "Block Accumulator Root",
+    "": ""
+  },
+  "pending_transaction": {
+    "title": "Pending Transaction",
+    "NoPendingTransactionData": "No Pending Transaction Data",
     "": ""
   },
   "transaction": {
@@ -104,7 +111,9 @@
   "common": {
     "Hash": "Hash",
     "Time": "Time",
+    "ExpireTime": "Expiration Time",
     "GasUsed": "Gas Used",
+    "MaxGasAmount": "Max Gas Amount",
     "Nonce": "Nonce",
     "": ""
   },
