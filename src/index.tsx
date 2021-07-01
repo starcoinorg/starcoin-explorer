@@ -19,6 +19,7 @@ const NetworkRedirect = lazy(() => import('./modules/NetworkRedirect/index'));
 const Blocks = lazy(() => import('./modules/Blocks/containers'));
 const UncleBlocks = lazy(() => import('./modules/UncleBlocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
+const PendingTransactions = lazy(() => import('./modules/PendingTransactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
 const Faq = lazy(() => import('./modules/Faq'));
 const Tools = lazy(() => import('./modules/Tools'));
@@ -65,6 +66,7 @@ ReactDOM.render(
         <RouteWithLayout path={withBaseRoute('/:network/blocks')} title="Block" layout={MainLayout} component={Blocks} />
         <RouteWithLayout path={withBaseRoute('/:network/uncleblocks')} title="UncleBlocks" layout={MainLayout} component={UncleBlocks} />
         <RouteWithLayout path={withBaseRoute('/:network/transactions')} title="Transaction" layout={MainLayout} component={Transactions} />
+        <RouteWithLayout path={withBaseRoute('/:network/pending_transactions')} title="PendingTransaction" layout={MainLayout} component={PendingTransactions} />
         <RouteWithLayout exact path={withBaseRoute('/barnard')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/halley')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
         <RouteWithLayout exact path={withBaseRoute('/proxima')} title="NetworkRedirect" layout={MainLayout} component={NetworkRedirect} />
