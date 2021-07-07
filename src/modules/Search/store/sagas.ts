@@ -2,8 +2,8 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import get from "lodash/get";
 import withLoading from '@/sagaMiddleware/index';
 import { isHex } from "@/utils/helper";
-import { getBlock, getBlockByHeight } from '@/Blocks/store/apis';
-import { getTransaction, getAddressTransactions } from '@/Transactions/store/apis';
+import { getBlock, getBlockByHeight, getUncleBlock } from '@/Blocks/store/apis';
+import { getTransaction, getAddressTransactions, getPendingTransaction } from '@/Transactions/store/apis';
 import { pushLocation } from '@/rootStore/router/actions';
 import { getAddressData } from '@/utils/sdk';
 import { getNetwork } from '@/utils/helper';
@@ -17,7 +17,9 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
       res = yield all([
         call(withLoading, getBlock, action.type, { hash: action.payload }),
         call(withLoading, getTransaction, action.type, { hash: action.payload }),
-        call(withLoading, getAddressTransactions, action.type, { hash: action.payload })
+        call(withLoading, getAddressTransactions, action.type, { hash: action.payload }),
+        call(withLoading, getUncleBlock, action.type, { hash: action.payload }),
+        call(withLoading, getPendingTransaction, action.type, { hash: action.payload })
       ]);
     } else {
       const height = parseInt(action.payload, 10);
@@ -58,6 +60,11 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
         // fallback to determine address by hash length
         url = `/${getNetwork()}/address/${action.payload}`;
       }
+    }
+
+    // found uncle block
+    if (res[3]) {
+      url = `/${getNetwork()}/uncleblocks/hash/${action.payload}`
     }
 
     if (url) {

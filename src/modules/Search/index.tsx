@@ -11,7 +11,7 @@ interface IndexState {
   showLoading: boolean,
 }
 
-class Index extends PureComponent<IndexProps, IndexState> {
+class Search extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     computedMatch: {},
@@ -46,4 +46,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default Index;
+export default Search;
