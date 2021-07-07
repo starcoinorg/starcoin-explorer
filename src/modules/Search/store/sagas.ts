@@ -66,6 +66,10 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
     if (res[3]) {
       url = `/${getNetwork()}/uncleblocks/hash/${action.payload}`
     }
+    // found Txn pending
+    if (res[4]) {
+      url = `/${getNetwork()}/transactions/detail/${action.payload}`
+    }
 
     if (url) {
       yield put(pushLocation(url));
