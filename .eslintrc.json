@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "prettier", "prettier/react"],
   "env": {
     "browser": true,
     "node": true,
@@ -21,7 +21,6 @@
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "react/jsx-props-no-spreading": 0,
-    "jsx-a11y/no-static-element-interactions": 0,
     "no-unused-vars": 0,
     "@typescript-eslint/no-unused-vars": [
       "error"

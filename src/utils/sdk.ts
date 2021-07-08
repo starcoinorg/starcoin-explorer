@@ -3,7 +3,7 @@ import { providers } from '@starcoin/starcoin';
 
 const network = localStorage.getItem('network');
 const nodeUrl = `https://${network}-seed.starcoin.org`;
-const provider = new providers.JsonrpcProvider(nodeUrl);
+const provider = new providers.JsonRpcProvider(nodeUrl);
 
 export async function getTxnData(txnHash: string) {
   try {
