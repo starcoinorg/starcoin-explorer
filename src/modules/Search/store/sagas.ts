@@ -68,7 +68,7 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
     }
     // found Txn pending
     if (res[4]) {
-      url = `/${getNetwork()}/transactions/detail/${action.payload}`
+      url = `/${getNetwork()}/pending_transactions/detail/${action.payload}`
     }
 
     if (url) {
