@@ -19,7 +19,7 @@
     "content": "版权所有"
   },
   "home": {
-    "explorer": "浏览器",
+    "explorer": "区块链浏览器",
     "search": "查找",
     "searchHint": "请输入区块/交易/创建者的哈希, 或者区块高度",
     "searchNotFound": "对不起, 查无此页.",
@@ -93,7 +93,7 @@
     "": ""
   },
   "uncle": {
-   "NoUncleData": "没有叔块数据",
+    "NoUncleData": "没有叔块数据",
     "": ""
   },
   "ecosystems": {

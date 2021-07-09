@@ -19,7 +19,7 @@
     "content": "All rights reserved"
   },
   "home": {
-    "explorer": "Explorer",
+    "explorer": "Block Chain Explorer",
     "search": "SEARCH",
     "searchHint": "block/tx/author hash or block height",
     "searchNotFound": "Sorry, that page was not found.",
@@ -93,7 +93,7 @@
     "": ""
   },
   "uncle": {
-   "NoUncleData": "No Uncle Data",
+    "NoUncleData": "No Uncle Data",
     "": ""
   },
   "ecosystems": {

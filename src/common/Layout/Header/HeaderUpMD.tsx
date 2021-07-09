@@ -75,9 +75,9 @@ const useStyles = (theme: Theme) => createStyles({
   },
   logo: {
     fontFamily: 'Bauhaus93',
-    fontSize: `${theme.spacing(6)}px`,
+    fontSize: `${ theme.spacing(6) }px`,
     color: '#3d454d',
-    letterSpacing: `-${theme.spacing(2 / 4)}px`,
+    letterSpacing: `-${ theme.spacing(2 / 4) }px`,
     textAlign: 'left',
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
@@ -223,12 +223,12 @@ function Index(props: any) {
   };
 
   const handleBlockClose = () => {
-    window.location.href = `/${userNetwork}/blocks/1`;
+    window.location.href = `/${ userNetwork }/blocks/1`;
     setAnchorEl(null);
   };
 
   const handleUncleBlockClose = () => {
-    window.location.href = `/${userNetwork}/uncleblocks/1`;
+    window.location.href = `/${ userNetwork }/uncleblocks/1`;
     setAnchorEl(null);
   };
 
@@ -276,12 +276,12 @@ function Index(props: any) {
   };
 
   const handleTxnClose = () => {
-    window.location.href = `/${userNetwork}/transactions/1`;
+    window.location.href = `/${ userNetwork }/transactions/1`;
     setAnchorTxn(null);
   };
 
   const handlePendingTxnClose = () => {
-    window.location.href = `/${userNetwork}/pending_transactions/1`;
+    window.location.href = `/${ userNetwork }/pending_transactions/1`;
     setAnchorTxn(null);
   };
 
@@ -392,7 +392,7 @@ function Index(props: any) {
           <BaseRouteLink to="/" underline="none">
             <div className={classes.logoLink}>
               <Typography className={classes.logo} variant="h3">
-                stcscan.io
+                Stcscan
               </Typography>
             </div>
           </BaseRouteLink>

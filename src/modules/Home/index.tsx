@@ -210,7 +210,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   onSearch = () => {
-    this.props.pushLocation(`/search/${this.state.value.trim()}`);
+    this.props.pushLocation(`/search/${ this.state.value.trim() }`);
   };
 
   renderCard = (
@@ -250,9 +250,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const transactions = transactionHit.slice(0, 15);
     const metrics: any[] = [];
     if (this.state.epochData) {
-      metrics.push(['Epoch', `${this.state.epochData.number}th`]);
+      metrics.push(['Epoch', `${ this.state.epochData.number }th`]);
       metrics.push([t('home.EpochStartTime'), formatTime(this.state.epochData.start_time, i18n.language)]);
-      metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${formatNumber(this.state.epochData.end_block_number)}`]);
+      metrics.push([t('home.StartEndBlock'), `${ formatNumber(this.state.epochData.start_block_number) } - ${ formatNumber(this.state.epochData.end_block_number) }`]);
       metrics.push([t('home.TargetBlockTime'), formatNumber((this.state.epochData.block_time_target / 1000).toFixed(0))]);
       if (blocks && blocks.length > 0 && this.state.epochData.block_time_target > 0) {
         // const currentBlockDiff = Number(blocks[0]._source.header.difficulty);
@@ -287,7 +287,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <div className={classes.cardContainer}>
           <Card className={this.props.classes.card}>
             <div className={this.props.classes.cardHeader}>
-              <Typography className={classes.title} variant="h4">stcscan.io {t('home.explorer')}</Typography>
+              <Typography className={classes.title} variant="h4">Starcoin {t('home.explorer')}</Typography>
             </div>
             <div className={classes.searchField}>
               <TextField
@@ -336,7 +336,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <div className={classes.blocksAndTransactions}>
           {this.renderCard(
             t('home.ExploreBlocks'),
-            `/${getNetwork()}/blocks/1`,
+            `/${ getNetwork() }/blocks/1`,
             <BlockTable
               blocks={blocks}
               sizeVisibleAt="xs"
@@ -347,7 +347,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           )}
           {this.renderCard(
             t('home.ExploreTransactions'),
-            `/${getNetwork()}/transactions/list`,
+            `/${ getNetwork() }/transactions/list`,
             transactionsList,
             classes.transactions,
             classes.transactionsSpacer,

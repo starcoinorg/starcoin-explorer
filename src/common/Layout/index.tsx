@@ -40,7 +40,7 @@ const useStyles = (theme: Theme) => createStyles({
   },
   contentNormal: {
     top: theme.spacing(8),
-    minHeight: `calc(100vh - ${theme.spacing(8)}px)`,
+    minHeight: `calc(100vh - ${ theme.spacing(8) }px)`,
   },
   contentInner: {
     flex: '1 1 auto',
@@ -57,7 +57,7 @@ class Index extends React.PureComponent<IndexProps> {
     const { children, classes } = this.props;
     return (
       <div className={classes.root}>
-        <Helmet titleTemplate="%s - stcscan.io" title="stcscan.io">
+        <Helmet titleTemplate="%s - StcScan" title="StcScan">
           <html lang="en" />
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

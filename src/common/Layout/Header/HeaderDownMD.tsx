@@ -88,9 +88,9 @@ const useStyles = (theme: Theme) => createStyles({
   },
   logo: {
     fontFamily: 'Bauhaus93',
-    fontSize: `${theme.spacing(6)}px`,
+    fontSize: `${ theme.spacing(6) }px`,
     color: '#3d454d',
-    letterSpacing: `-${theme.spacing(2 / 4)}px`,
+    letterSpacing: `-${ theme.spacing(2 / 4) }px`,
     textAlign: 'left',
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
@@ -193,28 +193,28 @@ function Index(props: any) {
       id: 'blocks',
       label: t('header.blocks'),
       selected: location.pathname.startsWith('/blocks'),
-      href: `/${userNetwork}/blocks/1`,
+      href: `/${ userNetwork }/blocks/1`,
     },
     {
       className: classes.button,
       id: 'uncleblocks',
       label: t('header.uncleblocks'),
       selected: window.location.pathname.startsWith('/uncleblocks'),
-      href: `/${userNetwork}/uncleblocks/1`,
+      href: `/${ userNetwork }/uncleblocks/1`,
     },
     {
       className: classes.button,
       id: 'transactions',
       label: t('header.transactions'),
       selected: location.pathname.startsWith('/transactions'),
-      href: `/${userNetwork}/transactions`,
+      href: `/${ userNetwork }/transactions`,
     },
     {
       className: classes.button,
       id: 'pendingtransactions',
       label: t('header.pendingTransactions'),
       selected: location.pathname.startsWith('/pending_transactions'),
-      href: `/${userNetwork}/pending_transactions`,
+      href: `/${ userNetwork }/pending_transactions`,
     },
     {
       className: classes.button,
@@ -252,7 +252,7 @@ function Index(props: any) {
         <BaseRouteLink to="/" underline="none">
           <div className={classes.logoLink}>
             <Typography className={classes.logo} variant="h3">
-              stcscan.io
+              Stcscan
             </Typography>
           </div>
         </BaseRouteLink>
