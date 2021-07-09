@@ -1,7 +1,8 @@
 // https://www.npmjs.com/package/@starcoin/starcoin
 import { providers } from '@starcoin/starcoin';
 
-const network = localStorage.getItem('network');
+const networkInPath = window.location.pathname.split('/')[1]
+const network = networkInPath || localStorage.getItem('network');
 const nodeUrl = `https://${network}-seed.starcoin.org`;
 const provider = new providers.JsonRpcProvider(nodeUrl);
 
@@ -42,6 +43,7 @@ export async function getBalancesData(hash: string) {
 }
 
 export async function getAddressSTCBalance(hash: string) {
+  console.log('getAddressSTCBalance...')
   try {
     const result = await provider.getResource(hash, '0x1::Account::Balance<0x1::STC::STC>');
     return result;
