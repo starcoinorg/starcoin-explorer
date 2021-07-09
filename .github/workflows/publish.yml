@@ -31,7 +31,7 @@ jobs:
           REACT_APP_STARCOIN_API_URL: ${{ secrets.API_URL }}
           REACT_APP_STARCOIN_NETWORKS: ${{ secrets.AVAILABLE_NETWORKS }}
 
-      - name: Deploy
+      - name: Deploy to github pages(https://explorer.starcoin.org)
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
@@ -39,3 +39,14 @@ jobs:
           publish_branch: master
           publish_dir: ./build
           full_commit_message: ${{ github.event.head_commit.message }}
+      
+      - name: Deploy to aws s3(https://stcscan.io)
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --delete
+        env:
+          AWS_S3_BUCKET: 'stcscan.io'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'ap-northeast-1'
+          SOURCE_DIR: 'build'
