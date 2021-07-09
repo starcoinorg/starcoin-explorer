@@ -40,6 +40,8 @@ jobs:
           publish_dir: ./build
           full_commit_message: ${{ github.event.head_commit.message }}
       
+      - run: rm ./build/CNAME
+      
       - name: Deploy to aws s3(https://stcscan.io)
         uses: jakejarvis/s3-sync-action@master
         with:
