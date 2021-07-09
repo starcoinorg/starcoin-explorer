@@ -10,6 +10,7 @@ import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
 import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
+import Error404 from 'modules/Error404/address';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { onchain_events, encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
@@ -51,7 +52,7 @@ class Index extends PureComponent<IndexProps> {
     getTransaction: () => { }
   };
 
-  componentDidMount() {
+  componentDidMount = async () => {
     const hash = this.props.match.params.hash;
     this.props.getTransaction({ hash });
   }
@@ -161,8 +162,11 @@ class Index extends PureComponent<IndexProps> {
 
   render() {
     const { transaction, match, t } = this.props;
-    if (!transaction) {
+    if (transaction === null) {
       return <Loading />;
+    }
+    if (transaction === '') {
+      return <Error404 address={match.params.hash} />
     }
     const network = match.params.network;
     const source = transaction;
