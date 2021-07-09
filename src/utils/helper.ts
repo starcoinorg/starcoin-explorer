@@ -13,12 +13,14 @@ export function withBaseRoute(route: any = '') {
 }
 
 export function getNetwork() {
-  const network = localStorage.getItem('network');
+  const networkInPath = window.location.pathname.split('/')[1]
+  let network = networkInPath || localStorage.getItem('network');
   if (!network) {
     const networks = process.env.REACT_APP_STARCOIN_NETWORKS || '';
     localStorage.setItem('network', networks.split(',')[0]);
+    network = networks.split(',')[0]
   }
-  return localStorage.getItem('network');
+  return network;
 }
 
 export function isHex(num: string) {
