@@ -53,7 +53,7 @@ export default function Footer() {
     <div className={classes.root}>
       <div className={classes.secondRow}>
         <Typography className={classes.copyright} variant="caption">
-          © 2018-{year} Starcoin.org {t('footer.content')}.
+          © 2018-{year} stcscan.io {t('footer.content')}.
         </Typography>
       </div>
     </div>
