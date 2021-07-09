@@ -10,7 +10,9 @@ export function* getTransaction(action: ReturnType<typeof actions.getTransaction
     const res = yield call(withLoading, api.getTransaction, action.type, action.payload);
     yield put(actions.setTransaction(res));
   } catch (err) {
-    console.error(err)
+    if (err.message) {
+      console.log(err.message);
+    }
   }
 }
 

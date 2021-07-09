@@ -52,7 +52,7 @@ class Index extends PureComponent<IndexProps> {
     getTransaction: () => { }
   };
 
-  componentDidMount = async () => {
+  componentDidMount() {
     const hash = this.props.match.params.hash;
     this.props.getTransaction({ hash });
   }
