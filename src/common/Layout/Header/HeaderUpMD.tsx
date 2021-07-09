@@ -392,7 +392,7 @@ function Index(props: any) {
           <BaseRouteLink to="/" underline="none">
             <div className={classes.logoLink}>
               <Typography className={classes.logo} variant="h3">
-                Starcoin
+                stcscan.io
               </Typography>
             </div>
           </BaseRouteLink>

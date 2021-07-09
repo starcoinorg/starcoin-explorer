@@ -287,7 +287,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <div className={classes.cardContainer}>
           <Card className={this.props.classes.card}>
             <div className={this.props.classes.cardHeader}>
-              <Typography className={classes.title} variant="h4">Starcoin {t('home.explorer')}</Typography>
+              <Typography className={classes.title} variant="h4">stcscan.io {t('home.explorer')}</Typography>
             </div>
             <div className={classes.searchField}>
               <TextField
