@@ -203,6 +203,7 @@ class Index extends PureComponent<IndexProps> {
     const columns = [
       [t('common.Hash'), source.transaction_hash],
       [t('transaction.Type'), type],
+      [t('common.Time'), new Date(parseInt(source.timestamp, 10)).toLocaleString()],
       [t('transaction.BlockHash'), <CommonLink path={`/${network}/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
       [t('transaction.BlockHeight'), <BaseRouteLink to={`/${network}/blocks/height/${source.block_number}`}>{formatNumber(source.block_number)}</BaseRouteLink>],
       // [t('common.Time'), new Date(parseInt(blockTime, 10)).toLocaleString()],
