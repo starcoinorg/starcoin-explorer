@@ -106,9 +106,18 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const { block, blockTransactions, classes, match, t } = this.props;
     const isInitialLoad = !block;
     const transactions = get(block, 'body.Full', []);
+    transactions.map((tx: any) => {
+      if (blockTransactions && blockTransactions.contents) {
+        const block = blockTransactions.contents.filter((block: any) => block.transaction_hash === tx.transaction_hash)
+        if (block.length) {
+          tx.timestamp = block[0].timestamp
+        }
+      }
+      return tx
+    })
     const blockTransactionHits = get(blockTransactions, 'contents');
     const blockEventsIndex = blockTransactionHits.length - 1;
-    const getBlockEventsString = `contents[${blockEventsIndex.toString()}].events`;
+    const getBlockEventsString = `contents[${ blockEventsIndex.toString() }].events`;
     const events = get(blockTransactions, getBlockEventsString, []);
     const eventsTable: any[] = [];
 
@@ -154,10 +163,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
       columns.push([t('common.Hash'), uncle.block_hash]);
       columns.push([t('block.Height'), formatNumber(uncle.number)]);
       columns.push([t('common.Time'), new Date(parseInt(uncle.timestamp, 10)).toLocaleString()]);
-      columns.push([t('block.Author'), <CommonLink key={uncle.author} path={`/${network}/address/${uncle.author}`} title={uncle.author} />]);
+      columns.push([t('block.Author'), <CommonLink key={uncle.author} path={`/${ network }/address/${ uncle.author }`} title={uncle.author} />]);
       columns.push([t('block.Difficulty'), uncle.difficulty]);
       columns.push([t('common.GasUsed'), uncle.gas_used]);
-      columns.push([t('block.ParentHash'), <CommonLink key={uncle.parent_hash} path={`/${network}/blocks/detail/${uncle.parent_hash}`} title={uncle.parent_hash} />]);
+      columns.push([t('block.ParentHash'), <CommonLink key={uncle.parent_hash} path={`/${ network }/blocks/detail/${ uncle.parent_hash }`} title={uncle.parent_hash} />]);
       unclesTable.push(<PageViewTable key={uncle.number} columns={columns} />);
     });
 
@@ -233,10 +242,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.Hash'), header.block_hash],
       [t('block.Height'), formatNumber(header.number)],
       [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
-      [t('block.Author'), <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
+      [t('block.Author'), <CommonLink key={header.author} path={`/${ network }/address/${ header.author }`} title={header.author} />],
       [t('block.Difficulty'), formatNumber(header.difficulty_number)],
       [t('common.GasUsed'), formatNumber(header.gas_used)],
-      [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
+      [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${ network }/blocks/detail/${ header.parent_hash }`} title={header.parent_hash} />],
     ];
 
     return (
@@ -245,7 +254,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         title={t('block.title')}
         name={t('block.title')}
         pluralName={t('header.blocks')}
-        searchRoute={`/${network}/blocks`}
+        searchRoute={`/${ network }/blocks`}
         bodyColumns={columns}
         extra={this.generateExtra()}
       />
