@@ -34,17 +34,17 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
     if (res[0]) {
       // by hash
       if (isHex(action.payload) && get(res[0], 'header.block_hash') === action.payload) {
-        url = `/${getNetwork()}/blocks/detail/${action.payload}`;
+        url = `/${ getNetwork() }/blocks/detail/${ action.payload }`;
         // by height
       } else if (get(res[0], 'header.number') == action.payload) {
-        url = `/${getNetwork()}/blocks/height/${action.payload}`;
+        url = `/${ getNetwork() }/blocks/height/${ action.payload }`;
       }
 
     }
     // found transaction by hash
     if (!url && isHex(action.payload) && res[1]) {
       if (get(res[1], 'transaction_hash') === action.payload) {
-        url = `/${getNetwork()}/transactions/detail/${action.payload}`;
+        url = `/${ getNetwork() }/transactions/detail/${ action.payload }`;
       }
     }
     // found address by hash
@@ -52,23 +52,21 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
       if (res[2]) {
         const data = yield call(getAddressData, action.payload);
         if (data) {
-          if (get(data, 'withdraw_events.guid') === action.payload) {
-            url = `/${getNetwork()}/address/${action.payload}`;
-          }
+          url = `/${ getNetwork() }/address/${ action.payload }`;
         }
       } else if (action.payload.length === 34) {
         // fallback to determine address by hash length
-        url = `/${getNetwork()}/address/${action.payload}`;
+        url = `/${ getNetwork() }/address/${ action.payload }`;
       }
     }
 
     // found uncle block
     if (res[3]) {
-      url = `/${getNetwork()}/uncleblocks/hash/${action.payload}`
+      url = `/${ getNetwork() }/uncleblocks/hash/${ action.payload }`
     }
     // found Txn pending
     if (res[4]) {
-      url = `/${getNetwork()}/pending_transactions/detail/${action.payload}`
+      url = `/${ getNetwork() }/pending_transactions/detail/${ action.payload }`
     }
 
     if (url) {
