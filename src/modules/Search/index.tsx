@@ -15,7 +15,7 @@ class Search extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     computedMatch: {},
-    searchKeyword: () => {},
+    searchKeyword: () => { },
   };
 
   constructor(props: IndexProps) {
@@ -28,7 +28,7 @@ class Search extends PureComponent<IndexProps, IndexState> {
   componentDidMount() {
     let keyword = this.props.computedMatch.params.keyword;
     if (keyword.indexOf(',') > 0) {
-      keyword = keyword.replace(',', '');
+      keyword = keyword.replaceAll(',', '');
     }
     this.props.searchKeyword(keyword, () => this.showNotFound());
   }
