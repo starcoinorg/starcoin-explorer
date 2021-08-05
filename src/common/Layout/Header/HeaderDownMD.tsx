@@ -50,6 +50,14 @@ const useStyles = (theme: Theme) => createStyles({
     justifyContent: 'space-between',
 
   },
+  warning: {
+    color: '#721c24',
+    backgroundColor: '#f8d7da',
+    borderColor: '#f5c6cb',
+    textAlign: 'center',
+    height: '64px',
+    fontSize: '16px'
+  },
   title: {},
   pad: {},
   selected: {
@@ -248,11 +256,18 @@ function Index(props: any) {
 
   return (
     <div className={classes.root}>
+      {
+        window.location.hostname === 'stcscan.io' ?
+        null :
+        (
+        <div className={classes.warning}>{t('header.warning')} <a target="blank" href="https://stcscan.io">stcscan.io</a></div>
+        )
+      }
       <div className={classNames(classes.header, classes.pad)}>
         <BaseRouteLink to="/" underline="none">
           <div className={classes.logoLink}>
             <Typography className={classes.logo} variant="h3">
-              Stcscan
+              { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Explorer' }
             </Typography>
           </div>
         </BaseRouteLink>
