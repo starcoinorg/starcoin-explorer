@@ -13,13 +13,14 @@
     "faq": "FAQ",
     "terms": "Terms",
     "changeLanguage": "Change Language",
-    "changeNetwork": "Change Network"
+    "changeNetwork": "Change Network",
+    "warning": "Warning: on August 15, Starcoin Blockchain Explorer will switch to "
   },
   "footer": {
     "content": "All rights reserved"
   },
   "home": {
-    "explorer": "Block Chain Explorer",
+    "explorer": "Blockchain Explorer",
     "search": "SEARCH",
     "searchHint": "block/tx/author hash or block height",
     "searchNotFound": "Sorry, that page was not found.",

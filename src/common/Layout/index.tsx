@@ -42,6 +42,10 @@ const useStyles = (theme: Theme) => createStyles({
     top: theme.spacing(8),
     minHeight: `calc(100vh - ${ theme.spacing(8) }px)`,
   },
+  contentWarning: {
+    top: theme.spacing(16),
+    minHeight: `calc(100vh - ${ theme.spacing(8) }px)`,
+  },
   contentInner: {
     flex: '1 1 auto',
   },
@@ -91,7 +95,8 @@ class Index extends React.PureComponent<IndexProps> {
         <div
           className={classNames({
             [classes.content]: true,
-            [classes.contentNormal]: true,
+            [classes.contentNormal]: window.location.hostname === 'stcscan.io',
+            [classes.contentWarning]: window.location.hostname !== 'stcscan.io',
           })}
         >
           <div className={classes.contentInner}>{children}</div>
