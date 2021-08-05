@@ -24,6 +24,15 @@ const useStyles = (theme: Theme) => createStyles({
     display: 'flex',
     flexDirection: 'column',
   },
+  warning: {
+    color: '#721c24',
+    backgroundColor: '#f8d7da',
+    borderColor: '#f5c6cb',
+    textAlign: 'center',
+    height: '64px',
+    lineHeight: '64px',
+    fontSize: '24px'
+  },
   headerNormal: {
     height: theme.spacing(8),
   },
@@ -376,6 +385,14 @@ function Index(props: any) {
   );
 
   return (
+    <>
+      {
+        window.location.hostname === 'stcscan.io' ?
+        null :
+        (
+        <div className={classes.warning}>{t('header.warning')} <a target="blank" href="https://stcscan.io">stcscan.io</a></div>
+        )
+      }
     <div
       className={classNames({
         [classes.header]: true,
@@ -392,7 +409,7 @@ function Index(props: any) {
           <BaseRouteLink to="/" underline="none">
             <div className={classes.logoLink}>
               <Typography className={classes.logo} variant="h3">
-                Stcscan
+                { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Explorer' }
               </Typography>
             </div>
           </BaseRouteLink>
@@ -404,6 +421,7 @@ function Index(props: any) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
