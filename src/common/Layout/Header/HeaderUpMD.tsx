@@ -409,7 +409,7 @@ function Index(props: any) {
           <BaseRouteLink to="/" underline="none">
             <div className={classes.logoLink}>
               <Typography className={classes.logo} variant="h3">
-                { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Explorer' }
+                { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Starcoin' }
               </Typography>
             </div>
           </BaseRouteLink>
