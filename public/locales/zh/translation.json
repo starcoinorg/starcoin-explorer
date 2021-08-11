@@ -4,6 +4,8 @@
     "blocks": "区块",
     "chooseBlocks": "选择区块类型",
     "chooseTxn": "选择交易类型",
+    "chooseAbout": "选择关于信息",
+    "about": "关于",
     "uncleblocks": "叔块",
     "events": "事件",
     "tools": "工具",

@@ -325,6 +325,65 @@ function Index(props: any) {
     </>
   );
 
+  // about menu: ecosystem, faq, terms
+  const [anchorAbout, setAnchorAbout] = React.useState(null);
+  const openAbout = Boolean(anchorAbout);
+
+  const handleAboutMenuIconClick = (event: any) => {
+    setAnchorAbout(event.currentTarget);
+  };
+
+  const handleAboutMenuClose = () => {
+    setAnchorAbout(null);
+  };
+
+  const handleAboutEcosystemClose = () => {
+    window.location.href = `/ecosystems`;
+    setAnchorAbout(null);
+  };
+
+  const handleAboutFAQClose = () => {
+    window.location.href = `/faq`;
+    setAnchorAbout(null);
+  };
+
+  const handleAboutTermsClose = () => {
+    window.location.href = `/terms`;
+    setAnchorAbout(null);
+  };
+
+  const aboutMenu = (
+    <>
+      <Tooltip title={t('header.chooseAbout')} disableFocusListener enterDelay={300}>
+        <Button
+          className={classes.button}
+          color="inherit"
+          aria-owns={undefined}
+          aria-haspopup="true"
+          aria-controls="fade-menu"
+          onClick={handleAboutMenuIconClick}
+        >
+          <span className={classes.blockMenu}>
+            {t('header.about')}
+          </span>
+          <ExpandMoreIcon fontSize="small" />
+        </Button>
+      </Tooltip>
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorAbout}
+        keepMounted
+        open={openAbout}
+        onClose={handleAboutMenuClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={handleAboutEcosystemClose}>{t('header.ecosystems')}</MenuItem>
+        <MenuItem onClick={handleAboutFAQClose}>{t('header.faq')}</MenuItem>
+        <MenuItem onClick={handleAboutTermsClose}>{t('header.terms')}</MenuItem>
+      </Menu>
+    </>
+  );
+
   const pathname = window.location.pathname;
   const tabs = (
     <Tabs
@@ -351,20 +410,12 @@ function Index(props: any) {
           selected: pathname.startsWith('/transactions'),
           href: `/${userNetwork}/transactions`,
         },
-        */
         {
           className: classes.button,
           id: 'ecosystems',
           label: t('header.ecosystems'),
           selected: pathname.startsWith('/ecosystems'),
           href: '/ecosystems',
-        },
-        {
-          className: classes.button,
-          id: 'tools',
-          label: t('header.tools'),
-          selected: pathname.startsWith('/tools'),
-          href: '/tools',
         },
         {
           className: classes.button,
@@ -379,6 +430,14 @@ function Index(props: any) {
           label: t('header.terms'),
           selected: pathname.startsWith('/terms'),
           href: '/terms',
+        },
+        */
+        {
+          className: classes.button,
+          id: 'tools',
+          label: t('header.tools'),
+          selected: pathname.startsWith('/tools'),
+          href: '/tools',
         },
       ]}
     />
@@ -415,6 +474,7 @@ function Index(props: any) {
           </BaseRouteLink>
           {blockMenu}
           {txnMenu}
+          {aboutMenu}
           {tabs}
           {networkMenus}
           {i18nMenu}

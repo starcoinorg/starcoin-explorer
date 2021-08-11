@@ -4,6 +4,8 @@
     "blocks": "Blocks",
     "chooseBlocks": "Choose Blocks",
     "chooseTxn": "Choose Transactions",
+    "chooseAbout": "Choose About Info",
+    "about": "About",
     "uncleblocks": "Uncle Blocks",
     "transactions": "Transactions",
     "pendingTransactions": "Pending Transactions",
