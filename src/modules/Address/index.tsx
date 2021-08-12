@@ -79,6 +79,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
       getBalancesData(hash).then(data => {
         if (data) {
           this.setState({ balancesData: data });
+        } else {
+          console.log('get balances failed')
         }
       });
     }
@@ -139,6 +141,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   render() {
     const { addressData, balancesData, accountStatus } = this.state;
     const hash = this.props.computedMatch.params.hash;
+
     if (accountStatus === undefined) {
       return <Loading />;
     } else if (accountStatus === 'nonexist') {

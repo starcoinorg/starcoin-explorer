@@ -1783,10 +1783,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@starcoin/starcoin@^1.4.0":
-  "integrity" "sha512-8XrpA+8oCsPg/rUdh2tlwXN48wY94w9RCDVzq5EfPYxw4gSiZNabnLIfDvRVKVIaY+w+/Tpv+oPMIl1b1MRIhQ=="
-  "resolved" "https://registry.npmjs.org/@starcoin/starcoin/-/starcoin-1.4.0.tgz"
-  "version" "1.4.0"
+"@starcoin/starcoin@^1.4.6":
+  "integrity" "sha512-ggzcFLjDk0msRht1LKjun+uHQvyuEJKNH1zqk88ehw3oR5QHR7xMUehkRfqFjilHMJjKu4SRMAga0/RjopAiag=="
+  "resolved" "https://registry.npmjs.org/@starcoin/starcoin/-/starcoin-1.4.6.tgz"
+  "version" "1.4.6"
   dependencies:
     "@ethersproject/basex" "^5.0.4"
     "@ethersproject/bignumber" "^5.0"
@@ -3685,9 +3685,9 @@
     "lodash.uniq" "^4.5.0"
 
 "caniuse-lite@^1.0.0", "caniuse-lite@^1.0.30000981", "caniuse-lite@^1.0.30001109", "caniuse-lite@^1.0.30001125", "caniuse-lite@^1.0.30001165":
-  "integrity" "sha512-vcX4U8lwVXPdqzPWi6cAJ3FnQaqXbBqy/GZseKNQzRj37J7qZdGcBtxq/QLFNLLlfsoXLUdHw8Iwenri86Tagw=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001249.tgz"
-  "version" "1.0.30001249"
+  "integrity" "sha1-AIi/7MahRpSWnjkcwp1+tjYspqc="
+  "resolved" "https://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30001170.tgz?cache=0&sync_timestamp=1608444273452&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcaniuse-lite%2Fdownload%2Fcaniuse-lite-1.0.30001170.tgz"
+  "version" "1.0.30001170"
 
 "capture-exit@^2.0.0":
   "integrity" "sha1-+5U7+uvreB9iiYI52rtCbQilCaQ="
