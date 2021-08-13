@@ -1783,10 +1783,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@starcoin/starcoin@^1.4.6":
-  "integrity" "sha512-ggzcFLjDk0msRht1LKjun+uHQvyuEJKNH1zqk88ehw3oR5QHR7xMUehkRfqFjilHMJjKu4SRMAga0/RjopAiag=="
-  "resolved" "https://registry.npmjs.org/@starcoin/starcoin/-/starcoin-1.4.6.tgz"
-  "version" "1.4.6"
+"@starcoin/starcoin@^1.4.7":
+  "integrity" "sha512-SbLSkDyWvENq+2ZeP6KDRvWWWr0xJFZz1r0+enZdtpYLyN87LvAc7vc47ndgT6RB0ku8TSJrM80rQ6Ce+SOGjQ=="
+  "resolved" "https://registry.npmjs.org/@starcoin/starcoin/-/starcoin-1.4.7.tgz"
+  "version" "1.4.7"
   dependencies:
     "@ethersproject/basex" "^5.0.4"
     "@ethersproject/bignumber" "^5.0"
