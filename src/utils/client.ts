@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_STARCOIN_API_URL;
-const baseURL = `${apiUrl}/v1`;
+const baseURL = `${apiUrl}`;
 const clientConfig = {
   baseURL,
   timeout: 120000, // 2 minutes, xhr status will be 'canceled'
