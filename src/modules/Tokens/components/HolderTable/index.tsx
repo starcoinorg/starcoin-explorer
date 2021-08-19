@@ -18,7 +18,7 @@ const useStyles = () => createStyles({
 });
 
 interface ExternalProps {
-  tokens: any,
+  tokenHolders: any,
   sizeVisibleAt: string,
   authorVisibleAt: string,
   className?: string,
@@ -33,44 +33,33 @@ interface Props extends ExternalProps, InternalProps {}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { tokens, authorVisibleAt, className, classes, t } = this.props;
-    const holdersValues: any[] = [];
+    const { tokenHolders, authorVisibleAt, className, classes, t } = this.props;
+    const holders = tokenHolders.contents;
+    const holderValues: any[] = [];
     const marketCapValues: any[] = [];
-    const volumeValues: any[] = [];
-    const tokenInfoValues: any[] = [];
-    tokens.forEach((token: any) => {
-      // const header = block.header;
-      const tokenInfoUrl = `/${getNetwork()}/tokens/detail/${token.type_tag}`;
-      // const tokenInfoUrl = `/${getNetwork()}/tokens/detail/0x00000000000000000000000000000001`;
-      const holdersUrl = `/${getNetwork()}/tokens/holders/${token.type_tag}`;
-      holdersValues.push(<BaseRouteLink to={holdersUrl}>{formatNumber(token.addressHolder)}</BaseRouteLink>);
-      marketCapValues.push(formatNumber(token.market_cap));
-      volumeValues.push(formatNumber(token.volume));
-      tokenInfoValues.push(
-        <BaseRouteLink to={tokenInfoUrl}>{token.type_tag}</BaseRouteLink>
-      );
+    const amountValues: any[] = [];
+    holders.forEach((holder: any) => {
+      const holderUrl = `/${getNetwork()}/address/${holder.address}`;
+      holderValues.push(<BaseRouteLink to={holderUrl}>{holder.address}</BaseRouteLink>);
+      amountValues.push(formatNumber(holder.amount));
+      marketCapValues.push(formatNumber(holder.supply));
     });
     const columns = [
       {
         name: t('token.address'),
-        values: tokenInfoValues,
+        values: holderValues,
         visibleAt: authorVisibleAt,
         className: classes.validatorCol,
       },
       {
+        name: t('token.amount'),
+        values: amountValues,
+        minWidth: true,
+      },
+      {
         name: t('token.totalsupply'),
-        values: marketCapValues,
-        minWidth: true,
-      },
-      {
-        name: t('token.holdercount'),
-        values: holdersValues,
-        minWidth: true,
-      },
-      {
-        name: t('token.position'),
         numeric: true,
-        values: volumeValues,
+        values: marketCapValues,
         className: classes.transactionsCol,
       },
     ];

@@ -1,21 +1,23 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import get from 'lodash/get';
-import { onchain_events } from '@starcoin/starcoin';
+// import get from 'lodash/get';
+// import { onchain_events } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@material-ui/core/styles';
+import { getNetwork } from '@/utils/helper';
 import Loading from '@/common/Loading';
-import TransactionTable from '@/Transactions/components/Table';
+// import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
-import CommonLink from '@/common/Link';
+// import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
-import { toObject } from '@/utils/helper';
+// import { toObject } from '@/utils/helper';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
+// import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PageViewTable from '@/common/View/PageViewTable';
-import EventViewTable from '@/common/View/EventViewTable';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import BaseRouteLink from '@/common/BaseRouteLink';
+// import PageViewTable from '@/common/View/PageViewTable';
+// import EventViewTable from '@/common/View/EventViewTable';
 
 const useStyles = () => createStyles({
   table: {
@@ -35,38 +37,27 @@ interface IndexProps {
   classes: any;
   t: any;
   match: any;
-  block: any;
-  blockTransactions: any;
-  getBlock: (data: any, callback?: any) => any;
-  getBlockByHeight: (data: any, callback?: any) => any;
-  getBlockTransactions: (data: any, callback?: any) => any;
-  getBlockTransactionsByHeight: (data: any, callback?: any) => any;
+  tokenInfo: any;
+  getTokenInfo: (contents: any, callback?: any) => any;
 }
 
 interface IndexState {
-  epochData: any,
-  hash?: string,
-  height?: string,
+  token_type_tag?: string,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
+
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     match: {},
-    block: null,
-    blockTransactions: null,
-    getBlock: () => { },
-    getBlockByHeight: () => { },
-    getBlockTransactions: () => { },
-    getBlockTransactionsByHeight: () => { }
+    tokenInfo: null,
+    getTokenInfo: () => { },
   };
 
   constructor(props: IndexProps) {
     super(props);
     this.state = {
-      epochData: undefined,
-      hash: props.match.params.hash,
-      height: props.match.params.height
+      token_type_tag: props.match.params.token_type_tag,
     };
   }
 
@@ -77,31 +68,26 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
     // switch hash only in current page, won't switch height
     // so only need to empty height while switch to /hash/xxx from height/xxx
-    if (nextProps.match.params.hash !== prevState.hash) {
-      return { ...prevState, hash: nextProps.match.params.hash, height: '' };
+    if (nextProps.match.params.token_type_tag !== prevState.token_type_tag) {
+      return { ...prevState, token_type_tag: nextProps.match.params.token_type_tag, height: '' };
     }
     return null;
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.match.params.hash !== this.state.hash && prevState.hash !== this.state.hash) {
+    if (prevProps.match.params.token_type_tag !== this.state.token_type_tag && prevState.token_type_tag !== this.state.token_type_tag) {
       this.fetchData();
     }
   }
 
   fetchData() {
-    const hash = this.state.hash;
-    const height = this.state.height;
-    if (hash) {
-      this.props.getBlock({ hash });
-      this.props.getBlockTransactions({ hash });
-    }
-    if (height) {
-      this.props.getBlockByHeight({ height });
-      this.props.getBlockTransactionsByHeight({ height });
+    const token_type_tag = this.state.token_type_tag;
+    if (token_type_tag) {
+      this.props.getTokenInfo({ token_type_tag });
     }
   }
 
+  /*
   generateExtra() {
     const { block, blockTransactions, classes, match, t } = this.props;
     const isInitialLoad = !block;
@@ -226,20 +212,56 @@ class Index extends PureComponent<IndexProps, IndexState> {
       </div>
     );
   }
+  */
+  generateExtra() {
+    const {  tokenInfo, t } = this.props;
+    const token = tokenInfo ? tokenInfo.contents : null;
+    const holdersListURL = `/${getNetwork()}/tokens/holders/${token[0].type_tag}/1`;
+    const transactionsListURL = `/${getNetwork()}/tokens/transactions/${token[0].type_tag}/1`;
+    return (
+      <div>
+        <br />
+        <Accordion>
+          <AccordionSummary
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <BaseRouteLink to={holdersListURL}>
+              <Typography variant="h5" gutterBottom>{t('token.holderList')}</Typography>
+            </BaseRouteLink>
+          </AccordionSummary>
+        </Accordion>
+        <br />
+        <Accordion>
+          <AccordionSummary
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <BaseRouteLink to={transactionsListURL}>
+               <Typography variant="h5" gutterBottom>{t('token.transactionList')}</Typography>
+            </BaseRouteLink>
+          </AccordionSummary>
+        </Accordion>
+        <br />
+      </div>
+    );
+  }
 
   render() {
-    const { block, blockTransactions, match, t } = this.props;
-    const network = match.params.network;
-    const isInitialLoad = !block || !blockTransactions;
+    // const { token, match, t } = this.props;
+    const { tokenInfo, t } = this.props;
+    const token = tokenInfo ? tokenInfo.contents : null;
+    // const network = match.params.network;
+    const isInitialLoad = !tokenInfo;
     if (isInitialLoad) {
       return <Loading />;
     }
-    if (!block.header) {
+    if (!tokenInfo) {
       return null;
     }
-    const header = block.header;
+      /*
     const columns = [
-      [t('common.Hash'), header.block_hash],
+      [t('common.Hash'), token.type_tag],
       [t('block.Height'), formatNumber(header.number)],
       [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
       [t('block.Author'), <CommonLink key={header.author} path={`/${ network }/address/${ header.author }`} title={header.author} />],
@@ -247,14 +269,20 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.GasUsed'), formatNumber(header.gas_used)],
       [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${ network }/blocks/detail/${ header.parent_hash }`} title={header.parent_hash} />],
     ];
+      */
 
+    const columns = [
+      [t('token.address'), token[0].type_tag],
+      [t('token.totalsupply'), formatNumber(token[0].market_cap)],
+      [t('token.holdercount'), formatNumber(token[0].addressHolder)],
+      [t('token.position'), formatNumber(token[0].volume)]
+    ];
     return (
       <PageView
-        id={header.block_hash}
-        title={t('block.title')}
-        name={t('block.title')}
-        pluralName={t('header.blocks')}
-        searchRoute={`/${ network }/blocks`}
+        id={token[0].type_tag}
+        title={t('token.title')}
+        name={t('token.title')}
+        pluralName={t('header.tokens')}
         bodyColumns={columns}
         extra={this.generateExtra()}
       />

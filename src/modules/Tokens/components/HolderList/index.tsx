@@ -8,7 +8,7 @@ import Pagination from '@/common/View/Pagination';
 import Typography from '@material-ui/core/Typography';
 import CenteredView from '@/common/View/CenteredView';
 import { getNetwork } from '@/utils/helper';
-import TokenTable from '../Table';
+import HolderTable from '../HolderTable';
 
 const useStyles = () => createStyles({
   pagerArea: {
@@ -23,9 +23,9 @@ interface ExternalProps {
 }
 
 interface InternalProps {
-  tokenList: any,
+  tokenHolderList: any,
   isLoadingMore: boolean,
-  getTokenList: (contents: any, callback?: any) => any,
+  getTokenHolderList: (contents: any, callback?: any) => any,
   classes: any,
   t: any,
   match: any,
@@ -34,56 +34,60 @@ interface InternalProps {
 interface Props extends ExternalProps, InternalProps { }
 
 interface IndexState {
+  tokenTypeTag: string,
   currentPage: number
 }
 
 class Index extends PureComponent<Props, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
-    tokenList: null,
+    tokenHolderList: null,
     isLoadingMore: undefined,
-    getTokenList: () => { }
+    getTokenHolderList: () => { }
   };
 
   constructor(props: Props) {
     super(props);
     this.state = {
       currentPage: parseInt(props.match.params.page, 10) || 1,
+      tokenTypeTag: props.match.params.token_type_tag || '',
     };
   }
 
   componentDidMount() {
-    this.fetchListPage(this.state.currentPage);
+    this.fetchListPage(this.state.tokenTypeTag, this.state.currentPage);
   }
 
-  fetchListPage = (page: number) => {
-    this.props.getTokenList({ page });
+  fetchListPage = (token_type_tag: string, page: number) => {
+    this.props.getTokenHolderList({ token_type_tag, page });
   };
 
   pagination = (type: string) => {
-    const total = this.props.tokenList && this.props.tokenList.total.value || 0;
+    const total = this.props.tokenHolderList && this.props.tokenHolderList.total || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getTokenList({ page, total }, () => { this.pagenationCallback(page); });
+      const token_type_tag = this.state.tokenTypeTag;
+      this.props.getTokenHolderList({ token_type_tag, page, total }, () => { this.pagenationCallback(page); });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getTokenList({ page, total }, () => { this.pagenationCallback(page); });
+      const token_type_tag = this.state.tokenTypeTag;
+      this.props.getTokenHolderList({ token_type_tag, page, total }, () => { this.pagenationCallback(page); });
     }
   };
 
   pagenationCallback = (page: number) => {
     this.setState({ currentPage: page });
-    window.history.replaceState(null, '', `/${getNetwork()}/tokens/${page}`);
+    window.history.replaceState(null, '', `/${getNetwork()}/tokens/holders/${this.state.tokenTypeTag}/${page}`);
   };
 
   render() {
-    const { tokenList, classes, t, className, isLoadingMore } = this.props;
-    const isInitialLoad = !tokenList;
-    const hits = tokenList && tokenList.contents || [];
-    const tokens = hits.sort((a: any, b: any) => b.addressHolder - a.addressHolder);
-    const tokenListTable = tokens.length ? (
-      <TokenTable
-        tokens={tokens}
+    const { tokenHolderList, classes, t, className, isLoadingMore } = this.props;
+    const isInitialLoad = !tokenHolderList;
+    const hits = tokenHolderList && tokenHolderList.contents || [];
+    const holders = hits.sort((a: any, b: any) => b.amount - a.amount);
+    const tokenHolderListTable = holders.length ? (
+      <HolderTable
+        tokenHolders={tokenHolderList}
         sizeVisibleAt="xs"
         authorVisibleAt="md"
       />
@@ -103,17 +107,17 @@ class Index extends PureComponent<Props, IndexState> {
         </Helmet>
         <ListView
           className={className}
-          title={t('header.tokens')}
-          name={t('header.tokens')}
-          pluralName={t('header.tokens')}
+          title={t('token.holderList')}
+          name={t('token.holderList')}
+          pluralName={t('token.holderList')}
           content={
             <div>
-              {isInitialLoad ? <Loading /> : tokenListTable}
+              {isInitialLoad ? <Loading /> : tokenHolderListTable}
               <div className={classes.pagerArea}>
                 <Pagination
                   page={this.state.currentPage}
                   pageSize={20}
-                  currentPageSize={tokens == null ? null : tokens.length}
+                  currentPageSize={holders == null ? null : holders.length}
                   hasPreviousPage={this.state.currentPage > 1}
                   hasNextPage={!!true}
                   onPrevPage={() => this.pagination('prev')}
