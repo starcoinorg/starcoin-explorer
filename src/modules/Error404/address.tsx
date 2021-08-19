@@ -13,7 +13,7 @@ const useStyles = () => createStyles({
   },
   card: {
     alignItems: 'center',
-    display: 'flex',
+    // display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 24,
@@ -21,6 +21,9 @@ const useStyles = () => createStyles({
   headline: {
     paddingBottom: 8,
   },
+  strong: {
+    overflowWrap: 'break-word',
+  }
 });
 
 interface IndexProps {
@@ -37,13 +40,13 @@ class Index extends PureComponent<IndexProps> {
     return (
       <div>
         <Helmet>
-          <title>Address Not Onchain</title>
+          <title>Not Onchain</title>
         </Helmet>
         <Grid className={classes.root} container justify="center">
           <Grid item xs={12} md={8} lg={4}>
             <Card className={classes.card}>
               <Typography variant="h6" className={classes.headline}>
-                {t('account.address')} <strong>{address}</strong> {t('account.notOnchain')} {networkCapitalized} {t('account.network')}
+                {t('common.Hash')} <strong className={classes.strong}>{address}</strong> {t('account.notOnchain')} {networkCapitalized} {t('account.network')}
               </Typography>
             </Card>
           </Grid>
