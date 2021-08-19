@@ -6,6 +6,7 @@
     "chooseTxn": "Choose Transactions",
     "chooseAbout": "Choose About Info",
     "about": "About",
+    "tokens": "Tokens",
     "uncleblocks": "Uncle Blocks",
     "transactions": "Transactions",
     "pendingTransactions": "Pending Transactions",
@@ -146,5 +147,19 @@
     "output_address_hint": "Address",
     "publickey_to_receipt_identifier": "Transform Public Key to Receipt Identifier",
     "receipt_identifier_to_address": "Transform Receipt Identifier to Address"
+  },
+  "token": {
+    "NoTokenData": "No Token Data",
+    "totalsupply": "Total Supply",
+    "holdercount": "Holders",
+    "position": "Total Position",
+    "address": "Address",
+    "amount": "Amount",
+    "txnHash": "Transaction Hash",
+    "time": "Time",
+    "function": "Function",
+    "title": "Token",
+    "holderList": "Token Holders List",
+    "transactionList": "Token Transactions List"
   }
 }
