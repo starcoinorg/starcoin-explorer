@@ -1,52 +1,16 @@
 import * as types from './constants';
 
-export function getBlock(payload: any) {
+export function getTokenInfo(payload: any) {
   return {
-    type: types.GET_BLOCK,
+    type: types.GET_TOKEN_INFO,
     payload
   };
 }
 
-export function getUncleBlock(payload: any) {
+export function setTokenInfo(payload: any) {
   return {
-    type: types.GET_UNCLE_BLOCK,
+    type: types.SET_TOKEN_INFO,
     payload
-  };
-}
-
-export function setBlock(payload: any) {
-  return {
-    type: types.SET_BLOCK,
-    payload
-  };
-}
-
-export function setUncleBlock(payload: any) {
-  return {
-    type: types.SET_UNCLE_BLOCK,
-    payload
-  };
-}
-
-export function getBlockByHeight(payload: any) {
-  return {
-    type: types.GET_BLOCK_BY_HEIGHT,
-    payload
-  };
-}
-
-export function getUncleBlockByHeight(payload: any) {
-  return {
-    type: types.GET_UNCLE_BLOCK_BY_HEIGHT,
-    payload
-  };
-}
-
-export function getBlockList(payload: any, callback?: any) {
-  return {
-    type: types.GET_BLOCK_LIST,
-    payload,
-    callback
   };
 }
 
@@ -58,17 +22,32 @@ export function getTokenList(payload: any, callback?: any) {
   };
 }
 
-export function getUncleBlockList(payload: any, callback?: any) {
+export function getTokenHolderList(payload: any, callback?: any) {
   return {
-    type: types.GET_UNCLE_BLOCK_LIST,
+    type: types.GET_TOKEN_HOLDER_LIST,
     payload,
     callback
   };
 }
 
-export function setBlockList(payload: any) {
+export function getTokenTransactionList(payload: any, callback?: any) {
   return {
-    type: types.SET_BLOCK_LIST,
+    type: types.GET_TOKEN_TRANSACTION_LIST,
+    payload,
+    callback
+  };
+}
+
+export function setTokenHolderList(payload: any) {
+  return {
+    type: types.SET_TOKEN_HOLDER_LIST,
+    payload
+  };
+}
+
+export function setTokenTransactionList(payload: any) {
+  return {
+    type: types.SET_TOKEN_TRANSACTION_LIST,
     payload
   };
 }
@@ -80,20 +59,6 @@ export function setTokenList(payload: any) {
   };
 }
 
-export function setUncleBlockList(payload: any) {
-  return {
-    type: types.SET_UNCLE_BLOCK_LIST,
-    payload
-  };
-}
-
-export function getBlockListInDelay(payload: any) {
-  return {
-    type: types.GET_BLOCK_LIST_IN_DELAY,
-    payload
-  };
-}
-
 export function getTokenListInDelay(payload: any) {
   return {
     type: types.GET_TOKEN_LIST_IN_DELAY,
@@ -101,9 +66,16 @@ export function getTokenListInDelay(payload: any) {
   };
 }
 
-export function getUncleBlockListInDelay(payload: any) {
+export function getTokenHolderListInDelay(payload: any) {
   return {
-    type: types.GET_UNCLE_BLOCK_LIST_IN_DELAY,
+    type: types.GET_TOKEN_HOLDER_LIST_IN_DELAY,
+    payload
+  };
+}
+
+export function getTokenTransactionListInDelay(payload: any) {
+  return {
+    type: types.GET_TOKEN_TRANSACTION_LIST_IN_DELAY,
     payload
   };
 }

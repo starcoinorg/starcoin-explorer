@@ -5,10 +5,10 @@ import * as actions from './actions';
 import * as types from './constants';
 import { POLLING_INTERVAL } from '@/utils/constants'
 
-export function* getBlock(action: ReturnType<typeof actions.getBlock>) {
+export function* getTokenInfo(action: ReturnType<typeof actions.getTokenInfo>) {
   try {
-    const res = yield call(withLoading, api.getBlock, action.type, action.payload);
-    yield put(actions.setBlock(res));
+    const res = yield call(withLoading, api.getTokenInfo, action.type, action.payload);
+    yield put(actions.setTokenInfo(res));
   } catch (err) {
     if (err.message) {
       console.log(err.message);
@@ -16,70 +16,8 @@ export function* getBlock(action: ReturnType<typeof actions.getBlock>) {
   }
 }
 
-function* watchGetBlock() {
-  yield takeLatest(types.GET_BLOCK, getBlock)
-}
-
-export function* getUncleBlock(action: ReturnType<typeof actions.getUncleBlock>) {
-  try {
-    const res = yield call(withLoading, api.getUncleBlock, action.type, action.payload);
-    yield put(actions.setUncleBlock(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
-    }
-  }
-}
-
-function* watchGetUncleBlock() {
-  yield takeLatest(types.GET_UNCLE_BLOCK, getUncleBlock)
-}
-
-
-export function* getBlockByHeight(action: ReturnType<typeof actions.getBlock>) {
-  try {
-    const res = yield call(withLoading, api.getBlockByHeight, action.type, action.payload);
-    yield put(actions.setBlock(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
-    }
-  }
-}
-
-function* watchGetBlockByHeight() {
-  yield takeLatest(types.GET_BLOCK_BY_HEIGHT, getBlockByHeight)
-}
-
-export function* getUncleBlockByHeight(action: ReturnType<typeof actions.getUncleBlock>) {
-  try {
-    const res = yield call(withLoading, api.getUncleBlockByHeight, action.type, action.payload);
-    yield put(actions.setUncleBlock(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
-    }
-  }
-}
-
-function* watchGetUncleBlockByHeight() {
-  yield takeLatest(types.GET_UNCLE_BLOCK_BY_HEIGHT, getUncleBlockByHeight)
-}
-
-export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
-  try {
-    const res = yield call(withLoading, api.getBlockList, action.type, action.payload);
-    yield put(actions.setBlockList(res));
-    if (action.callback) {
-      yield call(action.callback);
-    }
-  } catch (err) {
-    if (err.message) {
-      yield put(actions.setBlockList([]));
-    }
-  } finally {
-    yield put(actions.getBlockListInDelay(action.payload));
-  }
+function* watchGetTokenInfo() {
+  yield takeLatest(types.GET_TOKEN_INFO, getTokenInfo)
 }
 
 export function* getTokenList(action: ReturnType<typeof actions.getTokenList>) {
@@ -98,40 +36,48 @@ export function* getTokenList(action: ReturnType<typeof actions.getTokenList>) {
   }
 }
 
-export function* getUncleBlockList(action: ReturnType<typeof actions.getUncleBlockList>) {
+export function* getTokenHolderList(action: ReturnType<typeof actions.getTokenHolderList>) {
   try {
-    const res = yield call(withLoading, api.getUncleBlockList, action.type, action.payload);
-    yield put(actions.setUncleBlockList(res));
+    const res = yield call(withLoading, api.getTokenHolderList, action.type, action.payload);
+    yield put(actions.setTokenHolderList(res));
     if (action.callback) {
       yield call(action.callback);
     }
   } catch (err) {
     if (err.message) {
-      yield put(actions.setUncleBlockList([]));
+      yield put(actions.setTokenHolderList([]));
     }
   } finally {
-    yield put(actions.getUncleBlockListInDelay(action.payload));
+    yield put(actions.getTokenHolderListInDelay(action.payload));
   }
 }
 
-function* watchGetBlockList() {
-  yield takeLatest(types.GET_BLOCK_LIST, getBlockList)
+export function* getTokenTransactionList(action: ReturnType<typeof actions.getTokenTransactionList>) {
+  try {
+    const res = yield call(withLoading, api.getTokenTransactionList, action.type, action.payload);
+    yield put(actions.setTokenTransactionList(res));
+    if (action.callback) {
+      yield call(action.callback);
+    }
+  } catch (err) {
+    if (err.message) {
+      yield put(actions.setTokenTransactionList([]));
+    }
+  } finally {
+    yield put(actions.getTokenTransactionListInDelay(action.payload));
+  }
 }
 
 function* watchGetTokenList() {
   yield takeLatest(types.GET_TOKEN_LIST, getTokenList)
 }
 
-function* watchGetUncleBlockList() {
-  yield takeLatest(types.GET_UNCLE_BLOCK_LIST, getUncleBlockList)
+function* watchGetTokenHolderList() {
+  yield takeLatest(types.GET_TOKEN_HOLDER_LIST, getTokenHolderList)
 }
 
-export function* getBlockListInDelay(action: ReturnType<typeof actions.getBlockList>) {
-  const url = window.location.href;
-  if (action.payload.page === 1 && (url.endsWith('/') || url.endsWith('/blocks') || url.endsWith('/blocks/1'))) {
-    yield delay(POLLING_INTERVAL);
-    yield fork(getBlockList, actions.getBlockList(action.payload));
-  }
+function* watchGetTokenTransactionList() {
+  yield takeLatest(types.GET_TOKEN_TRANSACTION_LIST, getTokenTransactionList)
 }
 
 export function* getTokenListInDelay(action: ReturnType<typeof actions.getTokenList>) {
@@ -142,37 +88,42 @@ export function* getTokenListInDelay(action: ReturnType<typeof actions.getTokenL
   }
 }
 
-export function* getUncleBlockListInDelay(action: ReturnType<typeof actions.getUncleBlockList>) {
+export function* getTokenHolderListInDelay(action: ReturnType<typeof actions.getTokenHolderList>) {
   const url = window.location.href;
-  if (action.payload.page === 1 && (url.endsWith('/') || url.endsWith('/blocks') || url.endsWith('/blocks/1') || url.endsWith('/uncles/1') )) {
+  if (action.payload.page === 1 && (url.includes('/holders') || url.endsWith('/1'))) {
     yield delay(POLLING_INTERVAL);
-    yield fork(getUncleBlockList, actions.getUncleBlockList(action.payload));
+    yield fork(getTokenHolderList, actions.getTokenHolderList(action.payload));
   }
 }
 
-function* watchGetBlockListInDelay() {
-  yield takeLatest(types.GET_BLOCK_LIST_IN_DELAY, getBlockListInDelay)
+export function* getTokenTransactionListInDelay(action: ReturnType<typeof actions.getTokenTransactionList>) {
+  const url = window.location.href;
+  if (action.payload.page === 1 && (url.includes('/tokens/transactions/') || url.endsWith('/1'))) {
+    yield delay(POLLING_INTERVAL);
+    yield fork(getTokenTransactionList, actions.getTokenTransactionList(action.payload));
+  }
 }
 
 function* watchGetTokenListInDelay() {
   yield takeLatest(types.GET_TOKEN_LIST_IN_DELAY, getTokenListInDelay)
 }
 
-function* watchGetUncleBlockListInDelay() {
-  yield takeLatest(types.GET_UNCLE_BLOCK_LIST_IN_DELAY, getUncleBlockListInDelay)
+function* watchGetTokenHolderListInDelay() {
+  yield takeLatest(types.GET_TOKEN_HOLDER_LIST_IN_DELAY, getTokenHolderListInDelay)
+}
+
+function* watchGetTokenTransactionListInDelay() {
+  yield takeLatest(types.GET_TOKEN_TRANSACTION_LIST_IN_DELAY, getTokenTransactionListInDelay)
 }
 
 const sagas = [
-  watchGetBlock,
-  watchGetUncleBlock,
-  watchGetBlockByHeight,
-  watchGetUncleBlockByHeight,
-  watchGetBlockList,
-  watchGetBlockListInDelay,
+  watchGetTokenInfo,
   watchGetTokenList,
+  watchGetTokenHolderList,
+  watchGetTokenTransactionList,
   watchGetTokenListInDelay,
-  watchGetUncleBlockList,
-  watchGetUncleBlockListInDelay
+  watchGetTokenHolderListInDelay,
+  watchGetTokenTransactionListInDelay,
 ];
 
 export default sagas;
