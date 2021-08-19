@@ -434,6 +434,13 @@ function Index(props: any) {
         */
         {
           className: classes.button,
+          id: 'tokens',
+          label: t('header.tokens'),
+          selected: pathname.startsWith('/tokens'),
+          href: `/${userNetwork}/tokens/1`,
+        },
+        {
+          className: classes.button,
           id: 'tools',
           label: t('header.tools'),
           selected: pathname.startsWith('/tools'),
@@ -474,8 +481,8 @@ function Index(props: any) {
           </BaseRouteLink>
           {blockMenu}
           {txnMenu}
-          {aboutMenu}
           {tabs}
+          {aboutMenu}
           {networkMenus}
           {i18nMenu}
         </div>
