@@ -53,7 +53,8 @@ export function formatResources(data: any): any {
   for (let i = 0; i < allKeys.length; i++) {
     itemKey = allKeys[i];
     let itemArray = [itemKey];
-    itemValue = JSON.stringify(data[itemKey]);
+    // itemValue = JSON.stringify(data[itemKey]);
+    itemValue = toObject(data[itemKey]);
     itemArray.push(itemValue);
     resourcesArray.push(itemArray);
   }
