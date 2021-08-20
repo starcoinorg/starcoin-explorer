@@ -10,7 +10,8 @@ import PageView from '@/common/View/PageView';
 // import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
 // import { toObject } from '@/utils/helper';
-import Accordion from '@material-ui/core/Accordion';
+// import Accordion from '@material-ui/core/Accordion';
+import Card from '@material-ui/core/Card';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 // import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
@@ -221,7 +222,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     return (
       <div>
         <br />
-        <Accordion>
+        <Card>
           <AccordionSummary
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -230,9 +231,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
               <Typography variant="h5" gutterBottom>{t('token.holderList')}</Typography>
             </BaseRouteLink>
           </AccordionSummary>
-        </Accordion>
+        </Card>
         <br />
-        <Accordion>
+        <Card>
           <AccordionSummary
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -241,7 +242,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
                <Typography variant="h5" gutterBottom>{t('token.transactionList')}</Typography>
             </BaseRouteLink>
           </AccordionSummary>
-        </Accordion>
+        </Card>
         <br />
       </div>
     );
