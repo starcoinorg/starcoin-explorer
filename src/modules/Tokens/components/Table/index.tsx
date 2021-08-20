@@ -40,14 +40,13 @@ class Index extends React.PureComponent<Props> {
     const tokenInfoValues: any[] = [];
     tokens.forEach((token: any) => {
       // const header = block.header;
-      const tokenInfoUrl = `/${getNetwork()}/tokens/detail/${token.type_tag}`;
-      // const tokenInfoUrl = `/${getNetwork()}/tokens/detail/0x00000000000000000000000000000001`;
-      const holdersUrl = `/${getNetwork()}/tokens/holders/${token.type_tag}`;
-      holdersValues.push(<BaseRouteLink to={holdersUrl}>{formatNumber(token.addressHolder)}</BaseRouteLink>);
+      const tokenInfoURL = `/${getNetwork()}/tokens/detail/${token.type_tag}`;
+      const holdersListURL = `/${getNetwork()}/tokens/holders/${token.type_tag}/1`;
+      holdersValues.push(<BaseRouteLink to={holdersListURL}>{formatNumber(token.addressHolder)}</BaseRouteLink>);
       marketCapValues.push(formatNumber(token.market_cap));
       volumeValues.push(formatNumber(token.volume));
       tokenInfoValues.push(
-        <BaseRouteLink to={tokenInfoUrl}>{token.type_tag}</BaseRouteLink>
+        <BaseRouteLink to={tokenInfoURL}>{token.type_tag}</BaseRouteLink>
       );
     });
     const columns = [
