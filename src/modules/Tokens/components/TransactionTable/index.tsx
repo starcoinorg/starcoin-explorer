@@ -64,7 +64,7 @@ class Index extends React.PureComponent<Props> {
       },
       {
         name: t('token.amount'),
-        numeric: true,
+        // numeric: true,
         values: amountValues,
       },
       {
