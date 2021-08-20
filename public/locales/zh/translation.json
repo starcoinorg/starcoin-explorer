@@ -153,6 +153,7 @@
     "totalsupply": "总供应量",
     "holdercount": "持有者",
     "position": "总持仓",
+    "positionratio": "持仓占比",
     "address": "地址",
     "amount": "持仓量",
     "txnHash": "交易哈希",

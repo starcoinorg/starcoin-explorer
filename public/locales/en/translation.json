@@ -153,6 +153,7 @@
     "totalsupply": "Total Supply",
     "holdercount": "Holders",
     "position": "Total Position",
+    "positionratio": "Position Ratio",
     "address": "Address",
     "amount": "Amount",
     "txnHash": "Transaction Hash",

@@ -36,13 +36,13 @@ class Index extends React.PureComponent<Props> {
     const { tokenHolders, authorVisibleAt, className, classes, t } = this.props;
     const holders = tokenHolders.contents;
     const holderValues: any[] = [];
-    const marketCapValues: any[] = [];
     const amountValues: any[] = [];
+    const ratioValues: any[] = [];
     holders.forEach((holder: any) => {
       const holderUrl = `/${getNetwork()}/address/${holder.address}`;
       holderValues.push(<BaseRouteLink to={holderUrl}>{holder.address}</BaseRouteLink>);
       amountValues.push(formatNumber(holder.amount));
-      marketCapValues.push(formatNumber(holder.supply));
+      ratioValues.push(`${formatNumber((holder.amount/holder.supply)*100, { decimalPlaces: 6 })}%`);
     });
     const columns = [
       {
@@ -57,9 +57,9 @@ class Index extends React.PureComponent<Props> {
         minWidth: true,
       },
       {
-        name: t('token.totalsupply'),
+        name: t('token.positionratio'),
         numeric: true,
-        values: marketCapValues,
+        values: ratioValues,
         className: classes.transactionsCol,
       },
     ];
