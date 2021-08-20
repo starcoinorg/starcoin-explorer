@@ -4,6 +4,9 @@
     "blocks": "区块",
     "chooseBlocks": "选择区块类型",
     "chooseTxn": "选择交易类型",
+    "chooseAbout": "选择关于信息",
+    "about": "关于",
+    "tokens": "代币",
     "uncleblocks": "叔块",
     "events": "事件",
     "tools": "工具",
@@ -144,5 +147,20 @@
     "output_address_hint": "地址",
     "publickey_to_receipt_identifier": "公钥转换为收款识别码",
     "receipt_identifier_to_address": "收款识别码转换为地址"
+  },
+  "token": {
+    "NoTokenData": "No Token Data",
+    "totalsupply": "总供应量",
+    "holdercount": "持有者",
+    "position": "总持仓",
+    "positionratio": "持仓占比",
+    "address": "地址",
+    "amount": "持仓量",
+    "txnHash": "交易哈希",
+    "time": "时间",
+    "function": "函数",
+    "title": "代币",
+    "holderList": "代币持有者列表",
+    "transactionList": "代币交易列表"
   }
 }

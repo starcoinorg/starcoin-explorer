@@ -226,6 +226,13 @@ function Index(props: any) {
     },
     {
       className: classes.button,
+      id: 'tokens',
+      label: t('header.tokens'),
+      selected: location.pathname.startsWith('/tokens'),
+      href: `/${userNetwork}/tokens/1`,
+    },
+    {
+      className: classes.button,
       id: 'ecosystem',
       label: t('header.ecosystems'),
       selected: location.pathname.startsWith('/ecosystem'),
