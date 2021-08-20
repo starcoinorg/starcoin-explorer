@@ -58,9 +58,9 @@ class Index extends React.PureComponent<Props> {
       },
       {
         name: t('token.positionratio'),
-        numeric: true,
+        // numeric: true,
         values: ratioValues,
-        className: classes.transactionsCol,
+        // className: classes.transactionsCol,
       },
     ];
     return <Table className={className} columns={columns} />;
