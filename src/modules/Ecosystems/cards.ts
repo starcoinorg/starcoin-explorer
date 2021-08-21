@@ -1,16 +1,16 @@
 const cards = [
   {
-    "link": "http://starcoin.org",
+    "link": "https://starcoin.org",
     "image": "pic_01.png",
     "cover": true
   },
   {
-    "link": "http://starcoin.org/downloads/Starcoin_whitepaper_V0.3.44.pdf",
+    "link": "https://starcoin.org/en/overview/technology_whitepaper/",
     "image": "pic_02.png",
     "cover": true
   },
   {
-    "link": "http://developer.starcoin.org/en/",
+    "link": "http://starcoin.org/en/developer",
     "image": "pic_03.png",
     "cover": true
   }

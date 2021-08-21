@@ -1785,7 +1785,7 @@
 
 "@starcoin/starcoin@^1.4.7":
   version "1.4.7"
-  resolved "https://registry.npmjs.org/@starcoin/starcoin/-/starcoin-1.4.7.tgz"
+  resolved "https://registry.yarnpkg.com/@starcoin/starcoin/-/starcoin-1.4.7.tgz#b7db6a3fc28b80edf88cb1b645122fc1f781e440"
   integrity sha512-SbLSkDyWvENq+2ZeP6KDRvWWWr0xJFZz1r0+enZdtpYLyN87LvAc7vc47ndgT6RB0ku8TSJrM80rQ6Ce+SOGjQ==
   dependencies:
     "@ethersproject/basex" "^5.0.4"
@@ -4611,7 +4611,7 @@ depd@~1.1.2:
 
 dequal@2.0.2:
   version "2.0.2"
-  resolved "https://registry.npm.taobao.org/dequal/download/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
+  resolved "https://registry.nlark.com/dequal/download/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
   integrity sha1-hcoiAl46h+Ze91p6Q3s1KEp+MZ0=
 
 des.js@^1.0.0:
@@ -11501,7 +11501,7 @@ svgo@^1.0.0, svgo@^1.2.2:
 
 swr@^0.5.6:
   version "0.5.6"
-  resolved "https://registry.nlark.com/swr/download/swr-0.5.6.tgz?cache=0&sync_timestamp=1629380500780&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fswr%2Fdownload%2Fswr-0.5.6.tgz#70bfe9bc9d7ac49a064be4a0f4acf57982e55a31"
+  resolved "https://registry.nlark.com/swr/download/swr-0.5.6.tgz#70bfe9bc9d7ac49a064be4a0f4acf57982e55a31"
   integrity sha1-cL/pvJ16xJoGS+Sg9Kz1eYLlWjE=
   dependencies:
     dequal "2.0.2"
