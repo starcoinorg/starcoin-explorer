@@ -10,7 +10,13 @@ export const getBlock = (params: any) =>
 export const getUncleBlock = (params: any) =>
   client.get(`v2/block/${network}/uncle/hash/${params.hash}`);
 export const getBlockByHeight = (params: any) =>
-  client.get(`v2/block/${network}/height/${params.height}`);
+  client
+    .get(`v2/block/${network}/height/${params.height}`)
+    .then(
+      (data?: unknown) =>
+        data ||
+        seedClient.call('chain.get_block_by_number', [parseInt(params.height)]),
+    );
 export const getUncleBlockByHeight = (params: any) =>
   client.get(`v2/block/${network}/uncle/height/${params.height}`);
 export const getBlockList = (params: any) =>
