@@ -5,9 +5,9 @@ interface Options {
   trimZerosUnsafe?: boolean,
 }
 
-export default (number: number | string, optionsIn?: Options): string => {
+export default (number: number | string | bigint, optionsIn?: Options): string => {
   const options = optionsIn || {};
-  const value = new BigNumber(number);
+  const value = new BigNumber(number as string);
   const decimalPlaces =
     options.decimalPlaces == null
       ? value.decimalPlaces()
