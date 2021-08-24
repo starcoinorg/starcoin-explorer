@@ -15,7 +15,9 @@ export const getBlockByHeight = (params: any) =>
     .then(
       (data?: unknown) =>
         data ||
-        seedClient.call('chain.get_block_by_number', [parseInt(params.height)]),
+        seedClient.call(network, 'chain.get_block_by_number', [
+          parseInt(params.height),
+        ]),
     );
 export const getUncleBlockByHeight = (params: any) =>
   client.get(`v2/block/${network}/uncle/height/${params.height}`);

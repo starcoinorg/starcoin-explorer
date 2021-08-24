@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = process.env.REACT_APP_SEED_API_URL;
-const baseURL = `${apiUrl}`;
 const clientConfig = {
-  baseURL,
   timeout: 120000, // 2 minutes, xhr status will be 'canceled'
   headers: {
     'Content-Type': 'application/json; charset=UTF-8',
@@ -61,9 +58,9 @@ class Client {
     }
   }
 
-  async call(method: string, params?: any[], option = {}) {
+  async call(network: string, method: string, params?: any[], option = {}) {
     const defaultOption = {
-      url: '/',
+      url: `https://${network}-seed.starcoin.org`,
       data: {
         id: 1,
         jsonrpc: '2.0',
