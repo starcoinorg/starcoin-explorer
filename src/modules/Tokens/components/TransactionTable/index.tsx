@@ -37,7 +37,6 @@ interface Props extends ExternalProps, InternalProps {}
 class Index extends React.PureComponent<Props> {
   render() {
     const { tokenTransactions, tokenPrecision, authorVisibleAt, className, classes, t, i18n } = this.props;
-    console.log({ tokenPrecision })
     const transactions = tokenTransactions.contents;
     const amountValues: any[] = [];
     const timestampValues: any[] = [];
