@@ -73,3 +73,17 @@ export async function getEpochData() {
     return false;
   }
 }
+
+export async function getTokenPrecision(tokenTypeTag: string) {
+  try {
+    const provider = providerMap[getNetwork()]
+    const result = await provider.callV2({
+      function_id: '0x1::Token::scaling_factor',
+      type_args: [tokenTypeTag],
+      args: [],
+    });
+    return result;
+  } catch (error: any) {
+    return false;
+  }
+}
