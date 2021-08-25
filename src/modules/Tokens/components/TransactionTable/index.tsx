@@ -20,6 +20,7 @@ const useStyles = () => createStyles({
 
 interface ExternalProps {
   tokenTransactions: any,
+  tokenPrecision: any,
   sizeVisibleAt: string,
   authorVisibleAt: string,
   className?: string,
@@ -35,7 +36,8 @@ interface Props extends ExternalProps, InternalProps {}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { tokenTransactions, authorVisibleAt, className, classes, t, i18n } = this.props;
+    const { tokenTransactions, tokenPrecision, authorVisibleAt, className, classes, t, i18n } = this.props;
+    console.log({ tokenPrecision })
     const transactions = tokenTransactions.contents;
     const amountValues: any[] = [];
     const timestampValues: any[] = [];
@@ -44,7 +46,7 @@ class Index extends React.PureComponent<Props> {
     transactions.forEach((txn: any) => {
       const txnHashUrl = `/${getNetwork()}/transactions/detail/${txn.txn_hash}`;
       txnHashValues.push(<BaseRouteLink to={txnHashUrl}>{txn.txn_hash}</BaseRouteLink>);
-      amountValues.push(formatNumber(parseInt(txn.amount_value, 10)));
+      amountValues.push(formatNumber(parseInt(txn.amount_value, 10) / tokenPrecision));
       timestampValues.push(formatTime(txn.timestamp, i18n.language));
       functionValues.push(txn.identifier);
     });
