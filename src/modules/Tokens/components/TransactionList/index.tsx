@@ -8,6 +8,7 @@ import Pagination from '@/common/View/Pagination';
 import Typography from '@material-ui/core/Typography';
 import CenteredView from '@/common/View/CenteredView';
 import { getNetwork } from '@/utils/helper';
+import { getTokenPrecision } from '@/utils/sdk';
 import TokenTransactionTable from '../TransactionTable';
 
 const useStyles = () => createStyles({
@@ -35,6 +36,7 @@ interface Props extends ExternalProps, InternalProps { }
 
 interface IndexState {
   tokenTypeTag: string,
+  tokenPrecision: number,
   currentPage: number
 }
 
@@ -50,11 +52,13 @@ class Index extends PureComponent<Props, IndexState> {
     super(props);
     this.state = {
       currentPage: parseInt(props.match.params.page, 10) || 1,
+      tokenPrecision: 1,
       tokenTypeTag: props.match.params.token_type_tag || '',
     };
   }
 
   componentDidMount() {
+    this.fetchTokenPrecision(this.state.tokenTypeTag);
     this.fetchListPage(this.state.tokenTypeTag, this.state.currentPage);
   }
 
@@ -62,15 +66,29 @@ class Index extends PureComponent<Props, IndexState> {
     this.props.getTokenTransactionList({ token_type_tag, page });
   };
 
+  fetchTokenPrecision = (token_type_tag: string) => {
+    if (token_type_tag) {
+      getTokenPrecision(token_type_tag).then(data => {
+        if (data) {
+          this.setState({ tokenPrecision: parseInt(data[0], 10) });
+        } else {
+          console.log('get precision failed')
+        }
+      });
+    }
+  };
+
   pagination = (type: string) => {
     const total = this.props.tokenTransactionList && this.props.tokenTransactionList.total || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
       const token_type_tag = this.state.tokenTypeTag;
+      this.fetchTokenPrecision(token_type_tag);
       this.props.getTokenTransactionList({ token_type_tag, page, total }, () => { this.pagenationCallback(page); });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
       const token_type_tag = this.state.tokenTypeTag;
+      this.fetchTokenPrecision(token_type_tag);
       this.props.getTokenTransactionList({ token_type_tag, page, total }, () => { this.pagenationCallback(page); });
     }
   };
@@ -82,7 +100,7 @@ class Index extends PureComponent<Props, IndexState> {
 
   render() {
     const { tokenTransactionList, classes, t, className, isLoadingMore } = this.props;
-    console.log({ tokenTransactionList });
+    const precision = this.state.tokenPrecision ? this.state.tokenPrecision : 1;
     const isInitialLoad = !tokenTransactionList;
     const hits = tokenTransactionList && tokenTransactionList.contents || [];
     const transactions = hits.sort((a: any, b: any) => b.timestamp - a.timestamp);
@@ -91,6 +109,7 @@ class Index extends PureComponent<Props, IndexState> {
         tokenTransactions={tokenTransactionList}
         sizeVisibleAt="xs"
         authorVisibleAt="md"
+        tokenPrecision={precision}
       />
     ) : (
       <CenteredView>

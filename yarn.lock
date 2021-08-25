@@ -1783,10 +1783,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@starcoin/starcoin@^1.4.7":
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/@starcoin/starcoin/-/starcoin-1.4.7.tgz#b7db6a3fc28b80edf88cb1b645122fc1f781e440"
-  integrity sha512-SbLSkDyWvENq+2ZeP6KDRvWWWr0xJFZz1r0+enZdtpYLyN87LvAc7vc47ndgT6RB0ku8TSJrM80rQ6Ce+SOGjQ==
+"@starcoin/starcoin@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@starcoin/starcoin/-/starcoin-1.5.0.tgz#1939e3c5a43d4a50dc100e087d34350192dbab09"
+  integrity sha512-f7na/SS38blD/BdUt39b41loo3Rj8gd4v65aRADopV1oAUZCX5GaTNeDVUtarcMVG5tGs+MCi6EDR7zOlSbM/A==
   dependencies:
     "@ethersproject/basex" "^5.0.4"
     "@ethersproject/bignumber" "^5.0"
@@ -3636,9 +3636,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001165:
-  version "1.0.30001170"
-  resolved "https://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30001170.tgz?cache=0&sync_timestamp=1608444273452&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcaniuse-lite%2Fdownload%2Fcaniuse-lite-1.0.30001170.tgz"
-  integrity sha1-AIi/7MahRpSWnjkcwp1+tjYspqc=
+  version "1.0.30001249"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001249.tgz"
+  integrity sha512-vcX4U8lwVXPdqzPWi6cAJ3FnQaqXbBqy/GZseKNQzRj37J7qZdGcBtxq/QLFNLLlfsoXLUdHw8Iwenri86Tagw==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -4611,8 +4611,8 @@ depd@~1.1.2:
 
 dequal@2.0.2:
   version "2.0.2"
-  resolved "https://registry.nlark.com/dequal/download/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
-  integrity sha1-hcoiAl46h+Ze91p6Q3s1KEp+MZ0=
+  resolved "https://registry.npmjs.org/dequal/-/dequal-2.0.2.tgz"
+  integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
 
 des.js@^1.0.0:
   version "1.0.1"
@@ -11501,8 +11501,8 @@ svgo@^1.0.0, svgo@^1.2.2:
 
 swr@^0.5.6:
   version "0.5.6"
-  resolved "https://registry.nlark.com/swr/download/swr-0.5.6.tgz#70bfe9bc9d7ac49a064be4a0f4acf57982e55a31"
-  integrity sha1-cL/pvJ16xJoGS+Sg9Kz1eYLlWjE=
+  resolved "https://registry.npmjs.org/swr/-/swr-0.5.6.tgz"
+  integrity sha512-Bmx3L4geMZjYT5S2Z6EE6/5Cx6v1Ka0LhqZKq8d6WL2eu9y6gHWz3dUzfIK/ymZVHVfwT/EweFXiYGgfifei3w==
   dependencies:
     dequal "2.0.2"
 
