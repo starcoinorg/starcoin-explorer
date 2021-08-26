@@ -36,7 +36,8 @@ class Index extends React.PureComponent<Props> {
     const { blocks, authorVisibleAt, className, classes, t } = this.props;
     const heightValues: any[] = [];
     const timeValues: any[] = [];
-    const transactionsValues: any[] = [];
+    // const transactionsValues: any[] = [];
+    const gasUsedValues: any[] = [];
     const authorValues: any[] = [];
     blocks.forEach((block: any) => {
       const header = block.header;
@@ -44,7 +45,8 @@ class Index extends React.PureComponent<Props> {
       const authorUrl = `/${getNetwork()}/address/${header.author}`;
       heightValues.push(<BaseRouteLink to={blockUrl}>{formatNumber(header.number)}</BaseRouteLink>);
       timeValues.push(<CommonTime time={header.timestamp} />);
-      transactionsValues.push(0);
+      // transactionsValues.push(0);
+      gasUsedValues.push(formatNumber(parseInt(header.gas_used, 10)));
       authorValues.push(
         <CommonLink path={authorUrl} title={header.author} />
       );
@@ -61,9 +63,9 @@ class Index extends React.PureComponent<Props> {
         minWidth: true,
       },
       {
-        name: t('block.Transactions'),
+        name: t('block.GasUsed'),
         numeric: true,
-        values: transactionsValues,
+        values: gasUsedValues,
         className: classes.transactionsCol,
       },
       {
