@@ -45,6 +45,7 @@
     "Difficulty": "Difficulty",
     "ParentHash": "Parant Hash",
     "Transactions": "Transactions",
+    "GasUsed": "Gas Used",
     "Uncles": "Uncles",
     "": ""
   },
@@ -57,6 +58,7 @@
     "Difficulty": "Difficulty",
     "ParentHash": "Parant Hash",
     "Transactions": "Transactions",
+    "GasUsed": "Gas Used",
     "Uncles": "Uncles",
     "BlockAccumulatorRoot": "Block Accumulator Root",
     "": ""
