@@ -45,6 +45,7 @@
     "Difficulty": "难度",
     "ParentHash": "父块哈希",
     "Transactions": "交易量",
+    "GasUsed": "Gas消耗量",
     "Uncles": "叔块",
     "": ""
   },
@@ -57,6 +58,7 @@
     "Difficulty": "难度",
     "ParentHash": "父块哈希",
     "Transactions": "交易量",
+    "GasUsed": "Gas消耗量",
     "Uncles": "叔块",
     "BlockAccumulatorRoot": "区块累加器根",
     "": ""
