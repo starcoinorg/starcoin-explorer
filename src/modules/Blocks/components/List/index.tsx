@@ -34,7 +34,8 @@ interface InternalProps {
 interface Props extends ExternalProps, InternalProps { }
 
 interface IndexState {
-  currentPage: number
+  currentPage: number,
+  currentStartHeight: any
 }
 
 class Index extends PureComponent<Props, IndexState> {
@@ -49,30 +50,35 @@ class Index extends PureComponent<Props, IndexState> {
     super(props);
     this.state = {
       currentPage: parseInt(props.match.params.page, 10) || 1,
+      currentStartHeight: '',
     };
   }
 
   componentDidMount() {
-    this.fetchListPage(this.state.currentPage);
+    this.fetchListPage(this.state.currentStartHeight);
   }
 
-  fetchListPage = (page: number) => {
-    this.props.getBlockList({ page });
+  fetchListPage = (start_height: number) => {
+    this.props.getBlockList({ start_height });
   };
 
   pagination = (type: string) => {
-    const total = this.props.blockList && this.props.blockList.total.value || 0;
+    // const total = this.props.blockList && this.props.blockList.total.value || 0;
+    const height = this.props.blockList && this.props.blockList.contents[0].header.number || '';
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getBlockList({ page, total }, () => { this.pagenationCallback(page); });
+      const start_height = height + 19;
+      this.props.getBlockList({ start_height }, () => { this.pagenationCallback(page, start_height); });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getBlockList({ page, total }, () => { this.pagenationCallback(page); });
+      const start_height = height - 19;
+      this.props.getBlockList({ start_height }, () => { this.pagenationCallback(page, start_height); });
     }
   };
 
-  pagenationCallback = (page: number) => {
+  pagenationCallback = (page: number, height: any) => {
     this.setState({ currentPage: page });
+    this.setState({ currentStartHeight: height });
     window.history.replaceState(null, '', `/${getNetwork()}/blocks/${page}`);
   };
 

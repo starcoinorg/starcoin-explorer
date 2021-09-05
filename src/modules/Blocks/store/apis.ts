@@ -23,8 +23,8 @@ export const getUncleBlockByHeight = (params: any) =>
   client.get(`v2/block/${network}/uncle/height/${params.height}`);
 export const getBlockList = (params: any) =>
   client.get(
-    `v2/block/${params.network ? params.network : network}/page/${params.page}${
-      params.total ? `?total=${params.total}` : ''
+    `v2/block/${params.network ? params.network : network}/start_height/${
+      params.start_height ? `?start_height=${params.start_height}` : ''
     }`,
   );
 export const getUncleBlockList = (params: any) =>
