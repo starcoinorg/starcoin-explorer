@@ -49,7 +49,8 @@ class Index extends React.PureComponent<Props> {
       {
         name: t('token.address'),
         values: holderValues,
-        visibleAt: authorVisibleAt,
+        minWidth: false,
+        // visibleAt: authorVisibleAt,
         className: classes.validatorCol,
       },
       {
@@ -61,6 +62,7 @@ class Index extends React.PureComponent<Props> {
         name: t('token.positionratio'),
         // numeric: true,
         values: ratioValues,
+        visibleAt: authorVisibleAt,
         // className: classes.transactionsCol,
       },
     ];
