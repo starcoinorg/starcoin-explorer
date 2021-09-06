@@ -70,7 +70,8 @@ class Index extends React.PureComponent<Props> {
         name: t('token.position'),
         numeric: true,
         values: volumeValues,
-        className: classes.transactionsCol,
+        minWidth: true,
+        // className: classes.transactionsCol,
       },
     ];
     return <Table className={className} columns={columns} />;

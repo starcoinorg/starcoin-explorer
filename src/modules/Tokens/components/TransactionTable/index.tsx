@@ -59,18 +59,22 @@ class Index extends React.PureComponent<Props> {
       {
         name: t('token.txnHash'),
         values: txnHashValues,
-        visibleAt: authorVisibleAt,
-        className: classes.validatorCol,
         minWidth: true,
+        // visibleAt: authorVisibleAt,
+        className: classes.validatorCol,
       },
       {
         name: t('token.amount'),
         // numeric: true,
+        minWidth: true,
         values: amountValues,
       },
       {
         name: t('token.time'),
+        visibleAt: authorVisibleAt,
+        minWidth: true,
         values: timestampValues,
+        // className: classes.validatorCol,
       },
     ];
     return <Table className={className} columns={columns} />;
