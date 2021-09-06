@@ -99,21 +99,45 @@ const DecodedPayloadContent = ({
   alt: string;
   txnPayload: any;
 }) => {
-  const { func, args } = txnPayload.ScriptFunction;
-  const { address, module, functionName } = func;
-  const functionId = `${address}::${module}::${functionName}`;
+
+  let functionId: any;
+  let args: any;
+  if ('ScriptFunction' in txnPayload) {
+    const func = txnPayload.ScriptFunction.func;
+    args = txnPayload.ScriptFunction.args;
+    const { address, module, functionName } = func;
+    functionId = `${address}::${module}::${functionName}`;
+  }
+  if ('Package' in txnPayload) {
+    if (txnPayload.Package.init_script) {
+      const func = txnPayload.Package.init_script.func;
+      args = txnPayload.Package.init_script.args;
+      const { address, module, functionName } = func;
+      functionId = `${address}::${module}::${functionName}`;
+    }
+  }
+  // const functionId = `${address}::${module}::${functionName}`;
   const { data: resolvedFunction } = useResolveFunction(functionId, network);
-  const decodedArgs = args.map((arg: string, index: number) => {
-    return resolvedFunction?.args[index + 1]
-      ? `${types.formatTypeTag(resolvedFunction.args[index + 1].type_tag)}: ${
-          formatArgsWithTypeTag(
-            new bcs.BcsDeserializer(arrayify(arg)),
-            resolvedFunction.args[index + 1].type_tag,
-          ) || arg
-        }`
-      : arg;
-  });
-  txnPayload.ScriptFunction.args = decodedArgs;
+    const decodedArgs = args ? args.map((arg: string, index: number) => {
+      return resolvedFunction?.args[index + 1]
+        ? `${types.formatTypeTag(resolvedFunction.args[index + 1].type_tag)}: ${
+            formatArgsWithTypeTag(
+              new bcs.BcsDeserializer(arrayify(arg)),
+              resolvedFunction.args[index + 1].type_tag,
+            ) || arg
+          }`
+        : arg;
+    }) : {};
+  // txnPayload.ScriptFunction.args = decodedArgs;
+  if ('ScriptFunction' in txnPayload) {
+    txnPayload.ScriptFunction.args = decodedArgs;
+  }
+  if ('Package' in txnPayload) {
+    if (txnPayload.Package.init_script) {
+      txnPayload.Package.init_script.args = decodedArgs;
+    }
+  }
+
   return (
     <pre>{JSON.stringify(txnPayload, null, 2)}</pre> || (
       <Typography variant="body1">{alt}</Typography>
