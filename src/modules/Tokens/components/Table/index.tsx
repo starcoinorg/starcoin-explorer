@@ -5,7 +5,7 @@ import Table from '@/common/Table';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import formatNumber from '@/utils/formatNumber';
 import { getNetwork } from '@/utils/helper';
-import { SCALING_FACTOR } from '@/utils/scalingFactor';
+// import { SCALING_FACTOR } from '@/utils/scalingFactor';
 // import CommonLink from '@/common/Link';
 // import CommonTime from '@/common/Time';
 
@@ -44,13 +44,18 @@ class Index extends React.PureComponent<Props> {
       const tokenInfoURL = `/${getNetwork()}/tokens/detail/${token.type_tag}`;
       const holdersListURL = `/${getNetwork()}/tokens/holders/${token.type_tag}/1`;
       holdersValues.push(<BaseRouteLink to={holdersListURL}>{formatNumber(token.addressHolder)}</BaseRouteLink>);
-      marketCapValues.push(formatNumber( (token.market_cap) / parseInt(SCALING_FACTOR[token.type_tag],10) ));
 
+      /*
+      marketCapValues.push(formatNumber( (token.market_cap) / parseInt(SCALING_FACTOR[token.type_tag],10) ));
       if (token.type_tag === '0x00000000000000000000000000000001::STC::STC') {
         volumeValues.push(formatNumber(token.volume));
       } else {
         volumeValues.push(formatNumber( (token.volume) / parseInt(SCALING_FACTOR[token.type_tag],10) ));
       }
+      */
+
+      marketCapValues.push(formatNumber(token.market_cap));
+      volumeValues.push(formatNumber(token.volume));
 
       tokenInfoValues.push(
         <BaseRouteLink to={tokenInfoURL}>{token.type_tag}</BaseRouteLink>
@@ -64,7 +69,7 @@ class Index extends React.PureComponent<Props> {
         className: classes.validatorCol,
       },
       {
-        name: t('token.totalsupply'),
+        name: t('token.totalcirculation'),
         values: marketCapValues,
         minWidth: true,
       },
@@ -74,7 +79,7 @@ class Index extends React.PureComponent<Props> {
         minWidth: true,
       },
       {
-        name: t('token.position'),
+        name: t('token.volume'),
         numeric: true,
         values: volumeValues,
         minWidth: true,
