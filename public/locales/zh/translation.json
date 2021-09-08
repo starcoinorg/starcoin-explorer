@@ -153,8 +153,10 @@
   "token": {
     "NoTokenData": "No Token Data",
     "totalsupply": "总供应量",
+    "totalcirculation": "总流通量",
     "holdercount": "持有者",
     "position": "总持仓",
+    "volume": "交易量(24h)",
     "positionratio": "持仓占比",
     "address": "地址",
     "amount": "持仓量",

@@ -153,8 +153,10 @@
   "token": {
     "NoTokenData": "No Token Data",
     "totalsupply": "Total Supply",
+    "totalcirculation": "Total Circulation",
     "holdercount": "Holders",
     "position": "Total Position",
+    "volume": "Volume(24h)",
     "positionratio": "Position Ratio",
     "address": "Address",
     "amount": "Amount",
