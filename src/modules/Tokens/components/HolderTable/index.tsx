@@ -34,7 +34,8 @@ interface Props extends ExternalProps, InternalProps {}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { tokenHolders, tokenPrecision, authorVisibleAt, className, classes, t } = this.props;
+    // const { tokenHolders, tokenPrecision, authorVisibleAt, className, classes, t } = this.props;
+    const { tokenHolders, authorVisibleAt, className, classes, t } = this.props;
     const holders = tokenHolders.contents;
     const holderValues: any[] = [];
     const amountValues: any[] = [];
@@ -42,7 +43,8 @@ class Index extends React.PureComponent<Props> {
     holders.forEach((holder: any) => {
       const holderUrl = `/${getNetwork()}/address/${holder.address}`;
       holderValues.push(<BaseRouteLink to={holderUrl}>{holder.address}</BaseRouteLink>);
-      amountValues.push(formatNumber(holder.amount / tokenPrecision));
+      // amountValues.push(formatNumber(holder.amount / tokenPrecision));
+      amountValues.push(formatNumber(holder.amount));
       ratioValues.push(`${formatNumber((holder.amount/holder.supply)*100, { decimalPlaces: 6 })}%`);
     });
     const columns = [
