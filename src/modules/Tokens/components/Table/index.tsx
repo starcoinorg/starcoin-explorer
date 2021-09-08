@@ -69,7 +69,7 @@ class Index extends React.PureComponent<Props> {
         className: classes.validatorCol,
       },
       {
-        name: t('token.totalcirculation'),
+        name: t('token.circulatingsupply'),
         values: marketCapValues,
         minWidth: true,
       },

@@ -287,7 +287,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const columns = [
       [t('token.address'), token[0].type_tag],
       // [t('token.totalsupply'), formatNumber(token[0].market_cap / precision)],
-      [t('token.totalcirculation'), formatNumber(token[0].market_cap)],
+      [t('token.circulatingsupply'), formatNumber(token[0].market_cap)],
       [t('token.holdercount'), formatNumber(token[0].addressHolder)],
       // [t('token.position'), formatNumber(token[0].volume / precision)]
       [t('token.volume'), formatNumber(token[0].volume)]

@@ -154,6 +154,7 @@
     "NoTokenData": "No Token Data",
     "totalsupply": "Total Supply",
     "totalcirculation": "Total Circulation",
+    "circulatingsupply": "Circulating Supply",
     "holdercount": "Holders",
     "position": "Total Position",
     "volume": "Volume(24h)",
