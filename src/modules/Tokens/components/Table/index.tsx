@@ -12,9 +12,15 @@ import { getNetwork } from '@/utils/helper';
 const useStyles = () => createStyles({
   transactionsCol: {
     flex: '1 100 auto',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   validatorCol: {
     flex: '1 100 auto',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
 });
 
@@ -65,12 +71,13 @@ class Index extends React.PureComponent<Props> {
       {
         name: t('token.address'),
         values: tokenInfoValues,
-        visibleAt: authorVisibleAt,
         className: classes.validatorCol,
+        minWidth: true,
       },
       {
         name: t('token.circulatingsupply'),
         values: marketCapValues,
+        visibleAt: authorVisibleAt,
         minWidth: true,
       },
       {
@@ -82,6 +89,7 @@ class Index extends React.PureComponent<Props> {
         name: t('token.volume'),
         numeric: true,
         values: volumeValues,
+        visibleAt: authorVisibleAt,
         minWidth: true,
         // className: classes.transactionsCol,
       },
