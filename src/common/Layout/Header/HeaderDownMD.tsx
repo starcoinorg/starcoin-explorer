@@ -263,13 +263,6 @@ function Index(props: any) {
 
   return (
     <div className={classes.root}>
-      {
-        window.location.hostname === 'stcscan.io' ?
-        null :
-        (
-        <div className={classes.warning}>{t('header.warning')} <a target="blank" href="https://stcscan.io">stcscan.io</a></div>
-        )
-      }
       <div className={classNames(classes.header, classes.pad)}>
         <BaseRouteLink to="/" underline="none">
           <div className={classes.logoLink}>
