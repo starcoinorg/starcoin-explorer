@@ -22,7 +22,8 @@ import {
 } from '@starcoin/starcoin';
 import { arrayify, hexlify } from '@ethersproject/bytes';
 import get from 'lodash/get';
-import { formatBalance, toObject } from '@/utils/helper';
+// import { formatBalance, toObject } from '@/utils/helper';
+import { toObject } from '@/utils/helper';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import useSWR from 'swr';
 
@@ -55,10 +56,13 @@ function formatArgsWithTypeTag(
       }
     }
     if ('Vector' in typeTag) {
+      /*
       const length = deserializer.deserializeLen();
       return `[${Array.from({ length })
         .map(() => formatArgsWithTypeTag(deserializer, typeTag.Vector))
         .join(', ')}]`;
+      */
+      return hexlify(deserializer.deserializeBytes());
     }
     if ('Struct' in typeTag) {
       return `${typeTag.Struct.address}::${typeTag.Struct.module}::${
@@ -164,6 +168,10 @@ const useStyles = () =>
     },
   });
 
+interface IndexState {
+  resolvedFunction: any
+}
+
 interface IndexProps {
   classes: any;
   t: any;
@@ -172,7 +180,7 @@ interface IndexProps {
   getTransaction: (data: any, callback?: any) => any;
 }
 
-class Index extends PureComponent<IndexProps> {
+class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     match: {},
@@ -206,7 +214,7 @@ class Index extends PureComponent<IndexProps> {
         const de = onchain_events.decodeEventData(eventName, event.data);
         eventDataDetail = toObject(de.toJS());
       } catch (e) {
-        console.log(e);
+        console.log('decode event data error')
         eventDataDetail = event.data;
       }
 
@@ -215,7 +223,7 @@ class Index extends PureComponent<IndexProps> {
         const de = onchain_events.decodeEventKey(eventKeyInHex);
         eventKeyDetail = toObject(de);
       } catch (e) {
-        console.log(e);
+        console.log('decode event key error')
         eventKeyDetail = event.event_key;
       }
       columns.push([t('event.Data'), eventDataDetail]);
@@ -340,20 +348,28 @@ class Index extends PureComponent<IndexProps> {
       : [];
     const type = Object.keys(txnPayload)[0];
 
-    let functionName;
+    let args: any;
+    let functionId: any;
+    let moduleAddress;
     let moduleName;
+    let functionName;
+    /*
     let arg0;
     let arg1;
     let arg2;
+    */
+    /*
     if ('ScriptFunction' in txnPayload) {
       const func = txnPayload.ScriptFunction.func as {
         address: types.AccountAddress;
         module: types.Identifier;
         functionName: types.Identifier;
       };
-      functionName = func.functionName;
+      moduleAddress = func.address;
       moduleName = func.module;
-      const args = txnPayload.ScriptFunction.args;
+      functionName = func.functionName;
+      // const args = txnPayload.ScriptFunction.args;
+      /*
       let de2;
       try {
         arg0 = args[0];
@@ -362,6 +378,79 @@ class Index extends PureComponent<IndexProps> {
         arg2 = de2.deserializeU128().toString();
       } catch (e) {
         console.log(e);
+      }
+    }
+    */
+    if ('ScriptFunction' in txnPayload) {
+      args = txnPayload.ScriptFunction.args;
+      const func = txnPayload.ScriptFunction.func as {
+        address: types.AccountAddress;
+        module: types.Identifier;
+        functionName: types.Identifier;
+      };
+      moduleAddress = func.address;
+      moduleName = func.module;
+      functionName = func.functionName;
+      functionId = `${moduleAddress}::${moduleName}::${functionName}`;
+    }
+    if ('Package' in txnPayload) {
+      if (txnPayload.Package.init_script) {
+        args = txnPayload.Package.init_script.args;
+        const func = txnPayload.Package.init_script.func as {
+          address: types.AccountAddress;
+          module: types.Identifier;
+          functionName: types.Identifier;
+        };
+        moduleAddress = func.address;
+        moduleName = func.module;
+        functionName = func.functionName;
+        functionId = `${moduleAddress}::${moduleName}::${functionName}`;
+        /*
+        const func = txnPayload.Package.init_script.func;
+        const { address, module, functionName } = func;
+        functionId = `${address}::${module}::${functionName}`;
+        */
+      }
+    }
+
+    /*
+    if ('ScriptFunction' in txnPayload) {
+      args = txnPayload.ScriptFunction.args;
+    }
+    if ('Package' in txnPayload) {
+      if (txnPayload.Package.init_script) {
+        args = txnPayload.Package.init_script.args;
+      }
+    }
+    */
+    const provider = new providers.JsonRpcProvider(
+      `https://${network}-seed.starcoin.org`,
+    );
+    const getResolvedFunction = async () => {
+      const data = await provider.send('contract.resolve_function', [functionId]);
+      this.setState({ resolvedFunction: data });
+    };
+    getResolvedFunction();
+
+    const resolvedFunction = this.state?.resolvedFunction;
+
+    const decodedArgs = args ? args.map((arg: string, index: number) => {
+      return resolvedFunction?.args[index + 1]
+        ? [types.formatTypeTag(resolvedFunction.args[index + 1].type_tag),
+            formatArgsWithTypeTag(
+              new bcs.BcsDeserializer(arrayify(arg)),
+              resolvedFunction.args[index + 1].type_tag,
+            ) || arg
+          ]
+        : arg;
+    }) : {};
+    // txnPayload.ScriptFunction.args = decodedArgs;
+    if ('ScriptFunction' in txnPayload) {
+      txnPayload.ScriptFunction.args = decodedArgs;
+    }
+    if ('Package' in txnPayload) {
+      if (txnPayload.Package.init_script) {
+        txnPayload.Package.init_script.args = decodedArgs;
       }
     }
 
@@ -395,12 +484,28 @@ class Index extends PureComponent<IndexProps> {
       ],
     ];
 
+    if (moduleAddress) {
+      columns.push([t('transaction.FunctionModuleAddress'), moduleAddress]);
+    }
     if (moduleName) {
       columns.push([t('transaction.FunctionModuleName'), moduleName]);
     }
     if (functionName) {
       columns.push([t('transaction.FunctionName'), functionName]);
     }
+
+    for (let i = 0; i < decodedArgs.length; i++) {
+      if (decodedArgs[i][0] === 'address') {
+        const address = decodedArgs[i][1];
+        columns.push([
+          `${t('transaction.arg')} ${i+1}`,
+          <CommonLink path={`/${network}/address/${address}`} title={address} />,
+        ]);
+      } else {
+        columns.push([`${t('transaction.arg')} ${i+1}`, decodedArgs[i][1]]);
+      }
+    }
+    /*
     if (arg0) {
       columns.push([
         t('transaction.arg0'),
@@ -413,6 +518,7 @@ class Index extends PureComponent<IndexProps> {
     if (arg2) {
       columns.push([t('transaction.arg2'), `${formatBalance(arg2)} STC`]);
     }
+    */
 
     return (
       <PageView
