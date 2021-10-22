@@ -10,6 +10,7 @@
     "uncleblocks": "Uncle Blocks",
     "transactions": "Transactions",
     "pendingTransactions": "Pending Transactions",
+    "addressTransactions": "Address Transactions",
     "events": "Events",
     "tools": "Tools",
     "ecosystems": "Ecosystems",
