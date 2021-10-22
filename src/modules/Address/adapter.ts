@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import createLoadingSelector  from '@/rootStore/loading/selector';
+import { pushLocation }  from '@/rootStore/router/actions';
 import * as types from '@/Transactions/store/constants';
 import storeTransactions from '@/Transactions/store';
 import Index from './index';
@@ -19,5 +20,6 @@ const selector = createSelector(
 );
 
 export default connect(selector, {
-  getAddressTransactions: actions.getAddressTransactions
+  getAddressTransactions: actions.getAddressTransactions,
+  pushLocation
 })(Index) as any;

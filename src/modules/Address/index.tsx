@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
+import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -9,9 +10,10 @@ import Loading from '@/common/Loading';
 import ResourceView from '@/common/View/ResourceView';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
+import { withTranslation } from 'react-i18next';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { getAddressData, getBalancesData, getAddressSTCBalance, getAddressResources } from '@/utils/sdk';
-import { formatBalance, formatResources } from '@/utils/helper';
+import { getNetwork, formatBalance, formatResources } from '@/utils/helper';
 import AddressNotFound from '../Error404/address';
 
 const useStyles = () => createStyles({
@@ -25,13 +27,20 @@ const useStyles = () => createStyles({
   shrinkCol: {
     flex: '1 10 auto',
   },
+  button: {
+    marginLeft: '1rem',
+    marginBottom: '1rem'
+  }
 });
 
 interface IndexProps {
+  t: any,
   classes: any;
   computedMatch: any;
   addressTransactions: any;
   getAddressTransactions: (data: any, callback?: any) => any;
+  pushLocation: (data: any) => any;
+  location: any;
 }
 
 interface IndexState {
@@ -46,7 +55,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static defaultProps = {
     computedMatch: {},
     addressTransactions: null,
-    getAddressTransactions: () => {}
+    getAddressTransactions: () => {},
+    pushLocation: () => { }
   };
 
   constructor(props: IndexProps) {
@@ -96,7 +106,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   generateExtra() {
-    const { addressTransactions, classes } = this.props;
+    const { addressTransactions, classes, t } = this.props;
+    const hash = this.props.computedMatch.params.hash;
     const { accountResources } = this.state;
     const isInitialLoad = !addressTransactions && !accountResources;
     const transactions = addressTransactions && addressTransactions.contents || [];
@@ -118,6 +129,18 @@ class Index extends PureComponent<IndexProps, IndexState> {
               />}
             </div>
           </AccordionDetails>
+          <Button
+            className={this.props.classes.button}
+            color="primary"
+            variant="contained"
+            onClick={() => {
+              this.props.pushLocation(`/${getNetwork()}/address_transactions/${hash}/1`)
+            }}
+          >
+            <Typography className={this.props.classes.search} variant="body1">
+              {t('home.viewAll')}
+            </Typography>
+          </Button>
         </Accordion>
         <br />
         <Accordion>
@@ -184,4 +207,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(Index);
+export default withStyles(useStyles)(withTranslation()(Index));
