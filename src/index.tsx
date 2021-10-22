@@ -21,6 +21,7 @@ const Tokens = lazy(() => import('./modules/Tokens/containers'));
 const UncleBlocks = lazy(() => import('./modules/UncleBlocks/containers'));
 const Transactions = lazy(() => import('./modules/Transactions/containers'));
 const PendingTransactions = lazy(() => import('./modules/PendingTransactions/containers'));
+const AddressTransactions = lazy(() => import('./modules/AddressTransactions/containers'));
 const Ecosystems = lazy(() => import('./modules/Ecosystems'));
 const Faq = lazy(() => import('./modules/Faq'));
 const Tools = lazy(() => import('./modules/Tools'));
@@ -78,6 +79,7 @@ ReactDOM.render(
         <RouteWithLayout exact path={withBaseRoute('/faq')} title="Faq" layout={MainLayout} component={Faq} />
         <RouteWithLayout exact path={withBaseRoute('/terms')} title="Terms" layout={MainLayout} component={Terms} />
         <RouteWithLayout path={withBaseRoute('/:network/address/:hash')} title="Address" layout={MainLayout} component={Address} />
+        <RouteWithLayout path={withBaseRoute('/:network/address_transactions/:hash')} title="Address Transactions" layout={MainLayout} component={AddressTransactions} />
         <RouteWithLayout exact path={withBaseRoute('/error')} title="404" layout={MainLayout} component={Error404} />
         <RouteWithLayout path={undefined} title="404" layout={MainLayout} component={Error404} />
       </Switch>
