@@ -66,6 +66,21 @@ export function getAddressTransactions(payload: any, callback?: any) {
   };
 }
 
+export function getAddressTransactionList(payload: any, callback?: any) {
+  return {
+    type: types.GET_ADDRESS_TRANSACTION_LIST,
+    payload,
+    callback
+  };
+}
+
+export function setAddressTransactionList(payload: any) {
+  return {
+    type: types.SET_ADDRESS_TRANSACTION_LIST,
+    payload
+  };
+}
+
 export function setAddressTransactions(payload: any) {
   return {
     type: types.SET_ADDRESS_TRANSACTIONS,
@@ -100,6 +115,13 @@ export function getBlockTransactionsByHeight(payload: any, callback?: any) {
 export function getTransactionListInDelay(payload: any) {
   return {
     type : types.GET_TRANSACTION_LIST_IN_DELAY,
+    payload
+  }
+}
+
+export function getAddressTransactionListInDelay(payload: any) {
+  return {
+    type : types.GET_ADDRESS_TRANSACTION_LIST_IN_DELAY,
     payload
   }
 }
