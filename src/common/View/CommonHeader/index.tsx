@@ -58,6 +58,14 @@ const useStyles = (theme: Theme) => createStyles({
     fontSize: '1.3125rem',
     fontWeight: 700,
   },
+  id: {
+    fontSize: '0.875rem',
+    fontWeight: 400,
+    flex: '0 1 auto',
+    minWidth: '0',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
   link: {
     color: '#fff',
     textDecoration: 'underline',
@@ -121,6 +129,13 @@ class Index extends React.PureComponent<Props> {
         {pluralName}
       </Typography>
     );
+    if (id != null) {
+      idElement = (
+        <Typography className={classNames(classes.text, classes.id)} variant="body2">
+          {id}
+        </Typography>
+      );
+    }
     if (id != null && searchRoute != null) {
       idElement = (
         <Typography className={classes.text} variant="body2">
@@ -171,6 +186,9 @@ class Index extends React.PureComponent<Props> {
             path="/"
             title={t('header.home')}
           />
+          {/*
+          {idElement}
+          */}
           {slash}
           {searchElement}
           {infoElement == null ? null : slash}
