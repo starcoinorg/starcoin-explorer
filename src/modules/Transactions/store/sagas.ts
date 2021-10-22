@@ -75,6 +75,26 @@ function* watchGetPendingTransactionList() {
   yield takeLatest(types.GET_PENDING_TRANSACTION_LIST, getPendingTransactionList)
 }
 
+export function* getAddressTransactionList(action: ReturnType<typeof actions.getAddressTransactionList>) {
+  try {
+    const res = yield call(withLoading, api.getAddressTransactionList, action.type, action.payload);
+    yield put(actions.setAddressTransactionList(res));
+    if (action.callback) {
+      yield call(action.callback);
+    }
+  } catch (err) {
+    if (err.message) {
+      yield put(actions.setAddressTransactionList([]));
+    }
+  } finally {
+    yield put(actions.getAddressTransactionListInDelay(action.payload));
+  }
+}
+
+function* watchGetAddressTransactionList() {
+  yield takeLatest(types.GET_ADDRESS_TRANSACTION_LIST, getAddressTransactionList)
+}
+
 export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
   try {
     const res = yield call(withLoading, api.getAddressTransactions, action.type, action.payload);
@@ -147,6 +167,7 @@ const sagas = [
   watchGetPendingTransaction,
   watchGetTransactionList,
   watchGetPendingTransactionList,
+  watchGetAddressTransactionList,
   watchGetTransactionListInDelay,
   watchGetAddressTransactions,
   watchGetBlockTransactions,
