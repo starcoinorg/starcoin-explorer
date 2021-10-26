@@ -97,7 +97,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const columns = [
       [t('common.Hash'), header.block_hash],
       [t('uncleblock.Height'), formatNumber(header.number)],
-      [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
+      [t('common.Time'), `${new Date(parseInt(header.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
       [t('uncleblock.Author'), <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
       [t('uncleblock.BlockAccumulatorRoot'), header.block_accumulator_root],
       [t('uncleblock.Difficulty'), formatNumber(header.difficulty_number)],
