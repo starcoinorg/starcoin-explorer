@@ -30,6 +30,10 @@ export function isHex(num: string) {
   return Boolean(num.match(/^0x[0-9a-f]+$/i));
 }
 
+export function isReceiptIdentifier(arg: string) {
+  return Boolean(arg.toLowerCase().startsWith('stc'));
+}
+
 export function formatBalance(num: string | number) {
   const value = new BigNumber(num);
   const convertedValue = value.div(1000000000).toFormat();
