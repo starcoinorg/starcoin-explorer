@@ -26,7 +26,7 @@
   "home": {
     "explorer": "Blockchain Explorer",
     "search": "SEARCH",
-    "searchHint": "block/tx/author hash or block height",
+    "searchHint": "block/txn/address hash, receipt identifier, block height",
     "searchNotFound": "Sorry, that page was not found.",
     "searchNotFoundDetail": "Try going back to where you were or heading to the <a href=\"/\">home</a> page.",
     "viewAll": "VIEW ALL",

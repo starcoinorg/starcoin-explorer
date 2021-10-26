@@ -26,7 +26,7 @@
   "home": {
     "explorer": "区块链浏览器",
     "search": "查找",
-    "searchHint": "请输入区块/交易/创建者的哈希, 或者区块高度",
+    "searchHint": "区块哈希/交易哈希/地址/收款识别码/区块高度",
     "searchNotFound": "对不起, 查无此页.",
     "searchNotFoundDetail": "请返回重试或者回到<a href=\"/\">首页</a>.",
     "viewAll": "更多",
