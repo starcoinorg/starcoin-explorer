@@ -459,7 +459,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('transaction.Type'), type],
       [
         t('common.Time'),
-        new Date(parseInt(source.timestamp, 10)).toLocaleString(),
+        `${new Date(parseInt(source.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`,
       ],
       [
         t('transaction.BlockHash'),
