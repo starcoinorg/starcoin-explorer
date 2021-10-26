@@ -213,8 +213,8 @@ class Index extends PureComponent<IndexProps> {
       // [t('transaction.BlockHash'), <CommonLink path={`/${network}/blocks/detail/${source.block_hash}`} title={source.block_hash} />],
       // [t('transaction.BlockHeight'), <BaseRouteLink to={`/${network}/blocks/height/${source.block_number}`}>{formatNumber(source.block_number)}</BaseRouteLink>],
 
-      [t('common.Time'), new Date(parseInt(source.timestamp, 10)).toLocaleString()],
-      [t('common.ExpireTime'), new Date(parseInt(source.raw_txn.expiration_timestamp_secs, 10) * 1000).toLocaleString()],
+      [t('common.Time'), `${new Date(parseInt(source.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
+      [t('common.ExpireTime'), `${new Date(parseInt(source.raw_txn.expiration_timestamp_secs, 10) * 1000).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
       // [t('transaction.StateRootHash'), source.state_root_hash],
       // [t('transaction.Status'), source.status],
       // [t('common.GasUsed'), source.gas_used],
