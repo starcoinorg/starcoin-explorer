@@ -1,7 +1,8 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import get from "lodash/get";
 import withLoading from '@/sagaMiddleware/index';
-import { isHex } from "@/utils/helper";
+import { isHex, isReceiptIdentifier } from "@/utils/helper";
+import { encoding } from '@starcoin/starcoin';
 import { getBlock, getBlockByHeight, getUncleBlock } from '@/Blocks/store/apis';
 import { getTransaction, getAddressTransactions, getPendingTransaction } from '@/Transactions/store/apis';
 import { pushLocation } from '@/rootStore/router/actions';
@@ -21,6 +22,13 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
         call(withLoading, getUncleBlock, action.type, { hash: action.payload }),
         call(withLoading, getPendingTransaction, action.type, { hash: action.payload })
       ]);
+    } else if (isReceiptIdentifier(action.payload)) {
+      const decoded = encoding.decodeReceiptIdentifier(action.payload);
+      const address = '0x' + decoded.accountAddress;
+      console.log({address});
+      res = yield all([
+        call(withLoading, getAddressData, action.type, address),
+      ]);
     } else {
       const height = parseInt(action.payload, 10);
       if (height >= 0) {
@@ -38,8 +46,12 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
         // by height
       } else if (get(res[0], 'header.number') == action.payload) {
         url = `/${ getNetwork() }/blocks/height/${ action.payload }`;
+      } else if (isReceiptIdentifier(action.payload)) {
+        // by receipt identifier
+        const decoded = encoding.decodeReceiptIdentifier(action.payload);
+        const address = '0x' + decoded.accountAddress;
+        url = `/${ getNetwork() }/address/${ address }`;
       }
-
     }
     // found transaction by hash
     if (!url && isHex(action.payload) && res[1]) {
