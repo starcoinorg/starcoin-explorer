@@ -162,7 +162,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const columns: any[] = [];
       columns.push([t('common.Hash'), uncle.block_hash]);
       columns.push([t('block.Height'), formatNumber(uncle.number)]);
-      columns.push([t('common.Time'), new Date(parseInt(uncle.timestamp, 10)).toLocaleString()]);
+      columns.push([t('common.Time'), `${new Date(parseInt(uncle.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`]);
       columns.push([t('block.Author'), <CommonLink key={uncle.author} path={`/${ network }/address/${ uncle.author }`} title={uncle.author} />]);
       columns.push([t('block.Difficulty'), uncle.difficulty]);
       columns.push([t('common.GasUsed'), uncle.gas_used]);
@@ -241,7 +241,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const columns = [
       [t('common.Hash'), header.block_hash],
       [t('block.Height'), formatNumber(header.number)],
-      [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
+      [t('common.Time'), `${new Date(parseInt(header.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
       [t('block.Author'), <CommonLink key={header.author} path={`/${ network }/address/${ header.author }`} title={header.author} />],
       [t('block.Difficulty'), formatNumber(header.difficulty_number)],
       [t('common.GasUsed'), formatNumber(header.gas_used)],
