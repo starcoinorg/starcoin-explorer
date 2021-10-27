@@ -6,7 +6,7 @@ const formatTime = (time: number, language: string) => {
   let value;
   const timeMS = typeof time === 'string' ? parseInt(time) : time;
   if (Date.now() - timeMS > TWO_DAYS_MS) {
-    value = `${new Date(timeMS).toLocaleString()} ${new Date().toTimeString().slice(9)}`;
+    value = `${new Date(timeMS).toLocaleString()} ${new Date().toTimeString().slice(9,17)}`;
   } else {
     // timeago.js supports zh_CN or zh_TW, instead of zh
     const locale = language === 'zh' ? 'zh_CN' : language;
