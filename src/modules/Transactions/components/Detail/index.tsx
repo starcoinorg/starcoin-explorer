@@ -123,12 +123,13 @@ const DecodedPayloadContent = ({
   // const functionId = `${address}::${module}::${functionName}`;
   const { data: resolvedFunction } = useResolveFunction(functionId, network);
     const decodedArgs = args ? args.map((arg: string, index: number) => {
+      const type_tag = resolvedFunction?.args[index + 1].type_tag;
       return resolvedFunction?.args[index + 1]
         ? `${types.formatTypeTag(resolvedFunction.args[index + 1].type_tag)}: ${
-            formatArgsWithTypeTag(
+            type_tag !== 'Address' ? formatArgsWithTypeTag(
               new bcs.BcsDeserializer(arrayify(arg)),
               resolvedFunction.args[index + 1].type_tag,
-            ) || arg
+            ) : arg
           }`
         : arg;
     }) : {};
@@ -435,12 +436,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const resolvedFunction = this.state?.resolvedFunction;
 
     const decodedArgs = args ? args.map((arg: string, index: number) => {
+      const type_tag = resolvedFunction?.args[index + 1]?.type_tag;
       return resolvedFunction?.args[index + 1]
-        ? [types.formatTypeTag(resolvedFunction.args[index + 1].type_tag),
-            formatArgsWithTypeTag(
-              new bcs.BcsDeserializer(arrayify(arg)),
-              resolvedFunction.args[index + 1].type_tag,
-            ) || arg
+        ? [types.formatTypeTag(type_tag),
+           type_tag !== 'Address' ? formatArgsWithTypeTag(
+             new bcs.BcsDeserializer(arrayify(arg)),
+             resolvedFunction.args[index + 1].type_tag,
+           ) : arg
           ]
         : arg;
     }) : {};
