@@ -204,9 +204,15 @@ class Index extends PureComponent<IndexProps, IndexState> {
     for (let i = 0; i < events.length; i++) {
       const columns: any[] = [];
       const event = events[i];
-      const eventTypeArray = event.type_tag.split('::');
+
+      let type_tag = event.type_tag
+
+      // '0x00000000000000000000000000000001::Oracle::OracleUpdateEvent<0x07fa08a855753f0ff7292fdcbe871216::BTC_USD::BTC_USD, u128>'
+      type_tag = type_tag.replace(/<[^<]*?>/g, (str: string) => str.replace(/::/g, '-'))
+      const eventTypeArray = (type_tag.split('::')).map((v: string) => v.replace(/-/g, '::'));
       const eventModule = eventTypeArray[1];
       const eventName = eventTypeArray[2];
+
       // const eventModule = 'Account';
       // const eventName = 'WithdrawEvent';
       let eventDataDetail;
