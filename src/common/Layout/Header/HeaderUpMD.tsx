@@ -179,7 +179,7 @@ function Index(props: any) {
   };
 
   const networks = process.env.REACT_APP_STARCOIN_NETWORKS || '';
-  const availableNetworks = networks.split(',');
+  const availableNetworks = networks.split(',').filter(item => item !== 'proxima');
   const currentNetwork = availableNetworks.filter((network) => network === userNetwork);
   const currentNetworkLabel = currentNetwork[0] || '-';
   const networkMenus = (
