@@ -18,6 +18,7 @@ import Accordion from '@material-ui/core/Accordion';
 import LanguageIcon from '@material-ui/icons/Translate';
 import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
+import StarcoinLogo from '../../../starcoin.jpeg';
 
 const useStyles = (theme: Theme) => createStyles({
   [theme.breakpoints.down('sm')]: {
@@ -93,6 +94,9 @@ const useStyles = (theme: Theme) => createStyles({
     gridAutoFlow: 'column',
     alignItems: 'left',
     textDecoration: 'none',
+  },
+  logoImg: {
+    width: '132px'
   },
   logo: {
     fontFamily: 'Bauhaus93',
@@ -266,9 +270,12 @@ function Index(props: any) {
       <div className={classNames(classes.header, classes.pad)}>
         <BaseRouteLink to="/" underline="none">
           <div className={classes.logoLink}>
+            <img className={classes.logoImg} src={StarcoinLogo} alt="logo" />
+            {/*
             <Typography className={classes.logo} variant="h3">
               { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Starcoin' }
             </Typography>
+            */}
           </div>
         </BaseRouteLink>
         <IconButton

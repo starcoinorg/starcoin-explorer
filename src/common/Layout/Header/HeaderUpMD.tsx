@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 import Tabs from './Tabs';
+import StarcoinLogo from '../../../starcoin.jpeg';
 
 const useStyles = (theme: Theme) => createStyles({
   header: {
@@ -52,7 +53,7 @@ const useStyles = (theme: Theme) => createStyles({
   tabs: {
     alignItems: 'flex-end',
     display: 'flex',
-    height: '100%',
+    // height: '100%',
   },
   title: {
     marginRight: theme.spacing(2),
@@ -76,11 +77,14 @@ const useStyles = (theme: Theme) => createStyles({
     paddingTop: theme.spacing(1),
   },
   logoLink: {
-    display: 'grid',
+    // display: 'grid',
     gridGap: '10px',
     gridAutoFlow: 'column',
     alignItems: 'center',
     textDecoration: 'none',
+  },
+  logoImg: {
+    width: '132px'
   },
   logo: {
     fontFamily: 'Bauhaus93',
@@ -467,9 +471,12 @@ function Index(props: any) {
         <div className={classes.tabs}>
           <BaseRouteLink to="/" underline="none">
             <div className={classes.logoLink}>
+              <img className={classes.logoImg} src={StarcoinLogo} alt="logo" />
+              {/*
               <Typography className={classes.logo} variant="h3">
                 { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Starcoin' }
               </Typography>
+              */}
             </div>
           </BaseRouteLink>
           {blockMenu}
