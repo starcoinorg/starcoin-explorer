@@ -81,6 +81,7 @@
     "FunctionModuleAddress": "Contract Address",
     "FunctionModuleName": "Module Name",
     "FunctionName": "Function Name",
+    "TxnTypeArgs": "Type Args",
     "arg": "Param",
     "arg0": "Param0",
     "arg1": "Param1",

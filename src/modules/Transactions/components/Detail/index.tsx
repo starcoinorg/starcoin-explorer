@@ -356,6 +356,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const type = Object.keys(txnPayload)[0];
 
     let args: any;
+    let txn_type_args: any;
     let functionId: any;
     let moduleAddress;
     let moduleName;
@@ -390,6 +391,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     */
     if ('ScriptFunction' in txnPayload) {
       args = txnPayload.ScriptFunction.args;
+      txn_type_args = txnPayload.ScriptFunction.ty_args;
       const func = txnPayload.ScriptFunction.func as {
         address: types.AccountAddress;
         module: types.Identifier;
@@ -403,6 +405,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     if ('Package' in txnPayload) {
       if (txnPayload.Package.init_script) {
         args = txnPayload.Package.init_script.args;
+        txn_type_args = txnPayload.Package.init_script.ty_args;
         const func = txnPayload.Package.init_script.func as {
           address: types.AccountAddress;
           module: types.Identifier;
@@ -461,6 +464,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         txnPayload.Package.init_script.args = decodedArgs;
       }
     }
+    console.log('txnPayload type_args', JSON.stringify(txn_type_args[0].Struct))
 
     const columns = [
       [t('common.Hash'), source.transaction_hash],
@@ -500,6 +504,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
     }
     if (functionName) {
       columns.push([t('transaction.FunctionName'), functionName]);
+    }
+    if (txn_type_args) {
+      columns.push([t('transaction.TxnTypeArgs'), JSON.stringify(txn_type_args[0].Struct)]);
     }
 
     for (let i = 0; i < decodedArgs.length; i++) {

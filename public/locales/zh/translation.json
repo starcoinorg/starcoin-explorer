@@ -81,6 +81,7 @@
     "FunctionModuleAddress": "合约地址",
     "FunctionModuleName": "模块名",
     "FunctionName": "函数名",
+    "TxnTypeArgs": "类型参数",
     "arg": "参数",
     "arg0": "参数0",
     "arg1": "参数1",
