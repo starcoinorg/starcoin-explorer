@@ -464,7 +464,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
         txnPayload.Package.init_script.args = decodedArgs;
       }
     }
-    console.log('txnPayload type_args', JSON.stringify(txn_type_args[0].Struct))
 
     const columns = [
       [t('common.Hash'), source.transaction_hash],
@@ -506,7 +505,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       columns.push([t('transaction.FunctionName'), functionName]);
     }
     if (txn_type_args) {
-      columns.push([t('transaction.TxnTypeArgs'), JSON.stringify(txn_type_args[0].Struct)]);
+      columns.push([t('transaction.TxnTypeArgs'), JSON.stringify(txn_type_args[0] || [])]);
     }
 
     for (let i = 0; i < decodedArgs.length; i++) {
