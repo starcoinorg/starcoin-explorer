@@ -64,6 +64,46 @@ export async function getAddressSTCBalance(hash: string) {
   }
 }
 
+export async function getAddressModuleUpdateStrategy(hash: string) {
+  try {
+    const provider = providerMap[getNetwork()]
+    const result = await provider.callV2({
+      function_id: '0x1::PackageTxnManager::get_module_upgrade_strategy',
+      type_args: [],
+      args: [hash],
+    });
+    return result;
+  } catch (error: any) {
+    return false;
+  }
+}
+
+export async function getAddressUpgradePlanCapability(hash: string) {
+  try {
+    const provider = providerMap[getNetwork()]
+    const result = await provider.getResource(
+      hash,
+      '0x1::PackageTxnManager::UpgradePlanCapability',
+    );
+    return result;
+  } catch (error: any) {
+    return false;
+  }
+}
+
+export async function getAddressUpgradeModuleCapability(hash: string) {
+  try {
+    const provider = providerMap[getNetwork()]
+    const result = await provider.getResource(
+      hash,
+      '0x1::UpgradeModuleDaoProposal::UpgradeModuleCapability',
+    );
+    return result;
+  } catch (error: any) {
+    return false;
+  }
+}
+
 export async function getEpochData() {
   try {
     const provider = providerMap[getNetwork()]

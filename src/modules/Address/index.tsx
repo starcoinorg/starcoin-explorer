@@ -12,7 +12,9 @@ import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import { withTranslation } from 'react-i18next';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { getAddressData, getBalancesData, getAddressSTCBalance, getAddressResources } from '@/utils/sdk';
+import { getAddressData, getBalancesData, getAddressSTCBalance,
+  getAddressResources, getAddressModuleUpdateStrategy,
+  getAddressUpgradeModuleCapability, getAddressUpgradePlanCapability } from '@/utils/sdk';
 import { getNetwork, formatBalance, formatResources } from '@/utils/helper';
 import AddressNotFound from '../Error404/address';
 
@@ -33,6 +35,14 @@ const useStyles = () => createStyles({
   }
 });
 
+const moduleUpdateStrategy = [
+  'ARBITRARY',
+  'TWO_PHASE',
+  'NEW_MODULE',
+  'FREEZE',
+  'TWO_PHASE + DAO（T）'
+]
+
 interface IndexProps {
   t: any,
   classes: any;
@@ -48,6 +58,9 @@ interface IndexState {
   balancesData: any,
   accountStatus: any,
   accountResources: any,
+  accountModuleUpdateStrategy: number,
+  accountUpgradePlanCapability: any,
+  accountUpgradeModuleCapability: any,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -65,7 +78,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
       addressData: undefined,
       balancesData: undefined,
       accountStatus: undefined,
-      accountResources: undefined
+      accountResources: undefined,
+      accountModuleUpdateStrategy: 0,
+      accountUpgradePlanCapability: undefined,
+      accountUpgradeModuleCapability: undefined,
     };
   }
 
@@ -102,6 +118,42 @@ class Index extends PureComponent<IndexProps, IndexState> {
       } else {
         this.setState({ accountResources: 'noResource' });
       }
+    });
+
+    getAddressUpgradePlanCapability(hash).then(data => {
+      if (data) {
+        this.setState({ accountUpgradePlanCapability: data });
+      } else {
+        this.setState({ accountUpgradePlanCapability: null });
+      }
+    });
+
+    getAddressUpgradeModuleCapability(hash).then(data => {
+      if (data) {
+        this.setState({ accountUpgradeModuleCapability: data });
+      } else {
+        this.setState({ accountUpgradeModuleCapability: null });
+      }
+    });
+
+    getAddressModuleUpdateStrategy(hash).then(data => {
+      console.log(this.state.accountResources)
+      if (data) {
+        if (data[0] === 1) {
+          if (this.state.accountUpgradePlanCapability) {
+            this.setState({ accountModuleUpdateStrategy: 1 });
+          } else {
+            if (this.state.accountUpgradeModuleCapability) {
+              this.setState({ accountModuleUpdateStrategy: 4 });
+            }
+            this.setState({ accountModuleUpdateStrategy: 1 });
+          }
+        }
+        this.setState({ accountModuleUpdateStrategy: data[0] });
+      } else {
+        this.setState({ accountModuleUpdateStrategy: 0 });
+      }
+      // console.log(this.state.accountModuleUpdateStrategy)
     });
   }
 
@@ -162,7 +214,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    const { addressData, balancesData, accountStatus } = this.state;
+    const { t } = this.props;
+    const { addressData, balancesData, accountStatus, accountModuleUpdateStrategy } = this.state;
     const hash = this.props.computedMatch.params.hash;
 
     if (accountStatus === undefined) {
@@ -189,10 +242,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
       </NativeSelect>
     );
     const columns = [
-      ['Hash', this.props.computedMatch.params.hash],
-      ['Authentication Key', addressData.authentication_key],
-      ['Sequence Number', addressData.sequence_number],
-      ['Token', token],
+      [t('common.Hash'), this.props.computedMatch.params.hash],
+      [t('account.Authentication Key'), addressData.authentication_key],
+      [t('common.Sequence Number'), addressData.sequence_number],
+      [t('account.Module Upgrade Strategy'), moduleUpdateStrategy[accountModuleUpdateStrategy]],
+      [t('common.Token'), token],
     ];
 
     return (

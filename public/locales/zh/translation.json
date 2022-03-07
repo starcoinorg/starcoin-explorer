@@ -121,6 +121,8 @@
   "common": {
     "Hash": "哈希",
     "Time": "时间",
+    "Token": "代币",
+    "Sequence Number": "序列号",
     "ExpireTime": "过期时间",
     "GasUsed": "Gas消耗",
     "MaxGasAmount": "最大Gas消耗",
@@ -143,7 +145,9 @@
   "account": {
     "address": "地址",
     "network": "网络上",
-    "notOnchain": "不在 Starcoin 的 "
+    "notOnchain": "不在 Starcoin 的 ",
+    "Authentication Key": "认证码",
+    "Module Upgrade Strategy": "模块升级策略"
   },
   "tools": {
     "transform": "转换",
