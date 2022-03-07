@@ -137,7 +137,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
     });
 
     getAddressModuleUpdateStrategy(hash).then(data => {
-      console.log(this.state.accountResources)
       if (data) {
         if (data[0] === 1) {
           if (this.state.accountUpgradePlanCapability) {
