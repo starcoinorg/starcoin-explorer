@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Loading from '@/common/Loading';
 import ResourceView from '@/common/View/ResourceView';
-import TransactionTable from '@/Transactions/components/Table';
+import TransferTransactionTable from '@/Transactions/components/Table/TransferTransactionTable';
 import PageView from '@/common/View/PageView';
 import { withTranslation } from 'react-i18next';
 import { withStyles, createStyles } from '@material-ui/core/styles';
@@ -175,8 +175,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : <TransactionTable
+              {isInitialLoad ? <Loading /> : <TransferTransactionTable
                 transactions={transactions}
+                address={hash}
               />}
             </div>
           </AccordionDetails>
