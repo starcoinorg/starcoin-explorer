@@ -80,7 +80,6 @@ class TransactionSummary extends PureComponent<Props> {
       try {
         const eventKeyInHex = txnEvent.event_key;
         const de = onchain_events.decodeEventKey(eventKeyInHex);
-        console.log('txnEvent', txnEvent);
         if (txnEvent.type_tag.includes('DepositEvent') && (de.address === address)) {
           transferDirection = 'IN'
         }
