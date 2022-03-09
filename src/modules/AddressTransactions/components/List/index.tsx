@@ -91,6 +91,7 @@ class Index extends PureComponent<Props, IndexState> {
     const transactionsList = transactions.length ? (
       <TransactionTable
         transactions={transactions}
+        address={this.state.address}
       />
     ) : (
       <CenteredView>
