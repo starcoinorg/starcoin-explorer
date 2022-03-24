@@ -107,6 +107,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           this.setState({ balancesData: data });
         } else {
           console.log('get balances failed')
+          this.setState({ balancesData: [] });
         }
       });
     }
