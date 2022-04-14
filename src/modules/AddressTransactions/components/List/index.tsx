@@ -10,6 +10,7 @@ import CenteredView from '@/common/View/CenteredView';
 import { getNetwork } from '@/utils/helper';
 import FileSaver from 'file-saver';
 import { GetApp } from '@material-ui/icons';
+import Button from '@material-ui/core/Button';
 import TransactionTable from '../Table';
 
 
@@ -168,7 +169,9 @@ class Index extends PureComponent<Props, IndexState> {
               
               <div className={classes.pagerArea}>
                 <div className={classes.csvExport}>
-                  [<a href="#" onClick={()=>{this.csvExport()}}>Download CSV Export</a>
+                  [<Button onClick={()=>{this.csvExport()}}>
+                      Download CSV Export
+                  </Button>
                   <GetApp className={this.props.classes.csvExportIcon} />]
                 </div>
                 <Pagination
