@@ -22,6 +22,7 @@
     "classnames": "^2.2.6",
     "connected-react-router": "^6.8.0",
     "dayjs": "^1.10.4",
+    "file-saver": "^2.0.5",
     "i18next": "^19.8.4",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.0.21",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.11",
+    "@types/file-saver": "^2.0.5",
     "@types/markdown-it": "^12.0.1",
     "@types/react-helmet": "^6.1.0",
     "@types/react-redux": "^7.1.12",
