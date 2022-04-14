@@ -1,20 +1,20 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Helmet from 'react-helmet';
 import { sha3_256 } from 'js-sha3';
-import Card from '@material-ui/core/Card';
+import Card from '@mui/material/Card';
 import CommonHeader from '@/common/View/CommonHeader';
 import CenteredView from '@/common/View/CenteredView';
 import EcosystemCard from './EcosystemCard';
 import cards from './cards';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('xs')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('sm')]: {
     gridCards: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      gridGap: `${theme.spacing(1) * 2}px ${theme.spacing(1) * 2}px`,
+      gridGap: `calc(${theme.spacing(1) * 2}px ${theme.spacing(1)} * 2)`,
       padding: theme.spacing(1) * 2,
     },
   },
@@ -22,7 +22,7 @@ const useStyles = (theme: Theme) => createStyles({
     gridCards: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gridGap: `${theme.spacing(1) * 2}px ${theme.spacing(1) * 2}px`,
+      gridGap: `calc(${theme.spacing(1) * 2}px ${theme.spacing(1)} * 2)`,
       padding: theme.spacing(1) * 2,
     },
   },
@@ -30,9 +30,13 @@ const useStyles = (theme: Theme) => createStyles({
     gridCards: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr 1fr',
-      gridGap: `${theme.spacing(1) * 2}px ${theme.spacing(1) * 2}px`,
+      gridGap: `calc(${theme.spacing(1) * 2}px ${theme.spacing(1)} * 2)`,
       padding: theme.spacing(1) * 2,
     },
+  },
+  root: {
+    padding: theme.spacing(1),
+    margin: theme.spacing(10),
   },
 });
 

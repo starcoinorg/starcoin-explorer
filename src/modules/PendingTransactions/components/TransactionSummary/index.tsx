@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import CommonTime from '@/common/Time';
 import CommonLink from '@/common/Link';
 import { getNetwork } from '@/utils/helper';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@mui/styles';
 import { encoding } from '@starcoin/starcoin';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     root: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
@@ -53,7 +53,8 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends PureComponent<Props> {
   render() {
@@ -69,7 +70,8 @@ class Index extends PureComponent<Props> {
     return (
       <div className={classNames(classes.root, className)}>
         {type}&nbsp;
-        <CommonLink path={`/${getNetwork()}/pending_transactions/detail/${source.transaction_hash}`} title={source.transaction_hash} />
+        <CommonLink path={`/${getNetwork()}/pending_transactions/detail/${source.transaction_hash}`}
+                    title={source.transaction_hash} />
         <div className={classes.rightHeader}>
           <CommonTime
             className={classes.time}

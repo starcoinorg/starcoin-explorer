@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { createStyles, withStyles } from '@mui/styles';
+import Grid from '@mui/material/Grid';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     root: {
       padding: theme.spacing(1),
     },
@@ -17,6 +17,8 @@ const useStyles = (theme: Theme) => createStyles({
   root: {
     margin: 0,
     width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   col: {
     display: 'flex',
@@ -24,6 +26,7 @@ const useStyles = (theme: Theme) => createStyles({
     justifyContent: 'center',
     maxWidth: 1200,
     width: '100%',
+
   },
   gridItem: {
     display: 'flex',
@@ -40,7 +43,8 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
@@ -50,7 +54,7 @@ class Index extends React.PureComponent<Props> {
         className={classNames(className, classes.root)}
         container
         spacing={0}
-        justify="center"
+        justifyContent='center'
       >
         <Grid className={classes.gridItem} item xs={12} sm={12} md={10}>
           <div className={classes.col}>{children}</div>

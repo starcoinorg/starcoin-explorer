@@ -1,6 +1,6 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Table from '@/common/Table';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import formatNumber from '@/utils/formatNumber';
@@ -32,7 +32,8 @@ interface InternalProps {
   i18n: any
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {

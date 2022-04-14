@@ -1,21 +1,23 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Loading from '@/common/Loading';
 import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import CenteredView from '@/common/View/CenteredView';
 import { getNetwork } from '@/utils/helper';
 import { getTokenPrecision } from '@/utils/sdk';
 import TokenTransactionTable from '../TransactionTable';
 
-const useStyles = () => createStyles({
+const useStyles = (theme: any) => createStyles({
   pagerArea: {
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
 });
 
@@ -32,7 +34,8 @@ interface InternalProps {
   match: any,
 }
 
-interface Props extends ExternalProps, InternalProps { }
+interface Props extends ExternalProps, InternalProps {
+}
 
 interface IndexState {
   tokenTypeTag: string,
@@ -45,7 +48,8 @@ class Index extends PureComponent<Props, IndexState> {
   static defaultProps = {
     tokenTransactionList: null,
     isLoadingMore: undefined,
-    getTokenTransactionList: () => { }
+    getTokenTransactionList: () => {
+    },
   };
 
   constructor(props: Props) {
@@ -72,7 +76,7 @@ class Index extends PureComponent<Props, IndexState> {
         if (data) {
           this.setState({ tokenPrecision: parseInt(data[0], 10) });
         } else {
-          console.log('get precision failed')
+          console.log('get precision failed');
         }
       });
     }
@@ -84,12 +88,16 @@ class Index extends PureComponent<Props, IndexState> {
       const page = this.state.currentPage - 1;
       const token_type_tag = this.state.tokenTypeTag;
       this.fetchTokenPrecision(token_type_tag);
-      this.props.getTokenTransactionList({ token_type_tag, page, total }, () => { this.pagenationCallback(page); });
+      this.props.getTokenTransactionList({ token_type_tag, page, total }, () => {
+        this.pagenationCallback(page);
+      });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
       const token_type_tag = this.state.tokenTypeTag;
       this.fetchTokenPrecision(token_type_tag);
-      this.props.getTokenTransactionList({ token_type_tag, page, total }, () => { this.pagenationCallback(page); });
+      this.props.getTokenTransactionList({ token_type_tag, page, total }, () => {
+        this.pagenationCallback(page);
+      });
     }
   };
 
@@ -107,14 +115,14 @@ class Index extends PureComponent<Props, IndexState> {
     const tokenTransactionListTable = transactions.length ? (
       <TokenTransactionTable
         tokenTransactions={tokenTransactionList}
-        sizeVisibleAt="xs"
-        authorVisibleAt="md"
+        sizeVisibleAt='xs'
+        authorVisibleAt='md'
         tokenPrecision={precision}
       />
     ) : (
       <CenteredView>
         <div className={classes.header}>
-          <Typography variant="h5" gutterBottom className={classes.title}>
+          <Typography variant='h5' gutterBottom className={classes.title}>
             {t('token.NoTokenData')}
           </Typography>
         </div>

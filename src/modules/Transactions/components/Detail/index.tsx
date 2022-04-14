@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
 import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
 import Error404 from 'modules/Error404/address';
-import { withStyles, createStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@mui/styles';
 import {
   providers,
   onchain_events,
@@ -70,8 +70,8 @@ function formatArgsWithTypeTag(
       }${
         typeTag.Struct.type_params
           ? `<${typeTag.Struct.type_params
-              .map((param) => formatArgsWithTypeTag(deserializer, param))
-              .join(', ')}>`
+            .map((param) => formatArgsWithTypeTag(deserializer, param))
+            .join(', ')}>`
           : ''
       }`;
     }
@@ -80,6 +80,7 @@ function formatArgsWithTypeTag(
     return undefined;
   }
 }
+
 export function useResolveFunction(functionId?: string, network?: string) {
   const provider = new providers.JsonRpcProvider(
     `https://${network}-seed.starcoin.org`,
@@ -95,10 +96,10 @@ export function useResolveFunction(functionId?: string, network?: string) {
 }
 
 const DecodedPayloadContent = ({
-  network,
-  txnPayload,
-  alt,
-}: {
+                                 network,
+                                 txnPayload,
+                                 alt,
+                               }: {
   network: string;
   alt: string;
   txnPayload: any;
@@ -122,17 +123,17 @@ const DecodedPayloadContent = ({
   }
   // const functionId = `${address}::${module}::${functionName}`;
   const { data: resolvedFunction } = useResolveFunction(functionId, network);
-    const decodedArgs = args ? args.map((arg: string, index: number) => {
-      const type_tag = resolvedFunction?.args[index + 1]?.type_tag;
-      return resolvedFunction?.args[index + 1]
-        ? `${types.formatTypeTag(resolvedFunction.args[index + 1]?.type_tag)}: ${
-            type_tag !== 'Address' ? formatArgsWithTypeTag(
-              new bcs.BcsDeserializer(arrayify(arg)),
-              resolvedFunction.args[index + 1]?.type_tag,
-            ) : arg
-          }`
-        : arg;
-    }) : {};
+  const decodedArgs = args ? args.map((arg: string, index: number) => {
+    const type_tag = resolvedFunction?.args[index + 1]?.type_tag;
+    return resolvedFunction?.args[index + 1]
+      ? `${types.formatTypeTag(resolvedFunction.args[index + 1]?.type_tag)}: ${
+        type_tag !== 'Address' ? formatArgsWithTypeTag(
+          new bcs.BcsDeserializer(arrayify(arg)),
+          resolvedFunction.args[index + 1]?.type_tag,
+        ) : arg
+      }`
+      : arg;
+  }) : {};
   // txnPayload.ScriptFunction.args = decodedArgs;
   if ('ScriptFunction' in txnPayload) {
     txnPayload.ScriptFunction.args = decodedArgs;
@@ -145,12 +146,12 @@ const DecodedPayloadContent = ({
 
   return (
     <pre>{JSON.stringify(txnPayload, null, 2)}</pre> || (
-      <Typography variant="body1">{alt}</Typography>
+      <Typography variant='body1'>{alt}</Typography>
     )
   );
 };
 
-const useStyles = () =>
+const useStyles = (theme: any) =>
   createStyles({
     table: {
       width: '100%',
@@ -167,10 +168,14 @@ const useStyles = () =>
       wordBreak: 'break-all',
       overflow: 'auto',
     },
+    accordion: {
+      backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+      color: theme.palette.getContrastText(theme.palette.background.paper),
+    },
   });
 
 interface IndexState {
-  resolvedFunction: any
+  resolvedFunction: any;
 }
 
 interface IndexProps {
@@ -186,7 +191,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static defaultProps = {
     match: {},
     transaction: null,
-    getTransaction: () => {},
+    getTransaction: () => {
+    },
   };
 
   componentDidMount() {
@@ -205,10 +211,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const columns: any[] = [];
       const event = events[i];
 
-      let type_tag = event.type_tag
+      let type_tag = event.type_tag;
 
       // '0x00000000000000000000000000000001::Oracle::OracleUpdateEvent<0x07fa08a855753f0ff7292fdcbe871216::BTC_USD::BTC_USD, u128>'
-      type_tag = type_tag.replace(/<[^<]*?>/g, (str: string) => str.replace(/::/g, '-'))
+      type_tag = type_tag.replace(/<[^<]*?>/g, (str: string) => str.replace(/::/g, '-'));
       const eventTypeArray = (type_tag.split('::')).map((v: string) => v.replace(/-/g, '::'));
       const eventModule = eventTypeArray[1];
       const eventName = eventTypeArray[2];
@@ -221,7 +227,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         const de = onchain_events.decodeEventData(eventName, event.data);
         eventDataDetail = toObject(de.toJS());
       } catch (e) {
-        console.log('decode event data error')
+        console.log('decode event data error');
         eventDataDetail = event.data;
       }
 
@@ -230,7 +236,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         const de = onchain_events.decodeEventKey(eventKeyInHex);
         eventKeyDetail = toObject(de);
       } catch (e) {
-        console.log('decode event key error')
+        console.log('decode event key error');
         eventKeyDetail = event.event_key;
       }
       columns.push([t('event.Data'), eventDataDetail]);
@@ -255,10 +261,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const eventsContent = events.length ? (
       eventsTable
     ) : (
-      <Typography variant="body1">{t('event.NoEventData')}</Typography>
+      <Typography variant='body1'>{t('event.NoEventData')}</Typography>
     );
     const rawContent = <pre>{JSON.stringify(transaction, null, 2)}</pre> || (
-      <Typography variant="body1">{t('transaction.NoRawData')}</Typography>
+      <Typography variant='body1'>{t('transaction.NoRawData')}</Typography>
     );
     /* const decodedPayloadContent = (
       <pre>{JSON.stringify(txnPayload, null, 2)}</pre>
@@ -270,13 +276,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
     return (
       <div>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>
+            <Typography variant='h5' gutterBottom>
               {t('header.events')}
             </Typography>
           </AccordionSummary>
@@ -289,13 +295,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </AccordionDetails>
         </Accordion>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>
+            <Typography variant='h5' gutterBottom>
               {t('transaction.RawData')}
             </Typography>
           </AccordionSummary>
@@ -306,13 +312,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </AccordionDetails>
         </Accordion>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>
+            <Typography variant='h5' gutterBottom>
               {t('transaction.decodedPayload')}
             </Typography>
           </AccordionSummary>
@@ -448,11 +454,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const type_tag = resolvedFunction?.args[index + 1]?.type_tag;
       return resolvedFunction?.args[index + 1]
         ? [types.formatTypeTag(type_tag),
-           type_tag !== 'Address' ? formatArgsWithTypeTag(
-             new bcs.BcsDeserializer(arrayify(arg)),
-             resolvedFunction.args[index + 1].type_tag,
-           ) : arg
-          ]
+          type_tag !== 'Address' ? formatArgsWithTypeTag(
+            new bcs.BcsDeserializer(arrayify(arg)),
+            resolvedFunction.args[index + 1].type_tag,
+          ) : arg,
+        ]
         : arg;
     }) : {};
     // txnPayload.ScriptFunction.args = decodedArgs;
@@ -512,11 +518,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
       if (decodedArgs[i][0] === 'address') {
         const address = decodedArgs[i][1];
         columns.push([
-          `${t('transaction.arg')} ${i+1}`,
+          `${t('transaction.arg')} ${i + 1}`,
           <CommonLink path={`/${network}/address/${address}`} title={address} />,
         ]);
       } else {
-        columns.push([`${t('transaction.arg')} ${i+1}`, decodedArgs[i][1]]);
+        columns.push([`${t('transaction.arg')} ${i + 1}`, decodedArgs[i][1]]);
       }
     }
     /*

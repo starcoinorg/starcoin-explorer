@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 // import get from 'lodash/get';
 // import { onchain_events } from '@starcoin/starcoin';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import { getNetwork } from '@/utils/helper';
 import Loading from '@/common/Loading';
 // import TransactionTable from '@/Transactions/components/Table';
@@ -10,28 +10,39 @@ import PageView from '@/common/View/PageView';
 // import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
 // import { toObject } from '@/utils/helper';
-// import Accordion from '@material-ui/core/Accordion';
-import Card from '@material-ui/core/Card';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-// import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import Accordion from '@mui/material/Accordion';
+import Card from '@mui/material/Card';
+import AccordionSummary from '@mui/material/AccordionSummary';
+// import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BaseRouteLink from '@/common/BaseRouteLink';
 // import PageViewTable from '@/common/View/PageViewTable';
 // import EventViewTable from '@/common/View/EventViewTable';
 import { getTokenPrecision } from '@/utils/sdk';
 
-const useStyles = () => createStyles({
+const useStyles = (theme: any) => createStyles({
   table: {
     width: '100%',
     display: 'block',
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   shrinkMaxCol: {
     flex: '1 100 auto',
     minWidth: 60,
   },
+  card: {
+    display: 'flex',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+    flexDirection: 'column',
+  },
   shrinkCol: {
     flex: '1 10 auto',
+  },
+  accordion: {
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
 });
 
@@ -54,7 +65,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static defaultProps = {
     match: {},
     tokenInfo: null,
-    getTokenInfo: () => { },
+    getTokenInfo: () => {
+    },
   };
 
   constructor(props: IndexProps) {
@@ -91,7 +103,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           this.setState({ token_precision: parseInt(data[0], 10) });
         } else {
           // this.setState({ accountResources: 'noResource' });
-          console.log('get precision failed')
+          console.log('get precision failed');
         }
       });
 
@@ -226,31 +238,31 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
   */
   generateExtra() {
-    const {  tokenInfo, t } = this.props;
+    const { tokenInfo, t } = this.props;
     const token = tokenInfo ? tokenInfo.contents : null;
     const holdersListURL = `/${getNetwork()}/tokens/holders/${token[0].type_tag}/1`;
     const transactionsListURL = `/${getNetwork()}/tokens/transactions/${token[0].type_tag}/1`;
     return (
       <div>
         <br />
-        <Card>
+        <Card className={this.props.classes.accordion}>
           <AccordionSummary
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
             <BaseRouteLink to={holdersListURL}>
-              <Typography variant="h5" gutterBottom>{t('token.holderList')}</Typography>
+              <Typography variant='h5' gutterBottom>{t('token.holderList')}</Typography>
             </BaseRouteLink>
           </AccordionSummary>
         </Card>
         <br />
-        <Card>
+        <Card className={this.props.classes.accordion}>
           <AccordionSummary
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
             <BaseRouteLink to={transactionsListURL}>
-               <Typography variant="h5" gutterBottom>{t('token.transactionList')}</Typography>
+              <Typography variant='h5' gutterBottom>{t('token.transactionList')}</Typography>
             </BaseRouteLink>
           </AccordionSummary>
         </Card>
@@ -271,17 +283,17 @@ class Index extends PureComponent<IndexProps, IndexState> {
     if (!tokenInfo) {
       return null;
     }
-      /*
-    const columns = [
-      [t('common.Hash'), token.type_tag],
-      [t('block.Height'), formatNumber(header.number)],
-      [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
-      [t('block.Author'), <CommonLink key={header.author} path={`/${ network }/address/${ header.author }`} title={header.author} />],
-      [t('block.Difficulty'), formatNumber(header.difficulty_number)],
-      [t('common.GasUsed'), formatNumber(header.gas_used)],
-      [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${ network }/blocks/detail/${ header.parent_hash }`} title={header.parent_hash} />],
-    ];
-      */
+    /*
+  const columns = [
+    [t('common.Hash'), token.type_tag],
+    [t('block.Height'), formatNumber(header.number)],
+    [t('common.Time'), new Date(parseInt(header.timestamp, 10)).toLocaleString()],
+    [t('block.Author'), <CommonLink key={header.author} path={`/${ network }/address/${ header.author }`} title={header.author} />],
+    [t('block.Difficulty'), formatNumber(header.difficulty_number)],
+    [t('common.GasUsed'), formatNumber(header.gas_used)],
+    [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${ network }/blocks/detail/${ header.parent_hash }`} title={header.parent_hash} />],
+  ];
+    */
 
     // const precision = this.state.token_precision ? this.state.token_precision : 1;
     const columns = [
@@ -290,7 +302,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('token.circulatingsupply'), formatNumber(token[0].market_cap)],
       [t('token.holdercount'), formatNumber(token[0].addressHolder)],
       // [t('token.position'), formatNumber(token[0].volume / precision)]
-      [t('token.volume'), formatNumber(token[0].volume)]
+      [t('token.volume'), formatNumber(token[0].volume)],
     ];
     return (
       <PageView

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import classNames from 'classnames';
 import TimeAgo from '@/common/TimeAgo';
 
@@ -20,7 +20,8 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {

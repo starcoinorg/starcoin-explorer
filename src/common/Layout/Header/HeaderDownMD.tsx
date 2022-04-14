@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Accordion from '@material-ui/core/Accordion';
-import LanguageIcon from '@material-ui/icons/Translate';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Collapse from '@mui/material/Collapse';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Accordion from '@mui/material/Accordion';
+import LanguageIcon from '@mui/icons-material/Translate';
 import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 import StarcoinLogo from '../../../starcoin.jpeg';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     pad: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
@@ -57,7 +57,7 @@ const useStyles = (theme: Theme) => createStyles({
     borderColor: '#f5c6cb',
     textAlign: 'center',
     height: '64px',
-    fontSize: '16px'
+    fontSize: '16px',
   },
   title: {},
   pad: {},
@@ -81,7 +81,7 @@ const useStyles = (theme: Theme) => createStyles({
     width: '100%',
   },
   noUpperCase: {
-    textTransform: 'none'
+    textTransform: 'none',
   },
   buttonLabel: {
     width: '100%',
@@ -96,18 +96,18 @@ const useStyles = (theme: Theme) => createStyles({
     textDecoration: 'none',
   },
   logoImg: {
-    width: '132px'
+    width: '132px',
   },
   logo: {
     fontFamily: 'Bauhaus93',
-    fontSize: `${ theme.spacing(6) }px`,
+    fontSize: `${theme.spacing(6)}px`,
     color: '#3d454d',
-    letterSpacing: `-${ theme.spacing(2 / 4) }px`,
+    letterSpacing: `-${theme.spacing(2 / 4)}px`,
     textAlign: 'left',
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     lineHeight: 1,
-    textTransform: 'none'
+    textTransform: 'none',
   },
   i18n: {
     marginTop: theme.spacing(1),
@@ -120,6 +120,7 @@ const useStyles = (theme: Theme) => createStyles({
   },
 });
 let showMenuTimer: number = 0;
+
 function Index(props: any) {
   const { t, i18n }: { t: any, i18n: any } = useTranslation();
   const userLanguage = i18n.language || 'en';
@@ -205,28 +206,28 @@ function Index(props: any) {
       id: 'blocks',
       label: t('header.blocks'),
       selected: location.pathname.startsWith('/blocks'),
-      href: `/${ userNetwork }/blocks/1`,
+      href: `/${userNetwork}/blocks/1`,
     },
     {
       className: classes.button,
       id: 'uncleblocks',
       label: t('header.uncleblocks'),
       selected: window.location.pathname.startsWith('/uncleblocks'),
-      href: `/${ userNetwork }/uncleblocks/1`,
+      href: `/${userNetwork}/uncleblocks/1`,
     },
     {
       className: classes.button,
       id: 'transactions',
       label: t('header.transactions'),
       selected: location.pathname.startsWith('/transactions'),
-      href: `/${ userNetwork }/transactions`,
+      href: `/${userNetwork}/transactions`,
     },
     {
       className: classes.button,
       id: 'pendingtransactions',
       label: t('header.pendingTransactions'),
       selected: location.pathname.startsWith('/pending_transactions'),
-      href: `/${ userNetwork }/pending_transactions`,
+      href: `/${userNetwork}/pending_transactions`,
     },
     {
       className: classes.button,
@@ -268,9 +269,9 @@ function Index(props: any) {
   return (
     <div className={classes.root}>
       <div className={classNames(classes.header, classes.pad)}>
-        <BaseRouteLink to="/" underline="none">
+        <BaseRouteLink to='/' underline='none'>
           <div className={classes.logoLink}>
-            <img className={classes.logoImg} src={StarcoinLogo} alt="logo" />
+            <img className={classes.logoImg} src={StarcoinLogo} alt='logo' />
             {/*
             <Typography className={classes.logo} variant="h3">
               { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Starcoin' }
@@ -282,32 +283,33 @@ function Index(props: any) {
           className={classes.menuButton}
           onMouseUp={onClickMenu}
           onTouchEnd={onClickMenu}
-        >
+          size='large'>
           <MenuIcon />
         </IconButton>
       </div>
-      <Collapse in={showMenu} timeout="auto">
+      <Collapse in={showMenu} timeout='auto'>
         <ClickAwayListener onClickAway={onClickAway}>
           <div className={classNames(classes.menu, classes.pad)}>
             {buttons.map((button) => (
               <BaseRouteLink key={button.id} className={classes.link} to={button.href}>
                 <Button
-                  color={button.selected ? 'primary' : 'default'}
+                  color={button.selected ? 'primary' : 'inherit'}
                   className={button.className}
                   onClick={onClickButton}
                 >
-                  <Typography variant="body1" className={classes.buttonLabel}>{button.label}</Typography>
+                  <Typography variant='body1' className={classes.buttonLabel}>{button.label}</Typography>
                 </Button>
               </BaseRouteLink>
             ))}
-            <Accordion expanded={expanded === 'panel1'} onChange={handleNetworkExpandedChange('panel1')} className={classes.i18n}>
+            <Accordion expanded={expanded === 'panel1'} onChange={handleNetworkExpandedChange('panel1')}
+                       className={classes.i18n}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+                aria-controls='panel1a-content'
+                id='panel1a-header'
               >
-                <SettingsEthernetIcon fontSize="small" />&nbsp;
-                <Typography variant="body1" gutterBottom>{currentNetworkLabel}</Typography>
+                <SettingsEthernetIcon fontSize='small' />&nbsp;
+                <Typography variant='body1' gutterBottom>{currentNetworkLabel}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <div className={classes.i18nMenu}>
@@ -315,12 +317,12 @@ function Index(props: any) {
                     availableNetworks.map((network) => {
                       return (
                         <Button
-                          color={network === userNetwork ? 'primary' : 'default'}
+                          color={network === userNetwork ? 'primary' : 'inherit'}
                           key={network}
                           className={classNames(classes.button, classes.noUpperCase)}
                           onClick={() => onClickButtonNetwork(network)}
                         >
-                          <Typography variant="body1" className={classes.buttonLabel}>{network}</Typography>
+                          <Typography variant='body1' className={classes.buttonLabel}>{network}</Typography>
                         </Button>
                       );
                     })
@@ -328,14 +330,15 @@ function Index(props: any) {
                 </div>
               </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === 'panel2'} onChange={handleI18nExpandedChange('panel2')} className={classes.i18n}>
+            <Accordion expanded={expanded === 'panel2'} onChange={handleI18nExpandedChange('panel2')}
+                       className={classes.i18n}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
+                aria-controls='panel2a-content'
+                id='panel2a-header'
               >
                 <LanguageIcon />
-                <Typography variant="body1" gutterBottom>{currentLabel}</Typography>
+                <Typography variant='body1' gutterBottom>{currentLabel}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <div className={classes.i18nMenu}>
@@ -343,12 +346,12 @@ function Index(props: any) {
                     LANGUAGES_LABEL.map((language) => {
                       return (
                         <Button
-                          color={language.code === userLanguage ? 'primary' : 'default'}
+                          color={language.code === userLanguage ? 'primary' : 'inherit'}
                           key={language.code}
                           className={classes.button}
                           onClick={() => onClickButtonI18n(language.code)}
                         >
-                          <Typography variant="body1" className={classes.buttonLabel}>{language.text}</Typography>
+                          <Typography variant='body1' className={classes.buttonLabel}>{language.text}</Typography>
                         </Button>
                       );
                     })

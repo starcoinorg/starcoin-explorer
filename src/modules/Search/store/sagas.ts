@@ -1,7 +1,7 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import get from "lodash/get";
+import get from 'lodash/get';
 import withLoading from '@/sagaMiddleware/index';
-import { isHex, isReceiptIdentifier } from "@/utils/helper";
+import { isHex, isReceiptIdentifier } from '@/utils/helper';
 import { encoding } from '@starcoin/starcoin';
 import { getBlock, getBlockByHeight, getUncleBlock } from '@/Blocks/store/apis';
 import { getTransaction, getAddressTransactions, getPendingTransaction } from '@/Transactions/store/apis';
@@ -20,12 +20,12 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
         call(withLoading, getTransaction, action.type, { hash: action.payload }),
         call(withLoading, getAddressTransactions, action.type, { hash: action.payload }),
         call(withLoading, getUncleBlock, action.type, { hash: action.payload }),
-        call(withLoading, getPendingTransaction, action.type, { hash: action.payload })
+        call(withLoading, getPendingTransaction, action.type, { hash: action.payload }),
       ]);
     } else if (isReceiptIdentifier(action.payload)) {
       const decoded = encoding.decodeReceiptIdentifier(action.payload);
       const address = '0x' + decoded.accountAddress;
-      console.log({address});
+      console.log({ address });
       res = yield all([
         call(withLoading, getAddressData, action.type, address),
       ]);
@@ -42,21 +42,21 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
     if (res[0]) {
       // by hash
       if (isHex(action.payload) && get(res[0], 'header.block_hash') === action.payload) {
-        url = `/${ getNetwork() }/blocks/detail/${ action.payload }`;
+        url = `/${getNetwork()}/blocks/detail/${action.payload}`;
         // by height
       } else if (get(res[0], 'header.number') == action.payload) {
-        url = `/${ getNetwork() }/blocks/height/${ action.payload }`;
+        url = `/${getNetwork()}/blocks/height/${action.payload}`;
       } else if (isReceiptIdentifier(action.payload)) {
         // by receipt identifier
         const decoded = encoding.decodeReceiptIdentifier(action.payload);
         const address = '0x' + decoded.accountAddress;
-        url = `/${ getNetwork() }/address/${ address }`;
+        url = `/${getNetwork()}/address/${address}`;
       }
     }
     // found transaction by hash
     if (!url && isHex(action.payload) && res[1]) {
       if (get(res[1], 'transaction_hash') === action.payload) {
-        url = `/${ getNetwork() }/transactions/detail/${ action.payload }`;
+        url = `/${getNetwork()}/transactions/detail/${action.payload}`;
       }
     }
     // found address by hash
@@ -64,21 +64,21 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
       if (res[2]) {
         const data = yield call(getAddressData, action.payload);
         if (data) {
-          url = `/${ getNetwork() }/address/${ action.payload }`;
+          url = `/${getNetwork()}/address/${action.payload}`;
         }
       } else if (action.payload.length === 34) {
         // fallback to determine address by hash length
-        url = `/${ getNetwork() }/address/${ action.payload }`;
+        url = `/${getNetwork()}/address/${action.payload}`;
       }
     }
 
     // found uncle block
     if (res[3]) {
-      url = `/${ getNetwork() }/uncleblocks/hash/${ action.payload }`
+      url = `/${getNetwork()}/uncleblocks/hash/${action.payload}`;
     }
     // found Txn pending
     if (res[4]) {
-      url = `/${ getNetwork() }/pending_transactions/detail/${ action.payload }`
+      url = `/${getNetwork()}/pending_transactions/detail/${action.payload}`;
     }
 
     if (url) {
@@ -97,11 +97,11 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
 }
 
 function* watchSearchKeyword() {
-  yield takeLatest(types.SEARCH_KEYWORD, searchKeyword)
+  yield takeLatest(types.SEARCH_KEYWORD, searchKeyword);
 }
 
 const sagas = [
-  watchSearchKeyword
+  watchSearchKeyword,
 ];
 
 export default sagas;

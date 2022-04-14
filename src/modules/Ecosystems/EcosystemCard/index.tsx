@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
-import CardMedia from '@material-ui/core/CardMedia';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import CardMedia from '@mui/material/CardMedia';
+import { createStyles, withStyles } from '@mui/styles';
 
-const useStyles = (theme: Theme) => createStyles({
-  root: {},
+const useStyles = (theme: any) => createStyles({
+  root: {
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+  },
   text: {
     padding: theme.spacing(1) * 2,
     height: theme.spacing(1) * 14,
@@ -18,7 +21,7 @@ const useStyles = (theme: Theme) => createStyles({
     '-ms-overflow-style': 'none',
     scrollbarWidth: 'none',
   },
-  [theme.breakpoints.down('xs')]: {
+  [theme.breakpoints.down('sm')]: {
     cardCommon: {
       transition: '.4s ease box-shadow',
       borderRadius: '4px',
@@ -38,9 +41,9 @@ const useStyles = (theme: Theme) => createStyles({
   },
   cardHover: {
     boxShadow: `
-    ${theme.spacing(1) * 0}px ${theme.spacing(1) * 1}px ${theme.spacing(1) * 3}px ${theme.spacing(1) * 0}px rgba(0,0,0,0.2),
-    ${theme.spacing(1) * 0}px ${theme.spacing(1) * 1}px ${theme.spacing(1) * 1}px ${theme.spacing(1) * 0}px rgba(0,0,0,0.14),
-    ${theme.spacing(1) * 0}px ${theme.spacing(1) * 2}px ${theme.spacing(1) * 1}px -${theme.spacing(1) * 1}px rgba(0,0,0,0.12)
+    calc(${theme.spacing(1) * 0}px ${theme.spacing(1) * 1}px ${theme.spacing(1) * 3}px ${theme.spacing(1)} * 0) rgba(0,0,0,0.2),
+    calc(${theme.spacing(1) * 0}px ${theme.spacing(1) * 1}px ${theme.spacing(1) * 1}px ${theme.spacing(1)} * 0) rgba(0,0,0,0.14),
+    calc(${theme.spacing(1) * 0}px ${theme.spacing(1) * 2}px ${theme.spacing(1) * 1}px -${theme.spacing(1)} * 1) rgba(0,0,0,0.12)
     `,
     cursor: 'pointer',
   },
@@ -54,7 +57,7 @@ const useStyles = (theme: Theme) => createStyles({
   mediaContain: {
     objectFit: 'contain',
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     header: {
       padding: theme.spacing(1),
     },
@@ -68,6 +71,9 @@ const useStyles = (theme: Theme) => createStyles({
     alignItems: 'center',
     borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+
   },
   title: {
     fontWeight: 700,
@@ -88,10 +94,11 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 interface IndexState {
-  displayHover: boolean
+  displayHover: boolean;
 }
 
 class Index extends PureComponent<Props, IndexState> {
@@ -114,11 +121,11 @@ class Index extends PureComponent<Props, IndexState> {
 
   onCardEnter = () => {
     this.setState({ displayHover: true });
-  }
+  };
 
   onCardLeave = () => {
     this.setState({ displayHover: false });
-  }
+  };
 
   render() {
     const { title, description, link, image, cover, classes } = this.props;
@@ -137,12 +144,12 @@ class Index extends PureComponent<Props, IndexState> {
       >
         <Card className={classes.cardRoom}>
           <div className={classes.header}>
-            <Typography variant="h5" gutterBottom className={classes.title}>
+            <Typography variant='h5' gutterBottom className={classes.title}>
               {title}
             </Typography>
           </div>
           <CardMedia
-            component="img"
+            component='img'
             className={classNames(
               classes.media,
               cover ? classes.mediaCover : classes.mediaContain,
@@ -150,7 +157,7 @@ class Index extends PureComponent<Props, IndexState> {
             src={`${process.env.PUBLIC_URL}/${image}`}
             title={title}
           />
-          <Typography className={classes.text} variant="body2">
+          <Typography className={classes.text} variant='body2'>
             {description}
           </Typography>
         </Card>

@@ -1,13 +1,13 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/core/Icon';
+import { createStyles, withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import Icon from '@mui/material/Icon';
 import CommonLink from '@/common/Link';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     root: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
@@ -98,11 +98,23 @@ interface InternalProps {
   t: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { id, title, name, pluralName, searchRoute, icon, backgroundColorClassName, t, className, classes } = this.props;
+    const {
+      id,
+      title,
+      name,
+      pluralName,
+      searchRoute,
+      icon,
+      backgroundColorClassName,
+      t,
+      className,
+      classes,
+    } = this.props;
     const breadcrumbVariant = 'body1';
     const slash = (
       <Typography
@@ -131,14 +143,14 @@ class Index extends React.PureComponent<Props> {
     );
     if (id != null) {
       idElement = (
-        <Typography className={classNames(classes.text, classes.id)} variant="body2">
+        <Typography className={classNames(classes.text, classes.id)} variant='body2'>
           {id}
         </Typography>
       );
     }
     if (id != null && searchRoute != null) {
       idElement = (
-        <Typography className={classes.text} variant="body2">
+        <Typography className={classes.text} variant='body2'>
           {id}
         </Typography>
       );
@@ -173,7 +185,7 @@ class Index extends React.PureComponent<Props> {
           {iconElement}
           <Typography
             className={classNames(classes.margin, classes.text)}
-            component="h4"
+            component='h4'
           >
             {title == null ? pluralName : title}
           </Typography>
@@ -183,7 +195,7 @@ class Index extends React.PureComponent<Props> {
           <CommonLink
             className={classNames(classes.link, classes.margin, classes.static)}
             variant={breadcrumbVariant}
-            path="/"
+            path='/'
             title={t('header.home')}
           />
           {/*

@@ -3,7 +3,7 @@ import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
-import { POLLING_INTERVAL } from '@/utils/constants'
+import { POLLING_INTERVAL } from '@/utils/constants';
 
 export function* getTransaction(action: ReturnType<typeof actions.getTransaction>) {
   try {
@@ -17,7 +17,7 @@ export function* getTransaction(action: ReturnType<typeof actions.getTransaction
 }
 
 function* watchGetTransaction() {
-  yield takeLatest(types.GET_TRANSACTION, getTransaction)
+  yield takeLatest(types.GET_TRANSACTION, getTransaction);
 }
 
 export function* getPendingTransaction(action: ReturnType<typeof actions.getPendingTransaction>) {
@@ -32,7 +32,7 @@ export function* getPendingTransaction(action: ReturnType<typeof actions.getPend
 }
 
 function* watchGetPendingTransaction() {
-  yield takeLatest(types.GET_PENDING_TRANSACTION, getPendingTransaction)
+  yield takeLatest(types.GET_PENDING_TRANSACTION, getPendingTransaction);
 }
 
 export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
@@ -52,7 +52,7 @@ export function* getTransactionList(action: ReturnType<typeof actions.getTransac
 }
 
 function* watchGetTransactionList() {
-  yield takeLatest(types.GET_TRANSACTION_LIST, getTransactionList)
+  yield takeLatest(types.GET_TRANSACTION_LIST, getTransactionList);
 }
 
 export function* getPendingTransactionList(action: ReturnType<typeof actions.getPendingTransactionList>) {
@@ -72,7 +72,7 @@ export function* getPendingTransactionList(action: ReturnType<typeof actions.get
 }
 
 function* watchGetPendingTransactionList() {
-  yield takeLatest(types.GET_PENDING_TRANSACTION_LIST, getPendingTransactionList)
+  yield takeLatest(types.GET_PENDING_TRANSACTION_LIST, getPendingTransactionList);
 }
 
 export function* getAddressTransactionList(action: ReturnType<typeof actions.getAddressTransactionList>) {
@@ -92,7 +92,7 @@ export function* getAddressTransactionList(action: ReturnType<typeof actions.get
 }
 
 function* watchGetAddressTransactionList() {
-  yield takeLatest(types.GET_ADDRESS_TRANSACTION_LIST, getAddressTransactionList)
+  yield takeLatest(types.GET_ADDRESS_TRANSACTION_LIST, getAddressTransactionList);
 }
 
 export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
@@ -110,7 +110,7 @@ export function* getAddressTransactions(action: ReturnType<typeof actions.getAdd
 }
 
 function* watchGetAddressTransactions() {
-  yield takeLatest(types.GET_ADDRESS_TRANSACTIONS, getAddressTransactions)
+  yield takeLatest(types.GET_ADDRESS_TRANSACTIONS, getAddressTransactions);
 }
 
 export function* getBlockTransactions(action: ReturnType<typeof actions.getBlockTransactions>) {
@@ -128,7 +128,7 @@ export function* getBlockTransactions(action: ReturnType<typeof actions.getBlock
 }
 
 function* watchGetBlockTransactions() {
-  yield takeLatest(types.GET_BLOCK_TRANSACTIONS, getBlockTransactions)
+  yield takeLatest(types.GET_BLOCK_TRANSACTIONS, getBlockTransactions);
 }
 
 
@@ -147,7 +147,7 @@ export function* getBlockTransactionsByHeight(action: ReturnType<typeof actions.
 }
 
 function* watchGetBlockTransactionsByHeight() {
-  yield takeLatest(types.GET_BLOCK_TRANSACTIONS_BY_HEIGHT, getBlockTransactionsByHeight)
+  yield takeLatest(types.GET_BLOCK_TRANSACTIONS_BY_HEIGHT, getBlockTransactionsByHeight);
 }
 
 export function* getTransactionListInDelay(action: ReturnType<typeof actions.getTransactionList>) {
@@ -159,7 +159,7 @@ export function* getTransactionListInDelay(action: ReturnType<typeof actions.get
 }
 
 function* watchGetTransactionListInDelay() {
-  yield takeLatest(types.GET_TRANSACTION_LIST_IN_DELAY, getTransactionListInDelay)
+  yield takeLatest(types.GET_TRANSACTION_LIST_IN_DELAY, getTransactionListInDelay);
 }
 
 const sagas = [
@@ -171,7 +171,7 @@ const sagas = [
   watchGetTransactionListInDelay,
   watchGetAddressTransactions,
   watchGetBlockTransactions,
-  watchGetBlockTransactionsByHeight
+  watchGetBlockTransactionsByHeight,
 ];
 
 export default sagas;

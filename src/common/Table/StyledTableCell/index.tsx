@@ -1,7 +1,7 @@
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
-import TableCell from '@material-ui/core/TableCell';
+import { createStyles, withStyles } from '@mui/styles';
+import TableCell from '@mui/material/TableCell';
 
-const StyledTableCell = withStyles((theme: Theme) => createStyles({
+const StyledTableCell = withStyles((theme: any) => createStyles({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,

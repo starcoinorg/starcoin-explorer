@@ -1,12 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+
 
 const year = new Date().getFullYear();
 
-const useStyles = makeStyles((theme) => ({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = makeStyles((theme: any) => ({
+  [theme.breakpoints.down('md')]: {
     root: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
@@ -49,13 +50,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Footer() {
   const classes = useStyles();
   const { t } = useTranslation();
-  return (
-    <div className={classes.root}>
-      <div className={classes.secondRow}>
-        <Typography className={classes.copyright} variant="caption">
-          © 2018-{year} stcscan.io {t('footer.content')}.
-        </Typography>
-      </div>
+
+  return <div className={classes.root}>
+    <div className={classes.secondRow}>
+      <Typography className={classes.copyright} variant='caption'>
+        <> © 2018-{year} stcscan.io {t('footer.content')}.</>
+
+      </Typography>
     </div>
-  );
+  </div>;
 }

@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Helmet from 'react-helmet';
 import Markdown from '@/common/Markdown';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
 import CenteredView from '@/common/View/CenteredView';
 
-const useStyles = (theme: Theme) => createStyles({
+const useStyles = (theme: any) => createStyles({
   root: {
-    padding: theme.spacing(1) * 2,
-    paddingTop: 0,
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     header: {
       padding: theme.spacing(1),
     },
@@ -26,6 +27,10 @@ const useStyles = (theme: Theme) => createStyles({
     alignItems: 'center',
     borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+    paddingLeft: theme.spacing(2),
+    paddingTop: theme.spacing(1),
   },
   title: {
     fontWeight: 700,
@@ -49,12 +54,12 @@ class Index extends PureComponent<IndexProps> {
         <CenteredView>
           <Card>
             <div className={classes.header}>
-              <Typography variant="h5" gutterBottom className={classes.title}>
+              <Typography variant='h5' gutterBottom className={classes.title}>
                 {title}
               </Typography>
             </div>
             <div className={classes.root}>
-              <Markdown indexWord="terms" />
+              <Markdown indexWord='terms' />
             </div>
           </Card>
         </CenteredView>

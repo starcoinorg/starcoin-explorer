@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     firstColRow: {
       paddingRight: theme.spacing(1),
     },
@@ -22,10 +22,14 @@ const useStyles = (theme: Theme) => createStyles({
   },
   root: {
     display: 'flex',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   col: {
     display: 'flex',
     flexDirection: 'column',
+    padding: theme.spacing(2.2),
+
   },
   firstCol: {
     flex: '0 0 auto',
@@ -42,8 +46,8 @@ const useStyles = (theme: Theme) => createStyles({
     paddingBottom: theme.spacing(1) / 2,
   },
   row: {
-    paddingBottom: theme.spacing(1) / 2,
-    paddingTop: theme.spacing(1) / 2,
+    paddingBottom: theme.spacing(0.7),
+    paddingTop: theme.spacing(0.7),
   },
   rowBorder: {
     borderTop: '1px solid rgba(0, 0, 0, 0.075)',
@@ -74,7 +78,8 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
@@ -93,7 +98,7 @@ class Index extends React.PureComponent<Props> {
         style={height == null ? undefined : { height }}
       >
         {typeof element === 'string' ? (
-          <Typography key="hash" className={classes.text} variant="body1">
+          <Typography key='hash' className={classes.text} variant='body1'>
             {element}
           </Typography>
         ) : (
@@ -108,20 +113,20 @@ class Index extends React.PureComponent<Props> {
             <Typography
               key={column[0]}
               className={classes.label}
-              variant="body1"
+              variant='body1'
             >
               {column[0]}
             </Typography>,
             idx,
             column.length === 3 ? column[2] : null,
-            true
+            true,
           ))}
         </div>
         <div className={classNames(classes.col, classes.secondCol)}>
           {columns.map((column: any, idx: any) => wrapRow(
             column[1],
             idx,
-            column.length === 3 ? column[2] : null
+            column.length === 3 ? column[2] : null,
           ))}
         </div>
       </div>

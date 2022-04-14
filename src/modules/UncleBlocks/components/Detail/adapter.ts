@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import createLoadingSelector  from '@/rootStore/loading/selector';
+import createLoadingSelector from '@/rootStore/loading/selector';
 import store from '@/Blocks/store';
 import * as types from '@/Blocks/store/constants';
 import * as typesTransactions from '@/Transactions/store/constants';
@@ -20,13 +20,13 @@ const selector = createSelector(
     block: current.block,
     uncleBlock: current.uncleBlock,
     blockTransactions: transactions.blockTransactions,
-    loading
-  })
+    loading,
+  }),
 );
 
 export default connect(selector, {
   getUncleBlock: actions.getUncleBlock,
   getUncleBlockByHeight: actions.getUncleBlockByHeight,
   getBlockTransactions: actionsTransactions.getBlockTransactions,
-  getBlockTransactionsByHeight: actionsTransactions.getBlockTransactionsByHeight
-})(Index) as any;
+  getBlockTransactionsByHeight: actionsTransactions.getBlockTransactionsByHeight,
+})(Index as any) as any;

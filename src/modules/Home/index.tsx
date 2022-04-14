@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
+import { withStyles, createStyles } from '@mui/styles';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 import CenteredView from '@/common/View/CenteredView';
 import { getEpochData } from '@/utils/sdk';
 import { getNetwork } from '@/utils/helper';
@@ -14,8 +14,8 @@ import formatNumber from '@/utils/formatNumber';
 import BlockTable from '../Blocks/components/Table';
 import TransactionTable from '../Transactions/components/Table';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     cardContainer: {
       marginBottom: theme.spacing(1),
     },
@@ -34,7 +34,7 @@ const useStyles = (theme: Theme) => createStyles({
     },
     metric: {
       paddingLeft: theme.spacing(2),
-    }
+    },
   },
   [theme.breakpoints.up('sm')]: {
     cardContainer: {
@@ -52,9 +52,9 @@ const useStyles = (theme: Theme) => createStyles({
     },
     metric: {
       paddingLeft: theme.spacing(4),
-    }
+    },
   },
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('lg')]: {
     blocksAndTransactions: {
       flexWrap: 'wrap',
     },
@@ -63,11 +63,11 @@ const useStyles = (theme: Theme) => createStyles({
       marginBottom: theme.spacing(2),
     },
     transactions: {
-      width: '100%'
+      width: '100%',
     },
     textFieldLabel: {
-      fontSize: '0.75em'
-    }
+      fontSize: '0.75em',
+    },
   },
   [theme.breakpoints.up('md')]: {
     blocks: {
@@ -83,18 +83,20 @@ const useStyles = (theme: Theme) => createStyles({
       paddingLeft: theme.spacing(1),
     },
     textFieldLabel: {
-      fontSize: '1em'
-    }
+      fontSize: '1em',
+    },
   },
   root: {
     alignItems: 'center',
     display: 'flex',
     flex: '1 1 auto',
+
   },
-  cardContainer: {
-  },
+  cardContainer: {},
   card: {
     display: 'flex',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
     flexDirection: 'column',
   },
   cardHeader: {
@@ -118,6 +120,7 @@ const useStyles = (theme: Theme) => createStyles({
     flex: '1 1 auto',
   },
   searchField: {
+
     alignItems: 'center',
     display: 'flex',
     flex: '1 1 auto',
@@ -131,16 +134,15 @@ const useStyles = (theme: Theme) => createStyles({
   button: {
     height: theme.spacing(5),
   },
-  search: {
-  },
+  search: {},
   title: {
-    fontWeight: 700
+    fontWeight: 700,
   },
   metric: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     borderLeft: '1px solid rgba(0, 0, 0, 0.075)',
-  }
+  },
 });
 
 interface IndexProps {
@@ -164,17 +166,20 @@ class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     blockList: null,
-    getBlockList: () => { },
+    getBlockList: () => {
+    },
     transactionList: null,
-    getTransactionList: () => { },
-    pushLocation: () => { }
+    getTransactionList: () => {
+    },
+    pushLocation: () => {
+    },
   };
 
   constructor(props: IndexProps) {
     super(props);
     this.state = {
       value: '',
-      epochData: null
+      epochData: null,
     };
   }
 
@@ -210,7 +215,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   onSearch = () => {
-    this.props.pushLocation(`/search/${ this.state.value.trim() }`);
+    this.props.pushLocation(`/search/${this.state.value.trim()}`);
   };
 
   renderCard = (
@@ -224,14 +229,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
       <div className={cardSpacerClassName}>
         <Card className={this.props.classes.card}>
           <div className={this.props.classes.cardHeader}>
-            <Typography className={this.props.classes.title} variant="h4">{title}</Typography>
+            <Typography className={this.props.classes.title} variant='h4'>{title}</Typography>
             <Button
               className={this.props.classes.button}
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               onClick={() => this.props.pushLocation(url)}
             >
-              <Typography className={this.props.classes.search} variant="body1">
+              <Typography className={this.props.classes.search} variant='body1'>
                 {this.props.t('home.viewAll')}
               </Typography>
             </Button>
@@ -250,9 +255,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const transactions = transactionHit.slice(0, 15);
     const metrics: any[] = [];
     if (this.state.epochData) {
-      metrics.push(['Epoch', `${ this.state.epochData.number }th`]);
+      metrics.push(['Epoch', `${this.state.epochData.number}th`]);
       metrics.push([t('home.EpochStartTime'), formatTime(this.state.epochData.start_time, i18n.language)]);
-      metrics.push([t('home.StartEndBlock'), `${ formatNumber(this.state.epochData.start_block_number) } - ${ formatNumber(this.state.epochData.end_block_number) }`]);
+      metrics.push([t('home.StartEndBlock'), `${formatNumber(this.state.epochData.start_block_number)} - ${formatNumber(this.state.epochData.end_block_number)}`]);
       metrics.push([t('home.TargetBlockTime'), formatNumber((this.state.epochData.block_time_target / 1000).toFixed(0))]);
       if (blocks && blocks.length > 0 && this.state.epochData.block_time_target > 0) {
         // const currentBlockDiff = Number(blocks[0]._source.header.difficulty);
@@ -276,85 +281,83 @@ class Index extends PureComponent<IndexProps, IndexState> {
     ) : (
       <CenteredView>
         <div className={classes.header}>
-          <Typography variant="h5" gutterBottom className={classes.title}>
+          <Typography variant='h5' gutterBottom className={classes.title}>
             {t('transaction.NoTransactionData')}
           </Typography>
         </div>
       </CenteredView>
     );
-    return (
-      <>
-        <div className={classes.cardContainer}>
-          <Card className={this.props.classes.card}>
-            <div className={this.props.classes.cardHeader}>
-              <Typography className={classes.title} variant="h4">Starcoin {t('home.explorer')}</Typography>
-            </div>
-            <div className={classes.searchField}>
-              <TextField
-                id="standard-basic"
-                className={classes.textField}
-                value={this.state.value}
-                label={t('home.searchHint')}
-                InputLabelProps={{ className: classes.textFieldLabel }}
-                onChange={this.onChange}
-              />
-              <Button
-                className={classes.button}
-                color="primary"
-                variant="contained"
-                onClick={this.onSearch}
-              >
-                <Typography className={classes.search} variant="body1">
-                  {t('home.search')}
-                </Typography>
-              </Button>
-            </div>
-          </Card>
-        </div>
-        <div className={classes.cardContainer}>
-          <Card className={this.props.classes.card}>
-            <Grid container className={classes.root} spacing={2}>
-              <Grid item xs={12}>
-                <Grid container justify="flex-start" spacing={0}>
-                  {metrics.map((metric) => (
-                    <Grid key={metric[0]} item xs={6} md={4} lg={2}>
-                      <div className={classes.metric}>
-                        <Typography className={classes.metricTitle} variant="body2">
-                          {metric[0]}
-                        </Typography>
-                        <Typography className={classes.title}>
-                          {metric[1]}
-                        </Typography>
-                      </div>
-                    </Grid>
-                  ))}
-                </Grid>
+    return <>
+      <div className={classes.cardContainer}>
+        <Card className={this.props.classes.card}>
+          <div className={this.props.classes.cardHeader}>
+            <Typography className={classes.title} variant='h4'>Starcoin {t('home.explorer')}</Typography>
+          </div>
+          <div className={classes.searchField}>
+            <TextField
+              className={classes.textField}
+              variant='standard'
+              value={this.state.value}
+              label={t('home.searchHint')}
+              InputLabelProps={{ className: classes.textFieldLabel }}
+              onChange={this.onChange}
+            />
+            <Button
+              className={classes.button}
+              color='primary'
+              variant='contained'
+              onClick={this.onSearch}
+            >
+              <Typography className={classes.search} variant='body1'>
+                {t('home.search')}
+              </Typography>
+            </Button>
+          </div>
+        </Card>
+      </div>
+      <div className={classes.cardContainer}>
+        <Card className={this.props.classes.card}>
+          <Grid container className={classes.root} spacing={2}>
+            <Grid item xs={12}>
+              <Grid container justifyContent='flex-start' spacing={0}>
+                {metrics.map((metric) => (
+                  <Grid key={metric[0]} item xs={6} md={4} lg={2}>
+                    <div className={classes.metric}>
+                      <Typography className={classes.metricTitle} variant='body2'>
+                        {metric[0]}
+                      </Typography>
+                      <Typography className={classes.title}>
+                        {metric[1]}
+                      </Typography>
+                    </div>
+                  </Grid>
+                ))}
               </Grid>
             </Grid>
-          </Card>
-        </div>
-        <div className={classes.blocksAndTransactions}>
-          {this.renderCard(
-            t('home.ExploreBlocks'),
-            `/${ getNetwork() }/blocks/1`,
-            <BlockTable
-              blocks={blocks}
-              sizeVisibleAt="xs"
-              authorVisibleAt="md"
-            />,
-            classes.blocks,
-            classes.blocksSpacer,
-          )}
-          {this.renderCard(
-            t('home.ExploreTransactions'),
-            `/${ getNetwork() }/transactions/list`,
-            transactionsList,
-            classes.transactions,
-            classes.transactionsSpacer,
-          )}
-        </div>
-      </>
-    );
+          </Grid>
+        </Card>
+      </div>
+      <div className={classes.blocksAndTransactions}>
+        {this.renderCard(
+          t('home.ExploreBlocks'),
+          `/${getNetwork()}/blocks/1`,
+          <BlockTable
+            blocks={blocks}
+            sizeVisibleAt='xs'
+            authorVisibleAt='md'
+          />,
+          classes.blocks,
+          classes.blocksSpacer,
+        )}
+        {this.renderCard(
+          t('home.ExploreTransactions'),
+          `/${getNetwork()}/transactions/list`,
+          transactionsList,
+          classes.transactions,
+          classes.transactionsSpacer,
+        )}
+      </div>
+    </>;
   }
 }
 

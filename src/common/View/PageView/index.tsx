@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
+import Card from '@mui/material/Card';
 import CenteredView from '@/common/View/CenteredView';
 import PageViewHeader from '@/common/View/PageViewHeader';
 import PageViewTable from '@/common/View/PageViewTable';
@@ -19,13 +19,27 @@ interface ExternalProps {
   className?: string,
 }
 
-interface InternalProps {}
+interface InternalProps {
+}
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { id, title, name, pluralName, searchRoute, headerIcon, headerBackgroundColorClassName, bodyColumns, extraCard, extra, className } = this.props;
+    const {
+      id,
+      title,
+      name,
+      pluralName,
+      searchRoute,
+      headerIcon,
+      headerBackgroundColorClassName,
+      bodyColumns,
+      extraCard,
+      extra,
+      className,
+    } = this.props;
     return (
       <CenteredView className={className}>
         <Card>

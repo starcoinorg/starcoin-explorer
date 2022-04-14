@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 // @ts-ignore
-import createLoadingSelector  from '@/rootStore/loading/selector';
+import createLoadingSelector from '@/rootStore/loading/selector';
 import store from '@/Tokens/store';
 import * as types from '@/Tokens/store/constants';
 import Index from './index';
@@ -16,10 +16,10 @@ const selector = createSelector(
   (current, loading) => ({
     tokenList: current.tokenList,
     isLoadingMore: current.isLoadingMore,
-    loading
-  })
+    loading,
+  }),
 );
 
 export default connect(selector, {
-  getTokenList: actions.getTokenList
-})(Index) as any;
+  getTokenList: actions.getTokenList,
+})(Index as any) as any;

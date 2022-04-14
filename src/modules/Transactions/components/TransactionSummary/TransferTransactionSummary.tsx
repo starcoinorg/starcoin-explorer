@@ -3,12 +3,12 @@ import classNames from 'classnames';
 import CommonTime from '@/common/Time';
 import CommonLink from '@/common/Link';
 import { getNetwork } from '@/utils/helper';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@mui/styles';
 import { onchain_events, encoding } from '@starcoin/starcoin';
 
-const useStyles = (theme: Theme) =>
+const useStyles = (theme: any) =>
   createStyles({
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       root: {
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
@@ -55,7 +55,8 @@ interface InternalProps {
   classes: any;
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class TransferTransactionSummary extends PureComponent<Props> {
   render() {
@@ -76,20 +77,20 @@ class TransferTransactionSummary extends PureComponent<Props> {
 
     const events = transaction.events || [];
     let transferDirection = '';
-    events.forEach((txnEvent: any) =>{
+    events.forEach((txnEvent: any) => {
       try {
         const eventKeyInHex = txnEvent.event_key;
         const de = onchain_events.decodeEventKey(eventKeyInHex);
         if (txnEvent.type_tag.includes('DepositEvent') && (de.address === address)) {
-          transferDirection = 'IN'
+          transferDirection = 'IN';
         }
         if (txnEvent.type_tag.includes('WithdrawEvent') && (de.address === address)) {
-          transferDirection = 'OUT'
+          transferDirection = 'OUT';
         }
       } catch (e) {
-        console.log('decode event key error')
+        console.log('decode event key error');
       }
-    })
+    });
     return (
       <div className={classNames(classes.root, className)}>
         {transferDirection}&nbsp;
