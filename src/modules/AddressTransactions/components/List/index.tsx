@@ -8,13 +8,24 @@ import Pagination from '@/common/View/Pagination';
 import Typography from '@material-ui/core/Typography';
 import CenteredView from '@/common/View/CenteredView';
 import { getNetwork } from '@/utils/helper';
+import FileSaver from 'file-saver';
+import { GetApp } from '@material-ui/icons';
 import TransactionTable from '../Table';
+
+
 
 const useStyles = () => createStyles({
   pagerArea: {
     alignItems: 'center',
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  csvExport: {
+    textAlign: 'left',
+    marginLeft: '12px'
+  },
+  csvExportIcon: {
+    verticalAlign: 'middle',
   },
 });
 
@@ -84,6 +95,44 @@ class Index extends PureComponent<Props, IndexState> {
     window.history.replaceState(null, '', `/${getNetwork()}/address_transactions/${this.state.address}/${page}`);
   };
 
+  csvExport = () => {
+
+    const { addressTransactionList} = this.props;
+    const transactions = addressTransactionList && addressTransactionList.contents || [];
+
+    const csvTitle = [
+      'block_hash',
+      'block_number',
+      'event_root_hash',
+      'gas_used',
+      'state_root_hash',
+      'timestamp',
+      'transaction_hash',
+      'transaction_type'
+    ];
+
+    let csvData = "";
+    let csvRow = ""
+    for (let index = 0; index < transactions.length; index++) {
+      const element = transactions[index];
+      csvRow += `"${element.block_hash}",`;
+      csvRow += `"${element.block_number}",`;
+      csvRow += `"${element.event_root_hash}",`;
+      csvRow += `"${element.gas_used}",`;
+      csvRow += `"${element.state_root_hash}",`;
+      csvRow += `"${new Date(parseInt(element.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}",`;
+      csvRow += `"${element.transaction_hash}",`;
+      csvRow += `"${element.transaction_type}"`;
+
+      csvRow += `\r\n`;
+    }
+
+    csvData = `${csvTitle}\r\n${csvRow}`;
+    const blob = new Blob([csvData], {type: "text/plain;charset=utf-8"});
+    FileSaver.saveAs(blob, `${this.state.address}_${this.state.currentPage}.csv`);
+
+  }
+
   render() {
     const { addressTransactionList, isLoadingMore, className, classes, t } = this.props;
     const isInitialLoad = !addressTransactionList;
@@ -116,7 +165,12 @@ class Index extends PureComponent<Props, IndexState> {
           content={
             <div>
               {isInitialLoad ? <Loading /> : transactionsList}
+              
               <div className={classes.pagerArea}>
+                <div className={classes.csvExport}>
+                  [<a href="#" onClick={()=>{this.csvExport()}}>Download CSV Export</a>
+                  <GetApp className={this.props.classes.csvExportIcon} />]
+                </div>
                 <Pagination
                   page={this.state.currentPage}
                   pageSize={20}
