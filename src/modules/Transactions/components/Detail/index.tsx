@@ -28,6 +28,7 @@ import BaseRouteLink from '@/common/BaseRouteLink';
 import useSWR from 'swr';
 import FileSaver from 'file-saver';
 import { GetApp } from '@material-ui/icons';
+import Button from '@material-ui/core/Button';
 
 function formatArgsWithTypeTag(
   deserializer: serde.Deserializer,
@@ -578,11 +579,12 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
     }
 
-    // download csv
     columns.push([
       ``,
       <div className={this.props.classes.csvExport}>
-        [<a href="#" onClick={()=>{csvExport()}}>Download CSV Export</a>
+        [<Button onClick={()=>{csvExport()}}>
+            Download CSV Export
+          </Button>
         <GetApp className={this.props.classes.csvExportIcon} />]
       </div>
     ]);
