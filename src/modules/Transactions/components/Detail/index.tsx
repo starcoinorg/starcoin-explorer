@@ -26,6 +26,9 @@ import get from 'lodash/get';
 import { toObject } from '@/utils/helper';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import useSWR from 'swr';
+import FileSaver from 'file-saver';
+import { GetApp } from '@mui/icons-material';
+import Button from '@mui/material/Button';
 
 function formatArgsWithTypeTag(
   deserializer: serde.Deserializer,
@@ -168,9 +171,17 @@ const useStyles = (theme: any) =>
       wordBreak: 'break-all',
       overflow: 'auto',
     },
+
     accordion: {
       backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
       color: theme.palette.getContrastText(theme.palette.background.paper),
+    },
+    csvExport: {
+      textAlign: 'end',
+    },
+    csvExportIcon: {
+      verticalAlign: 'middle',
+
     },
   });
 
@@ -364,9 +375,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
     let args: any;
     let txn_type_args: any;
     let functionId: any;
-    let moduleAddress;
-    let moduleName;
-    let functionName;
+    let moduleAddress: any;
+    let moduleName: any;
+    let functionName: any;
     /*
     let arg0;
     let arg1;
@@ -525,6 +536,68 @@ class Index extends PureComponent<IndexProps, IndexState> {
         columns.push([`${t('transaction.arg')} ${i + 1}`, decodedArgs[i][1]]);
       }
     }
+
+    const csvExport = () => {
+
+      const savData = [
+        [t('common.Hash'), source.transaction_hash],
+        [t('transaction.Type'), type],
+        [t('common.Time'),`${new Date(parseInt(source.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
+        [t('transaction.BlockHash'),source.block_hash],
+        [t('transaction.BlockHeight'),source.block_number],
+        [t('transaction.StateRootHash'), source.state_root_hash],
+        [t('transaction.Status'), source.status],
+        [t('common.GasUsed'), source.gas_used],
+        [t('transaction.Sender'), sender],
+      ];
+
+      if (moduleAddress) {
+        savData.push([t('transaction.FunctionModuleAddress'), moduleAddress]);
+      }
+      if (moduleName) {
+        savData.push([t('transaction.FunctionModuleName'), moduleName]);
+      }
+      if (functionName) {
+        savData.push([t('transaction.FunctionName'), functionName]);
+      }
+      if (txn_type_args) {
+        savData.push([t('transaction.TxnTypeArgs'), JSON.stringify(txn_type_args[0] || [])]);
+      }
+      
+      for (let i = 0; i < decodedArgs.length; i++) {
+        if (decodedArgs[i][0] === 'address') {
+          const address = decodedArgs[i][1];
+          savData.push([`${t('transaction.arg')} ${i+1}`,address]);
+        } else {
+          savData.push([`${t('transaction.arg')} ${i+1}`, decodedArgs[i][1]]);
+        }
+      }
+
+      let csvData = "";
+      let csvTitle = "";
+      let csvRow = ""
+      for (let index = 0; index < savData.length; index++) {
+        const element = savData[index];
+        csvTitle += `"${element[0]}",`;
+        csvRow += `"${element[1]}",`;
+      }
+      csvData = `${csvTitle}\r\n${csvRow}`;
+      const blob = new Blob([csvData], {type: "text/plain;charset=utf-8"});
+      FileSaver.saveAs(blob, `${source.transaction_hash}.csv`);
+
+    }
+
+    columns.push([
+      ``,
+      <div className={this.props.classes.csvExport}>
+        [<Button onClick={()=>{csvExport()}}>
+            Download CSV Export
+          </Button>
+        <GetApp className={this.props.classes.csvExportIcon} />]
+      </div>
+    ]);
+      
+
     /*
     if (arg0) {
       columns.push([
