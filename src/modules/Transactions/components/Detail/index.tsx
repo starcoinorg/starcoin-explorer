@@ -552,9 +552,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
       if (functionName) {
         savData.push([t('transaction.FunctionName'), functionName]);
       }
-      // if (txn_type_args) {
-      //   savData.push([t('transaction.TxnTypeArgs'), JSON.stringify(txn_type_args[0] || [])]);
-      // }
+      if (txn_type_args) {
+        savData.push([t('transaction.TxnTypeArgs'), JSON.stringify(txn_type_args[0] || [])]);
+      }
       
       for (let i = 0; i < decodedArgs.length; i++) {
         if (decodedArgs[i][0] === 'address') {
