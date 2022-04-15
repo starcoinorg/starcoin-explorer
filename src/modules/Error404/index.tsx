@@ -16,7 +16,7 @@ const useStyles = (theme: any) => createStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 24,
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   headline: {

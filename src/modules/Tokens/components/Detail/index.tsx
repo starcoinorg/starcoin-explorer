@@ -33,7 +33,7 @@ const useStyles = (theme: any) => createStyles({
   },
   card: {
     display: 'flex',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
     flexDirection: 'column',
   },
@@ -41,7 +41,7 @@ const useStyles = (theme: any) => createStyles({
     flex: '1 10 auto',
   },
   accordion: {
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
 });

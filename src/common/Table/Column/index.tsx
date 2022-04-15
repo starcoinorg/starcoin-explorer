@@ -29,7 +29,7 @@ const useStyles = (theme: any) => createStyles({
   root: {
     flex: '1 1 auto',
     flexDirection: 'column',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   minWidth: {

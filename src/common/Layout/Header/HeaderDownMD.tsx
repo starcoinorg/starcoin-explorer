@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { createStyles, withStyles } from '@mui/styles';
+import { createStyles, useTheme, withStyles } from '@mui/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import IconButton from '@mui/material/IconButton';
@@ -18,7 +18,10 @@ import Accordion from '@mui/material/Accordion';
 import LanguageIcon from '@mui/icons-material/Translate';
 import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
+import { Brightness4Sharp, Brightness7Sharp } from '@mui/icons-material';
+import { ColorModeContext } from '@/utils/context';
 import StarcoinLogo from '../../../starcoin.jpeg';
+
 
 const useStyles = (theme: any) => createStyles({
   [theme.breakpoints.down('md')]: {
@@ -40,11 +43,15 @@ const useStyles = (theme: any) => createStyles({
     },
   },
   root: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+  },
+  accordion: {
+
   },
   header: {
     alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
     flexDirection: 'row',
     height: theme.spacing(8),
@@ -110,6 +117,8 @@ const useStyles = (theme: any) => createStyles({
     textTransform: 'none',
   },
   i18n: {
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
     marginTop: theme.spacing(1),
     border: 'none',
     alignItems: 'center',
@@ -126,6 +135,8 @@ function Index(props: any) {
   const userLanguage = i18n.language || 'en';
   const [showMenu, setShowMenu] = React.useState(false);
   const [expanded, setExpanded] = React.useState<string | false>(false);
+  const theme = useTheme() as any;
+  const colorMode = React.useContext(ColorModeContext);
 
   const handleI18nExpandedChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
@@ -359,6 +370,9 @@ function Index(props: any) {
                 </div>
               </AccordionDetails>
             </Accordion>
+            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color='inherit'>
+              {theme.palette.mode === 'dark' ? <Brightness7Sharp /> : <Brightness4Sharp />}
+            </IconButton>
           </div>
         </ClickAwayListener>
       </Collapse>

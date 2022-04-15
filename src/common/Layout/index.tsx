@@ -43,11 +43,11 @@ const useStyles = (theme: any) => {
     },
     contentNormal: {
       top: theme.spacing(4),
-      minHeight: `calc(100vh - ${theme.spacing(8)}px)`,
+      minHeight: `calc(100vh - ${theme.spacing(8)})`,
     },
     contentWarning: {
       top: theme.spacing(8),
-      minHeight: `calc(100vh - ${theme.spacing(8)}px)`,
+      minHeight: `calc(100vh - ${theme.spacing(8)})`,
     },
     contentInner: {
       flex: '1 1 auto',

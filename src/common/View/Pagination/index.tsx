@@ -12,11 +12,11 @@ const useStyles = (theme: any) => createStyles({
   root: {
     alignItems: 'center',
     display: 'flex',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   count: {
-    paddingRight: theme.spacing(1) * 2,
+    paddingRight: theme.spacing(2),
   },
   error: {
     color: theme.palette.secondary.main,

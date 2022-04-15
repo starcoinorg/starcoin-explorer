@@ -17,7 +17,7 @@ const useStyles = (theme: any) => createStyles({
   root: {
     margin: 0,
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   col: {

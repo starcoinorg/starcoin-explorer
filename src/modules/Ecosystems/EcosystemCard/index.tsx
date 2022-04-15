@@ -7,12 +7,12 @@ import { createStyles, withStyles } from '@mui/styles';
 
 const useStyles = (theme: any) => createStyles({
   root: {
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   text: {
-    padding: theme.spacing(1) * 2,
-    height: theme.spacing(1) * 14,
+    padding: theme.spacing(2) ,
+    height: theme.spacing(14) ,
     overflowY: 'scroll',
     overflowX: 'hidden',
     '&::-webkit-scrollbar': {
@@ -41,9 +41,9 @@ const useStyles = (theme: any) => createStyles({
   },
   cardHover: {
     boxShadow: `
-    calc(${theme.spacing(1) * 0}px ${theme.spacing(1) * 1}px ${theme.spacing(1) * 3}px ${theme.spacing(1)} * 0) rgba(0,0,0,0.2),
-    calc(${theme.spacing(1) * 0}px ${theme.spacing(1) * 1}px ${theme.spacing(1) * 1}px ${theme.spacing(1)} * 0) rgba(0,0,0,0.14),
-    calc(${theme.spacing(1) * 0}px ${theme.spacing(1) * 2}px ${theme.spacing(1) * 1}px -${theme.spacing(1)} * 1) rgba(0,0,0,0.12)
+    calc(${theme.spacing(1) * 0} -${theme.spacing(1) * 1} -${theme.spacing(3) } - ${theme.spacing(1)} * 0) rgba(0,0,0,0.2),
+    calc(${theme.spacing(1) * 0} -${theme.spacing(1) * 1}- ${theme.spacing(1) * 1} - ${theme.spacing(1)} * 0) rgba(0,0,0,0.14),
+    calc(${theme.spacing(1) * 0} -${theme.spacing(2) } -${theme.spacing(1) * 1} - ${theme.spacing(1)} * 1) rgba(0,0,0,0.12)
     `,
     cursor: 'pointer',
   },
@@ -64,16 +64,22 @@ const useStyles = (theme: any) => createStyles({
   },
   [theme.breakpoints.up('sm')]: {
     header: {
-      padding: theme.spacing(1) * 2,
+      padding: theme.spacing(2),
     },
   },
   header: {
     alignItems: 'center',
     borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.getContrastText(theme.palette.background.paper),
 
+  },
+  card:{
+    display: 'flex',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+    flexDirection: 'column',
   },
   title: {
     fontWeight: 700,
@@ -142,7 +148,7 @@ class Index extends PureComponent<Props, IndexState> {
         onMouseEnter={this.onCardEnter}
         onMouseLeave={this.onCardLeave}
       >
-        <Card className={classes.cardRoom}>
+        <Card className={classes.card}>
           <div className={classes.header}>
             <Typography variant='h5' gutterBottom className={classes.title}>
               {title}

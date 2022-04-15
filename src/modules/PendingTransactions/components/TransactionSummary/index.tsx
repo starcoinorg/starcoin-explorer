@@ -15,8 +15,8 @@ const useStyles = (theme: any) => createStyles({
   },
   [theme.breakpoints.up('sm')]: {
     root: {
-      paddingLeft: theme.spacing(1) * 2,
-      paddingRight: theme.spacing(1) * 2,
+      paddingLeft: theme.spacing(2) ,
+      paddingRight: theme.spacing(2) ,
     },
   },
   root: {

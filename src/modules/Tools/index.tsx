@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 
 const useStyles = (theme: any) => createStyles({
   root: {
-    padding: theme.spacing(1) * 2,
+    padding: theme.spacing(2) ,
 
     alignItems: 'center',
     display: 'flex',
@@ -24,7 +24,7 @@ const useStyles = (theme: any) => createStyles({
   },
   [theme.breakpoints.up('sm')]: {
     header: {
-      padding: theme.spacing(1) * 2,
+      padding: theme.spacing(2) ,
     },
   },
   header: {
@@ -116,7 +116,7 @@ const useStyles = (theme: any) => createStyles({
   card: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   cardHeader: {
@@ -152,6 +152,14 @@ const useStyles = (theme: any) => createStyles({
     display: 'flex',
     flex: '1 1 auto',
     marginRight: theme.spacing(1),
+    "& .MuiInputBase-input":{
+      color: theme.palette.getContrastText(theme.palette.background.paper),
+      borderColor:"red",
+
+    },
+    "& .MuiInputLabel-root":{
+      color:  theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined ,
+    }
   },
   textFieldLabel: {},
   button: {

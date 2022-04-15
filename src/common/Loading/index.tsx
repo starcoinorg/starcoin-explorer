@@ -21,7 +21,7 @@ const useStyles = (theme: any) => createStyles({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   pad: {},

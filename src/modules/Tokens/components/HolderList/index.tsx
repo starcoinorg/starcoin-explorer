@@ -16,7 +16,7 @@ const useStyles = (theme: any) => createStyles({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
 });

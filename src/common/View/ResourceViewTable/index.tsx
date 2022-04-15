@@ -10,7 +10,7 @@ const useStyles = (theme: any) => createStyles({
     },
     firstRow: {
       overflow: 'scroll!important',
-      minHeight: theme.spacing(1) * 3,
+      minHeight: theme.spacing(3) ,
       overflowWrap: 'unset',
       whiteSpace: 'nowrap!important',
     },
@@ -21,15 +21,15 @@ const useStyles = (theme: any) => createStyles({
   },
   [theme.breakpoints.up('sm')]: {
     firstColRow: {
-      paddingRight: theme.spacing(1) * 2,
+      paddingRight: theme.spacing(2) ,
     },
     firstRow: {
       overflowWrap: 'break-word',
-      minHeight: theme.spacing(1) * 3,
+      minHeight: theme.spacing(3) ,
     },
     root: {
-      padding: theme.spacing(1) * 2,
-      marginBottom: theme.spacing(1) * 2,
+      padding: theme.spacing(2) ,
+      marginBottom: theme.spacing(2) ,
     },
   },
   root: {
@@ -79,7 +79,7 @@ const useStyles = (theme: any) => createStyles({
   },
   baseRow: {
     /*
-    minHeight: theme.spacing(1) * 3,
+    minHeight: theme.spacing(3) ,
     overflow: 'hidden',
     */
     whiteSpace: 'pre-line',

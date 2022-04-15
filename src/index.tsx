@@ -91,6 +91,9 @@ function App() {
       }),
     [mode],
   );
+  if (mode === 'dark'){
+    theme.palette.background.default = "#212121"
+  }
 
   return <ColorModeContext.Provider value={colorMode}>
     <StyledEngineProvider injectFirst>

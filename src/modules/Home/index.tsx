@@ -11,6 +11,7 @@ import { getEpochData } from '@/utils/sdk';
 import { getNetwork } from '@/utils/helper';
 import formatTime from '@/utils/formatTime';
 import formatNumber from '@/utils/formatNumber';
+import { InputLabel } from '@mui/material';
 import BlockTable from '../Blocks/components/Table';
 import TransactionTable from '../Transactions/components/Table';
 
@@ -95,8 +96,8 @@ const useStyles = (theme: any) => createStyles({
   cardContainer: {},
   card: {
     display: 'flex',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
-    color: theme.palette.getContrastText(theme.palette.background.paper),
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color:  theme.palette.mode === 'dark' ? theme.palette.getContrastText(theme.palette.background.paper) : undefined ,
     flexDirection: 'column',
   },
   cardHeader: {
@@ -129,6 +130,14 @@ const useStyles = (theme: any) => createStyles({
     display: 'flex',
     flex: '1 1 auto',
     marginRight: theme.spacing(1),
+    "& .MuiInputBase-input":{
+      color: theme.palette.getContrastText(theme.palette.background.paper),
+      borderColor:"red",
+
+    },
+    "& .MuiInputLabel-root":{
+      color:  theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined ,
+    }
   },
   textFieldLabel: {},
   button: {
@@ -294,8 +303,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
             <Typography className={classes.title} variant='h4'>Starcoin {t('home.explorer')}</Typography>
           </div>
           <div className={classes.searchField}>
+            <InputLabel  id="custom-css-outlined-input" />
             <TextField
               className={classes.textField}
+              id="custom-css-outlined-input"
               variant='standard'
               value={this.state.value}
               label={t('home.searchHint')}

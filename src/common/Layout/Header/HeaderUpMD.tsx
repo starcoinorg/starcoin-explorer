@@ -5,7 +5,7 @@ import { createStyles, withStyles, useTheme } from '@mui/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import { IconButton } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { Brightness4Sharp, Brightness7Sharp } from '@mui/icons-material';
 import { ColorModeContext } from '@/utils/context';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -23,7 +23,7 @@ import StarcoinLogo from '../../../starcoin.jpeg';
 
 const useStyles = (theme: any) => createStyles({
   header: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.getContrastText(theme.palette.background.paper),
     display: 'flex',
     flexDirection: 'column',
@@ -71,6 +71,7 @@ const useStyles = (theme: any) => createStyles({
   button: {
     height: theme.spacing(6),
     border: 'none',
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   search: {
     alignItems: 'center',
@@ -103,9 +104,11 @@ const useStyles = (theme: any) => createStyles({
   },
   i18n: {
     height: theme.spacing(6),
+
   },
   blockMenu: {
     fontSize: '1rem',
+
   },
   language: {
     margin: theme.spacing(0, 0.5, 0, 1),
@@ -155,6 +158,7 @@ function Index(props: any) {
         </Button>
       </Tooltip>
       <Menu
+
         id='language-menu'
         anchorEl={languageMenu}
         open={Boolean(languageMenu)}
@@ -162,6 +166,7 @@ function Index(props: any) {
       >
         {LANGUAGES_LABEL.map((language) => (
           <MenuItem
+
             key={language.code}
             selected={userLanguage === language.code}
             onClick={() => handleLanguageMenuClose(language.code)}
@@ -173,7 +178,7 @@ function Index(props: any) {
 
 
       <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color='inherit'>
-        {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+        {theme.palette.mode === 'dark' ? <Brightness7Sharp /> : <Brightness4Sharp />}
       </IconButton>
     </>
   );
@@ -310,7 +315,7 @@ function Index(props: any) {
 
   const txnMenu = (
     <>
-      <Tooltip title={t('header.chooseTxn')} disableFocusListener enterDelay={300}>
+      <Tooltip   title={t('header.chooseTxn')} disableFocusListener enterDelay={300}>
         <Button
           className={classes.button}
           color='inherit'

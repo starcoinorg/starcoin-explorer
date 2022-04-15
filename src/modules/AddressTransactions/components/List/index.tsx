@@ -19,7 +19,7 @@ const useStyles = (theme: any) => createStyles({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   csvExport: {

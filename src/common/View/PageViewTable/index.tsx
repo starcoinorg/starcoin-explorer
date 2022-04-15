@@ -14,15 +14,15 @@ const useStyles = (theme: any) => createStyles({
   },
   [theme.breakpoints.up('sm')]: {
     firstColRow: {
-      paddingRight: theme.spacing(1) * 2,
+      paddingRight: theme.spacing(2) ,
     },
     root: {
-      padding: theme.spacing(1) * 2,
+      padding: theme.spacing(2) ,
     },
   },
   root: {
     display: 'flex',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   col: {
@@ -62,7 +62,7 @@ const useStyles = (theme: any) => createStyles({
     textOverflow: 'ellipsis',
   },
   baseRow: {
-    minHeight: theme.spacing(1) * 3,
+    minHeight: theme.spacing(3) ,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',

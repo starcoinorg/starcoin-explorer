@@ -10,7 +10,7 @@ import CenteredView from '@/common/View/CenteredView';
 const useStyles = (theme: any) => createStyles({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   [theme.breakpoints.down('md')]: {
@@ -20,7 +20,7 @@ const useStyles = (theme: any) => createStyles({
   },
   [theme.breakpoints.up('sm')]: {
     header: {
-      padding: theme.spacing(1) * 2,
+      padding: theme.spacing(2) ,
     },
   },
   header: {
@@ -29,7 +29,7 @@ const useStyles = (theme: any) => createStyles({
     alignItems: 'center',
     borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : undefined,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   title: {
