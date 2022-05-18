@@ -1,4 +1,4 @@
-name: github pages
+name: aws-s3-test-publish
 
 on:
   pull_request:
