@@ -3,7 +3,7 @@ import withLoading from '@/sagaMiddleware/index';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
-import { POLLING_INTERVAL } from '@/utils/constants'
+import { POLLING_INTERVAL } from '@/utils/constants';
 
 export function* getTokenInfo(action: ReturnType<typeof actions.getTokenInfo>) {
   try {
@@ -17,7 +17,7 @@ export function* getTokenInfo(action: ReturnType<typeof actions.getTokenInfo>) {
 }
 
 function* watchGetTokenInfo() {
-  yield takeLatest(types.GET_TOKEN_INFO, getTokenInfo)
+  yield takeLatest(types.GET_TOKEN_INFO, getTokenInfo);
 }
 
 export function* getTokenList(action: ReturnType<typeof actions.getTokenList>) {
@@ -69,15 +69,15 @@ export function* getTokenTransactionList(action: ReturnType<typeof actions.getTo
 }
 
 function* watchGetTokenList() {
-  yield takeLatest(types.GET_TOKEN_LIST, getTokenList)
+  yield takeLatest(types.GET_TOKEN_LIST, getTokenList);
 }
 
 function* watchGetTokenHolderList() {
-  yield takeLatest(types.GET_TOKEN_HOLDER_LIST, getTokenHolderList)
+  yield takeLatest(types.GET_TOKEN_HOLDER_LIST, getTokenHolderList);
 }
 
 function* watchGetTokenTransactionList() {
-  yield takeLatest(types.GET_TOKEN_TRANSACTION_LIST, getTokenTransactionList)
+  yield takeLatest(types.GET_TOKEN_TRANSACTION_LIST, getTokenTransactionList);
 }
 
 export function* getTokenListInDelay(action: ReturnType<typeof actions.getTokenList>) {
@@ -105,15 +105,15 @@ export function* getTokenTransactionListInDelay(action: ReturnType<typeof action
 }
 
 function* watchGetTokenListInDelay() {
-  yield takeLatest(types.GET_TOKEN_LIST_IN_DELAY, getTokenListInDelay)
+  yield takeLatest(types.GET_TOKEN_LIST_IN_DELAY, getTokenListInDelay);
 }
 
 function* watchGetTokenHolderListInDelay() {
-  yield takeLatest(types.GET_TOKEN_HOLDER_LIST_IN_DELAY, getTokenHolderListInDelay)
+  yield takeLatest(types.GET_TOKEN_HOLDER_LIST_IN_DELAY, getTokenHolderListInDelay);
 }
 
 function* watchGetTokenTransactionListInDelay() {
-  yield takeLatest(types.GET_TOKEN_TRANSACTION_LIST_IN_DELAY, getTokenTransactionListInDelay)
+  yield takeLatest(types.GET_TOKEN_TRANSACTION_LIST_IN_DELAY, getTokenTransactionListInDelay);
 }
 
 const sagas = [

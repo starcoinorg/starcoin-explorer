@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import createLoadingSelector  from '@/rootStore/loading/selector';
-import { pushLocation }  from '@/rootStore/router/actions';
+import createLoadingSelector from '@/rootStore/loading/selector';
+import { pushLocation } from '@/rootStore/router/actions';
 import storeBlocks from '@/Blocks/store';
 import storeTransactions from '@/Transactions/store';
 import * as typesBlocks from '@/Blocks/store/constants';
@@ -20,12 +20,12 @@ const selector = createSelector(
   (currentBlocks, currentTransactions, loading) => ({
     blockList: currentBlocks.blockList,
     transactionList: currentTransactions.transactionList,
-    loading
-  })
+    loading,
+  }),
 );
 
 export default connect(selector, {
   getBlockList: actionsBlocks.getBlockList,
   getTransactionList: actionsTransactions.getTransactionList,
-  pushLocation
-})(Index) as any;
+  pushLocation,
+})(Index as any) as any;

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import createLoadingSelector  from '@/rootStore/loading/selector';
+import createLoadingSelector from '@/rootStore/loading/selector';
 import store from '@/Transactions/store';
 import * as types from '@/Transactions/store/constants';
 import Index from './index';
@@ -14,10 +14,10 @@ const selector = createSelector(
   loadingSelector,
   (current, loading) => ({
     transaction: current.transaction,
-    loading
-  })
+    loading,
+  }),
 );
 
 export default connect(selector, {
-  getTransaction: actions.getTransaction
-})(Index) as any;
+  getTransaction: actions.getTransaction,
+})(Index as any) as any;

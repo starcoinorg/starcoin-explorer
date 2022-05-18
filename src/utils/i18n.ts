@@ -18,8 +18,8 @@ i18n
     fallbackLng: 'en',
     debug: false,
     react: {
-      wait: true
-    }
+      wait: true,
+    },
   });
 
 export default i18n;

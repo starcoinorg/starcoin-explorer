@@ -1,26 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles, useTheme } from '@mui/styles';
 import classNames from 'classnames';
 import BaseRouteLink from '@/common/BaseRouteLink';
-// import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import Tooltip from '@material-ui/core/Tooltip';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
-import LanguageIcon from '@material-ui/icons/Translate';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { IconButton } from '@mui/material';
+import { Brightness4Sharp, Brightness7Sharp } from '@mui/icons-material';
+import { ColorModeContext } from '@/utils/context';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
+import Tooltip from '@mui/material/Tooltip';
+import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
+import LanguageIcon from '@mui/icons-material/Translate';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 import Tabs from './Tabs';
 import StarcoinLogo from '../../../starcoin.jpeg';
+import StarcoinLogoDark from '../../../logo.png';
 
-const useStyles = (theme: Theme) => createStyles({
+const useStyles = (theme: any) => createStyles({
   header: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.getContrastText(theme.palette.background.paper),
     display: 'flex',
     flexDirection: 'column',
@@ -32,7 +35,7 @@ const useStyles = (theme: Theme) => createStyles({
     textAlign: 'center',
     height: '64px',
     lineHeight: '64px',
-    fontSize: '24px'
+    fontSize: '24px',
   },
   headerNormal: {
     height: theme.spacing(8),
@@ -63,11 +66,12 @@ const useStyles = (theme: Theme) => createStyles({
     paddingRight: theme.spacing(2),
   },
   noUpperCase: {
-    textTransform: 'none'
+    textTransform: 'none',
   },
   button: {
     height: theme.spacing(6),
     border: 'none',
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   search: {
     alignItems: 'center',
@@ -84,25 +88,28 @@ const useStyles = (theme: Theme) => createStyles({
     textDecoration: 'none',
   },
   logoImg: {
-    width: '132px'
+    width: theme.palette.mode === 'dark' ? "112px" : "132px",
+    padding: theme.palette.mode === 'dark' ? "10px" : undefined,
   },
   logo: {
     fontFamily: 'Bauhaus93',
-    fontSize: `${ theme.spacing(6) }px`,
+    fontSize: `${theme.spacing(6)}px`,
     color: '#3d454d',
-    letterSpacing: `-${ theme.spacing(2 / 4) }px`,
+    letterSpacing: `-${theme.spacing(2 / 4)}px`,
     textAlign: 'left',
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     marginBottom: theme.spacing(1),
     lineHeight: 1,
-    textTransform: 'none'
+    textTransform: 'none',
   },
   i18n: {
     height: theme.spacing(6),
+
   },
   blockMenu: {
     fontSize: '1rem',
+
   },
   language: {
     margin: theme.spacing(0, 0.5, 0, 1),
@@ -118,6 +125,8 @@ function Index(props: any) {
   const { t, i18n }: { t: any, i18n: any } = useTranslation();
   const userLanguage = i18n.language || 'en';
   const [languageMenu, setLanguageMenu] = React.useState(null);
+  const theme = useTheme() as any;
+  const colorMode = React.useContext(ColorModeContext);
   const handleLanguageIconClick = (event: any) => {
     setLanguageMenu(event.currentTarget);
   };
@@ -137,26 +146,33 @@ function Index(props: any) {
       <Tooltip title={t('header.changeLanguage')} enterDelay={300}>
         <Button
           className={classes.i18n}
-          color="inherit"
+          color='inherit'
           aria-owns={languageMenu ? 'language-menu' : undefined}
-          aria-haspopup="true"
+          aria-haspopup='true'
           onClick={handleLanguageIconClick}
         >
           <LanguageIcon />
           <span className={classes.language}>
             {currentLabel}
           </span>
-          <ExpandMoreIcon fontSize="small" />
+          <ExpandMoreIcon fontSize='small' />
         </Button>
       </Tooltip>
       <Menu
-        id="language-menu"
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
+        id='language-menu'
         anchorEl={languageMenu}
         open={Boolean(languageMenu)}
         onClose={() => handleLanguageMenuClose()}
       >
         {LANGUAGES_LABEL.map((language) => (
           <MenuItem
+
             key={language.code}
             selected={userLanguage === language.code}
             onClick={() => handleLanguageMenuClose(language.code)}
@@ -165,6 +181,11 @@ function Index(props: any) {
           </MenuItem>
         ))}
       </Menu>
+
+
+      <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color='inherit'>
+        {theme.palette.mode === 'dark' ? <Brightness7Sharp /> : <Brightness4Sharp />}
+      </IconButton>
     </>
   );
 
@@ -191,20 +212,26 @@ function Index(props: any) {
       <Tooltip title={t('header.changeNetwork')} enterDelay={300}>
         <Button
           className={classNames(classes.i18n, classes.noUpperCase)}
-          color="inherit"
+          color='inherit'
           aria-owns={networkMenu ? 'network-menu' : undefined}
-          aria-haspopup="true"
+          aria-haspopup='true'
           onClick={handleNetworkIconClick}
         >
-          <SettingsEthernetIcon fontSize="small" />&nbsp;
+          <SettingsEthernetIcon fontSize='small' />&nbsp;
           <span className={classes.language}>
             {currentNetworkLabel}
           </span>
-          <ExpandMoreIcon fontSize="small" />
+          <ExpandMoreIcon fontSize='small' />
         </Button>
       </Tooltip>
       <Menu
-        id="network-menu"
+        id='network-menu'
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
         anchorEl={networkMenu}
         open={Boolean(networkMenu)}
         onClose={() => handleNetworkMenuClose()}
@@ -236,12 +263,12 @@ function Index(props: any) {
   };
 
   const handleBlockClose = () => {
-    window.location.href = `/${ userNetwork }/blocks/1`;
+    window.location.href = `/${userNetwork}/blocks/1`;
     setAnchorEl(null);
   };
 
   const handleUncleBlockClose = () => {
-    window.location.href = `/${ userNetwork }/uncleblocks/1`;
+    window.location.href = `/${userNetwork}/uncleblocks/1`;
     setAnchorEl(null);
   };
 
@@ -250,20 +277,26 @@ function Index(props: any) {
       <Tooltip title={t('header.chooseBlocks')} disableFocusListener enterDelay={300}>
         <Button
           className={classes.button}
-          color="inherit"
+          color='inherit'
           aria-owns={undefined}
-          aria-haspopup="true"
-          aria-controls="fade-menu"
+          aria-haspopup='true'
+          aria-controls='fade-menu'
           onClick={handleBlockMenuIconClick}
         >
           <span className={classes.blockMenu}>
             {t('header.blocks')}
           </span>
-          <ExpandMoreIcon fontSize="small" />
+          <ExpandMoreIcon fontSize='small' />
         </Button>
       </Tooltip>
       <Menu
-        id="fade-menu"
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
+        id='fade-menu'
         anchorEl={anchorEl}
         keepMounted
         open={open}
@@ -289,34 +322,40 @@ function Index(props: any) {
   };
 
   const handleTxnClose = () => {
-    window.location.href = `/${ userNetwork }/transactions/1`;
+    window.location.href = `/${userNetwork}/transactions/1`;
     setAnchorTxn(null);
   };
 
   const handlePendingTxnClose = () => {
-    window.location.href = `/${ userNetwork }/pending_transactions/1`;
+    window.location.href = `/${userNetwork}/pending_transactions/1`;
     setAnchorTxn(null);
   };
 
   const txnMenu = (
     <>
-      <Tooltip title={t('header.chooseTxn')} disableFocusListener enterDelay={300}>
+      <Tooltip   title={t('header.chooseTxn')} disableFocusListener enterDelay={300}>
         <Button
           className={classes.button}
-          color="inherit"
+          color='inherit'
           aria-owns={undefined}
-          aria-haspopup="true"
-          aria-controls="fade-menu"
+          aria-haspopup='true'
+          aria-controls='fade-menu'
           onClick={handleTxnMenuIconClick}
         >
           <span className={classes.blockMenu}>
             {t('header.transactions')}
           </span>
-          <ExpandMoreIcon fontSize="small" />
+          <ExpandMoreIcon fontSize='small' />
         </Button>
       </Tooltip>
       <Menu
-        id="fade-menu"
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
+        id='fade-menu'
         anchorEl={anchorTxn}
         keepMounted
         open={openTxn}
@@ -361,20 +400,26 @@ function Index(props: any) {
       <Tooltip title={t('header.chooseAbout')} disableFocusListener enterDelay={300}>
         <Button
           className={classes.button}
-          color="inherit"
+          color='inherit'
           aria-owns={undefined}
-          aria-haspopup="true"
-          aria-controls="fade-menu"
+          aria-haspopup='true'
+          aria-controls='fade-menu'
           onClick={handleAboutMenuIconClick}
         >
           <span className={classes.blockMenu}>
             {t('header.about')}
           </span>
-          <ExpandMoreIcon fontSize="small" />
+          <ExpandMoreIcon fontSize='small' />
         </Button>
       </Tooltip>
       <Menu
-        id="fade-menu"
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
+        id='fade-menu'
         anchorEl={anchorAbout}
         keepMounted
         open={openAbout}
@@ -456,38 +501,39 @@ function Index(props: any) {
 
   return (
     <>
-    <div
-      className={classNames({
-        [classes.header]: true,
-        [classes.headerNormal]: true,
-      })}
-    >
       <div
         className={classNames({
-          [classes.mainHeader]: true,
-          [classes.pad]: true,
+          [classes.header]: true,
+          [classes.headerNormal]: true,
         })}
       >
-        <div className={classes.tabs}>
-          <BaseRouteLink to="/" underline="none">
-            <div className={classes.logoLink}>
-              <img className={classes.logoImg} src={StarcoinLogo} alt="logo" />
-              {/*
+        <div
+          className={classNames({
+            [classes.mainHeader]: true,
+            [classes.pad]: true,
+          })}
+        >
+          <div className={classes.tabs}>
+            <BaseRouteLink to='/' underline='none'>
+              <div className={classes.logoLink}>
+                <img className={classes.logoImg} src={theme.palette.mode === 'dark' ? StarcoinLogoDark : StarcoinLogo} alt='logo' />
+
+                {/*
               <Typography className={classes.logo} variant="h3">
                 { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Starcoin' }
               </Typography>
               */}
-            </div>
-          </BaseRouteLink>
-          {blockMenu}
-          {txnMenu}
-          {tabs}
-          {aboutMenu}
-          {networkMenus}
-          {i18nMenu}
+              </div>
+            </BaseRouteLink>
+            {blockMenu}
+            {txnMenu}
+            {tabs}
+            {aboutMenu}
+            {networkMenus}
+            {i18nMenu}
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

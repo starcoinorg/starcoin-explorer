@@ -5,6 +5,6 @@ export const SCALING_FACTOR: any = {
   '0x44366bba9bc9ed51bc8f564ecb18b12a::DummyToken::SIX': 1000000000,
   '0x5b876a58b0e1cff855b6489cd8cf3bec::DummyToken::EOS': 1000000000,
   '0xb987f1ab0d7879b2ab421b98f96efb44::Doge::SHIBA': 1000000000,
-  '0xb987f1ab0d7879b2ab421b98f96efb44::Quark::QUARK':  1000000000,
+  '0xb987f1ab0d7879b2ab421b98f96efb44::Quark::QUARK': 1000000000,
   '0xee337598eaed6b2317c863aaf3870948::Doge::SHIBA': 1000000000,
 };

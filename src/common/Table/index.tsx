@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Column from './Column';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     root: {
       '& > div:last-child > div': {
         paddingRight: theme.spacing(1),
@@ -20,6 +20,7 @@ const useStyles = (theme: Theme) => createStyles({
   },
   root: {
     display: 'flex',
+
   },
 });
 
@@ -39,10 +40,11 @@ interface ExternalProps {
 }
 
 interface InternalProps {
- classes: any,
+  classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
@@ -51,6 +53,7 @@ class Index extends React.PureComponent<Props> {
     const getRowHeight = getRowHeightIn || ((idx: number) => null);
 
     return (
+
       <div className={classNames(className, classes.root)}>
         {columns.map((col, idx) => (
           <Column

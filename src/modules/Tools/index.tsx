@@ -1,30 +1,30 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import { encoding } from '@starcoin/starcoin';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Helmet from 'react-helmet';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
 import CenteredView from '@/common/View/CenteredView';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-const useStyles = (theme: Theme) => createStyles({
+const useStyles = (theme: any) => createStyles({
   root: {
-    padding: theme.spacing(1) * 2,
-    paddingTop: 0,
+    padding: theme.spacing(2) ,
+
     alignItems: 'center',
     display: 'flex',
     flex: '1 1 auto',
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     header: {
       padding: theme.spacing(1),
     },
   },
   [theme.breakpoints.up('sm')]: {
     header: {
-      padding: theme.spacing(1) * 2,
+      padding: theme.spacing(2) ,
     },
   },
   header: {
@@ -35,7 +35,7 @@ const useStyles = (theme: Theme) => createStyles({
   title: {
     fontWeight: 700,
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     cardContainer: {
       marginBottom: theme.spacing(1),
     },
@@ -57,7 +57,7 @@ const useStyles = (theme: Theme) => createStyles({
     },
     metric: {
       paddingLeft: theme.spacing(2),
-    }
+    },
   },
   [theme.breakpoints.up('sm')]: {
     cardContainer: {
@@ -78,9 +78,9 @@ const useStyles = (theme: Theme) => createStyles({
     },
     metric: {
       paddingLeft: theme.spacing(4),
-    }
+    },
   },
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('lg')]: {
     blocksAndTransactions: {
       flexWrap: 'wrap',
     },
@@ -89,11 +89,11 @@ const useStyles = (theme: Theme) => createStyles({
       marginBottom: theme.spacing(2),
     },
     transactions: {
-      width: '100%'
+      width: '100%',
     },
     textFieldLabel: {
-      fontSize: '0.75em'
-    }
+      fontSize: '0.75em',
+    },
   },
   [theme.breakpoints.up('md')]: {
     blocks: {
@@ -109,14 +109,15 @@ const useStyles = (theme: Theme) => createStyles({
       paddingLeft: theme.spacing(1),
     },
     textFieldLabel: {
-      fontSize: '1em'
-    }
+      fontSize: '1em',
+    },
   },
-  cardContainer: {
-  },
+  cardContainer: {},
   card: {
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   cardHeader: {
     alignItems: 'center',
@@ -151,6 +152,14 @@ const useStyles = (theme: Theme) => createStyles({
     display: 'flex',
     flex: '1 1 auto',
     marginRight: theme.spacing(1),
+    "& .MuiInputBase-input":{
+      color: theme.palette.getContrastText(theme.palette.background.paper),
+      borderColor:"red",
+
+    },
+    "& .MuiInputLabel-root":{
+      color:  theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined ,
+    }
   },
   textFieldLabel: {},
   button: {
@@ -159,8 +168,7 @@ const useStyles = (theme: Theme) => createStyles({
     maxWidth: '4rem',
     marginLeft: theme.spacing(1),
   },
-  search: {
-  },
+  search: {},
 });
 
 interface IndexProps {
@@ -182,7 +190,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       input_public_key: '',
       output_receipt_identifier: '',
       input_receipt_identifier: '',
-      output_address: ''
+      output_address: '',
     };
   }
 
@@ -193,7 +201,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   onTransformPublickKeyToReceiptIdentifier = async () => {
     const inputPublicKey = (document.getElementById('publicKeyInput') as HTMLInputElement).value;
-    let receipt_identifier:string;
+    let receipt_identifier: string;
     if (inputPublicKey.length !== 66) {
       alert('Please input the correct public key!'); // eslint-disable-line no-alert
       receipt_identifier = '';
@@ -201,7 +209,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       receipt_identifier = encoding.publicKeyToReceiptIdentifier(inputPublicKey);
     }
     this.setState({ output_receipt_identifier: receipt_identifier });
-  }
+  };
 
   onReceiptIdentifierChange = (event: any) => {
     const { value: input_receipt_identifier } = event.target;
@@ -210,7 +218,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   onTransformReceiptIdentifierToAddress = async () => {
     const inputReceiptIdentifier = (document.getElementById('receiptIdentifierInput') as HTMLInputElement).value;
-    let address:string;
+    let address: string;
     if (inputReceiptIdentifier.length !== 88) {
       alert('Please input the correct receipt identifier!'); // eslint-disable-line no-alert
       address = '';
@@ -219,7 +227,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       address = `0x${decodedReceiptIdentifier.accountAddress}`;
     }
     this.setState({ output_address: address });
-  }
+  };
 
   render() {
     const { t, classes } = this.props;
@@ -233,35 +241,38 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <CenteredView>
           <Card className={this.props.classes.card}>
             <div className={this.props.classes.cardHeader}>
-              <Typography className={classes.title} variant="h4">{t('tools.publickey_to_receipt_identifier')}</Typography>
+              <Typography className={classes.title}
+                          variant='h4'>{t('tools.publickey_to_receipt_identifier')}</Typography>
             </div>
             <div className={classes.searchField}>
               <TextField
-                id="publicKeyInput"
+                id='publicKeyInput'
                 className={classes.textField}
                 value={this.state.input_public_key}
                 label={t('tools.input_publickey_hint')}
                 InputLabelProps={{ className: classes.textFieldLabel }}
                 onChange={this.onPublicKeyChange}
+                variant='standard'
               />
             </div>
             <Button
               className={classes.button}
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               onClick={this.onTransformPublickKeyToReceiptIdentifier}
             >
-              <Typography className={classes.search} variant="body1">
+              <Typography className={classes.search} variant='body1'>
                 {t('tools.transform')}
               </Typography>
             </Button>
             <div className={classes.resultField}>
               <TextField
-                id="standard-basic"
+                id='standard-basic'
                 className={classes.textField}
                 value={this.state.output_receipt_identifier}
                 label={t('tools.output_receipt_identifier_hint')}
                 InputLabelProps={{ className: classes.textFieldLabel }}
+                variant='standard'
               />
             </div>
           </Card>
@@ -270,13 +281,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <CenteredView>
           <Card className={this.props.classes.card}>
             <div className={this.props.classes.cardHeader}>
-              <Typography className={classes.title} variant="h4">{t('tools.receipt_identifier_to_address')}</Typography>
+              <Typography className={classes.title} variant='h4'>{t('tools.receipt_identifier_to_address')}</Typography>
             </div>
             <div className={classes.searchField}>
               <TextField
-                id="receiptIdentifierInput"
+                id='receiptIdentifierInput'
                 className={classes.textField}
                 value={this.state.input_receipt_identifier}
+                variant='standard'
                 label={t('tools.input_receipt_identifier_hint')}
                 InputLabelProps={{ className: classes.textFieldLabel }}
                 onChange={this.onReceiptIdentifierChange}
@@ -284,17 +296,18 @@ class Index extends PureComponent<IndexProps, IndexState> {
             </div>
             <Button
               className={classes.button}
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               onClick={this.onTransformReceiptIdentifierToAddress}
             >
-              <Typography className={classes.search} variant="body1">
+              <Typography className={classes.search} variant='body1'>
                 {t('tools.transform')}
               </Typography>
             </Button>
             <div className={classes.resultField}>
               <TextField
-                id="standard-basic-2"
+                id='standard-basic-2'
+                variant='standard'
                 className={classes.textField}
                 value={this.state.output_address}
                 label={t('tools.output_address_hint')}

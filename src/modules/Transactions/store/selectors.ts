@@ -5,6 +5,6 @@ const selector = (state: any) => state[types.SCOPENAME];
 
 export const transactionSelector = createSelector(
   selector,
-  state => state.transaction
+  state => state.transaction,
 );
 

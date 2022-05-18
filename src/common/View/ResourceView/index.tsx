@@ -1,19 +1,16 @@
 import React from 'react';
 // import EventViewTable from '@/common/View/EventViewTable';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import ResourceViewTable from '@/common/View/ResourceViewTable';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
-    firstRow: {
-    },
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
+    firstRow: {},
   },
   [theme.breakpoints.up('sm')]: {
-    firstRow: {
-    },
+    firstRow: {},
   },
-  firstRow: {
-  },
+  firstRow: {},
 });
 
 interface ExternalProps {

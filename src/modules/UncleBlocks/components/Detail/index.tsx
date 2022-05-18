@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Loading from '@/common/Loading';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
@@ -40,8 +40,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static defaultProps = {
     match: {},
     uncleBlock: null,
-    getUncleBlock: () => { },
-    getUncleBlockByHeight: () => { },
+    getUncleBlock: () => {
+    },
+    getUncleBlockByHeight: () => {
+    },
   };
 
   constructor(props: IndexProps) {
@@ -98,12 +100,15 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.Hash'), header.block_hash],
       [t('uncleblock.Height'), formatNumber(header.number)],
       [t('common.Time'), `${new Date(parseInt(header.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
-      [t('uncleblock.Author'), <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
+      [t('uncleblock.Author'),
+        <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
       [t('uncleblock.BlockAccumulatorRoot'), header.block_accumulator_root],
       [t('uncleblock.Difficulty'), formatNumber(header.difficulty_number)],
       [t('common.GasUsed'), formatNumber(header.gas_used)],
       [t('common.Nonce'), formatNumber(header.nonce)],
-      [t('uncleblock.ParentHash'), <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`} title={header.parent_hash} />],
+      [t('uncleblock.ParentHash'),
+        <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`}
+                    title={header.parent_hash} />],
     ];
 
     return (

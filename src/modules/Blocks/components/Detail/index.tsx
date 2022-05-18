@@ -2,22 +2,22 @@ import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
 import { onchain_events } from '@starcoin/starcoin';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Loading from '@/common/Loading';
 import TransactionTable from '@/Transactions/components/Table';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
 import { toObject } from '@/utils/helper';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PageViewTable from '@/common/View/PageViewTable';
 import EventViewTable from '@/common/View/EventViewTable';
 
-const useStyles = () => createStyles({
+const useStyles = (theme: any) => createStyles({
   table: {
     width: '100%',
     display: 'block',
@@ -28,6 +28,10 @@ const useStyles = () => createStyles({
   },
   shrinkCol: {
     flex: '1 10 auto',
+  },
+  accordion: {
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
 });
 
@@ -55,10 +59,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
     match: {},
     block: null,
     blockTransactions: null,
-    getBlock: () => { },
-    getBlockByHeight: () => { },
-    getBlockTransactions: () => { },
-    getBlockTransactionsByHeight: () => { }
+    getBlock: () => {
+    },
+    getBlockByHeight: () => {
+    },
+    getBlockTransactions: () => {
+    },
+    getBlockTransactionsByHeight: () => {
+    },
   };
 
   constructor(props: IndexProps) {
@@ -66,7 +74,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     this.state = {
       epochData: undefined,
       hash: props.match.params.hash,
-      height: props.match.params.height
+      height: props.match.params.height,
     };
   }
 
@@ -108,16 +116,16 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const transactions = get(block, 'body.Full', []);
     transactions.map((tx: any) => {
       if (blockTransactions && blockTransactions.contents) {
-        const block = blockTransactions.contents.filter((block: any) => block.transaction_hash === tx.transaction_hash)
+        const block = blockTransactions.contents.filter((block: any) => block.transaction_hash === tx.transaction_hash);
         if (block.length) {
-          tx.timestamp = block[0].timestamp
+          tx.timestamp = block[0].timestamp;
         }
       }
-      return tx
-    })
+      return tx;
+    });
     const blockTransactionHits = get(blockTransactions, 'contents');
     const blockEventsIndex = blockTransactionHits.length - 1;
-    const getBlockEventsString = `contents[${ blockEventsIndex.toString() }].events`;
+    const getBlockEventsString = `contents[${blockEventsIndex.toString()}].events`;
     const events = get(blockTransactions, getBlockEventsString, []);
     const eventsTable: any[] = [];
 
@@ -163,29 +171,34 @@ class Index extends PureComponent<IndexProps, IndexState> {
       columns.push([t('common.Hash'), uncle.block_hash]);
       columns.push([t('block.Height'), formatNumber(uncle.number)]);
       columns.push([t('common.Time'), `${new Date(parseInt(uncle.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`]);
-      columns.push([t('block.Author'), <CommonLink key={uncle.author} path={`/${ network }/address/${ uncle.author }`} title={uncle.author} />]);
+      columns.push([t('block.Author'),
+        <CommonLink key={uncle.author} path={`/${network}/address/${uncle.author}`} title={uncle.author} />]);
       columns.push([t('block.Difficulty'), uncle.difficulty]);
       columns.push([t('common.GasUsed'), uncle.gas_used]);
-      columns.push([t('block.ParentHash'), <CommonLink key={uncle.parent_hash} path={`/${ network }/blocks/detail/${ uncle.parent_hash }`} title={uncle.parent_hash} />]);
+      columns.push([t('block.ParentHash'),
+        <CommonLink key={uncle.parent_hash} path={`/${network}/blocks/detail/${uncle.parent_hash}`}
+                    title={uncle.parent_hash} />]);
       unclesTable.push(<PageViewTable key={uncle.number} columns={columns} />);
     });
 
     const transactionsContent = transactions.length ? <TransactionTable
       transactions={transactions}
-    /> : <Typography variant="body1">{t('transaction.NoTransactionData')}</Typography>;
+    /> : <Typography variant='body1'>{t('transaction.NoTransactionData')}</Typography>;
 
-    const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
-    const unclesContent = uncles.length ? unclesTable : <Typography variant="body1">{t('uncle.NoUncleData')}</Typography>;
+    const eventsContent = events.length ? eventsTable :
+      <Typography variant='body1'>{t('event.NoEventData')}</Typography>;
+    const unclesContent = uncles.length ? unclesTable :
+      <Typography variant='body1'>{t('uncle.NoUncleData')}</Typography>;
     return (
       <div>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>{t('transaction.title')}</Typography>
+            <Typography variant='h5' gutterBottom>{t('transaction.title')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
@@ -194,13 +207,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </AccordionDetails>
         </Accordion>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>{t('header.events')}</Typography>
+            <Typography variant='h5' gutterBottom>{t('header.events')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
@@ -209,13 +222,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </AccordionDetails>
         </Accordion>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>{t('block.Uncles')}</Typography>
+            <Typography variant='h5' gutterBottom>{t('block.Uncles')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
@@ -242,10 +255,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.Hash'), header.block_hash],
       [t('block.Height'), formatNumber(header.number)],
       [t('common.Time'), `${new Date(parseInt(header.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
-      [t('block.Author'), <CommonLink key={header.author} path={`/${ network }/address/${ header.author }`} title={header.author} />],
+      [t('block.Author'),
+        <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
       [t('block.Difficulty'), formatNumber(header.difficulty_number)],
       [t('common.GasUsed'), formatNumber(header.gas_used)],
-      [t('block.ParentHash'), <CommonLink key={header.parent_hash} path={`/${ network }/blocks/detail/${ header.parent_hash }`} title={header.parent_hash} />],
+      [t('block.ParentHash'),
+        <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`}
+                    title={header.parent_hash} />],
     ];
 
     return (
@@ -254,7 +270,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         title={t('block.title')}
         name={t('block.title')}
         pluralName={t('header.blocks')}
-        searchRoute={`/${ network }/blocks`}
+        searchRoute={`/${network}/blocks`}
         bodyColumns={columns}
         extra={this.generateExtra()}
       />

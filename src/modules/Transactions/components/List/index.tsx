@@ -1,19 +1,21 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
-import { createStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Loading from '@/common/Loading';
 import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import CenteredView from '@/common/View/CenteredView';
 import TransactionTable from '../Table';
 
-const useStyles = () => createStyles({
+const useStyles = (theme: any) => createStyles({
   pagerArea: {
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
 });
 
@@ -29,10 +31,11 @@ interface InternalProps {
   t: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 interface IndexState {
-  currentPage: number
+  currentPage: number;
 }
 
 class Index extends PureComponent<Props, IndexState> {
@@ -40,7 +43,8 @@ class Index extends PureComponent<Props, IndexState> {
   static defaultProps = {
     transactionList: null,
     isLoadingMore: undefined,
-    getTransactionList: () => {}
+    getTransactionList: () => {
+    },
   };
 
   constructor(props: Props) {
@@ -65,10 +69,14 @@ class Index extends PureComponent<Props, IndexState> {
     const after = last && last.sort || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getTransactionList({ page, after }, () => { this.pagenationCallback(page); });
+      this.props.getTransactionList({ page, after }, () => {
+        this.pagenationCallback(page);
+      });
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getTransactionList({ page, after }, () => { this.pagenationCallback(page); });
+      this.props.getTransactionList({ page, after }, () => {
+        this.pagenationCallback(page);
+      });
     }
   };
 
@@ -87,7 +95,7 @@ class Index extends PureComponent<Props, IndexState> {
     ) : (
       <CenteredView>
         <div className={classes.header}>
-          <Typography variant="h5" gutterBottom className={classes.title}>
+          <Typography variant='h5' gutterBottom className={classes.title}>
             {t('transaction.NoTransactionData')}
           </Typography>
         </div>

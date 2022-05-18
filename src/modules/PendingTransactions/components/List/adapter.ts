@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 // @ts-ignore
-import createLoadingSelector  from '@/rootStore/loading/selector';
+import createLoadingSelector from '@/rootStore/loading/selector';
 import store from '@/Transactions/store';
 import * as types from '@/Transactions/store/constants';
 import Index from './index';
@@ -16,10 +16,10 @@ const selector = createSelector(
   (current, loading) => ({
     pendingTransactionList: current.pendingTransactionList,
     isLoadingMore: current.isLoadingMore,
-    loading
-  })
+    loading,
+  }),
 );
 
 export default connect(selector, {
-  getPendingTransactionList: actions.getPendingTransactionList
-})(Index) as any;
+  getPendingTransactionList: actions.getPendingTransactionList,
+})(Index as any) as any;

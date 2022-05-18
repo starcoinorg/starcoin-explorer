@@ -20,8 +20,8 @@ class NetworkRedirectRouter extends PureComponent<NetworkRedirectRouterProps> {
           to={{
             pathname: '/',
             state: {
-              network: redirectNetwork
-            }
+              network: redirectNetwork,
+            },
           }}
         />
       </>

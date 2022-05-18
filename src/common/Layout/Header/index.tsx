@@ -1,30 +1,31 @@
 import React, { Suspense } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import Loading from '@/common/Loading';
 import HeaderUpMD from './HeaderUpMD';
 import HeaderDownMD from './HeaderDownMD';
 
-const useStyles = makeStyles((theme) => ({
-  [theme.breakpoints.down('md')]: {
-    headerUpMD: {
-      display: 'none',
+const useStyles = makeStyles((theme: any) => {
+  return {
+    [theme.breakpoints.down('lg')]: {
+      headerUpMD: {
+        display: 'none',
+      },
+      headerDownMD: {
+        display: 'initial',
+      },
     },
-    headerDownMD: {
-      display: 'initial',
+    [theme.breakpoints.up('md')]: {
+      headerUpMD: {
+        display: 'initial',
+      },
+      headerDownMD: {
+        display: 'none',
+      },
     },
-  },
-  [theme.breakpoints.up('md')]: {
-    headerUpMD: {
-      display: 'initial',
-    },
-    headerDownMD: {
-      display: 'none',
-    },
-  },
-  headerUpMD: {
-  },
-  headerDownMD: {},
-}));
+    headerUpMD: {},
+    headerDownMD: {},
+  };
+});
 
 export default function Index() {
   const classes = useStyles();

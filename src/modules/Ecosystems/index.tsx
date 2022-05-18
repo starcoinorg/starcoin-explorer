@@ -1,39 +1,50 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import Helmet from 'react-helmet';
 import { sha3_256 } from 'js-sha3';
-import Card from '@material-ui/core/Card';
+import Card from '@mui/material/Card';
 import CommonHeader from '@/common/View/CommonHeader';
 import CenteredView from '@/common/View/CenteredView';
 import EcosystemCard from './EcosystemCard';
 import cards from './cards';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('xs')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('sm')]: {
     gridCards: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      gridGap: `${theme.spacing(1) * 2}px ${theme.spacing(1) * 2}px`,
-      padding: theme.spacing(1) * 2,
+      gridGap: theme.spacing(2),
+      padding: theme.spacing(2),
     },
   },
   [theme.breakpoints.up('sm')]: {
     gridCards: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gridGap: `${theme.spacing(1) * 2}px ${theme.spacing(1) * 2}px`,
-      padding: theme.spacing(1) * 2,
+      gridGap: theme.spacing(2),
+      padding: theme.spacing(2),
     },
   },
   [theme.breakpoints.up('lg')]: {
     gridCards: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr 1fr',
-      gridGap: `${theme.spacing(1) * 2}px ${theme.spacing(1) * 2}px`,
-      padding: theme.spacing(1) * 2,
-    },
+      gridGap: theme.spacing(2),
+      padding: theme.spacing(2),
+    }
   },
+  card:{
+    display: 'flex',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+    flexDirection: 'column',
+  },
+  root: {
+    padding: theme.spacing(1),
+    margin: theme.spacing(10),
+  },
+
 });
 
 interface IndexProps {
@@ -51,7 +62,7 @@ class Index extends PureComponent<IndexProps> {
           <title>{title}</title>
         </Helmet>
         <CenteredView>
-          <Card>
+          <Card className={classes.card}>
             <CommonHeader name={title} pluralName={title} />
             <div className={classes.gridCards}>
               {cards.map(({ link, image, cover }, index) => (

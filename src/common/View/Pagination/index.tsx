@@ -1,20 +1,22 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
+import { createStyles, withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import formatNumber from '@/utils/formatNumber';
 
-const useStyles = (theme: Theme) => createStyles({
+const useStyles = (theme: any) => createStyles({
   root: {
     alignItems: 'center',
     display: 'flex',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   count: {
-    paddingRight: theme.spacing(1) * 2,
+    paddingRight: theme.spacing(2),
   },
   error: {
     color: theme.palette.secondary.main,
@@ -41,11 +43,24 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { page, pageSize, currentPageSize, hasPreviousPage, hasNextPage, onPrevPage, onNextPage, isLoading, error, className, classes } = this.props;
+    const {
+      page,
+      pageSize,
+      currentPageSize,
+      hasPreviousPage,
+      hasNextPage,
+      onPrevPage,
+      onNextPage,
+      isLoading,
+      error,
+      className,
+      classes,
+    } = this.props;
     let start = 1;
     let end = 1;
     let totalElement = <span className={classes.count}>0 - 0</span>;
@@ -66,7 +81,7 @@ class Index extends React.PureComponent<Props> {
         {error != null ? (
           <Typography
             className={classNames(classes.margin, classes.error)}
-            variant="body1"
+            variant='body1'
           >
             {error}
           </Typography>
@@ -76,15 +91,13 @@ class Index extends React.PureComponent<Props> {
         ) : null}
         {totalElement}
         <IconButton
+          color='inherit'
           disabled={isLoading || !hasPreviousPage}
           onClick={onPrevPage}
-        >
+          size='large'>
           <ArrowBackIos />
         </IconButton>
-        <IconButton
-          disabled={isLoading || !hasNextPage}
-          onClick={onNextPage}
-        >
+        <IconButton color='inherit' disabled={isLoading || !hasNextPage} onClick={onNextPage} size='large'>
           <ArrowForwardIos />
         </IconButton>
       </div>

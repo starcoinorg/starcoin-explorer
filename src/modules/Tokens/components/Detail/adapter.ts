@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import createLoadingSelector  from '@/rootStore/loading/selector';
+import createLoadingSelector from '@/rootStore/loading/selector';
 import store from '@/Tokens/store';
 import * as types from '@/Tokens/store/constants';
 // import * as typesTransactions from '@/Transactions/store/constants';
@@ -31,7 +31,7 @@ export default connect(selector, {
   getBlockByHeight: actions.getBlockByHeight,
   getBlockTransactions: actionsTransactions.getBlockTransactions,
   getBlockTransactionsByHeight: actionsTransactions.getBlockTransactionsByHeight
-})(Index) as any;
+})(Index as any) as any;
 */
 
 const selector = createSelector(
@@ -39,10 +39,10 @@ const selector = createSelector(
   loadingSelector,
   (current, loading) => ({
     tokenInfo: current.tokenInfo,
-    loading
-  })
+    loading,
+  }),
 );
 
 export default connect(selector, {
-  getTokenInfo: actions.getTokenInfo
-})(Index) as any;
+  getTokenInfo: actions.getTokenInfo,
+})(Index as any) as any;
