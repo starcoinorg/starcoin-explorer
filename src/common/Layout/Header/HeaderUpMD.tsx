@@ -19,7 +19,7 @@ import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 import Tabs from './Tabs';
 import StarcoinLogo from '../../../starcoin.jpeg';
-
+import StarcoinLogoDark from '../../../logo.png';
 
 const useStyles = (theme: any) => createStyles({
   header: {
@@ -88,7 +88,8 @@ const useStyles = (theme: any) => createStyles({
     textDecoration: 'none',
   },
   logoImg: {
-    width: '132px',
+    width: theme.palette.mode === 'dark' ? "112px" : "132px",
+    padding: theme.palette.mode === 'dark' ? "10px" : undefined,
   },
   logo: {
     fontFamily: 'Bauhaus93',
@@ -486,7 +487,8 @@ function Index(props: any) {
           <div className={classes.tabs}>
             <BaseRouteLink to='/' underline='none'>
               <div className={classes.logoLink}>
-                <img className={classes.logoImg} src={StarcoinLogo} alt='logo' />
+                <img className={classes.logoImg} src={theme.palette.mode === 'dark' ? StarcoinLogoDark : StarcoinLogo} alt='logo' />
+
                 {/*
               <Typography className={classes.logo} variant="h3">
                 { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Starcoin' }

@@ -21,6 +21,7 @@ import { getNetwork } from '@/utils/helper';
 import { Brightness4Sharp, Brightness7Sharp } from '@mui/icons-material';
 import { ColorModeContext } from '@/utils/context';
 import StarcoinLogo from '../../../starcoin.jpeg';
+import StarcoinLogoDark from '../../../logo.png';
 
 
 const useStyles = (theme: any) => createStyles({
@@ -103,7 +104,8 @@ const useStyles = (theme: any) => createStyles({
     textDecoration: 'none',
   },
   logoImg: {
-    width: '132px',
+    width: theme.palette.mode === 'dark' ? "112px" : "132px",
+    padding: theme.palette.mode === 'dark' ? "10px" : undefined,
   },
   logo: {
     fontFamily: 'Bauhaus93',
@@ -282,7 +284,7 @@ function Index(props: any) {
       <div className={classNames(classes.header, classes.pad)}>
         <BaseRouteLink to='/' underline='none'>
           <div className={classes.logoLink}>
-            <img className={classes.logoImg} src={StarcoinLogo} alt='logo' />
+            <img className={classes.logoImg} src={theme.palette.mode === 'dark' ? StarcoinLogoDark : StarcoinLogo} alt='logo' />
             {/*
             <Typography className={classes.logo} variant="h3">
               { window.location.hostname === 'stcscan.io' ? 'StcScan' : 'Starcoin' }
