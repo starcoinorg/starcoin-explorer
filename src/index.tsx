@@ -93,6 +93,8 @@ function App() {
   );
   if (mode === 'dark'){
     theme.palette.background.default = "#212121"
+  }else {
+    theme.palette.background.default = "#EAEAEA"
   }
 
   return <ColorModeContext.Provider value={colorMode}>

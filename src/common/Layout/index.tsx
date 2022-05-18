@@ -10,7 +10,7 @@ const useStyles = (theme: any) => {
   return createStyles({
     '@global': {
       body: {
-        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.grey[200],
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.default : "#EAEAEA",
         margin: 0,
       },
     },
