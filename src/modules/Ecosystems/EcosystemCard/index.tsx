@@ -71,7 +71,7 @@ const useStyles = (theme: any) => createStyles({
     alignItems: 'center',
     borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.mode === "dark"? theme.palette.background.default : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
 
   },

@@ -16,7 +16,7 @@ const useStyles = (theme: any) => createStyles({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.mode === "dark"? theme.palette.background.default : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
   },
 });
