@@ -12,7 +12,7 @@ const useStyles = (theme: any) => createStyles({
     whiteSpace: 'nowrap',
   },
   link: {
-    color: theme.palette.primary.main,
+    color: theme.palette.mode === 'dark' ? "#54A8F8" : "#3f51b5",
     fontWeight: theme.typography.fontWeightRegular,
     textDecoration: 'none',
     '&:hover': {

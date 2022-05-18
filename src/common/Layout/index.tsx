@@ -13,6 +13,18 @@ const useStyles = (theme: any) => {
         backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.default : "#EAEAEA",
         margin: 0,
       },
+      ".MuiLink-root":{
+        color: theme.palette.mode === 'dark' ? "#54A8F8" : "#3f51b5",
+      },
+      ".MuiInput-input":{
+        color: theme.palette.getContrastText(theme.palette.background.paper),
+      },
+      ".MuiSvgIcon-root":{
+        color: theme.palette.getContrastText(theme.palette.background.paper),
+      },
+      a:{
+        color: theme.palette.mode === 'dark' ? "#54A8F8!important" : "#3f51b5!important",
+      }
     },
     [theme.breakpoints.down('md')]: {
       contentInner: {
