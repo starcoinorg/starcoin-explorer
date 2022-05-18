@@ -159,7 +159,12 @@ function Index(props: any) {
         </Button>
       </Tooltip>
       <Menu
-
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
         id='language-menu'
         anchorEl={languageMenu}
         open={Boolean(languageMenu)}
@@ -221,6 +226,12 @@ function Index(props: any) {
       </Tooltip>
       <Menu
         id='network-menu'
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
         anchorEl={networkMenu}
         open={Boolean(networkMenu)}
         onClose={() => handleNetworkMenuClose()}
@@ -279,6 +290,12 @@ function Index(props: any) {
         </Button>
       </Tooltip>
       <Menu
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
         id='fade-menu'
         anchorEl={anchorEl}
         keepMounted
@@ -332,6 +349,12 @@ function Index(props: any) {
         </Button>
       </Tooltip>
       <Menu
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
         id='fade-menu'
         anchorEl={anchorTxn}
         keepMounted
@@ -390,6 +413,12 @@ function Index(props: any) {
         </Button>
       </Tooltip>
       <Menu
+        sx={{
+          "& .MuiPopover-paper":{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+          }
+        }}
         id='fade-menu'
         anchorEl={anchorAbout}
         keepMounted

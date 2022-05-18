@@ -41,9 +41,9 @@ const useStyles = (theme: any) => createStyles({
   },
   cardHover: {
     boxShadow: `
-    calc(${theme.spacing(1) * 0} -${theme.spacing(1) * 1} -${theme.spacing(3) } - ${theme.spacing(1)} * 0) rgba(0,0,0,0.2),
-    calc(${theme.spacing(1) * 0} -${theme.spacing(1) * 1}- ${theme.spacing(1) * 1} - ${theme.spacing(1)} * 0) rgba(0,0,0,0.14),
-    calc(${theme.spacing(1) * 0} -${theme.spacing(2) } -${theme.spacing(1) * 1} - ${theme.spacing(1)} * 1) rgba(0,0,0,0.12)
+    calc(${theme.spacing(0)} -${theme.spacing(1) } -${theme.spacing(3) } - ${theme.spacing(0)} ) rgba(0,0,0,0.2),
+    calc(${theme.spacing(0)} -${theme.spacing(1)}- ${theme.spacing(1)} - ${theme.spacing(0)} ) rgba(0,0,0,0.14),
+    calc(${theme.spacing(0)} -${theme.spacing(2) } -${theme.spacing(1)} - ${theme.spacing(1)}) rgba(0,0,0,0.12)
     `,
     cursor: 'pointer',
   },
