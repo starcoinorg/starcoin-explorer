@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
-import { createStyles, withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 import formatTime from '@/utils/formatTime';
 
 const useStyles = () => createStyles({
@@ -22,7 +22,8 @@ interface InternalProps {
   i18n: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 interface IndexState {
   status: boolean,

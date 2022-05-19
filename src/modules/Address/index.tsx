@@ -1,24 +1,26 @@
 import React, { PureComponent } from 'react';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Button from '@material-ui/core/Button';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Typography from '@material-ui/core/Typography';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
+import NativeSelect from '@mui/material/NativeSelect';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Button from '@mui/material/Button';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Typography from '@mui/material/Typography';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import Loading from '@/common/Loading';
 import ResourceView from '@/common/View/ResourceView';
 import TransferTransactionTable from '@/Transactions/components/Table/TransferTransactionTable';
 import PageView from '@/common/View/PageView';
 import { withTranslation } from 'react-i18next';
-import { withStyles, createStyles } from '@material-ui/core/styles';
-import { getAddressData, getBalancesData, getAddressSTCBalance,
+import { withStyles, createStyles } from '@mui/styles';
+import {
+  getAddressData, getBalancesData, getAddressSTCBalance,
   getAddressResources, getAddressModuleUpdateStrategy,
-  getAddressUpgradeModuleCapability, getAddressUpgradePlanCapability } from '@/utils/sdk';
+  getAddressUpgradeModuleCapability, getAddressUpgradePlanCapability,
+} from '@/utils/sdk';
 import { getNetwork, formatBalance, formatResources } from '@/utils/helper';
 import AddressNotFound from '../Error404/address';
 
-const useStyles = () => createStyles({
+const useStyles = (theme: any) => createStyles({
   table: {
     width: '100%',
   },
@@ -31,8 +33,12 @@ const useStyles = () => createStyles({
   },
   button: {
     marginLeft: '1rem',
-    marginBottom: '1rem'
-  }
+    marginBottom: '1rem',
+  },
+  accordion: {
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+  },
 });
 
 const moduleUpdateStrategy = [
@@ -40,8 +46,8 @@ const moduleUpdateStrategy = [
   'TWO_PHASE',
   'NEW_MODULE',
   'FREEZE',
-  'TWO_PHASE + DAO（T）'
-]
+  'TWO_PHASE + DAO（T）',
+];
 
 interface IndexProps {
   t: any,
@@ -68,8 +74,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static defaultProps = {
     computedMatch: {},
     addressTransactions: null,
-    getAddressTransactions: () => {},
-    pushLocation: () => { }
+    getAddressTransactions: () => {
+    },
+    pushLocation: () => {
+    },
   };
 
   constructor(props: IndexProps) {
@@ -106,7 +114,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         if (data) {
           this.setState({ balancesData: data });
         } else {
-          console.log('get balances failed')
+          console.log('get balances failed');
           this.setState({ balancesData: [] });
         }
       });
@@ -166,13 +174,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
     return (
       <div>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>Transactions</Typography>
+            <Typography variant='h5' gutterBottom>Transactions</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
@@ -184,29 +192,29 @@ class Index extends PureComponent<IndexProps, IndexState> {
           </AccordionDetails>
           <Button
             className={this.props.classes.button}
-            color="primary"
-            variant="contained"
+            color='primary'
+            variant='contained'
             onClick={() => {
-              this.props.pushLocation(`/${getNetwork()}/address_transactions/${hash}/1`)
+              this.props.pushLocation(`/${getNetwork()}/address_transactions/${hash}/1`);
             }}
           >
-            <Typography className={this.props.classes.search} variant="body1">
+            <Typography className={this.props.classes.search} variant='body1'>
               {t('home.viewAll')}
             </Typography>
           </Button>
         </Accordion>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>Resources</Typography>
+            <Typography variant='h5' gutterBottom>Resources</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.table}>
-              { isInitialLoad ? <Loading /> : <ResourceView resources={accountResources} /> }
+              {isInitialLoad ? <Loading /> : <ResourceView resources={accountResources} />}
             </div>
           </AccordionDetails>
         </Accordion>
@@ -231,12 +239,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
     let value;
     Object.keys(balancesData).forEach((key, idx) => {
       value = (idx === 0) ? key : '';
-      options.push(<option key={key} value={key}>{`${formatBalance(balancesData[key])} ${key.split('::')[2]}`}</option>);
+      options.push(<option key={key}
+                           value={key}>{`${formatBalance(balancesData[key])} ${key.split('::')[2]}`}</option>);
     });
 
     const token = (
       <NativeSelect
-        id="demo-customized-select-native"
+        id='demo-customized-select-native'
         value={value}
       >
         {options}
@@ -253,8 +262,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
     return (
       <PageView
         id={this.props.computedMatch.params.hash}
-        title="Address"
-        name="Address"
+        title='Address'
+        name='Address'
         bodyColumns={columns}
         extra={this.generateExtra()}
       />

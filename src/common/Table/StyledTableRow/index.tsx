@@ -1,7 +1,7 @@
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
-import TableRow from '@material-ui/core/TableRow';
+import { createStyles, withStyles } from '@mui/styles';
+import TableRow from '@mui/material/TableRow';
 
-const StyledTableRow = withStyles((theme: Theme) => createStyles({
+const StyledTableRow = withStyles((theme: any) => createStyles({
   root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,

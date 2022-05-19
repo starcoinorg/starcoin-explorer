@@ -3,12 +3,12 @@ import classNames from 'classnames';
 import CommonTime from '@/common/Time';
 import CommonLink from '@/common/Link';
 import { getNetwork } from '@/utils/helper';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@mui/styles';
 import { encoding } from '@starcoin/starcoin';
 
-const useStyles = (theme: Theme) =>
+const useStyles = (theme: any) =>
   createStyles({
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       root: {
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
@@ -16,17 +16,18 @@ const useStyles = (theme: Theme) =>
     },
     [theme.breakpoints.up('sm')]: {
       root: {
-        paddingLeft: theme.spacing(1) * 2,
-        paddingRight: theme.spacing(1) * 2,
+        paddingLeft: theme.spacing(2) ,
+        paddingRight: theme.spacing(2),
       },
     },
     root: {
       alignItems: 'center',
-      borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+      borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
       display: 'flex',
       justifyContent: 'space-between',
-      paddingBottom: theme.spacing(1),
-      paddingTop: theme.spacing(1),
+      // paddingBottom: theme.spacing(1),
+      // paddingTop: theme.spacing(1),
+      padding: theme.spacing(1.09),
     },
     leftHeader: {
       flex: '1 100 auto',
@@ -54,7 +55,8 @@ interface InternalProps {
   classes: any;
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class TransactionSummary extends PureComponent<Props> {
   render() {

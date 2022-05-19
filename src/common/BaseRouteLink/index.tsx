@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
+import Link from '@mui/material/Link';
 import { withBaseRoute } from '@/utils/helper';
 import omit from 'lodash/omit';
 

@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
-import { createStyles, withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, withStyles } from '@mui/styles';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
 
-const useStyles = () => createStyles({
+const useStyles = (theme: any) => createStyles({
   root: {
     padding: 16,
   },
@@ -16,6 +16,8 @@ const useStyles = () => createStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 24,
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   headline: {
     paddingBottom: 8,
@@ -35,10 +37,10 @@ class Index extends PureComponent<IndexProps> {
         <Helmet>
           <title>404</title>
         </Helmet>
-        <Grid className={classes.root} container justify="center">
+        <Grid className={classes.root} container justifyContent='center'>
           <Grid item xs={12} md={8} lg={4}>
             <Card className={classes.card}>
-              <Typography variant="h5" className={classes.headline}>
+              <Typography variant='h5' className={classes.headline}>
                 {t('home.searchNotFound')}
               </Typography>
               <div dangerouslySetInnerHTML={{ __html: t('home.searchNotFoundDetail') }} />

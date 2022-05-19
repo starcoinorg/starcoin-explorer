@@ -3,13 +3,13 @@ export function pushLocation(params: any, abs = false) {
     type: 'PUSH_LOCATION',
     params: {
       path: params,
-      abs
-    }
+      abs,
+    },
   };
 }
 
 export function goBack() {
   return {
-    type: 'GO_BACK'
+    type: 'GO_BACK',
   };
 }

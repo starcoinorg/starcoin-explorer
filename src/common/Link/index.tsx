@@ -1,18 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import { Variant } from '@material-ui/core/styles/createTypography';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, withStyles } from '@mui/styles';
+import { Variant } from '@mui/material/styles/createTypography';
+import Typography from '@mui/material/Typography';
 import { Link as RRLink } from 'react-router-dom';
 
-const useStyles = (theme: Theme) => createStyles({
+const useStyles = (theme: any) => createStyles({
   commonLink: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    color: "white"
   },
   link: {
-    color: theme.palette.primary.main,
+    color: theme.palette.mode === 'dark' ? "#54A8F8" : "#3f51b5",
     fontWeight: theme.typography.fontWeightRegular,
     textDecoration: 'none',
     '&:hover': {
@@ -46,7 +47,8 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {

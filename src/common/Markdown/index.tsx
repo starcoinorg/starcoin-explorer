@@ -2,10 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 // @ts-ignore
 import { MarkdownIt } from 'markdown-it';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import { withTranslation } from 'react-i18next';
 
-const styles = (theme: Theme) => {
+const styles = (theme: any) => {
   return {
     root: {
       ...theme.typography.body1,
@@ -19,7 +19,7 @@ const styles = (theme: Theme) => {
       },
       '& hr': {
         border: 'none',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+        borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
         marginBottom: 8,
         marginTop: 8,
       },
@@ -78,7 +78,8 @@ interface InternalProps {
   t: any,
 }
 
-interface Props extends ExternalProps, InternalProps { }
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {

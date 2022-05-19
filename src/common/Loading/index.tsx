@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { createStyles, withStyles } from '@mui/styles';
+import LinearProgress from '@mui/material/LinearProgress';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('md')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('lg')]: {
     pad: {
       paddingTop: theme.spacing(2),
       paddingBottom: theme.spacing(2),
@@ -21,6 +21,8 @@ const useStyles = (theme: Theme) => createStyles({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
+    backgroundColor: theme.palette.mode === "dark"? theme.palette.background.default : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   pad: {},
   progress: {
@@ -38,7 +40,8 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {

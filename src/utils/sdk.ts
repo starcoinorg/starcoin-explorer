@@ -13,7 +13,7 @@ networks.forEach((n) => {
 
 export async function getTxnData(txnHash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getTransaction(txnHash);
     return result;
   } catch (error: any) {
@@ -23,7 +23,7 @@ export async function getTxnData(txnHash: string) {
 
 export async function getAddressData(hash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getResource(hash, '0x1::Account::Account');
     return result;
   } catch (error: any) {
@@ -33,7 +33,7 @@ export async function getAddressData(hash: string) {
 
 export async function getAddressResources(hash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getResources(hash);
     return result;
   } catch (error: any) {
@@ -43,7 +43,7 @@ export async function getAddressResources(hash: string) {
 
 export async function getBalancesData(hash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getBalances(hash);
     return result;
   } catch (error: any) {
@@ -53,7 +53,7 @@ export async function getBalancesData(hash: string) {
 
 export async function getAddressSTCBalance(hash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getResource(
       hash,
       '0x1::Account::Balance<0x1::STC::STC>',
@@ -66,7 +66,7 @@ export async function getAddressSTCBalance(hash: string) {
 
 export async function getAddressModuleUpdateStrategy(hash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.callV2({
       function_id: '0x1::PackageTxnManager::get_module_upgrade_strategy',
       type_args: [],
@@ -80,7 +80,7 @@ export async function getAddressModuleUpdateStrategy(hash: string) {
 
 export async function getAddressUpgradePlanCapability(hash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getResource(
       hash,
       '0x1::PackageTxnManager::UpgradePlanCapability',
@@ -93,7 +93,7 @@ export async function getAddressUpgradePlanCapability(hash: string) {
 
 export async function getAddressUpgradeModuleCapability(hash: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getResource(
       hash,
       '0x1::UpgradeModuleDaoProposal::UpgradeModuleCapability',
@@ -106,7 +106,7 @@ export async function getAddressUpgradeModuleCapability(hash: string) {
 
 export async function getEpochData() {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.getResource('0x1', '0x1::Epoch::Epoch');
     return result;
   } catch (error: any) {
@@ -116,7 +116,7 @@ export async function getEpochData() {
 
 export async function getTokenPrecision(tokenTypeTag: string) {
   try {
-    const provider = providerMap[getNetwork()]
+    const provider = providerMap[getNetwork()];
     const result = await provider.callV2({
       function_id: '0x1::Token::scaling_factor',
       type_args: [tokenTypeTag],

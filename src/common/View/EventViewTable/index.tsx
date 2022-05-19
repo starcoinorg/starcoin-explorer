@@ -1,49 +1,49 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     firstColRow: {
       paddingRight: theme.spacing(1),
     },
     firstRow: {
       overflow: 'scroll!important',
-      minHeight: theme.spacing(1) * 3,
+      minHeight: theme.spacing(3),
       overflowWrap: 'unset',
       whiteSpace: 'nowrap!important',
     },
     root: {
       padding: theme.spacing(1),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(1),
     },
   },
   [theme.breakpoints.up('sm')]: {
     firstColRow: {
-      paddingRight: theme.spacing(1) * 2,
+      paddingRight: theme.spacing(2) ,
     },
     firstRow: {
       overflowWrap: 'break-word',
-      minHeight: theme.spacing(1) * 6,
+      minHeight: theme.spacing(6) ,
     },
     root: {
-      padding: theme.spacing(1) * 2,
-      marginBottom: theme.spacing(1) * 2
+      padding: theme.spacing(2),
+      marginBottom: theme.spacing(2),
     },
   },
   root: {
     display: 'flex',
     overflow: 'hidden',
     alignItems: 'stretch',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   col: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '150%',
     paddingBottom: '100%',
-    marginBottom: '-100%'
+    marginBottom: '-100%',
   },
   firstCol: {
     flex: '0 0 auto',
@@ -66,7 +66,7 @@ const useStyles = (theme: Theme) => createStyles({
     paddingTop: theme.spacing(1) / 2,
   },
   rowBorder: {
-    borderTop: '1px solid rgba(0, 0, 0, 0.075)',
+    borderTop: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
   },
   lastRow: {
     paddingTop: theme.spacing(1) / 2,
@@ -79,7 +79,7 @@ const useStyles = (theme: Theme) => createStyles({
   },
   baseRow: {
     /*
-    minHeight: theme.spacing(1) * 3,
+    minHeight: theme.spacing(3) ,
     overflow: 'hidden',
     */
     whiteSpace: 'pre-line',
@@ -96,7 +96,8 @@ interface InternalProps {
   classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
@@ -115,7 +116,7 @@ class Index extends React.PureComponent<Props> {
         style={height == null ? undefined : { height }}
       >
         {typeof element === 'string' ? (
-          <Typography key="hash" className={classes.text} variant="body1">
+          <Typography key='hash' className={classes.text} variant='body1'>
             {element}
           </Typography>
         ) : (
@@ -130,13 +131,13 @@ class Index extends React.PureComponent<Props> {
             <Typography
               key={column[0]}
               className={classes.label}
-              variant="body1"
+              variant='body1'
             >
               {column[0]}
             </Typography>,
             idx,
             column.length === 4 ? column[3] : null,
-            true
+            true,
           ))}
         </div>
         <div className={classNames(classes.col, classes.secondCol)}>
@@ -144,17 +145,17 @@ class Index extends React.PureComponent<Props> {
             <Typography
               key={column[1]}
               className={classes.label}
-              variant="body1"
-              display="inline"
+              variant='body1'
+              display='inline'
             >
-              { (idx === 0 || idx === 3) ? (
+              {(idx === 0 || idx === 3) ? (
                 <code style={{ wordWrap: 'break-word' }}>
                   {column[1]}
                 </code>
               ) : column[1]}
             </Typography>,
             idx,
-            column.length === 4 ? column[3] : null
+            column.length === 4 ? column[3] : null,
           ))}
         </div>
       </div>

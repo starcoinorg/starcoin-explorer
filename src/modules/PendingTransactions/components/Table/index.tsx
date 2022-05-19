@@ -6,9 +6,11 @@ interface ExternalProps {
   className?: string,
 }
 
-interface InternalProps {}
+interface InternalProps {
+}
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {

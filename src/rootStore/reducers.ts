@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router'
+import { connectRouter } from 'connected-react-router';
 import blocks from '@/Blocks/store';
 import tokens from '@/Tokens/store';
 import transactions from '@/Transactions/store';
@@ -15,7 +15,7 @@ const reducers = {
 const createRootReducer = (history: any) => (state: any, action: any) => {
   return combineReducers({
     router: connectRouter(history),
-    ...reducers
+    ...reducers,
   })(state, action);
 };
 

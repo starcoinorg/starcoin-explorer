@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
 // import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
-import { withStyles, createStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@mui/styles';
 // import { onchain_events, encoding, types, bcs } from '@starcoin/starcoin';
 import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
@@ -19,7 +19,7 @@ import { arrayify } from '@ethersproject/bytes';
 import { formatBalance } from '@/utils/helper';
 // import BaseRouteLink from '@/common/BaseRouteLink';
 
-const useStyles = () => createStyles({
+const useStyles = (theme: any) => createStyles({
   table: {
     width: '100%',
     display: 'block',
@@ -34,7 +34,11 @@ const useStyles = () => createStyles({
   rawData: {
     wordBreak: 'break-all',
     overflow: 'auto',
-  }
+  },
+  accordion: {
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
+  },
 });
 
 interface IndexProps {
@@ -54,7 +58,8 @@ class Index extends PureComponent<IndexProps> {
     // transaction: null,
     // getTransaction: () => { }
     pendignTransaction: null,
-    getPendingTransaction: () => { }
+    getPendingTransaction: () => {
+    },
   };
 
   componentDidMount() {
@@ -113,8 +118,10 @@ class Index extends PureComponent<IndexProps> {
     const txnPayload = payloadInHex ? encoding.decodeTransactionPayload(payloadInHex) : [];
 
     // const eventsContent = events.length ? eventsTable : <Typography variant="body1">{t('event.NoEventData')}</Typography>;
-    const rawContent = <pre>{JSON.stringify(pendingTransaction, null, 2)}</pre> || <Typography variant="body1">{t('transaction.NoRawData')}</Typography>;
-    const decodedPayloadContent = <pre>{JSON.stringify(txnPayload, null, 2)}</pre> || <Typography variant="body1">{t('transaction.NoDecodedPayload')}</Typography>;
+    const rawContent = <pre>{JSON.stringify(pendingTransaction, null, 2)}</pre> ||
+      <Typography variant='body1'>{t('transaction.NoRawData')}</Typography>;
+    const decodedPayloadContent = <pre>{JSON.stringify(txnPayload, null, 2)}</pre> ||
+      <Typography variant='body1'>{t('transaction.NoDecodedPayload')}</Typography>;
     return (
       <div>
         {/*
@@ -137,13 +144,13 @@ class Index extends PureComponent<IndexProps> {
         </Accordion>
         */}
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>{t('transaction.RawData')}</Typography>
+            <Typography variant='h5' gutterBottom>{t('transaction.RawData')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.rawData}>
@@ -152,13 +159,13 @@ class Index extends PureComponent<IndexProps> {
           </AccordionDetails>
         </Accordion>
         <br />
-        <Accordion>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
-            <Typography variant="h5" gutterBottom>{t('transaction.decodedPayload')}</Typography>
+            <Typography variant='h5' gutterBottom>{t('transaction.decodedPayload')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.rawData}>
@@ -219,7 +226,7 @@ class Index extends PureComponent<IndexProps> {
       // [t('transaction.Status'), source.status],
       // [t('common.GasUsed'), source.gas_used],
       [t('common.MaxGasAmount'), formatNumber(source.raw_txn.max_gas_amount)],
-      [t('transaction.Sender'), <CommonLink path={`/${network}/address/${sender}`} title={sender} />]
+      [t('transaction.Sender'), <CommonLink path={`/${network}/address/${sender}`} title={sender} />],
     ];
 
     if (moduleName) {

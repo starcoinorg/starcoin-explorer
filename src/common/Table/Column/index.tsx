@@ -1,11 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import Hidden from '@material-ui/core/Hidden';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, withStyles } from '@mui/styles';
+import Hidden from '@mui/material/Hidden';
+import Typography from '@mui/material/Typography';
 
-const useStyles = (theme: Theme) => createStyles({
-  [theme.breakpoints.down('sm')]: {
+const useStyles = (theme: any) => createStyles({
+  [theme.breakpoints.down('md')]: {
     pad: {
       paddingLeft: theme.spacing(1),
     },
@@ -29,6 +29,8 @@ const useStyles = (theme: Theme) => createStyles({
   root: {
     flex: '1 1 auto',
     flexDirection: 'column',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+    color: theme.palette.getContrastText(theme.palette.background.paper),
   },
   minWidth: {
     minWidth: '0',
@@ -39,7 +41,7 @@ const useStyles = (theme: Theme) => createStyles({
   baseRow: {
     display: 'flex',
     alignItems: 'center',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+    borderBottom:  theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' :  '1px solid rgba(0, 0, 0, 0.075)',
     minHeight: 48,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -85,21 +87,32 @@ interface ExternalProps {
 }
 
 interface InternalProps {
- classes: any,
+  classes: any,
 }
 
-interface Props extends ExternalProps, InternalProps {}
+interface Props extends ExternalProps, InternalProps {
+}
 
 class Index extends React.PureComponent<Props> {
   render() {
-    const { name, values, numeric, minWidth, visibleAt, firstCol, getRowHeight: getRowHeightIn, className, classes } = this.props;
+    const {
+      name,
+      values,
+      numeric,
+      minWidth,
+      visibleAt,
+      firstCol,
+      getRowHeight: getRowHeightIn,
+      className,
+      classes,
+    } = this.props;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getRowHeight = getRowHeightIn || ((idx: number) => null);
     const wrapValue = (value: any) => (
       (typeof value === 'string') ? (
         <Typography
           className={classNames(classes.textRowBase, classes.row)}
-          variant="body1"
+          variant='body1'
         >
           {value}
         </Typography>
@@ -151,7 +164,7 @@ class Index extends React.PureComponent<Props> {
         >
           <Typography
             className={classNames(classes.textRowBase, classes.header)}
-            variant="body1"
+            variant='body1'
           >
             {name}
           </Typography>
@@ -162,12 +175,11 @@ class Index extends React.PureComponent<Props> {
 
     return (
       <Hidden
-        xsDown={visibleAt === 'xs'}
-        smDown={visibleAt === 'sm'}
-        mdDown={visibleAt === 'md'}
-        lgDown={visibleAt === 'lg'}
-        xlDown={visibleAt === 'xl'}
-        implementation="js"
+        smDown={visibleAt === 'xs'}
+        mdDown={visibleAt === 'sm'}
+        lgDown={visibleAt === 'md'}
+        xlDown={visibleAt === 'lg'}
+        implementation='js'
       >
         {element}
       </Hidden>

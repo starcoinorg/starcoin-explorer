@@ -10,10 +10,10 @@ const sagas = [
   ...tokens.sagas,
   ...transactions.sagas,
   ...search.sagas,
-  ...routerSaga
+  ...routerSaga,
 ];
 
-function* rootSaga () {
+function* rootSaga() {
   yield all(sagas.map(saga => fork(saga)));
 };
 
