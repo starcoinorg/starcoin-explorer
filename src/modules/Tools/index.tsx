@@ -29,7 +29,7 @@ const useStyles = (theme: any) => createStyles({
   },
   header: {
     alignItems: 'center',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+    borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
   },
   title: {
@@ -121,7 +121,7 @@ const useStyles = (theme: any) => createStyles({
   },
   cardHeader: {
     alignItems: 'center',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+    borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
     justifyContent: 'space-between',
     paddingBottom: theme.spacing(2),

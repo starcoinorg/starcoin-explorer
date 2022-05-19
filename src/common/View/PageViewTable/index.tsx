@@ -50,7 +50,7 @@ const useStyles = (theme: any) => createStyles({
     paddingTop: theme.spacing(0.7),
   },
   rowBorder: {
-    borderTop: '1px solid rgba(0, 0, 0, 0.075)',
+    borderTop: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
   },
   lastRow: {
     paddingTop: theme.spacing(1) / 2,

@@ -102,7 +102,7 @@ const useStyles = (theme: any) => createStyles({
   },
   cardHeader: {
     alignItems: 'center',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+    borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
     justifyContent: 'space-between',
     paddingBottom: theme.spacing(2),
@@ -150,7 +150,7 @@ const useStyles = (theme: any) => createStyles({
   metric: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    borderLeft: '1px solid rgba(0, 0, 0, 0.075)',
+    borderLeft: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
   },
 });
 

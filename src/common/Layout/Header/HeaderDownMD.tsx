@@ -77,7 +77,7 @@ const useStyles = (theme: any) => createStyles({
   },
   menu: {
     display: 'flex',
-    borderTop: '1px solid rgba(0, 0, 0, 0.075)',
+    borderTop: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
     flexDirection: 'column',
     paddingBottom: theme.spacing(1),
     paddingTop: theme.spacing(1),

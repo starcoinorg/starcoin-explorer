@@ -27,7 +27,7 @@ const useStyles = (theme: any) => createStyles({
     paddingLeft: theme.spacing(2),
     paddingTop: theme.spacing(1),
     alignItems: 'center',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+    borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
     backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
