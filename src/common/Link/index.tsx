@@ -10,6 +10,7 @@ const useStyles = (theme: any) => createStyles({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    color: "white"
   },
   link: {
     color: theme.palette.mode === 'dark' ? "#54A8F8" : "#3f51b5",

@@ -51,7 +51,7 @@ const useStyles = (theme: any) => createStyles({
     flexDirection: 'row',
   },
   mainHeaderWallet: {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+    borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
   },
   tabs: {
     alignItems: 'flex-end',
@@ -75,7 +75,7 @@ const useStyles = (theme: any) => createStyles({
   },
   search: {
     alignItems: 'center',
-    borderTop: '1px solid rgba(0, 0, 0, 0.075)',
+    borderTop: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
     display: 'flex',
     paddingBottom: theme.spacing(1),
     paddingTop: theme.spacing(1),

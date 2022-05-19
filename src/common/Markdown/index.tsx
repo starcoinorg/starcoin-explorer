@@ -19,7 +19,7 @@ const styles = (theme: any) => {
       },
       '& hr': {
         border: 'none',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.075)',
+        borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
         marginBottom: 8,
         marginTop: 8,
       },

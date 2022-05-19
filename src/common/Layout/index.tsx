@@ -15,6 +15,11 @@ const useStyles = (theme: any) => {
       },
       ".MuiLink-root":{
         color: theme.palette.mode === 'dark' ? "#54A8F8" : "#3f51b5",
+        textDecoration: 'none',
+        '&:hover': {
+          color: theme.palette.primary.dark,
+          textDecoration: 'underline',
+        },
       },
       ".MuiInput-input":{
         color: theme.palette.getContrastText(theme.palette.background.paper),
