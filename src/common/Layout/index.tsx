@@ -13,6 +13,9 @@ const useStyles = (theme: any) => {
         backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.default : "#EAEAEA",
         margin: 0,
       },
+      ".MuiInput-root:before": {
+        borderBottomColor: theme.palette.getContrastText(theme.palette.background.paper),
+      },
       ".MuiLink-root":{
         color: theme.palette.mode === 'dark' ? "#54A8F8" : "#3f51b5",
         textDecoration: 'none',
