@@ -62,7 +62,7 @@ const useStyles = (theme: any) => {
 
     },
     contentNormal: {
-      top: theme.spacing(4),
+      top: theme.spacing(8),
       minHeight: `calc(100vh - ${theme.spacing(8)})`,
     },
     contentWarning: {
