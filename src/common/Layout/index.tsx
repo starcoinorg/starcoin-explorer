@@ -30,6 +30,9 @@ const useStyles = (theme: any) => {
       ".MuiSvgIcon-root":{
         color: theme.palette.getContrastText(theme.palette.background.paper),
       },
+      ".MuiInputLabel-root":{
+        color:  theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined ,
+      },
       a:{
         color: theme.palette.mode === 'dark' ? "#54A8F8!important" : "#3f51b5!important",
       }
