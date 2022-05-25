@@ -3,18 +3,18 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { IconButton } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Input from '@mui/material/Input/Input';
 import { useTheme } from '@mui/styles';
 
 type Props = {
-  up:boolean
+  up: boolean
 }
 
-export default function HeaderSearch(props:Props) {
+export default function HeaderSearch(props: Props) {
   const [input, setInput] = useState('');
   const history = useHistory();
   const { t }: { t: any } = useTranslation();
@@ -22,22 +22,15 @@ export default function HeaderSearch(props:Props) {
   const handleClickSearch = () => {
     history.push(`/search/${input.trim()}`);
   };
-  const local = useLocation();
-  useMemo(() => {
-    console.info(local);
-    if (!local.pathname.endsWith(input)) {
-      setInput('');
-    }
 
-  }, [local,input]);
 
   return (
-    <FormControl sx={props.up?{ m: 1, width: '25ch' }: { m: 1, width: '90%' } } variant='outlined'>
+    <FormControl sx={props.up ? { m: 1, width: '25ch' } : { m: 1, width: '90%' }} variant='outlined'>
       <InputLabel htmlFor='outlined-adornment-password'>{t('home.searchHint')}  </InputLabel>
       <Input
-        onKeyUp={(event)=>{
-          if (event.key === "Enter"){
-            handleClickSearch()
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
+            handleClickSearch();
           }
         }}
         sx={
@@ -65,8 +58,6 @@ export default function HeaderSearch(props:Props) {
           <InputAdornment position='end' onClick={handleClickSearch}>
             <IconButton
               aria-label='toggle password visibility'
-              // onClick={handleClickShowPassword}
-              // onMouseDown={handleMouseDownPassword}
               edge='end'
             >
               <SearchIcon />
