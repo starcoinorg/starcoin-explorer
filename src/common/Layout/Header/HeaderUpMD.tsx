@@ -190,7 +190,7 @@ function Index(props: any) {
         {theme.palette.mode === 'dark' ? <Brightness7Sharp /> : <Brightness4Sharp />}
       </IconButton>
 
-      { location.pathname === "/" ? <></>: <HeaderSearch up />}
+
 
     </>
   );
@@ -537,6 +537,7 @@ function Index(props: any) {
             {aboutMenu}
             {networkMenus}
             {i18nMenu}
+            <div style={{float:'right',position:"fixed",right:theme.spacing(1)}}>  { location.pathname === "/" ? <></>: <HeaderSearch up />}</div>
           </div>
         </div>
       </div>
