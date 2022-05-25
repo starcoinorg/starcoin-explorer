@@ -309,6 +309,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
               label={t('home.searchHint')}
               InputLabelProps={{ className: classes.textFieldLabel }}
               onChange={this.onChange}
+              onKeyUp={(event)=>{
+                if (event.key === "Enter"){
+                  this.onSearch()
+                }
+              }}
             />
             <Button
               className={classes.button}

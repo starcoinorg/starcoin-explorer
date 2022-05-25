@@ -35,6 +35,11 @@ export default function HeaderSearch(props:Props) {
     <FormControl sx={props.up?{ m: 1, width: '25ch' }: { m: 1, width: '90%' } } variant='outlined'>
       <InputLabel htmlFor='outlined-adornment-password'>{t('home.searchHint')}  </InputLabel>
       <Input
+        onKeyUp={(event)=>{
+          if (event.key === "Enter"){
+            handleClickSearch()
+          }
+        }}
         sx={
           {
             display: 'flex',
