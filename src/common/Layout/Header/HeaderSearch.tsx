@@ -25,7 +25,20 @@ export default function HeaderSearch(props: Props) {
 
 
   return (
-    <FormControl sx={props.up ? { m: 1, width: '25ch' } : { m: 1, width: '90%' }} variant='outlined'>
+
+    <FormControl sx={props.up ? {
+      [theme.breakpoints.up('md')]: {
+        width:theme.spacing(36)
+      },
+      [theme.breakpoints.up('lg')]: {
+        width:theme.spacing(36)
+      },
+
+      [theme.breakpoints.up('xl')]: {
+        width:theme.spacing(64)
+      },
+
+    } : { width: '90%' }}  variant='outlined'>
       <InputLabel htmlFor='outlined-adornment-password'>{t('home.searchHint')}  </InputLabel>
       <Input
         onKeyUp={(event) => {
@@ -57,7 +70,6 @@ export default function HeaderSearch(props: Props) {
         endAdornment={
           <InputAdornment position='end' onClick={handleClickSearch}>
             <IconButton
-              aria-label='toggle password visibility'
               edge='end'
             >
               <SearchIcon />
