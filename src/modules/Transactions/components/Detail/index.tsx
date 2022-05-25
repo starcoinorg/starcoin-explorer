@@ -10,7 +10,7 @@ import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
 import EventViewTable from '@/common/View/EventViewTable';
 import Loading from '@/common/Loading';
-import Error404 from 'modules/Error404/address';
+import Error404 from 'modules/Error404/index';
 import { withStyles, createStyles } from '@mui/styles';
 import {
   providers,
@@ -357,7 +357,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       return <Loading />;
     }
     if (transaction === '') {
-      return <Error404 address={match.params.hash} />;
+      return <Error404 />;
     }
     const network = match.params.network;
     const source = transaction;

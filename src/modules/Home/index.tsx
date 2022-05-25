@@ -135,9 +135,6 @@ const useStyles = (theme: any) => createStyles({
       borderColor:"red",
 
     },
-    "& .MuiInputLabel-root":{
-      color:  theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined ,
-    }
   },
   textFieldLabel: {},
   button: {

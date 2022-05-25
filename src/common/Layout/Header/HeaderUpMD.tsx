@@ -17,6 +17,8 @@ import LanguageIcon from '@mui/icons-material/Translate';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
+import HeaderSearch from '@/common/Layout/Header/HeaderSearch';
+import { useLocation } from 'react-router-dom';
 import Tabs from './Tabs';
 import StarcoinLogo from '../../../starcoin.jpeg';
 import StarcoinLogoDark from '../../../logo.png';
@@ -122,6 +124,7 @@ const useStyles = (theme: any) => createStyles({
 
 function Index(props: any) {
   const { classes } = props;
+  const location = useLocation()
   const { t, i18n }: { t: any, i18n: any } = useTranslation();
   const userLanguage = i18n.language || 'en';
   const [languageMenu, setLanguageMenu] = React.useState(null);
@@ -186,6 +189,9 @@ function Index(props: any) {
       <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color='inherit'>
         {theme.palette.mode === 'dark' ? <Brightness7Sharp /> : <Brightness4Sharp />}
       </IconButton>
+
+      { location.pathname === "/" ? <></>: <HeaderSearch up />}
+
     </>
   );
 

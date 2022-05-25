@@ -20,6 +20,8 @@ import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 import { Brightness4Sharp, Brightness7Sharp } from '@mui/icons-material';
 import { ColorModeContext } from '@/utils/context';
+import HeaderSearch from '@/common/Layout/Header/HeaderSearch';
+import { useLocation } from 'react-router-dom';
 import StarcoinLogo from '../../../starcoin.jpeg';
 import StarcoinLogoDark from '../../../logo.png';
 
@@ -139,7 +141,7 @@ function Index(props: any) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const theme = useTheme() as any;
   const colorMode = React.useContext(ColorModeContext);
-
+  const uLocation = useLocation()
   const handleI18nExpandedChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -303,6 +305,9 @@ function Index(props: any) {
       <Collapse in={showMenu} timeout='auto'>
         <ClickAwayListener onClickAway={onClickAway}>
           <div className={classNames(classes.menu, classes.pad)}>
+
+            { uLocation.pathname === "/" ? <></>: <HeaderSearch up={false} />}
+
             {buttons.map((button) => (
               <BaseRouteLink key={button.id} className={classes.link} to={button.href}>
                 <Button
