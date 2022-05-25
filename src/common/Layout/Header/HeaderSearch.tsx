@@ -29,7 +29,7 @@ export default function HeaderSearch(props:Props) {
       setInput('');
     }
 
-  }, [local,input]);
+  }, [local]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <FormControl sx={props.up?{ m: 1, width: '25ch' }: { m: 1, width: '90%' } } variant='outlined'>
