@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import NativeSelect from '@mui/material/NativeSelect';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Button from '@mui/material/Button';
@@ -17,7 +16,8 @@ import {
   getAddressResources, getAddressModuleUpdateStrategy,
   getAddressUpgradeModuleCapability, getAddressUpgradePlanCapability,
 } from '@/utils/sdk';
-import { getNetwork, formatBalance, formatResources } from '@/utils/helper';
+import { getNetwork, formatResources } from '@/utils/helper';
+import TokenTable from '@/Address/components/TokenTable';
 import AddressNotFound from '../Error404/address';
 
 const useStyles = (theme: any) => createStyles({
@@ -67,6 +67,7 @@ interface IndexState {
   accountModuleUpdateStrategy: number,
   accountUpgradePlanCapability: any,
   accountUpgradeModuleCapability: any,
+  expandBalance:boolean,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -90,6 +91,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       accountModuleUpdateStrategy: 0,
       accountUpgradePlanCapability: undefined,
       accountUpgradeModuleCapability: undefined,
+      expandBalance:true,
     };
   }
 
@@ -167,12 +169,33 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   generateExtra() {
     const { addressTransactions, classes, t } = this.props;
+    const { balancesData} = this.state;
     const hash = this.props.computedMatch.params.hash;
     const { accountResources } = this.state;
     const isInitialLoad = !addressTransactions && !accountResources;
     const transactions = addressTransactions && addressTransactions.contents || [];
+
     return (
       <div>
+        <br />
+        <Accordion   expanded={this.state.expandBalance}  className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls='panel1a-content'
+            id='panel1a-header'
+            onClick={()=>{
+              // eslint-disable-next-line react/no-access-state-in-setstate
+              this.setState({expandBalance:!this.state.expandBalance})
+            }}
+          >
+            <Typography variant='h5' gutterBottom>{t('header.tokens')}</Typography>
+          </AccordionSummary>
+          <AccordionDetails >
+            <div className={classes.table}>
+              {isInitialLoad ? <Loading /> : <TokenTable data={balancesData}/>}
+            </div>
+          </AccordionDetails>
+        </Accordion>
         <br />
         <Accordion className={classes.accordion}>
           <AccordionSummary
@@ -235,28 +258,12 @@ class Index extends PureComponent<IndexProps, IndexState> {
     if (!addressData || !balancesData) {
       return null;
     }
-    const options: any[] = [];
-    let value;
-    Object.keys(balancesData).forEach((key, idx) => {
-      value = (idx === 0) ? key : '';
-      options.push(<option key={key}
-                           value={key}>{`${formatBalance(balancesData[key])} ${key.split('::')[2]}`}</option>);
-    });
 
-    const token = (
-      <NativeSelect
-        id='demo-customized-select-native'
-        value={value}
-      >
-        {options}
-      </NativeSelect>
-    );
     const columns = [
       [t('common.Hash'), this.props.computedMatch.params.hash],
       [t('account.Authentication Key'), addressData.authentication_key],
       [t('common.Sequence Number'), addressData.sequence_number],
       [t('account.Module Upgrade Strategy'), moduleUpdateStrategy[accountModuleUpdateStrategy]],
-      [t('common.Token'), token],
     ];
 
     return (
