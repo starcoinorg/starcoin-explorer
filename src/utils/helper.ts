@@ -40,6 +40,29 @@ export function formatBalance(num: string | number) {
   return convertedValue;
 }
 
+// formatToken
+export function formatTokenName(input:string){
+  try {
+    if (input.includes(",")){
+      try {
+        const tokenSlice = input.slice(input.indexOf("<"),input.indexOf(">"))
+        const tokenArray = tokenSlice.split(",")
+        const token1 = tokenArray[0].split('::')[2]
+        const token2 = tokenArray[1].split('::')[2]
+        const token = input.split('::')[2].slice(0,input.split('::')[2].indexOf("<"))
+        return `${token}<${token1},${token2}>`
+      }catch (e){
+        console.info(e)
+        return input.split('::')[2]
+      }
+    }else {
+      return input.split('::')[2]
+    }
+  }catch (e){
+    return  input
+  }
+}
+
 export function toObject(data: {}): string {
   return JSON.stringify(data, (key, value) => {
     if (typeof value === 'bigint') {
