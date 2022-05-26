@@ -42,7 +42,7 @@ class Index extends PureComponent<IndexProps> {
   generateExtra() {
     const { classes , t} = this.props;
     return (
-      <div className={classes}>
+      <div className={classes.root}>
 
         <br />
         <Accordion expanded className={classes.accordion}>
@@ -65,6 +65,7 @@ class Index extends PureComponent<IndexProps> {
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
             id='panel1a-header'
+
           >
             <Typography variant='h5' gutterBottom>Transactions</Typography>
           </AccordionSummary>

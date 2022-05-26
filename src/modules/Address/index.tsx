@@ -67,6 +67,7 @@ interface IndexState {
   accountModuleUpdateStrategy: number,
   accountUpgradePlanCapability: any,
   accountUpgradeModuleCapability: any,
+  expandBalance:boolean,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -90,6 +91,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       accountModuleUpdateStrategy: 0,
       accountUpgradePlanCapability: undefined,
       accountUpgradeModuleCapability: undefined,
+      expandBalance:true,
     };
   }
 
@@ -176,7 +178,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
     return (
       <div>
         <br />
-        <Accordion expanded className={classes.accordion}>
+        <Accordion   expanded={this.state.expandBalance} onClick={()=>{
+          // eslint-disable-next-line react/no-access-state-in-setstate
+          this.setState({expandBalance:!this.state.expandBalance})
+        }} className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'

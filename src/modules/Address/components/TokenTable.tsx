@@ -23,6 +23,7 @@ function createData(
 export default function TokenTable(props: Props) {
   const theme = useTheme() as any
   const styles = {
+    padding:theme.spacing(1),
     color: theme.palette.getContrastText(theme.palette.background.paper),
   }
   const rows: any = [];

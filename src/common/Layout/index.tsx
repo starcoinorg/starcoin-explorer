@@ -33,6 +33,10 @@ const useStyles = (theme: any) => {
       ".MuiInputLabel-root":{
         color:  theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined ,
       },
+      ".MuiAccordion-root":{
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+        color: theme.palette.getContrastText(theme.palette.background.paper),
+      },
       a:{
         color: theme.palette.mode === 'dark' ? "#54A8F8!important" : "#3f51b5!important",
       }
