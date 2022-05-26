@@ -178,14 +178,15 @@ class Index extends PureComponent<IndexProps, IndexState> {
     return (
       <div>
         <br />
-        <Accordion   expanded={this.state.expandBalance} onClick={()=>{
-          // eslint-disable-next-line react/no-access-state-in-setstate
-          this.setState({expandBalance:!this.state.expandBalance})
-        }} className={classes.accordion}>
+        <Accordion   expanded={this.state.expandBalance}  className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
             id='panel1a-header'
+            onClick={()=>{
+              // eslint-disable-next-line react/no-access-state-in-setstate
+              this.setState({expandBalance:!this.state.expandBalance})
+            }}
           >
             <Typography variant='h5' gutterBottom>{t('header.tokens')}</Typography>
           </AccordionSummary>
