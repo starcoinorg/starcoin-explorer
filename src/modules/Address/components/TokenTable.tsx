@@ -25,6 +25,7 @@ export default function TokenTable(props: Props) {
   const styles = {
     padding:theme.spacing(1),
     color: theme.palette.getContrastText(theme.palette.background.paper),
+    borderBottom:  theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' :  '1px solid rgba(0, 0, 0, 0.075)'
   }
   const rows: any = [];
   Object.keys(props.data).forEach((key) => {
