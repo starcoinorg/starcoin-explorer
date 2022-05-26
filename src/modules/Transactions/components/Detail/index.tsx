@@ -457,9 +457,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const data = await provider.send('contract.resolve_function', [functionId]);
       this.setState({ resolvedFunction: data });
     };
-    getResolvedFunction();
-
     const resolvedFunction = this.state?.resolvedFunction;
+    if (!resolvedFunction){
+      getResolvedFunction();
+    }
+
 
     const decodedArgs = args ? args.map((arg: string, index: number) => {
       const type_tag = resolvedFunction?.args[index + 1]?.type_tag;
