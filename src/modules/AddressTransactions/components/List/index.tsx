@@ -1,17 +1,18 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { createStyles, withStyles } from '@mui/styles';
-import Loading from '@/common/Loading';
-import ListView from '@/common/View/ListView';
-import Pagination from '@/common/View/Pagination';
 import Typography from '@mui/material/Typography';
-import CenteredView from '@/common/View/CenteredView';
 import { getNetwork } from '@/utils/helper';
 import FileSaver from 'file-saver';
 import { GetApp } from '@mui/icons-material';
 import Button from '@mui/material/Button';
+import CenteredView from '@/common/View/CenteredView';
+import Pagination from '@/common/View/Pagination';
+import ListView from '@/common/View/ListView';
+import Loading from '@/common/Loading';
 import TransactionTable from '../Table';
+import { withRouter,RoutedProps } from '@/utils/withRouter';
 
 
 const useStyles = (theme: any) => createStyles({
@@ -44,7 +45,7 @@ interface InternalProps {
   t: any,
 }
 
-interface Props extends ExternalProps, InternalProps {
+interface Props extends ExternalProps, InternalProps,RoutedProps {
 }
 
 interface IndexState {
@@ -71,8 +72,8 @@ class Index extends PureComponent<Props, IndexState> {
   }
 
   componentDidMount() {
-    this.setState({ address: this.props.match.params.hash });
-    this.fetchListPage(this.props.match.params.hash, this.state.currentPage);
+    this.setState({ address: this.props.params.hash });
+    this.fetchListPage(this.props.params.hash, this.state.currentPage);
   }
 
   fetchListPage = (hash: string, page: number) => {
@@ -83,7 +84,7 @@ class Index extends PureComponent<Props, IndexState> {
     // transactions use timestamp as sort filed, so we can not jump to specific page
     const hits = this.props.addressTransactionList ? this.props.addressTransactionList.contents : [];
     const last = hits[hits.length - 1];
-    const hash = this.props.match.params.hash;
+    const hash = this.props.params.hash;
     const after = last && last.sort || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
@@ -200,4 +201,4 @@ class Index extends PureComponent<Props, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

@@ -5,10 +5,6 @@ import Button from '@mui/material/Button';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Loading from '@/common/Loading';
-import ResourceView from '@/common/View/ResourceView';
-import TransferTransactionTable from '@/Transactions/components/Table/TransferTransactionTable';
-import PageView from '@/common/View/PageView';
 import { withTranslation } from 'react-i18next';
 import { withStyles, createStyles } from '@mui/styles';
 import {
@@ -17,8 +13,13 @@ import {
   getAddressUpgradeModuleCapability, getAddressUpgradePlanCapability,
 } from '@/utils/sdk';
 import { getNetwork, formatResources } from '@/utils/helper';
+import Loading from '@/common/Loading';
+import ResourceView from '@/common/View/ResourceView';
+import TransferTransactionTable from '@/Transactions/components/Table/TransferTransactionTable';
+import PageView from '@/common/View/PageView';
 import TokenTable from '@/Address/components/TokenTable';
 import AddressNotFound from '../Error404/address';
+import { RoutedProps, withRouter } from '@/utils/withRouter';
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -49,10 +50,10 @@ const moduleUpdateStrategy = [
   'TWO_PHASE + DAO（T）',
 ];
 
-interface IndexProps {
+interface IndexProps extends RoutedProps{
   t: any,
   classes: any;
-  computedMatch: any;
+  path: any;
   addressTransactions: any;
   getAddressTransactions: (data: any, callback?: any) => any;
   pushLocation: (data: any) => any;
@@ -83,6 +84,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   constructor(props: IndexProps) {
     super(props);
+
     this.state = {
       addressData: undefined,
       balancesData: undefined,
@@ -96,7 +98,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidMount() {
-    const hash = this.props.computedMatch.params.hash;
+
+
+    const hash = this.props.params.hash;
     getAddressSTCBalance(hash).then(data => {
       if (data) {
         this.setState({ accountStatus: data });
@@ -170,7 +174,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   generateExtra() {
     const { addressTransactions, classes, t } = this.props;
     const { balancesData} = this.state;
-    const hash = this.props.computedMatch.params.hash;
+    const hash = this.props.params.hash;
     const { accountResources } = this.state;
     const isInitialLoad = !addressTransactions && !accountResources;
     const transactions = addressTransactions && addressTransactions.contents || [];
@@ -248,7 +252,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   render() {
     const { t } = this.props;
     const { addressData, balancesData, accountStatus, accountModuleUpdateStrategy } = this.state;
-    const hash = this.props.computedMatch.params.hash;
+    const hash = this.props.params.hash;
 
     if (accountStatus === undefined) {
       return <Loading />;
@@ -260,7 +264,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     }
 
     const columns = [
-      [t('common.Hash'), this.props.computedMatch.params.hash],
+      [t('common.Hash'), this.props.params.hash],
       [t('account.Authentication Key'), addressData.authentication_key],
       [t('common.Sequence Number'), addressData.sequence_number],
       [t('account.Module Upgrade Strategy'), moduleUpdateStrategy[accountModuleUpdateStrategy]],
@@ -268,7 +272,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
     return (
       <PageView
-        id={this.props.computedMatch.params.hash}
+        id={this.props.params.hash}
         title='Address'
         name='Address'
         bodyColumns={columns}
@@ -278,4 +282,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

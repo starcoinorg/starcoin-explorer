@@ -62,6 +62,7 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
     // found address by hash
     if (!url && isHex(action.payload)) {
       if (res[2]) {
+        // @ts-ignore
         const data = yield call(getAddressData, action.payload);
         if (data) {
           url = `/${getNetwork()}/address/${action.payload}`;
@@ -89,9 +90,9 @@ export function* searchKeyword(action: ReturnType<typeof actions.searchKeyword>)
         yield call(action.callback);
       }
     }
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }

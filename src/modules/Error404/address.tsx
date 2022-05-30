@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { createStyles, withStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PageView from '@/common/View/PageView';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import TokenTable from '@/Address/components/TokenTable';
+import PageView from '@/common/View/PageView';
+import TokenTable from "@/Address/components/TokenTable";
 
 const useStyles = (theme:any) => createStyles({
   table: {

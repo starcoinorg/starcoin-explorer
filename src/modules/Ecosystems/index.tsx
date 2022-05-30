@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import { createStyles, withStyles } from '@mui/styles';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { sha3_256 } from 'js-sha3';
 import Card from '@mui/material/Card';
 import CommonHeader from '@/common/View/CommonHeader';

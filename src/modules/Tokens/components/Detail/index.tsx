@@ -1,25 +1,16 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-// import get from 'lodash/get';
-// import { onchain_events } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@mui/styles';
 import { getNetwork } from '@/utils/helper';
-import Loading from '@/common/Loading';
-// import TransactionTable from '@/Transactions/components/Table';
-import PageView from '@/common/View/PageView';
-// import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
-// import { toObject } from '@/utils/helper';
-// import Accordion from '@mui/material/Accordion';
 import Card from '@mui/material/Card';
 import AccordionSummary from '@mui/material/AccordionSummary';
-// import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import BaseRouteLink from '@/common/BaseRouteLink';
-// import PageViewTable from '@/common/View/PageViewTable';
-// import EventViewTable from '@/common/View/EventViewTable';
 import { getTokenPrecision } from '@/utils/sdk';
+import BaseRouteLink from '@/common/BaseRouteLink';
+import PageView from '@/common/View/PageView';
+import Loading from '@/common/Loading';
+import { withRouter,RoutedProps } from '@/utils/withRouter';
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -46,7 +37,7 @@ const useStyles = (theme: any) => createStyles({
   },
 });
 
-interface IndexProps {
+interface IndexProps extends RoutedProps{
   classes: any;
   t: any;
   match: any;
@@ -72,7 +63,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   constructor(props: IndexProps) {
     super(props);
     this.state = {
-      token_type_tag: props.match.params.token_type_tag,
+      token_type_tag: props.params.token_type_tag,
     };
   }
 
@@ -83,14 +74,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
     // switch hash only in current page, won't switch height
     // so only need to empty height while switch to /hash/xxx from height/xxx
-    if (nextProps.match.params.token_type_tag !== prevState.token_type_tag) {
-      return { ...prevState, token_type_tag: nextProps.match.params.token_type_tag, height: '' };
+    if (nextProps.params.token_type_tag !== prevState.token_type_tag) {
+      return { ...prevState, token_type_tag: nextProps.params.token_type_tag, height: '' };
     }
     return null;
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.match.params.token_type_tag !== this.state.token_type_tag && prevState.token_type_tag !== this.state.token_type_tag) {
+    if (prevProps.params.token_type_tag !== this.state.token_type_tag && prevState.token_type_tag !== this.state.token_type_tag) {
       this.fetchData();
     }
   }
@@ -165,7 +156,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
     }
 
-    const network = match.params.network;
+    const network = params.network;
     const uncles = get(block, 'uncles', []);
     const unclesTable: any[] = [];
     uncles.forEach((uncle: any) => {
@@ -275,7 +266,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     // const { token, match, t } = this.props;
     const { tokenInfo, t } = this.props;
     const token = tokenInfo ? tokenInfo.contents : null;
-    // const network = match.params.network;
+    // const network = params.network;
     const isInitialLoad = !tokenInfo;
     if (isInitialLoad) {
       return <Loading />;
@@ -317,4 +308,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

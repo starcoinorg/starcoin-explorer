@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { withStyles, createStyles } from '@mui/styles';
-import Loading from '@/common/Loading';
 import classNames from 'classnames';
+import Loading from '@/common/Loading';
 import Header from './Header/index';
 import Footer from './Footer/index';
 

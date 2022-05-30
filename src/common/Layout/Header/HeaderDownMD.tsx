@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { createStyles, useTheme, withStyles } from '@mui/styles';
 import classNames from 'classnames';
-import BaseRouteLink from '@/common/BaseRouteLink';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -20,8 +19,9 @@ import { LANGUAGES_LABEL } from '@/utils/constants';
 import { getNetwork } from '@/utils/helper';
 import { Brightness4Sharp, Brightness7Sharp } from '@mui/icons-material';
 import { ColorModeContext } from '@/utils/context';
-import HeaderSearch from '@/common/Layout/Header/HeaderSearch';
 import { useLocation } from 'react-router-dom';
+import BaseRouteLink from '@/common/BaseRouteLink';
+import HeaderSearch from '@/common/Layout/Header/HeaderSearch';
 import StarcoinLogo from '../../../starcoin.jpeg';
 import StarcoinLogoDark from '../../../logo.png';
 

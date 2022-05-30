@@ -5,8 +5,10 @@ function* withLoading(func: any, type: any, params: any) {
     yield(put({ type: `${type}_REQUEST` }));
     let response;
     if (typeof func === 'function') {
+      // @ts-ignore
       response = yield call(func, params);
     } else {
+      // @ts-ignore
       response = yield all(func.map((obj: any) => (call as any)(...obj)));
     }
     yield put({ type: `${type}_SUCCESS` });

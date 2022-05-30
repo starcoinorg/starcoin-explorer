@@ -7,11 +7,12 @@ import { POLLING_INTERVAL } from '@/utils/constants';
 
 export function* getTransaction(action: ReturnType<typeof actions.getTransaction>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getTransaction, action.type, action.payload);
     yield put(actions.setTransaction(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -22,11 +23,12 @@ function* watchGetTransaction() {
 
 export function* getPendingTransaction(action: ReturnType<typeof actions.getPendingTransaction>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getPendingTransaction, action.type, action.payload);
     yield put(actions.setPendingTransaction(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -37,13 +39,14 @@ function* watchGetPendingTransaction() {
 
 export function* getTransactionList(action: ReturnType<typeof actions.getTransactionList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getTransactionList, action.type, action.payload);
     yield put(actions.setTransactionList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setTransactionList([]));
     }
   } finally {
@@ -57,13 +60,14 @@ function* watchGetTransactionList() {
 
 export function* getPendingTransactionList(action: ReturnType<typeof actions.getPendingTransactionList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getPendingTransactionList, action.type, action.payload);
     yield put(actions.setPendingTransactionList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setPendingTransactionList([]));
     }
   } finally {
@@ -77,13 +81,14 @@ function* watchGetPendingTransactionList() {
 
 export function* getAddressTransactionList(action: ReturnType<typeof actions.getAddressTransactionList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getAddressTransactionList, action.type, action.payload);
     yield put(actions.setAddressTransactionList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setAddressTransactionList([]));
     }
   } finally {
@@ -97,14 +102,15 @@ function* watchGetAddressTransactionList() {
 
 export function* getAddressTransactions(action: ReturnType<typeof actions.getAddressTransactions>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getAddressTransactions, action.type, action.payload);
     yield put(actions.setAddressTransactions(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -115,14 +121,15 @@ function* watchGetAddressTransactions() {
 
 export function* getBlockTransactions(action: ReturnType<typeof actions.getBlockTransactions>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getBlockTransactions, action.type, action.payload);
     yield put(actions.setBlockTransactions(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -134,14 +141,15 @@ function* watchGetBlockTransactions() {
 
 export function* getBlockTransactionsByHeight(action: ReturnType<typeof actions.getBlockTransactions>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getBlockTransactionsByHeight, action.type, action.payload);
     yield put(actions.setBlockTransactions(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }

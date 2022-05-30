@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import Loading from '@/common/Loading';
 import Error404 from '../Error404';
+import {withRouter,RoutedProps} from '@/utils/withRouter';
 
-interface IndexProps {
-  computedMatch: any;
+interface IndexProps extends RoutedProps{
+  path: any;
   searchKeyword: (data: any, callback?: any) => any;
 }
 
@@ -27,7 +28,7 @@ class Search extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidMount() {
-    let keyword = this.props.computedMatch.params.keyword;
+    let keyword = this.props.params.keyword;
     if (keyword.indexOf(',') > 0) {
       keyword = keyword.replaceAll(',', '');
     }
@@ -47,4 +48,4 @@ class Search extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default Search;
+export default  withRouter(Search);

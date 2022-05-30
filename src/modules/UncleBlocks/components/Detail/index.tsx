@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import { createStyles, withStyles } from '@mui/styles';
+import formatNumber from '@/utils/formatNumber';
 import Loading from '@/common/Loading';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
-import formatNumber from '@/utils/formatNumber';
+import { withRouter ,RoutedProps} from '@/utils/withRouter';
 
 const useStyles = () => createStyles({
   table: {
@@ -20,7 +21,7 @@ const useStyles = () => createStyles({
   },
 });
 
-interface IndexProps {
+interface IndexProps  extends  RoutedProps{
   classes: any;
   t: any;
   match: any;
@@ -50,8 +51,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
     super(props);
     this.state = {
       epochData: undefined,
-      hash: props.match.params.hash,
-      height: props.match.params.height,
+      hash: props.params.hash,
+      height: props.params.height,
     };
   }
 
@@ -62,14 +63,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
     // switch hash only in current page, won't switch height
     // so only need to empty height while switch to /hash/xxx from height/xxx
-    if (nextProps.match.params.hash !== prevState.hash) {
-      return { ...prevState, hash: nextProps.match.params.hash, height: '' };
+    if (nextProps.params.hash !== prevState.hash) {
+      return { ...prevState, hash: nextProps.params.hash, height: '' };
     }
     return null;
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.match.params.hash !== this.state.hash && prevState.hash !== this.state.hash) {
+    if (prevProps.params.hash !== this.state.hash && prevState.hash !== this.state.hash) {
       this.fetchData();
     }
   }
@@ -86,8 +87,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    const { uncleBlock, match, t } = this.props;
-    const network = match.params.network;
+    const { uncleBlock, params, t } = this.props;
+    const network = params.network;
     const isInitialLoad = !uncleBlock;
     if (isInitialLoad) {
       return <Loading />;
@@ -123,4 +124,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter( Index)));
