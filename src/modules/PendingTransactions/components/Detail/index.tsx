@@ -6,18 +6,15 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
-import CommonLink from '@/common/Link';
-import PageView from '@/common/View/PageView';
-// import EventViewTable from '@/common/View/EventViewTable';
-import Loading from '@/common/Loading';
 import { withStyles, createStyles } from '@mui/styles';
-// import { onchain_events, encoding, types, bcs } from '@starcoin/starcoin';
 import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
-// import get from 'lodash/get';
-// import { formatBalance, toObject } from '@/utils/helper';
 import { formatBalance } from '@/utils/helper';
-// import BaseRouteLink from '@/common/BaseRouteLink';
+import Loading from '@/common/Loading';
+import PageView from '@/common/View/PageView';
+import CommonLink from '@/common/Link';
+import { withRouter,RoutedProps } from '@/utils/withRouter';
+
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -41,7 +38,7 @@ const useStyles = (theme: any) => createStyles({
   },
 });
 
-interface IndexProps {
+interface IndexProps extends RoutedProps{
   classes: any;
   t: any;
   match: any;
@@ -63,7 +60,7 @@ class Index extends PureComponent<IndexProps> {
   };
 
   componentDidMount() {
-    const hash = this.props.match.params.hash;
+    const hash = this.props.params.hash;
     this.props.getPendingTransaction({ hash });
   }
 
@@ -178,11 +175,11 @@ class Index extends PureComponent<IndexProps> {
   }
 
   render() {
-    const { pendingTransaction, match, t } = this.props;
+    const { pendingTransaction, params, t } = this.props;
     if (!pendingTransaction) {
       return <Loading />;
     }
-    const network = match.params.network;
+    const network = params.network;
     const source = pendingTransaction;
     let payloadInHex = '';
     let sender = '';
@@ -258,4 +255,4 @@ class Index extends PureComponent<IndexProps> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

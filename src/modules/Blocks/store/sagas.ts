@@ -7,11 +7,12 @@ import { POLLING_INTERVAL } from '@/utils/constants';
 
 export function* getBlock(action: ReturnType<typeof actions.getBlock>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getBlock, action.type, action.payload);
     yield put(actions.setBlock(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -22,11 +23,12 @@ function* watchGetBlock() {
 
 export function* getUncleBlock(action: ReturnType<typeof actions.getUncleBlock>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getUncleBlock, action.type, action.payload);
     yield put(actions.setUncleBlock(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -38,11 +40,12 @@ function* watchGetUncleBlock() {
 
 export function* getBlockByHeight(action: ReturnType<typeof actions.getBlock>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getBlockByHeight, action.type, action.payload);
     yield put(actions.setBlock(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -53,11 +56,12 @@ function* watchGetBlockByHeight() {
 
 export function* getUncleBlockByHeight(action: ReturnType<typeof actions.getUncleBlock>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getUncleBlockByHeight, action.type, action.payload);
     yield put(actions.setUncleBlock(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -68,13 +72,14 @@ function* watchGetUncleBlockByHeight() {
 
 export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getBlockList, action.type, action.payload);
     yield put(actions.setBlockList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setBlockList([]));
     }
   } finally {
@@ -84,13 +89,14 @@ export function* getBlockList(action: ReturnType<typeof actions.getBlockList>) {
 
 export function* getUncleBlockList(action: ReturnType<typeof actions.getUncleBlockList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getUncleBlockList, action.type, action.payload);
     yield put(actions.setUncleBlockList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setUncleBlockList([]));
     }
   } finally {

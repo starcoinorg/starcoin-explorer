@@ -21,6 +21,7 @@
     "noEmitOnError": false,
     "declaration": true,
     "declarationMap": true,
+    "noImplicitAny": true,
     "jsx": "react-jsx",
     "outDir": "./build",
     "baseUrl": "./src",

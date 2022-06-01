@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
-import CommonTime from '@/common/Time';
-import CommonLink from '@/common/Link';
 import { getNetwork } from '@/utils/helper';
 import { withStyles, createStyles } from '@mui/styles';
 import { encoding } from '@starcoin/starcoin';
+import CommonLink from '@/common/Link';
+import CommonTime from '@/common/Time';
 
 const useStyles = (theme: any) =>
   createStyles({

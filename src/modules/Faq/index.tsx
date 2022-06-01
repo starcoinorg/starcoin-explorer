@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import { createStyles, withStyles } from '@mui/styles';
-import Helmet from 'react-helmet';
-import Markdown from '@/common/Markdown';
+import { Helmet } from 'react-helmet-async';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
+import Markdown from '@/common/Markdown';
 import CenteredView from '@/common/View/CenteredView';
 
 const useStyles = (theme: any) => createStyles({

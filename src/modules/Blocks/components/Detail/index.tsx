@@ -3,10 +3,6 @@ import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
 import { onchain_events } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@mui/styles';
-import Loading from '@/common/Loading';
-import TransactionTable from '@/Transactions/components/Table';
-import PageView from '@/common/View/PageView';
-import CommonLink from '@/common/Link';
 import formatNumber from '@/utils/formatNumber';
 import { toObject } from '@/utils/helper';
 import Accordion from '@mui/material/Accordion';
@@ -14,8 +10,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CommonLink from '@/common/Link';
+import PageView from '@/common/View/PageView';
+import Loading from '@/common/Loading';
+import TransactionTable from '@/Transactions/components/Table';
 import PageViewTable from '@/common/View/PageViewTable';
 import EventViewTable from '@/common/View/EventViewTable';
+import { withRouter,RoutedProps } from '@/utils/withRouter';
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -35,7 +36,7 @@ const useStyles = (theme: any) => createStyles({
   },
 });
 
-interface IndexProps {
+interface IndexProps extends RoutedProps{
   classes: any;
   t: any;
   match: any;
@@ -73,8 +74,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
     super(props);
     this.state = {
       epochData: undefined,
-      hash: props.match.params.hash,
-      height: props.match.params.height,
+      hash: props.params.hash,
+      height: props.params.height,
     };
   }
 
@@ -85,14 +86,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
     // switch hash only in current page, won't switch height
     // so only need to empty height while switch to /hash/xxx from height/xxx
-    if (nextProps.match.params.hash !== prevState.hash) {
-      return { ...prevState, hash: nextProps.match.params.hash, height: '' };
+    if (nextProps.params.hash !== prevState.hash) {
+      return { ...prevState, hash: nextProps.params.hash, height: '' };
     }
     return null;
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.match.params.hash !== this.state.hash && prevState.hash !== this.state.hash) {
+    if (prevProps.params.hash !== this.state.hash && prevState.hash !== this.state.hash) {
       this.fetchData();
     }
   }
@@ -111,7 +112,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   generateExtra() {
-    const { block, blockTransactions, classes, match, t } = this.props;
+    const { block, blockTransactions, classes, params, t } = this.props;
     const isInitialLoad = !block;
     const transactions = get(block, 'body.Full', []);
     transactions.map((tx: any) => {
@@ -163,7 +164,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
     }
 
-    const network = match.params.network;
+    const network = params.network;
     const uncles = get(block, 'uncles', []);
     const unclesTable: any[] = [];
     uncles.forEach((uncle: any) => {
@@ -241,8 +242,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    const { block, blockTransactions, match, t } = this.props;
-    const network = match.params.network;
+    const { block, blockTransactions, params, t } = this.props;
+    const network = params.network;
     const isInitialLoad = !block || !blockTransactions;
     if (isInitialLoad) {
       return <Loading />;
@@ -278,4 +279,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

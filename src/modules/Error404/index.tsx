@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { createStyles, withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';

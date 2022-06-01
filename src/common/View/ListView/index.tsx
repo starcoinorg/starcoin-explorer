@@ -1,9 +1,9 @@
 import React from 'react';
 import Card from '@mui/material/Card';
-import CenteredView from '@/common/View/CenteredView';
-import CommonHeader from '@/common/View/CommonHeader';
 import { createStyles, withStyles } from '@mui/styles';
 import { withTranslation } from 'react-i18next';
+import CenteredView from '@/common/View/CenteredView';
+import CommonHeader from '@/common/View/CommonHeader';
 
 
 const useStyles = (theme: any) => createStyles({

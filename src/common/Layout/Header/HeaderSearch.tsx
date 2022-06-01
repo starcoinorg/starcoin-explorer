@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Input from '@mui/material/Input/Input';
 import { useTheme } from '@mui/styles';
 
@@ -16,11 +16,11 @@ type Props = {
 
 export default function HeaderSearch(props: Props) {
   const [input, setInput] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t }: { t: any } = useTranslation();
   const theme: any = useTheme();
   const handleClickSearch = () => {
-    history.push(`/search/${input.trim()}`);
+    navigate(`/search/${input.trim()}`);
   };
 
 

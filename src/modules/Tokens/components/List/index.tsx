@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { createStyles, withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import { getNetwork } from '@/utils/helper';
 import Loading from '@/common/Loading';
 import ListView from '@/common/View/ListView';
 import Pagination from '@/common/View/Pagination';
-import Typography from '@mui/material/Typography';
 import CenteredView from '@/common/View/CenteredView';
-import { getNetwork } from '@/utils/helper';
 import TokenTable from '../Table';
+import { withRouter,RoutedProps } from '@/utils/withRouter';
 
 const useStyles = (theme: any) => createStyles({
   pagerArea: {
@@ -33,7 +34,7 @@ interface InternalProps {
   match: any,
 }
 
-interface Props extends ExternalProps, InternalProps {
+interface Props extends ExternalProps, InternalProps ,RoutedProps{
 }
 
 interface IndexState {
@@ -52,7 +53,7 @@ class Index extends PureComponent<Props, IndexState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      currentPage: parseInt(props.match.params.page, 10) || 1,
+      currentPage: parseInt(props.params.page, 10) || 1,
     };
   }
 
@@ -137,4 +138,4 @@ class Index extends PureComponent<Props, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

@@ -7,11 +7,12 @@ import { POLLING_INTERVAL } from '@/utils/constants';
 
 export function* getTokenInfo(action: ReturnType<typeof actions.getTokenInfo>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getTokenInfo, action.type, action.payload);
     yield put(actions.setTokenInfo(res));
-  } catch (err) {
-    if (err.message) {
-      console.log(err.message);
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
     }
   }
 }
@@ -22,13 +23,14 @@ function* watchGetTokenInfo() {
 
 export function* getTokenList(action: ReturnType<typeof actions.getTokenList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getTokenList, action.type, action.payload);
     yield put(actions.setTokenList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setTokenList([]));
     }
   } finally {
@@ -38,13 +40,14 @@ export function* getTokenList(action: ReturnType<typeof actions.getTokenList>) {
 
 export function* getTokenHolderList(action: ReturnType<typeof actions.getTokenHolderList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getTokenHolderList, action.type, action.payload);
     yield put(actions.setTokenHolderList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setTokenHolderList([]));
     }
   } finally {
@@ -54,13 +57,14 @@ export function* getTokenHolderList(action: ReturnType<typeof actions.getTokenHo
 
 export function* getTokenTransactionList(action: ReturnType<typeof actions.getTokenTransactionList>) {
   try {
+    // @ts-ignore
     const res = yield call(withLoading, api.getTokenTransactionList, action.type, action.payload);
     yield put(actions.setTokenTransactionList(res));
     if (action.callback) {
       yield call(action.callback);
     }
-  } catch (err) {
-    if (err.message) {
+  } catch ({ message }) {
+    if (message) {
       yield put(actions.setTokenTransactionList([]));
     }
   } finally {

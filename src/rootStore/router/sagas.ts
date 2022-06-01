@@ -4,6 +4,7 @@ import { withBaseRoute } from '@/utils/helper';
 
 export function* pushLocation({ params }: any) {
   const route = params.abs ? params.path : withBaseRoute(params.path);
+  window.location.href = route
   yield put(push(route));
 }
 

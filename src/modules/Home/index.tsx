@@ -6,14 +6,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import CenteredView from '@/common/View/CenteredView';
 import { getEpochData } from '@/utils/sdk';
 import { getNetwork } from '@/utils/helper';
 import formatTime from '@/utils/formatTime';
 import formatNumber from '@/utils/formatNumber';
 import { InputLabel } from '@mui/material';
+import CenteredView from '@/common/View/CenteredView';
 import BlockTable from '../Blocks/components/Table';
 import TransactionTable from '../Transactions/components/Table';
+import { withRouter,RoutedProps } from '@/utils/withRouter';
 
 const useStyles = (theme: any) => createStyles({
   [theme.breakpoints.down('md')]: {
@@ -151,7 +152,7 @@ const useStyles = (theme: any) => createStyles({
   },
 });
 
-interface IndexProps {
+interface IndexProps extends RoutedProps{
   classes: any;
   t: any;
   i18n: any;
@@ -221,7 +222,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   onSearch = () => {
-    this.props.pushLocation(`/search/${this.state.value.trim()}`);
+    this.props.navigate(`/search/${this.state.value.trim()}`);
   };
 
   renderCard = (
@@ -374,4 +375,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

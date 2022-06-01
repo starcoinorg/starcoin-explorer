@@ -34,6 +34,7 @@ class Index extends React.PureComponent<Props, IndexState> {
 
   constructor(props: Props) {
     super(props);
+
     this.state = {
       status: true,
     };

@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
 import { encoding } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@mui/styles';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import CenteredView from '@/common/View/CenteredView';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CenteredView from '@/common/View/CenteredView';
 
 const useStyles = (theme: any) => createStyles({
   root: {

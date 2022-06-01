@@ -6,10 +6,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
-import CommonLink from '@/common/Link';
-import PageView from '@/common/View/PageView';
-import EventViewTable from '@/common/View/EventViewTable';
-import Loading from '@/common/Loading';
 import Error404 from 'modules/Error404/index';
 import { withStyles, createStyles } from '@mui/styles';
 import {
@@ -24,11 +20,16 @@ import { arrayify, hexlify } from '@ethersproject/bytes';
 import get from 'lodash/get';
 // import { formatBalance, toObject } from '@/utils/helper';
 import { toObject } from '@/utils/helper';
-import BaseRouteLink from '@/common/BaseRouteLink';
 import useSWR from 'swr';
 import FileSaver from 'file-saver';
 import { GetApp } from '@mui/icons-material';
 import Button from '@mui/material/Button';
+import BaseRouteLink from '@/common/BaseRouteLink';
+import Loading from '@/common/Loading';
+import EventViewTable from '@/common/View/EventViewTable';
+import PageView from '@/common/View/PageView';
+import CommonLink from '@/common/Link';
+import { withRouter,RoutedProps } from '@/utils/withRouter';
 
 function formatArgsWithTypeTag(
   deserializer: serde.Deserializer,
@@ -189,7 +190,7 @@ interface IndexState {
   resolvedFunction: any;
 }
 
-interface IndexProps {
+interface IndexProps extends  RoutedProps {
   classes: any;
   t: any;
   match: any;
@@ -207,13 +208,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
   };
 
   componentDidMount() {
-    const hash = this.props.match.params.hash;
+    const hash = this.props.params.hash;
     this.props.getTransaction({ hash });
   }
 
   generateExtra() {
-    const { transaction, classes, t, match } = this.props;
-    const network = match.params.network;
+    const { transaction, classes, t, params } = this.props;
+    const network = params.network;
     const isInitialLoad = !transaction;
     const events = get(transaction, 'events', []);
     const eventsTable: any[] = [];
@@ -352,14 +353,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   render() {
-    const { transaction, match, t } = this.props;
+    const { transaction, params, t } = this.props;
     if (transaction === null) {
       return <Loading />;
     }
     if (transaction === '') {
       return <Error404 />;
     }
-    const network = match.params.network;
+    const network = params.network;
     const source = transaction;
     let payloadInHex = '';
     let sender = '';
@@ -629,4 +630,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(Index));
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)) );
