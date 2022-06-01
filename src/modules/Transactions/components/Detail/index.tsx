@@ -1,10 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
 import Error404 from 'modules/Error404/index';
 import { withStyles, createStyles } from '@mui/styles';
@@ -18,18 +14,25 @@ import {
 } from '@starcoin/starcoin';
 import { arrayify, hexlify } from '@ethersproject/bytes';
 import get from 'lodash/get';
-// import { formatBalance, toObject } from '@/utils/helper';
-import { toObject } from '@/utils/helper';
+import {toObject } from '@/utils/helper';
 import useSWR from 'swr';
 import FileSaver from 'file-saver';
 import { GetApp } from '@mui/icons-material';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import { Tab, Tabs } from '@mui/material';
+import Card from '@mui/material/Card';
+import ScanTabPanel, { a11yProps } from '@/common/TabPanel';
 import BaseRouteLink from '@/common/BaseRouteLink';
+
 import Loading from '@/common/Loading';
 import EventViewTable from '@/common/View/EventViewTable';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
 import { withRouter,RoutedProps } from '@/utils/withRouter';
+
+
+
 
 function formatArgsWithTypeTag(
   deserializer: serde.Deserializer,
@@ -171,6 +174,7 @@ const useStyles = (theme: any) =>
     rawData: {
       wordBreak: 'break-all',
       overflow: 'auto',
+      fontSize:theme.spacing(1)
     },
 
     accordion: {
@@ -182,12 +186,19 @@ const useStyles = (theme: any) =>
     },
     csvExportIcon: {
       verticalAlign: 'middle',
-
+    },
+    card:{
+      marginTop:theme.spacing(2),
+      display: 'flex',
+      backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
+      color: theme.palette.getContrastText(theme.palette.background.paper),
+      flexDirection: 'column',
     },
   });
 
 interface IndexState {
   resolvedFunction: any;
+  tabSelect:number,
 }
 
 interface IndexProps extends  RoutedProps {
@@ -207,12 +218,21 @@ class Index extends PureComponent<IndexProps, IndexState> {
     },
   };
 
+  constructor(props: IndexProps) {
+    super(props);
+    this.state = {
+      resolvedFunction:undefined,
+      tabSelect:0,
+    };
+  }
+
+
   componentDidMount() {
     const hash = this.props.params.hash;
     this.props.getTransaction({ hash });
   }
 
-  generateExtra() {
+  generateExtraTabs() {
     const { transaction, classes, t, params } = this.props;
     const network = params.network;
     const isInitialLoad = !transaction;
@@ -224,15 +244,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const event = events[i];
 
       let type_tag = event.type_tag;
-
-      // '0x00000000000000000000000000000001::Oracle::OracleUpdateEvent<0x07fa08a855753f0ff7292fdcbe871216::BTC_USD::BTC_USD, u128>'
       type_tag = type_tag.replace(/<[^<]*?>/g, (str: string) => str.replace(/::/g, '-'));
       const eventTypeArray = (type_tag.split('::')).map((v: string) => v.replace(/-/g, '::'));
       const eventModule = eventTypeArray[1];
       const eventName = eventTypeArray[2];
 
-      // const eventModule = 'Account';
-      // const eventName = 'WithdrawEvent';
       let eventDataDetail;
       let eventKeyDetail;
       try {
@@ -278,63 +294,28 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const rawContent = <pre>{JSON.stringify(transaction, null, 2)}</pre> || (
       <Typography variant='body1'>{t('transaction.NoRawData')}</Typography>
     );
-    /* const decodedPayloadContent = (
-      <pre>{JSON.stringify(txnPayload, null, 2)}</pre>
-    ) || (
-      <Typography variant="body1">
-        {t('transaction.NoDecodedPayload')}
-      </Typography>
-    ); */
-    return (
-      <div>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>
-              {t('header.events')}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.table}>
-              <div className={classes.table}>
-                {isInitialLoad ? <Loading /> : eventsContent}
-              </div>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>
-              {t('transaction.RawData')}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      this.setState({tabSelect:newValue});
+    };
+
+    return (<Card className={classes.card}>
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
+            <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+              <Tab  label={t('header.events')} {...a11yProps(0)} />
+              <Tab label= {t('transaction.RawData')} {...a11yProps(1)} />
+              <Tab label= {t('transaction.decodedPayload')} {...a11yProps(2)} />
+            </Tabs>
+          </Box>
+          <ScanTabPanel value={this.state.tabSelect} index={0}>
+            {isInitialLoad ? <Loading /> : eventsContent}
+          </ScanTabPanel>
+          <ScanTabPanel value={this.state.tabSelect} index={1}>
             <div className={classes.rawData}>
-              {isInitialLoad ? <Loading /> : rawContent}
+            {isInitialLoad ? <Loading /> : rawContent}
             </div>
-          </AccordionDetails>
-        </Accordion>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>
-              {t('transaction.decodedPayload')}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
+          </ScanTabPanel>
+          <ScanTabPanel value={this.state.tabSelect} index={2}>
             <div className={classes.rawData}>
               {isInitialLoad ? (
                 <Loading />
@@ -346,10 +327,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
                 />
               )}
             </div>
-          </AccordionDetails>
-        </Accordion>
-      </div>
-    );
+          </ScanTabPanel>
+
+        </Box>
+      </Card>);
   }
 
   render() {
@@ -601,20 +582,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
     ]);
       
 
-    /*
-    if (arg0) {
-      columns.push([
-        t('transaction.arg0'),
-        <CommonLink path={`/${network}/address/${arg0}`} title={arg0} />,
-      ]);
-    }
-    if (arg1) {
-      columns.push([t('transaction.arg1'), arg1]);
-    }
-    if (arg2) {
-      columns.push([t('transaction.arg2'), `${formatBalance(arg2)} STC`]);
-    }
-    */
 
     return (
       <PageView
@@ -624,7 +591,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         pluralName={t('transaction.title')}
         searchRoute={`/${network}/transactions`}
         bodyColumns={columns}
-        extra={this.generateExtra()}
+        extra={this.generateExtraTabs()}
       />
     );
   }

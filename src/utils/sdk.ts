@@ -127,3 +127,71 @@ export async function getTokenPrecision(tokenTypeTag: string) {
     return false;
   }
 }
+
+
+export async function getAddressStateCode(address: string) {
+  try {
+    const provider = providerMap[getNetwork()];
+    const result = await provider.send('state.list_code', [address]);
+    return result;
+  } catch (error: any) {
+    return false;
+  }
+}
+
+
+export async function getStateCode(module_id: string) {
+  try {
+    const provider = providerMap[getNetwork()];
+    const result = await provider.send('state.get_code', [module_id]);
+    return result;
+  } catch (error: any) {
+    console.info(error);
+    return false;
+  }
+}
+
+export async function getResolveModule(module_id: string) {
+  try {
+    const provider = providerMap[getNetwork()];
+    const result = await provider.send('contract.resolve_module', [module_id]);
+    return result;
+  } catch (error: any) {
+    console.info(error);
+    return false;
+  }
+}
+
+export async function getResolveStruct(struct_tag: string) {
+  try {
+    const provider = providerMap[getNetwork()];
+    const result = await provider.send('contract.resolve_struct', [struct_tag]);
+    return result;
+  } catch (error: any) {
+    console.info(error);
+    return false;
+  }
+}
+
+export async function getResolveFunction(function_id: string) {
+  try {
+    const provider = providerMap[getNetwork()];
+    const result = await provider.send('contract.resolve_function', [function_id]);
+    return result;
+  } catch (error: any) {
+    console.info(error);
+    return false;
+  }
+}
+
+export async function getAddressCode(address: string) {
+  const { codes } = await getAddressStateCode(address);
+  let codeList: any = [];
+  for (const value of Object.keys(codes)) {
+    codeList.push(getResolveModule(`${address}::${value}`));
+  }
+  const all = await Promise.all(codeList);
+  return Object.keys(codes).map((value, index) => {
+    return { 'name': value, code: all[index] };
+  });
+}

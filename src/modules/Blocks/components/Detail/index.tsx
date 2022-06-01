@@ -5,11 +5,11 @@ import { onchain_events } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@mui/styles';
 import formatNumber from '@/utils/formatNumber';
 import { toObject } from '@/utils/helper';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import { Tab, Tabs } from '@mui/material';
+import ScanTabPanel, { a11yProps } from '@/common/TabPanel';
 import CommonLink from '@/common/Link';
 import PageView from '@/common/View/PageView';
 import Loading from '@/common/Loading';
@@ -17,6 +17,7 @@ import TransactionTable from '@/Transactions/components/Table';
 import PageViewTable from '@/common/View/PageViewTable';
 import EventViewTable from '@/common/View/EventViewTable';
 import { withRouter,RoutedProps } from '@/utils/withRouter';
+
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -30,9 +31,12 @@ const useStyles = (theme: any) => createStyles({
   shrinkCol: {
     flex: '1 10 auto',
   },
-  accordion: {
+  card:{
+    marginTop:theme.spacing(2),
+    display: 'flex',
     backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
+    flexDirection: 'column',
   },
 });
 
@@ -52,6 +56,7 @@ interface IndexState {
   epochData: any,
   hash?: string,
   height?: string,
+  tabSelect:number,
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -76,6 +81,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       epochData: undefined,
       hash: props.params.hash,
       height: props.params.height,
+      tabSelect: 0,
     };
   }
 
@@ -111,7 +117,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     }
   }
 
-  generateExtra() {
+  generateExtraTabs() {
     const { block, blockTransactions, classes, params, t } = this.props;
     const isInitialLoad = !block;
     const transactions = get(block, 'body.Full', []);
@@ -190,55 +196,32 @@ class Index extends PureComponent<IndexProps, IndexState> {
       <Typography variant='body1'>{t('event.NoEventData')}</Typography>;
     const unclesContent = uncles.length ? unclesTable :
       <Typography variant='body1'>{t('uncle.NoUncleData')}</Typography>;
-    return (
-      <div>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>{t('transaction.title')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : transactionsContent}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>{t('header.events')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : eventsContent}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>{t('block.Uncles')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : unclesContent}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      </div>
-    );
+
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      this.setState({tabSelect:newValue});
+    };
+
+    return (<Card className={classes.card}>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
+          <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+            <Tab  label={t('transaction.title')} {...a11yProps(0)} />
+            <Tab label= {t('header.events')} {...a11yProps(1)} />
+            <Tab label= {t('block.Uncles')} {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <ScanTabPanel value={this.state.tabSelect} index={0}>
+          {isInitialLoad ? <Loading /> : transactionsContent}
+        </ScanTabPanel>
+        <ScanTabPanel value={this.state.tabSelect} index={1}>
+          {isInitialLoad ? <Loading /> : eventsContent}
+        </ScanTabPanel>
+        <ScanTabPanel value={this.state.tabSelect} index={2}>
+          {isInitialLoad ? <Loading /> : unclesContent}
+        </ScanTabPanel>
+
+      </Box>
+    </Card>);
   }
 
   render() {
@@ -273,7 +256,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         pluralName={t('header.blocks')}
         searchRoute={`/${network}/blocks`}
         bodyColumns={columns}
-        extra={this.generateExtra()}
+        extra={this.generateExtraTabs()}
       />
     );
   }

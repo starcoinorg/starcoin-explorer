@@ -27,6 +27,9 @@ const useStyles = (theme: any) => {
       ".MuiInput-input":{
         color: theme.palette.getContrastText(theme.palette.background.paper),
       },
+      ".MuiTab-root":{
+        color: theme.palette.getContrastText(theme.palette.background.paper),
+      },
       ".MuiSvgIcon-root":{
         color: theme.palette.getContrastText(theme.palette.background.paper),
       },
