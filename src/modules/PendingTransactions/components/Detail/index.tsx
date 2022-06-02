@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react';
 import { withTranslation } from 'react-i18next';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import formatNumber from '@/utils/formatNumber';
 import { withStyles, createStyles } from '@mui/styles';
 import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import { formatBalance } from '@/utils/helper';
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import { Tab, Tabs } from '@mui/material';
+import ScanTabPanel, { a11yProps } from '@/common/TabPanel';
 import Loading from '@/common/Loading';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
 import { withRouter,RoutedProps } from '@/utils/withRouter';
+
 
 
 const useStyles = (theme: any) => createStyles({
@@ -31,10 +32,14 @@ const useStyles = (theme: any) => createStyles({
   rawData: {
     wordBreak: 'break-all',
     overflow: 'auto',
+    fontSize:theme.spacing(1)
   },
-  accordion: {
+  card:{
+    marginTop:theme.spacing(2),
+    display: 'flex',
     backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
+    flexDirection: 'column',
   },
 });
 
@@ -48,7 +53,11 @@ interface IndexProps extends RoutedProps{
   getPendingTransaction: (data: any, callback?: any) => any;
 }
 
-class Index extends PureComponent<IndexProps> {
+interface IndexState {
+  tabSelect:number,
+}
+
+class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     match: {},
@@ -59,53 +68,21 @@ class Index extends PureComponent<IndexProps> {
     },
   };
 
+  constructor(props: IndexProps) {
+    super(props);
+    this.state = {
+      tabSelect:0,
+    };
+  }
+
   componentDidMount() {
     const hash = this.props.params.hash;
     this.props.getPendingTransaction({ hash });
   }
 
-  generateExtra() {
+  generateExtraTabs() {
     const { pendingTransaction, classes, t } = this.props;
     const isInitialLoad = !pendingTransaction;
-
-    /*
-    const events = get(transaction, 'events', []);
-    const eventsTable: any[] = [];
-
-    for (let i = 0; i < events.length; i++) {
-      const columns: any[] = [];
-      const event = events[i];
-      const eventTypeArray = event.type_tag.split('::');
-      const eventModule = eventTypeArray[1];
-      const eventName = eventTypeArray[2];
-      // const eventModule = 'Account';
-      // const eventName = 'WithdrawEvent';
-      let eventDataDetail;
-      let eventKeyDetail;
-      try {
-        const de = onchain_events.decodeEventData(eventName, event.data);
-        eventDataDetail = toObject(de.toJS());
-      } catch (e) {
-        console.log(e);
-        eventDataDetail = event.data;
-      }
-
-      try {
-        const eventKeyInHex = event.event_key;
-        const de = onchain_events.decodeEventKey(eventKeyInHex);
-        eventKeyDetail = toObject(de);
-      } catch (e) {
-        console.log(e);
-        eventKeyDetail = event.event_key;
-      }
-      columns.push([t('event.Data'), eventDataDetail]);
-      columns.push([t('event.Module'), eventModule]);
-      columns.push([t('event.Name'), eventName]);
-      columns.push([t('event.Key'), eventKeyDetail]);
-      columns.push([t('event.Seq'), formatNumber(event.event_seq_number)]);
-      eventsTable.push(<EventViewTable key={event.event_key} columns={columns} />);
-    }
-    */
 
     const source = pendingTransaction;
     let payloadInHex = '';
@@ -119,59 +96,33 @@ class Index extends PureComponent<IndexProps> {
       <Typography variant='body1'>{t('transaction.NoRawData')}</Typography>;
     const decodedPayloadContent = <pre>{JSON.stringify(txnPayload, null, 2)}</pre> ||
       <Typography variant='body1'>{t('transaction.NoDecodedPayload')}</Typography>;
-    return (
-      <div>
-        {/*
-        <br />
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography variant="h5" gutterBottom>{t('header.events')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.table}>
-              <div className={classes.table}>
-                {isInitialLoad ? <Loading /> : eventsContent}
-              </div>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        */}
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>{t('transaction.RawData')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.rawData}>
-              {isInitialLoad ? <Loading /> : rawContent}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>{t('transaction.decodedPayload')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      this.setState({tabSelect:newValue});
+    };
+
+    return (<Card className={classes.card}>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
+          <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label= {t('transaction.RawData')} {...a11yProps(0)} />
+            <Tab label= {t('transaction.decodedPayload')} {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        <ScanTabPanel value={this.state.tabSelect} index={0}>
+          <div className={classes.rawData}>
+            {isInitialLoad ? <Loading /> : rawContent}
+          </div>
+        </ScanTabPanel>
+        <ScanTabPanel value={this.state.tabSelect} index={1}>
+          <div className={classes.rawData}>
             <div className={classes.rawData}>
               {isInitialLoad ? <Loading /> : decodedPayloadContent}
             </div>
-          </AccordionDetails>
-        </Accordion>
-      </div>
-    );
+          </div>
+        </ScanTabPanel>
+
+      </Box>
+    </Card>);
   }
 
   render() {
@@ -249,7 +200,7 @@ class Index extends PureComponent<IndexProps> {
         name={t('pending_transaction.title')}
         pluralName={t('pending_transaction.title')}
         bodyColumns={columns}
-        extra={this.generateExtra()}
+        extra={this.generateExtraTabs()}
       />
     );
   }

@@ -1,10 +1,6 @@
 import React, { PureComponent } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import Button from '@mui/material/Button';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import { withTranslation } from 'react-i18next';
 import { withStyles, createStyles } from '@mui/styles';
 import {
@@ -13,6 +9,10 @@ import {
   getAddressUpgradeModuleCapability, getAddressUpgradePlanCapability,
 } from '@/utils/sdk';
 import { getNetwork, formatResources } from '@/utils/helper';
+import Box from '@mui/material/Box';
+import { Tab,Tabs } from '@mui/material';
+import Card from '@mui/material/Card';
+import ScanTabPanel,{a11yProps} from '@/common/TabPanel';
 import Loading from '@/common/Loading';
 import ResourceView from '@/common/View/ResourceView';
 import TransferTransactionTable from '@/Transactions/components/Table/TransferTransactionTable';
@@ -20,6 +20,7 @@ import PageView from '@/common/View/PageView';
 import TokenTable from '@/Address/components/TokenTable';
 import AddressNotFound from '../Error404/address';
 import { RoutedProps, withRouter } from '@/utils/withRouter';
+import CodeTable from '@/Address/components/CodeTable';
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -36,9 +37,12 @@ const useStyles = (theme: any) => createStyles({
     marginLeft: '1rem',
     marginBottom: '1rem',
   },
-  accordion: {
+  card:{
+    marginTop:theme.spacing(2),
+    display: 'flex',
     backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
     color: theme.palette.getContrastText(theme.palette.background.paper),
+    flexDirection: 'column',
   },
 });
 
@@ -69,7 +73,9 @@ interface IndexState {
   accountUpgradePlanCapability: any,
   accountUpgradeModuleCapability: any,
   expandBalance:boolean,
+  tabSelect:number
 }
+
 
 class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
@@ -94,6 +100,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       accountUpgradePlanCapability: undefined,
       accountUpgradeModuleCapability: undefined,
       expandBalance:true,
+      tabSelect:0,
     };
   }
 
@@ -171,83 +178,67 @@ class Index extends PureComponent<IndexProps, IndexState> {
     });
   }
 
-  generateExtra() {
-    const { addressTransactions, classes, t } = this.props;
+  generateExtraTabs(){
+
+    const { addressTransactions, t,classes } = this.props;
     const { balancesData} = this.state;
     const hash = this.props.params.hash;
     const { accountResources } = this.state;
     const isInitialLoad = !addressTransactions && !accountResources;
     const transactions = addressTransactions && addressTransactions.contents || [];
 
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      this.setState({tabSelect:newValue});
+    };
+
     return (
-      <div>
-        <br />
-        <Accordion   expanded={this.state.expandBalance}  className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-            onClick={()=>{
-              // eslint-disable-next-line react/no-access-state-in-setstate
-              this.setState({expandBalance:!this.state.expandBalance})
-            }}
-          >
-            <Typography variant='h5' gutterBottom>{t('header.tokens')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails >
-            <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : <TokenTable data={balancesData}/>}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>Transactions</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : <TransferTransactionTable
-                transactions={transactions}
-                address={hash}
-              />}
-            </div>
-          </AccordionDetails>
-          <Button
-            className={this.props.classes.button}
-            color='primary'
-            variant='contained'
-            onClick={() => {
-              this.props.pushLocation(`/${getNetwork()}/address_transactions/${hash}/1`);
-            }}
-          >
-            <Typography className={this.props.classes.search} variant='body1'>
-              {t('home.viewAll')}
-            </Typography>
-          </Button>
-        </Accordion>
-        <br />
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h5' gutterBottom>Resources</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={classes.table}>
-              {isInitialLoad ? <Loading /> : <ResourceView resources={accountResources} />}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      </div>
+
+      <Card className={classes.card}>
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}  classes={classes.accordion}>
+            <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+              <Tab  label={t('header.tokens')} {...a11yProps(0)} />
+              <Tab label="Transactions" {...a11yProps(1)} />
+              <Tab label="Resources" {...a11yProps(2)} />
+              <Tab label="Codes" {...a11yProps(3)} />
+            </Tabs>
+          </Box>
+          <ScanTabPanel value={this.state.tabSelect} index={0}>
+            {isInitialLoad ? <Loading /> : <TokenTable data={balancesData}/>}
+          </ScanTabPanel>
+          <ScanTabPanel value={this.state.tabSelect} index={1}>
+            {isInitialLoad ? <Loading /> : <TransferTransactionTable
+              transactions={transactions}
+              address={hash}
+            />}
+            <Button
+              className={this.props.classes.button}
+              color='primary'
+              variant='contained'
+              onClick={() => {
+                this.props.pushLocation(`/${getNetwork()}/address_transactions/${hash}/1`);
+              }}
+            >
+              <Typography className={this.props.classes.search} variant='body1'>
+                {t('home.viewAll')}
+              </Typography>
+            </Button>
+          </ScanTabPanel>
+          <ScanTabPanel value={this.state.tabSelect} index={2}>
+            {isInitialLoad ? <Loading /> : <ResourceView resources={accountResources} />}
+          </ScanTabPanel>
+          <ScanTabPanel value={this.state.tabSelect} index={3}>
+            {isInitialLoad ? <Loading /> : <CodeTable address={hash} />}
+          </ScanTabPanel>
+        </Box>
+      </Card>
+
     );
+
+
+
   }
+
 
   render() {
     const { t } = this.props;
@@ -276,7 +267,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         title='Address'
         name='Address'
         bodyColumns={columns}
-        extra={this.generateExtra()}
+        extra={this.generateExtraTabs()}
       />
     );
   }

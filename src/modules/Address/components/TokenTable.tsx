@@ -42,9 +42,9 @@ export default function TokenTable(props: Props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: any) => (
+          {rows.map((row: any,index:any) => (
             <TableRow
-              key={row.name}
+              key={`${row.name}${index}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell sx={styles} align='left' width={theme.spacing(20)} component='th' scope='row'>
