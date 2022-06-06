@@ -12,7 +12,7 @@ import {
   bcs,
   serde,
 } from '@starcoin/starcoin';
-import { arrayify, hexlify } from '@ethersproject/bytes';
+import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
 import {toObject } from '@/utils/helper';
 import useSWR from 'swr';
@@ -43,7 +43,11 @@ function formatArgsWithTypeTag(
       switch (typeTag) {
         case 'Signer':
         case 'Address': {
-          return hexlify(deserializer.deserializeBytes());
+          let decodeAddress:string='0x';
+          for(let i=0;i<16;i++){
+            decodeAddress+=deserializer.deserializeU8().toString(16);
+          }
+          return decodeAddress;
         }
         case 'Bool': {
           return deserializer.deserializeBool() ? 'true' : 'false';
@@ -63,13 +67,11 @@ function formatArgsWithTypeTag(
       }
     }
     if ('Vector' in typeTag) {
-      /*
       const length = deserializer.deserializeLen();
       return `[${Array.from({ length })
         .map(() => formatArgsWithTypeTag(deserializer, typeTag.Vector))
         .join(', ')}]`;
-      */
-      return hexlify(deserializer.deserializeBytes());
+      // return hexlify(deserializer.deserializeBytes());
     }
     if ('Struct' in typeTag) {
       return `${typeTag.Struct.address}::${typeTag.Struct.module}::${
