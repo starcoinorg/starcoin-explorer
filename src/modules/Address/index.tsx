@@ -4,23 +4,23 @@ import Typography from '@mui/material/Typography';
 import { withTranslation } from 'react-i18next';
 import { withStyles, createStyles } from '@mui/styles';
 import {
-  getAddressData, getBalancesData, getAddressSTCBalance,
-  getAddressResources, getAddressModuleUpdateStrategy,
+  getAddressData, getAddressSTCBalance,
+  getAddressModuleUpdateStrategy,
   getAddressUpgradeModuleCapability, getAddressUpgradePlanCapability,
 } from '@/utils/sdk';
-import { getNetwork, formatResources } from '@/utils/helper';
+import { getNetwork } from '@/utils/helper';
 import Box from '@mui/material/Box';
 import { Tab,Tabs } from '@mui/material';
 import Card from '@mui/material/Card';
 import ScanTabPanel,{a11yProps} from '@/common/TabPanel';
 import Loading from '@/common/Loading';
-import ResourceView from '@/common/View/ResourceView';
-import TransferTransactionTable from '@/Transactions/components/Table/TransferTransactionTable';
 import PageView from '@/common/View/PageView';
 import TokenTable from '@/Address/components/TokenTable';
 import AddressNotFound from '../Error404/address';
 import { RoutedProps, withRouter } from '@/utils/withRouter';
 import CodeTable from '@/Address/components/CodeTable';
+import ResourcesTab from '@/Address/components/ResourcesTab';
+import TransactionsTab from '@/Address/components/TransactionsTab';
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -58,17 +58,13 @@ interface IndexProps extends RoutedProps{
   t: any,
   classes: any;
   path: any;
-  addressTransactions: any;
-  getAddressTransactions: (data: any, callback?: any) => any;
   pushLocation: (data: any) => any;
   location: any;
 }
 
 interface IndexState {
   addressData: any,
-  balancesData: any,
   accountStatus: any,
-  accountResources: any,
   accountModuleUpdateStrategy: number,
   accountUpgradePlanCapability: any,
   accountUpgradeModuleCapability: any,
@@ -81,9 +77,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     computedMatch: {},
-    addressTransactions: null,
-    getAddressTransactions: () => {
-    },
     pushLocation: () => {
     },
   };
@@ -93,9 +86,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
     this.state = {
       addressData: undefined,
-      balancesData: undefined,
       accountStatus: undefined,
-      accountResources: undefined,
       accountModuleUpdateStrategy: 0,
       accountUpgradePlanCapability: undefined,
       accountUpgradeModuleCapability: undefined,
@@ -122,25 +113,6 @@ class Index extends PureComponent<IndexProps, IndexState> {
         }
       });
     }
-    if (!this.state.balancesData) {
-      getBalancesData(hash).then(data => {
-        if (data) {
-          this.setState({ balancesData: data });
-        } else {
-          console.log('get balances failed');
-          this.setState({ balancesData: [] });
-        }
-      });
-    }
-    this.props.getAddressTransactions({ hash });
-
-    getAddressResources(hash).then(data => {
-      if (data) {
-        this.setState({ accountResources: formatResources(data) });
-      } else {
-        this.setState({ accountResources: 'noResource' });
-      }
-    });
 
     getAddressUpgradePlanCapability(hash).then(data => {
       if (data) {
@@ -180,13 +152,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   generateExtraTabs(){
 
-    const { addressTransactions, t,classes } = this.props;
-    const { balancesData} = this.state;
+    const { t,classes } = this.props;
     const hash = this.props.params.hash;
-    const { accountResources } = this.state;
-    const isInitialLoad = !addressTransactions && !accountResources;
-    const transactions = addressTransactions && addressTransactions.contents || [];
-
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       this.setState({tabSelect:newValue});
     };
@@ -204,13 +171,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
             </Tabs>
           </Box>
           <ScanTabPanel value={this.state.tabSelect} index={0}>
-            {isInitialLoad ? <Loading /> : <TokenTable data={balancesData}/>}
+            <TokenTable address={hash}/>
           </ScanTabPanel>
           <ScanTabPanel value={this.state.tabSelect} index={1}>
-            {isInitialLoad ? <Loading /> : <TransferTransactionTable
-              transactions={transactions}
-              address={hash}
-            />}
+            <TransactionsTab address={hash} />
             <Button
               className={this.props.classes.button}
               color='primary'
@@ -225,10 +189,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
             </Button>
           </ScanTabPanel>
           <ScanTabPanel value={this.state.tabSelect} index={2}>
-            {isInitialLoad ? <Loading /> : <ResourceView resources={accountResources} />}
+            <ResourcesTab address={hash} />
           </ScanTabPanel>
           <ScanTabPanel value={this.state.tabSelect} index={3}>
-            {isInitialLoad ? <Loading /> : <CodeTable address={hash} />}
+            <CodeTable address={hash} />
           </ScanTabPanel>
         </Box>
       </Card>
@@ -242,7 +206,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   render() {
     const { t } = this.props;
-    const { addressData, balancesData, accountStatus, accountModuleUpdateStrategy } = this.state;
+    const { addressData,accountStatus, accountModuleUpdateStrategy } = this.state;
     const hash = this.props.params.hash;
 
     if (accountStatus === undefined) {
@@ -250,7 +214,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     } else if (accountStatus === 'nonexist') {
       return <AddressNotFound address={hash} />;
     }
-    if (!addressData || !balancesData) {
+    if (!addressData) {
       return null;
     }
 

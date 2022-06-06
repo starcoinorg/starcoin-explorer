@@ -55,7 +55,7 @@ class Index extends PureComponent<IndexProps> {
           </AccordionSummary>
           <AccordionDetails >
             <div className={classes.table}>
-              <TokenTable data={{"0x00000000000000000000000000000001::STC::STC":"0"}}/>
+              <TokenTable address=""/>
             </div>
           </AccordionDetails>
         </Accordion>

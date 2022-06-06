@@ -7,10 +7,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { formatBalance, formatTokenName } from '@/utils/helper';
 import { useTheme } from '@mui/styles';
+import { useMemo, useState } from 'react';
+import {  getBalancesData } from '@/utils/sdk';
+import Loading from '@/common/Loading';
+
 
 
 type Props = {
-  data: any
+  address: any
 }
 
 function createData(
@@ -22,17 +26,31 @@ function createData(
 
 export default function TokenTable(props: Props) {
   const theme = useTheme() as any
+  const [balancesData,setBalancesData] = useState<any>([])
+  const [loading, setLoading] = useState(true);
+  useMemo(async () => {
+    const fetch = async () => {
+      const res = await getBalancesData(props.address);
+      console.info(res)
+      if (res){
+        const rows: any = [];
+        Object.keys(res).forEach((key) => {
+          rows.push(createData(formatTokenName(key), formatBalance(res[key])));
+        });
+        setBalancesData(rows)
+      }
+      setLoading(false);
+    };
+    await fetch();
+  }, [props.address]);
   const styles = {
     padding:theme.spacing(1),
     color: theme.palette.getContrastText(theme.palette.background.paper),
     borderBottom:  theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' :  '1px solid rgba(0, 0, 0, 0.075)'
   }
-  const rows: any = [];
-  Object.keys(props.data).forEach((key) => {
-      rows.push(createData(formatTokenName(key), formatBalance(props.data[key])));
-  });
 
-  return (
+
+  return <>{loading ? <Loading /> :
     <TableContainer  >
       <Table sx={{ minWidth: 400 }} aria-label='simple table'>
         <TableHead>
@@ -42,7 +60,7 @@ export default function TokenTable(props: Props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: any,index:any) => (
+          {balancesData.map((row: any,index:any) => (
             <TableRow
               key={`${row.name}${index}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -57,6 +75,6 @@ export default function TokenTable(props: Props) {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
-  );
+    </TableContainer> }</>
+  ;
 }
