@@ -89,25 +89,31 @@ class TransactionSummary extends PureComponent<Props> {
     const type = Object.keys(txnPayload)[0];
 
     // @ts-ignore
-    if (isObject(txnPayload) && txnPayload.ScriptFunction && txnPayload.ScriptFunction.func && txnPayload.ScriptFunction.func.address === '0x00000000000000000000000000000001' && txnPayload.ScriptFunction.func.functionName === 'peer_to_peer_v2' && txnPayload.ScriptFunction.func.module === 'TransferScripts') {
-      isP2P = true;
-      console.info('txn', txnPayload,transaction);
+    if (isObject(txnPayload) && txnPayload.ScriptFunction && txnPayload.ScriptFunction.func && txnPayload.ScriptFunction.func.address === '0x00000000000000000000000000000001'  && txnPayload.ScriptFunction.func.module === 'TransferScripts') {
       // @ts-ignore
-      const amount = new bcs.BcsDeserializer(arrayify(txnPayload.ScriptFunction.args[1]))
-      console.info()
-
-      p2pObj = {
-        address:address as string,
-        from:transaction.user_transaction.raw_txn.sender,
+      if (txnPayload.ScriptFunction.func.functionName === 'peer_to_peer_v2' || txnPayload.ScriptFunction.func.functionName === 'peer_to_peer'){
+        isP2P = true;
+        let amountString
         // @ts-ignore
-        to:txnPayload.ScriptFunction.args[0],
-        amount:amount.deserializeU128().toString(),
-        // @ts-ignore
-        name:txnPayload.ScriptFunction.ty_args[0].Struct.name,
-      };
-
+        if (txnPayload.ScriptFunction.func.functionName === 'peer_to_peer_v2') {
+          // @ts-ignore
+          amountString = txnPayload.ScriptFunction.args[1]
+        }else {
+          // @ts-ignore
+          amountString = txnPayload.ScriptFunction.args[2]
+        }
+        const  amount = new bcs.BcsDeserializer(arrayify(amountString))
+        p2pObj = {
+          address:address as string,
+          from:transaction.user_transaction.raw_txn.sender,
+          // @ts-ignore
+          to:txnPayload.ScriptFunction.args[0],
+          amount:amount.deserializeU128().toString(),
+          // @ts-ignore
+          name:txnPayload.ScriptFunction.ty_args[0].Struct.name,
+        };
+      }
     }
-
 
     const events = transaction.events || [];
     let transferDirection = '';
