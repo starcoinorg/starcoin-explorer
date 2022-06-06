@@ -31,7 +31,6 @@ export default function TokenTable(props: Props) {
   useMemo(async () => {
     const fetch = async () => {
       const res = await getBalancesData(props.address);
-      console.info(res)
       if (res){
         const rows: any = [];
         Object.keys(res).forEach((key) => {

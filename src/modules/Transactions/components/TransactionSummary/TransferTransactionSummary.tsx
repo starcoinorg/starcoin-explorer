@@ -2,9 +2,14 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { getNetwork } from '@/utils/helper';
 import { withStyles, createStyles } from '@mui/styles';
-import { onchain_events, encoding } from '@starcoin/starcoin';
+import { onchain_events, encoding ,bcs} from '@starcoin/starcoin';
+import { arrayify } from '@ethersproject/bytes';
+import { isObject } from 'lodash';
 import CommonLink from '@/common/Link';
 import CommonTime from '@/common/Time';
+import TransactionP2PItem from '@/Transactions/components/TransactionSummary/TransactionP2PItem';
+
+
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -22,11 +27,13 @@ const useStyles = (theme: any) =>
     },
     root: {
       alignItems: 'center',
-      borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
       display: 'flex',
       justifyContent: 'space-between',
-      paddingBottom: theme.spacing(1),
       paddingTop: theme.spacing(1),
+    },
+    borderBottom: {
+      borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
+      paddingBottom: theme.spacing(1),
     },
     leftHeader: {
       flex: '1 100 auto',
@@ -64,16 +71,48 @@ class TransferTransactionSummary extends PureComponent<Props> {
     const isTransaction = !!transaction;
     const source = isTransaction ? transaction : transaction;
     let payloadInHex = '';
+    let isP2P = false;
+    let p2pObj = {
+      address:"",
+      from:"",
+      to:"",
+      amount:"",
+      name:"",
+    };
     if (source.user_transaction) {
       payloadInHex = source.user_transaction.raw_txn.payload;
-    }
-    if (source.raw_txn) {
+    } if (source.raw_txn) {
       payloadInHex = source.raw_txn.payload;
     }
-    const txnPayload = payloadInHex
+
+
+
+    const txnPayload:any = payloadInHex
       ? encoding.decodeTransactionPayload(payloadInHex)
-      : [];
+      : {};
     const type = Object.keys(txnPayload)[0];
+
+
+
+    // @ts-ignore
+    if (isObject(txnPayload) && txnPayload.ScriptFunction && txnPayload.ScriptFunction.func && txnPayload.ScriptFunction.func.address === '0x00000000000000000000000000000001' && txnPayload.ScriptFunction.func.functionName === 'peer_to_peer_v2' && txnPayload.ScriptFunction.func.module === 'TransferScripts') {
+      isP2P = true;
+      console.info('txn', txnPayload,transaction);
+      // @ts-ignore
+      const amount = new bcs.BcsDeserializer(arrayify(txnPayload.ScriptFunction.args[1]))
+      console.info()
+
+      p2pObj = {
+        address:address as string,
+        from:transaction.user_transaction.raw_txn.sender,
+        // @ts-ignore
+        to:txnPayload.ScriptFunction.args[0],
+        amount:amount.deserializeU128().toString(),
+        // @ts-ignore
+        name:txnPayload.ScriptFunction.ty_args[0].Struct.name,
+      };
+
+    }
 
     const events = transaction.events || [];
     let transferDirection = '';
@@ -91,10 +130,11 @@ class TransferTransactionSummary extends PureComponent<Props> {
         console.log('decode event key error');
       }
     });
-    return (
-      <div className={classNames(classes.root, className)}>
+    return(<div className={classes.borderBottom}>
+   <div className={classNames(classes.root, className)}>
+
         {transferDirection}&nbsp;
-        {type}&nbsp;
+        {isP2P ? "Transfer" : type}&nbsp;
         <CommonLink
           path={`/${getNetwork()}/transactions/detail/${
             source.transaction_hash
@@ -111,8 +151,13 @@ class TransferTransactionSummary extends PureComponent<Props> {
             }
           />
         </div>
-      </div>
-    );
+
+
+
+   </div>
+      {isP2P ? <TransactionP2PItem {...p2pObj}/> :<></>}
+    </div>)
+
   }
 }
 
