@@ -41,6 +41,19 @@ export async function getAddressResources(hash: string) {
   }
 }
 
+export async function listResources(hash: string) {
+    try {
+      const provider = providerMap[getNetwork()];
+      const result = await provider.send('state.list_resource', [hash,{decode:true}]);
+      return result;
+    } catch (error: any) {
+      console.info(error);
+      return false;
+    }
+
+}
+
+
 export async function getBalancesData(hash: string) {
   try {
     const provider = providerMap[getNetwork()];
