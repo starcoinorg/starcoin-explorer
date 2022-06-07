@@ -5,6 +5,7 @@ import { withStyles, createStyles } from '@mui/styles';
 import { onchain_events, encoding ,bcs} from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import { isObject } from 'lodash';
+// import { CollectionsOutlined } from '@mui/icons-material';
 import CommonLink from '@/common/Link';
 import CommonTime from '@/common/Time';
 import TransactionP2PItem from '@/Transactions/components/TransactionSummary/TransactionP2PItem';
@@ -133,7 +134,7 @@ class TransferTransactionSummary extends PureComponent<Props> {
           transferDirection = 'OUT';
         }
       } catch (e) {
-        console.log('decode event key error');
+        console.log('decode event key error:',e);
       }
     });
     return(<div className={classes.borderBottom}>
