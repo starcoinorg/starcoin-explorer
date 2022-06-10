@@ -5,11 +5,13 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { formatBalance, formatTokenName } from '@/utils/helper';
+import {formatTokenName, getNetwork } from '@/utils/helper';
 import { useTheme } from '@mui/styles';
 import { useMemo, useState } from 'react';
-import {  getBalancesData } from '@/utils/sdk';
+import { getBalancesData } from '@/utils/sdk';
+import BigNumber from 'bignumber.js';
 import Loading from '@/common/Loading';
+import CommonLink from '@/common/Link';
 
 
 
@@ -19,9 +21,10 @@ type Props = {
 
 function createData(
   name: string,
-  balance: string,
+  balance: BigNumber,
+  full_name: string,
 ) {
-  return { name, balance };
+  return { name, balance,full_name };
 }
 
 export default function TokenTable(props: Props) {
@@ -32,10 +35,11 @@ export default function TokenTable(props: Props) {
     const fetch = async () => {
       const res = await getBalancesData(props.address);
       if (res){
-        const rows: any = [];
-        Object.keys(res).forEach((key) => {
-          rows.push(createData(formatTokenName(key), formatBalance(res[key])));
-        });
+        const rows =  res.map((item:any)=>{
+          const value = new BigNumber(item.amount);
+          return createData(formatTokenName(item.name), value.div(item.scaling_factor), item.name)
+        })
+
         setBalancesData(rows)
       }
       setLoading(false);
@@ -56,6 +60,7 @@ export default function TokenTable(props: Props) {
           <TableRow >
             <TableCell sx={styles}  align='left'>Token</TableCell>
             <TableCell  sx={styles} align='left'>Amount</TableCell>
+            <TableCell  sx={styles} align='left'>Token Full Name </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,12 +69,12 @@ export default function TokenTable(props: Props) {
               key={`${row.name}${index}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell sx={styles} align='left' width={theme.spacing(20)} component='th' scope='row'>
+              <TableCell sx={styles} align='left' width={theme.spacing(10)} component='th' scope='row'>
                 {row.name}
               </TableCell>
 
-              <TableCell sx={styles} align='left' >{row.balance}</TableCell>
-
+              <TableCell sx={styles} align='left' width={theme.spacing(12)} >{row.balance.toString()}</TableCell>
+              <TableCell sx={styles} align='left' ><CommonLink path={`/${getNetwork()}/tokens/detail/${row.full_name}`} title={row.full_name}/> </TableCell>
             </TableRow>
           ))}
         </TableBody>

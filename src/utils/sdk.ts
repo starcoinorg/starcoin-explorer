@@ -1,5 +1,5 @@
 // https://www.npmjs.com/package/@starcoin/starcoin
-import { providers } from '@starcoin/starcoin';
+import { providers} from '@starcoin/starcoin';
 import { getNetwork } from '@/utils/helper';
 
 const networks: string[] =
@@ -58,7 +58,20 @@ export async function getBalancesData(hash: string) {
   try {
     const provider = providerMap[getNetwork()];
     const result = await provider.getBalances(hash);
-    return result;
+    let balanceList: any = [];
+    for (const value of Object.keys(result)) {
+      const token1 = value.split('::')[0];
+      const resource = await provider.getResource(
+        token1,
+        `0x00000000000000000000000000000001::Token::TokenInfo<${value}>`,
+      );
+      balanceList.push({
+        name: value,
+        amount: result[value],
+        scaling_factor: resource.scaling_factor,
+      });
+    }
+    return balanceList;
   } catch (error: any) {
     return false;
   }
