@@ -59,18 +59,24 @@ export async function getBalancesData(hash: string) {
     const provider = providerMap[getNetwork()];
     const result = await provider.getBalances(hash);
     let balanceList: any = [];
+    let tokenInfoList: any = [];
     for (const value of Object.keys(result)) {
-      const token1 = value.split('::')[0];
-      const resource = await provider.getResource(
-        token1,
-        `0x00000000000000000000000000000001::Token::TokenInfo<${value}>`,
-      );
+      const resource =  getTokenPrecision(value)
+      // @ts-ignore
+      tokenInfoList.push(resource)
+    }
+    tokenInfoList = await Promise.all(tokenInfoList)
+    console.info(tokenInfoList)
+    let index = 0;
+    for (const value of Object.keys(result)) {
+
       balanceList.push({
         name: value,
         amount: result[value],
-        scaling_factor: resource.scaling_factor,
+        scaling_factor: tokenInfoList[index++][0],
       });
     }
+
     return balanceList;
   } catch (error: any) {
     return false;
