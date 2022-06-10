@@ -5,13 +5,15 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {formatTokenName, getNetwork } from '@/utils/helper';
+import {  formatTokenName, getNetwork } from '@/utils/helper';
+import formatNumber from '@/utils/formatNumber';
 import { useTheme } from '@mui/styles';
 import { useMemo, useState } from 'react';
 import { getBalancesData } from '@/utils/sdk';
 import BigNumber from 'bignumber.js';
 import Loading from '@/common/Loading';
 import CommonLink from '@/common/Link';
+
 
 
 
@@ -73,7 +75,7 @@ export default function TokenTable(props: Props) {
                 {row.name}
               </TableCell>
 
-              <TableCell sx={styles} align='left' width={theme.spacing(12)} >{row.balance.toString()}</TableCell>
+              <TableCell sx={styles} align='left' width={theme.spacing(12)} >{formatNumber(row.balance)}</TableCell>
               <TableCell sx={styles} align='left' ><CommonLink path={`/${getNetwork()}/tokens/detail/${row.full_name}`} title={row.full_name}/> </TableCell>
             </TableRow>
           ))}
