@@ -22,8 +22,8 @@ import { ColorModeContext } from '@/utils/context';
 import { useLocation } from 'react-router-dom';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import HeaderSearch from '@/common/Layout/Header/HeaderSearch';
-import StarcoinLogo from '../../../starcoin.jpeg';
-import StarcoinLogoDark from '../../../logo.png';
+import StarcoinLogo from '../../../starcoin-logo-text-white.svg';
+import StarcoinLogoDark from '../../../starcoin-lgoo-text-blue.svg';
 
 
 const useStyles = (theme: any) => createStyles({
