@@ -78,6 +78,7 @@
     "StateRootHash": "根哈希",
     "Status": "状态",
     "Sender": "发送方",
+    "FailureFunctionName": "执行失败函数名",
     "FunctionModuleAddress": "合约地址",
     "FunctionModuleName": "模块名",
     "FunctionName": "函数名",

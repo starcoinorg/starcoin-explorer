@@ -218,6 +218,17 @@ export async function getResolveStruct(struct_tag: string) {
   }
 }
 
+export async function getResolveModuleFunctionIndex(module_id: string, function_index: number) {
+  try {
+    const provider = providerMap[getNetwork()];
+	  const result = await provider.send('contract.resolve_module_function_index', [module_id, function_index]);
+    return result;
+  } catch (error: any) {
+    console.info(error);
+    return false;
+  }
+}
+
 export async function getResolveFunction(function_id: string) {
   try {
     const provider = providerMap[getNetwork()];

@@ -132,3 +132,17 @@ export function getPendingTransactionListInDelay(payload: any) {
     payload,
   };
 }
+
+export function getModuleFunctionIndex(payload: any) {
+		return {
+				type: types.GET_MODULE_FUNCTION_INDEX,
+				payload,
+		}
+}
+
+export function setModuleFunctionIndex(payload: any) {
+		return {
+				type: types.SET_MODULE_FUNCTION_INDEX,
+				payload,
+		}
+}
