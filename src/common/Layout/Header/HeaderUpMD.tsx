@@ -90,8 +90,8 @@ const useStyles = (theme: any) => createStyles({
     textDecoration: 'none',
   },
   logoImg: {
-    width: theme.palette.mode === 'dark' ? "112px" : "132px",
-    padding: theme.palette.mode === 'dark' ? "10px" : undefined,
+    width: "112px",
+    padding: "10px",
   },
   logo: {
     fontFamily: 'Bauhaus93',
