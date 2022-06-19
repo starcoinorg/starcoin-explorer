@@ -90,6 +90,7 @@
     "decodedPayload": "Decoded Payload",
     "NoDecodedPayload": "No Decoded Payload Data",
     "NoRawData": "No Raw Data",
+    "Confirmations": "Confirmations",
     "": ""
   },
   "event": {

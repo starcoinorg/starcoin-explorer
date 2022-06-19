@@ -90,6 +90,7 @@
     "decodedPayload": "Payload 详情",
     "NoDecodedPayload": "没有 Payload 详情",
     "NoRawData": "没有原始数据",
+    "Confirmations": "确认数",
     "": ""
   },
   "event": {
