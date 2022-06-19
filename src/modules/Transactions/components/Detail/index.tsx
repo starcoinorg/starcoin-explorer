@@ -22,14 +22,15 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Tab, Tabs } from '@mui/material';
 import Card from '@mui/material/Card';
+import { getNodeInfo } from '@/utils/sdk';
 import ScanTabPanel, { a11yProps } from '@/common/TabPanel';
 import BaseRouteLink from '@/common/BaseRouteLink';
-
 import Loading from '@/common/Loading';
 import EventViewTable from '@/common/View/EventViewTable';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
 import { withRouter,RoutedProps } from '@/utils/withRouter';
+
 
 
 
@@ -201,6 +202,7 @@ const useStyles = (theme: any) =>
 interface IndexState {
   resolvedFunction: any;
   tabSelect:number,
+  headNumber: number
 }
 
 interface IndexProps extends  RoutedProps {
@@ -225,6 +227,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
     this.state = {
       resolvedFunction:undefined,
       tabSelect:0,
+      headNumber:0,
     };
   }
 
@@ -232,6 +235,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
   componentDidMount() {
     const hash = this.props.params.hash;
     this.props.getTransaction({ hash });
+
+    getNodeInfo().then((info)=>{
+      if (info){
+        const headNumber = parseInt(info.peer_info.chain_info.head.number,10);
+        this.setState({ resolvedFunction: undefined, tabSelect: 0, headNumber})
+      }
+    })
+
   }
 
   generateExtraTabs() {
@@ -488,6 +499,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
           {formatNumber(source.block_number)}
         </BaseRouteLink>,
       ],
+      [t('transaction.Confirmations'), this.state.headNumber - source.block_number],
       // [t('common.Time'), new Date(parseInt(blockTime, 10)).toLocaleString()],
       [t('transaction.StateRootHash'), source.state_root_hash],
       [t('transaction.Status'), source.status],

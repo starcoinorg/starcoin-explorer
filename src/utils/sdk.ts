@@ -146,6 +146,19 @@ export async function getEpochData() {
   }
 }
 
+export async function getNodeInfo(){
+  try {
+    const provider = providerMap[getNetwork()];
+    const nodeInfo = await provider.perform("getNodeInfo");
+    return  nodeInfo
+  } catch (error: any) {
+    console.error(error)
+    return false;
+  }
+
+
+}
+
 export async function getTokenPrecision(tokenTypeTag: string) {
   try {
     const provider = providerMap[getNetwork()];
