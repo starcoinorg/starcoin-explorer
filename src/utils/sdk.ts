@@ -151,7 +151,6 @@ export async function getNodeInfo(){
     const provider = providerMap[getNetwork()];
     const nodeInfo = await provider.perform("getNodeInfo");
     return  nodeInfo
-    console.info(nodeInfo)
   } catch (error: any) {
     console.error(error)
     return false;
