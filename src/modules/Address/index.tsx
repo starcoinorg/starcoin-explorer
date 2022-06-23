@@ -96,7 +96,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidMount() {
-
+    const tabList = ["token", "transactions", "resources", "codes"];
+    const tabIndex = tabList.indexOf(this.props.params.tab);
+    this.setState({tabSelect:tabIndex});
 
     const hash = this.props.params.hash;
     getAddressSTCBalance(hash).then(data => {
@@ -151,23 +153,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   generateExtraTabs(){
-
     const { t,classes } = this.props;
     const hash = this.props.params.hash;
-    const handleTabSelect = (path: string) => {
-      switch (path) {
-        case "transactions":
-          return 1;
-        case "resources":
-          return 2;
-        case "codes":
-          return 3;
-        default:
-          return 0;
-      }
-    };
-    const tabName = handleTabSelect(this.props.params.tab);
-    this.setState({tabSelect:tabName});
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       this.setState({tabSelect:newValue});
