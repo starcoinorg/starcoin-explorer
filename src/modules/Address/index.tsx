@@ -159,6 +159,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const hash = this.props.params.hash;
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      const { navigate } = this.props;
+      const tabList = ["token", "transactions", "resources", "codes"];
+      const tabName = tabList[newValue];
+      const path = `/${getNetwork()}/address/${hash}/${tabName}`;
+      navigate(path);
       this.setState({tabSelect:newValue});
     };
 
@@ -167,8 +172,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
       <Card className={classes.card}>
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}  classes={classes.accordion}>
-            <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
-              <Tab  label={t('header.tokens')} {...a11yProps(0)} />
+            <Tabs value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label={t('header.tokens')} {...a11yProps(0)} />
               <Tab label="Transactions" {...a11yProps(1)} />
               <Tab label="Resources" {...a11yProps(2)} />
               <Tab label="Codes" {...a11yProps(3)} />
