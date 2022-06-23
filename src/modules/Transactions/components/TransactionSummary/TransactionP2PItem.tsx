@@ -13,11 +13,11 @@ type Props = {
 export default function TransactionP2PItem(props: Props) {
   const navigate = useNavigate();
   const theme = useTheme() as any
-  return <div style={{ paddingLeft: theme.spacing(3) }}>from: {props.from === props.address ? ' this address' : <a style={{cursor: 'pointer'}} href="#" onClick={() => {
+  return <div style={{ paddingLeft: theme.spacing(3) }}>from: {props.from === props.address ? ' this address' : <a style={{cursor: 'pointer'}} href="javascript:void(0)" onClick={() => {
     navigate(`/${getNetwork()}/address/${props.from}`);
   }
   }>{props.from}</a>} to:{props.to === props.address ? ' this address' : <a
-  style={{cursor: 'pointer'}} href="#"
+  style={{cursor: 'pointer'}} href="javascript:void(0)"
     onClick={() => {
       navigate(`/${getNetwork()}/address/${props.to}`);
     }}
