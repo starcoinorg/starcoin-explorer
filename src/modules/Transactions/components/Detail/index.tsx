@@ -14,7 +14,7 @@ import {
 } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
 import get from 'lodash/get';
-import {toObject } from '@/utils/helper';
+import { toObject, getNetwork } from '@/utils/helper';
 import useSWR from 'swr';
 import FileSaver from 'file-saver';
 import { GetApp } from '@mui/icons-material';
@@ -233,6 +233,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
 
   componentDidMount() {
+    const tabList = ["events", "RawData", "decodedPayload"];
+    const tabIndex = tabList.indexOf(this.props.params.tab);
+    if (tabIndex > -1) {
+      this.setState({tabSelect:tabIndex});
+    }
     const hash = this.props.params.hash;
     this.props.getTransaction({ hash });
 
@@ -309,13 +314,19 @@ class Index extends PureComponent<IndexProps, IndexState> {
     );
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       this.setState({tabSelect:newValue});
+      const { navigate } = this.props;
+      const tabList = ["events", "RawData", "decodedPayload"];
+      const hash = this.props.params.hash;
+      const tabName = tabList[newValue];
+      const path = `/${getNetwork()}/transactions/detail/${hash}/${tabName}`;
+      navigate(path);
     };
 
     return (<Card className={classes.card}>
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
-            <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
-              <Tab  label={t('header.events')} {...a11yProps(0)} />
+            <Tabs value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label={t('header.events')} {...a11yProps(0)} />
               <Tab label= {t('transaction.RawData')} {...a11yProps(1)} />
               <Tab label= {t('transaction.decodedPayload')} {...a11yProps(2)} />
             </Tabs>

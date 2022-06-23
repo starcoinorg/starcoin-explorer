@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { onchain_events } from '@starcoin/starcoin';
 import { createStyles, withStyles } from '@mui/styles';
 import formatNumber from '@/utils/formatNumber';
-import { toObject } from '@/utils/helper';
+import { toObject, getNetwork } from '@/utils/helper';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
@@ -17,7 +17,6 @@ import TransactionTable from '@/Transactions/components/Table';
 import PageViewTable from '@/common/View/PageViewTable';
 import EventViewTable from '@/common/View/EventViewTable';
 import { withRouter,RoutedProps } from '@/utils/withRouter';
-
 
 const useStyles = (theme: any) => createStyles({
   table: {
@@ -204,6 +203,12 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       this.setState({tabSelect:newValue});
+      const { navigate } = this.props;
+      const height = this.state.height;
+      const tabList = ["title", "events", "uncles"];
+      const tabName = tabList[newValue];
+      const path = `/${getNetwork()}/blocks/height/${height}/${tabName}`;
+      navigate(path);
     };
 
     return (<Card className={classes.card}>

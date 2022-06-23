@@ -46,12 +46,14 @@ export default function AppRouter() {
 
 
     <Route path='/:network/transactions'>
+      <Route path='detail/:hash/:tab' element={<TransactionsDetail />} />
       <Route path='detail/:hash' element={<TransactionsDetail />} />
       <Route path=':page' element={<TransactionsList />} />
     </Route>
 
 
     <Route path='/:network/pending_transactions'>
+      <Route path='detail/:hash/:tab' element={<PendingTransactionsDetail />} />
       <Route path='detail/:hash' element={<PendingTransactionsDetail />} />
       <Route path=':page' element={<PendingTransactionsList />} />
     </Route>
