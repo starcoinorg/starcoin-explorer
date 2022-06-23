@@ -154,6 +154,21 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
     const { t,classes } = this.props;
     const hash = this.props.params.hash;
+    const handleTabSelect = (path: string) => {
+      switch (path) {
+        case "transactions":
+          return 1;
+        case "resources":
+          return 2;
+        case "codes":
+          return 3;
+        default:
+          return 0;
+      }
+    };
+    const tabName = handleTabSelect(this.props.params.tab);
+    this.setState({tabSelect:tabName});
+
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       this.setState({tabSelect:newValue});
     };

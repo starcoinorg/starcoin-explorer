@@ -72,6 +72,7 @@ export default function AppRouter() {
     <Route path='/faq' element={<Faq />} />
     <Route path='/terms' element={<Terms />} />
     <Route path='/:network/address/:hash' element={<Address />} />
+    <Route path='/:network/address/:hash/:tab' element={<Address />} />
     <Route path='/:network/address_transactions/:hash/:page' element={<AddressTransactions />} />
 
 
