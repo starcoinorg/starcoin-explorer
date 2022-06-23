@@ -5,7 +5,7 @@ import formatNumber from '@/utils/formatNumber';
 import { withStyles, createStyles } from '@mui/styles';
 import { encoding, types, bcs } from '@starcoin/starcoin';
 import { arrayify } from '@ethersproject/bytes';
-import { formatBalance } from '@/utils/helper';
+import { formatBalance, getNetwork } from '@/utils/helper';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import { Tab, Tabs } from '@mui/material';
@@ -76,6 +76,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidMount() {
+    const tabList = ["RawData", "decodedPayload"];
+    const tabIndex = tabList.indexOf(this.props.params.tab);
+    if (tabIndex > -1) {
+      this.setState({tabSelect:tabIndex});
+    }
     const hash = this.props.params.hash;
     this.props.getPendingTransaction({ hash });
   }
@@ -98,12 +103,18 @@ class Index extends PureComponent<IndexProps, IndexState> {
       <Typography variant='body1'>{t('transaction.NoDecodedPayload')}</Typography>;
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       this.setState({tabSelect:newValue});
+      const { navigate } = this.props;
+      const tabList = ["RawData", "decodedPayload"];
+      const hash = this.props.params.hash;
+      const tabName = tabList[newValue];
+      const path = `/${getNetwork()}/pending_transactions/detail/${hash}/${tabName}`;
+      navigate(path);
     };
 
     return (<Card className={classes.card}>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
-          <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+          <Tabs value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
             <Tab label= {t('transaction.RawData')} {...a11yProps(0)} />
             <Tab label= {t('transaction.decodedPayload')} {...a11yProps(1)} />
           </Tabs>

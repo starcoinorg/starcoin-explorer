@@ -31,6 +31,7 @@ export default function AppRouter() {
     <Route path='/search/:keyword' element={<Search />} />
 
     <Route path='/:network/blocks'>
+      <Route path='height/:height/:tab' element={<BlockDetail />} />
       <Route path='height/:height' element={<BlockDetail />} />
       <Route path='detail/:hash' element={<BlockDetail />} />
       <Route path=':page' element={<BlockList />} />
@@ -45,12 +46,14 @@ export default function AppRouter() {
 
 
     <Route path='/:network/transactions'>
+      <Route path='detail/:hash/:tab' element={<TransactionsDetail />} />
       <Route path='detail/:hash' element={<TransactionsDetail />} />
       <Route path=':page' element={<TransactionsList />} />
     </Route>
 
 
     <Route path='/:network/pending_transactions'>
+      <Route path='detail/:hash/:tab' element={<PendingTransactionsDetail />} />
       <Route path='detail/:hash' element={<PendingTransactionsDetail />} />
       <Route path=':page' element={<PendingTransactionsList />} />
     </Route>
@@ -72,6 +75,7 @@ export default function AppRouter() {
     <Route path='/faq' element={<Faq />} />
     <Route path='/terms' element={<Terms />} />
     <Route path='/:network/address/:hash' element={<Address />} />
+    <Route path='/:network/address/:hash/:tab' element={<Address />} />
     <Route path='/:network/address_transactions/:hash/:page' element={<AddressTransactions />} />
 
 

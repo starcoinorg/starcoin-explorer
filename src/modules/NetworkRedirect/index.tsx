@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {Navigate} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 interface NetworkRedirectRouterProps {
@@ -16,7 +16,7 @@ class NetworkRedirectRouter extends PureComponent<NetworkRedirectRouterProps> {
         <Helmet>
           <title>Home - {redirectNetwork}</title>
         </Helmet>
-        <Navigate to="/" state={{network: redirectNetwork}}/>
+        <Navigate to="/" state={{ network: redirectNetwork }} />
       </>
     );
   }

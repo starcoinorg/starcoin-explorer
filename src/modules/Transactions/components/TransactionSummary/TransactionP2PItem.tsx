@@ -14,12 +14,12 @@ export default function TransactionP2PItem(props: Props) {
   const navigate = useNavigate();
   const theme = useTheme() as any
   return <div style={{ paddingLeft: theme.spacing(3) }}>from: {props.from === props.address ? ' this address' : <a style={{cursor: 'pointer'}} href="#" onClick={() => {
-    navigate(`/${getNetwork()}/address/${props.from}`);
+    navigate(`/${getNetwork()}/address/${props.from}/transactions`);
   }
   }>{props.from}</a>} to:{props.to === props.address ? ' this address' : <a
   style={{cursor: 'pointer'}} href="#"
     onClick={() => {
-      navigate(`/${getNetwork()}/address/${props.to}`);
+      navigate(`/${getNetwork()}/address/${props.to}/transactions`);
     }}
   >{props.to}</a>} {formatBalance(props.amount)} {props.name}</div>;
 }
