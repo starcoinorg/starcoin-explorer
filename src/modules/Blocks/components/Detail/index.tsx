@@ -87,6 +87,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
   componentDidMount() {
     this.fetchData();
+    const tabList = ["title", "events", "uncles"];
+    const tabIndex = tabList.indexOf(this.props.params.tab);
+    if (tabIndex > -1) {
+      this.setState({tabSelect:tabIndex});
+    }
   }
 
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
@@ -204,8 +209,8 @@ class Index extends PureComponent<IndexProps, IndexState> {
     return (<Card className={classes.card}>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
-          <Tabs  value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
-            <Tab  label={t('transaction.title')} {...a11yProps(0)} />
+          <Tabs value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label={t('transaction.title')} {...a11yProps(0)} />
             <Tab label= {t('header.events')} {...a11yProps(1)} />
             <Tab label= {t('block.Uncles')} {...a11yProps(2)} />
           </Tabs>

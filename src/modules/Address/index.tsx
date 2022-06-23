@@ -98,7 +98,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
   componentDidMount() {
     const tabList = ["token", "transactions", "resources", "codes"];
     const tabIndex = tabList.indexOf(this.props.params.tab);
-    this.setState({tabSelect:tabIndex});
+    if (tabIndex > -1) {
+      this.setState({tabSelect:tabIndex});
+    }
 
     const hash = this.props.params.hash;
     getAddressSTCBalance(hash).then(data => {
