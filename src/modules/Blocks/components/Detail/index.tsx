@@ -204,10 +204,16 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       this.setState({tabSelect:newValue});
       const { navigate } = this.props;
+      const hash = this.state.hash;
       const height = this.state.height;
       const tabList = ["title", "events", "uncles"];
       const tabName = tabList[newValue];
-      const path = `/${getNetwork()}/blocks/height/${height}/${tabName}`;
+      let path;
+      if (height) {
+        path = `/${getNetwork()}/blocks/height/${height}/${tabName}`;
+      } else {
+        path = `/${getNetwork()}/blocks/detail/${hash}/${tabName}`;
+      }
       navigate(path);
     };
 
