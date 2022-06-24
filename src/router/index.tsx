@@ -33,6 +33,7 @@ export default function AppRouter() {
     <Route path='/:network/blocks'>
       <Route path='height/:height/:tab' element={<BlockDetail />} />
       <Route path='height/:height' element={<BlockDetail />} />
+      <Route path='detail/:hash/:tab' element={<BlockDetail />} />
       <Route path='detail/:hash' element={<BlockDetail />} />
       <Route path=':page' element={<BlockList />} />
     </Route>
