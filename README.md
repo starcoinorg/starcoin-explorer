@@ -24,9 +24,15 @@ export REACT_APP_STARCOIN_API_URL=<starcoin-explorer-api-url>
 export REACT_APP_STARCOIN_NETWORKS=<available-networks>
 ```
 ## Set Environment Variables On develop use Main APi
+for unix shell
 ```shell
 export REACT_APP_STARCOIN_API_URL=https://api.stcscan.io
 export REACT_APP_STARCOIN_NETWORKS=main
+```
+for powershell
+```powershell
+$env:REACT_APP_STARCOIN_API_URL='https://api.stcscan.io'
+$env:REACT_APP_STARCOIN_NETWORKS='main'
 ```
 
 ## How to run
