@@ -1,8 +1,9 @@
 name: aws-s3-test-publish
 
 on:
-  push:
-    branches: [test]
+  pull_request:
+    branches:
+      - main
 
 jobs:
   publish:
