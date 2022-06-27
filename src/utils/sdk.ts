@@ -1,10 +1,10 @@
 // https://www.npmjs.com/package/@starcoin/starcoin
-import { providers} from '@starcoin/starcoin';
+import { providers } from '@starcoin/starcoin';
 import { getNetwork } from '@/utils/helper';
 
 const networks: string[] =
   process.env.REACT_APP_STARCOIN_NETWORKS?.split(',') || [];
-const providerMap: Record<string, any> = {};
+const providerMap: Record<string, providers.JsonRpcProvider> = {};
 networks.forEach((n) => {
   providerMap[n] = new providers.JsonRpcProvider(
     `https://${n}-seed.starcoin.org`,
@@ -42,15 +42,14 @@ export async function getAddressResources(hash: string) {
 }
 
 export async function listResources(hash: string) {
-    try {
-      const provider = providerMap[getNetwork()];
-      const result = await provider.send('state.list_resource', [hash,{decode:true}]);
-      return result;
-    } catch (error: any) {
-      console.info(error);
-      return false;
-    }
-
+  try {
+    const provider = providerMap[getNetwork()];
+    const result = await provider.send('state.list_resource', [hash, { decode: true }]);
+    return result;
+  } catch (error: any) {
+    console.info(error);
+    return false;
+  }
 }
 
 
@@ -60,21 +59,24 @@ export async function getBalancesData(hash: string) {
     const result = await provider.getBalances(hash);
     let balanceList: any = [];
     let tokenInfoList: any = [];
-    for (const value of Object.keys(result)) {
-      const resource =  getTokenPrecision(value)
-      // @ts-ignore
-      tokenInfoList.push(resource)
+    if (result) {
+      for (const value of Object.keys(result)) {
+        const resource = getTokenPrecision(value)
+        // @ts-ignore
+        tokenInfoList.push(resource)
+      }
     }
     tokenInfoList = await Promise.all(tokenInfoList)
     console.info(tokenInfoList)
     let index = 0;
-    for (const value of Object.keys(result)) {
-
-      balanceList.push({
-        name: value,
-        amount: result[value],
-        scaling_factor: tokenInfoList[index++][0],
-      });
+    if (result) {
+      for (const value of Object.keys(result)) {
+        balanceList.push({
+          name: value,
+          amount: result[value],
+          scaling_factor: tokenInfoList[index++][0],
+        });
+      }
     }
 
     return balanceList;
@@ -146,17 +148,15 @@ export async function getEpochData() {
   }
 }
 
-export async function getNodeInfo(){
+export async function getNodeInfo() {
   try {
     const provider = providerMap[getNetwork()];
-    const nodeInfo = await provider.perform("getNodeInfo");
-    return  nodeInfo
+    const nodeInfo = await provider.perform("getNodeInfo", undefined);
+    return nodeInfo
   } catch (error: any) {
     console.error(error)
     return false;
   }
-
-
 }
 
 export async function getTokenPrecision(tokenTypeTag: string) {
