@@ -251,7 +251,11 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 
   componentDidUpdate(prevProps: IndexProps) {
-    if (prevProps.failureFunction == null && this.props.transaction.status !== "Executed") {
+    if (this.props.transaction === null) {
+      return;
+    }
+
+    if (prevProps.failureFunction === null && this.props.transaction.status !== "Executed") {
       try {
         const status = JSON.parse(this.props.transaction.status);
         if (status.ExecutionFailure !== undefined) {
