@@ -54,35 +54,42 @@ class Index extends PureComponent<Props, IndexState> {
       currentPage: 1,
     };
   }
+  
+
 
   componentDidMount() {
-    this.fetchListPage(this.state.currentPage);
+    const params = this.props.params;
+    this.fetchListPage(Number(params.page));
   }
 
+  componentDidUpdate(){
+   console.log("执行了")
+  }
+
+  
+
+
+
   fetchListPage = (page: number) => {
-    this.props.getTransactionList({ page });
+    this.props.getTransactionList({ page },()=>{
+      this.setState({
+        currentPage:page
+      });
+    });
   };
 
   pagination = (type: string) => {
     // transactions use timestamp as sort filed, so we can not jump to specific page
-    const hits = this.props.transactionList ? this.props.transactionList.contents : [];
-    const last = hits[hits.length - 1];
-    const after = last && last.sort || 0;
+    // const hits = this.props.transactionList ? this.props.transactionList.contents : [];
+    // const last = hits[hits.length - 1];
+    // const after = last && last.sort || 0;
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
-      this.props.getTransactionList({ page, after }, () => {
-        this.pagenationCallback(page);
-      });
+      this.props.navigate(`/main/transactions/${page}`);
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
-      this.props.getTransactionList({ page, after }, () => {
-        this.pagenationCallback(page);
-      });
+      this.props.navigate(`/main/transactions/${page}`);
     }
-  };
-
-  pagenationCallback = (page: number) => {
-    this.setState({ currentPage: page });
   };
 
   render() {
