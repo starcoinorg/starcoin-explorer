@@ -3,16 +3,16 @@ import blocks from '@/Blocks/store';
 import tokens from '@/Tokens/store';
 import transactions from '@/Transactions/store';
 import search from '@/Search/store';
+import login from '@/walletLogin/store';
 import routerSaga from './router/sagas';
-
 const sagas = [
   ...blocks.sagas,
   ...tokens.sagas,
   ...transactions.sagas,
   ...search.sagas,
+  ...login.sagas,
   ...routerSaga,
 ];
-
 function* rootSaga() {
   yield all(sagas.map(saga => fork(saga)));
 };

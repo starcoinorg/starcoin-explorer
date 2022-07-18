@@ -19,6 +19,7 @@ import { getNetwork } from '@/utils/helper';
 import { useLocation } from 'react-router-dom';
 import BaseRouteLink from '@/common/BaseRouteLink';
 import HeaderSearch from '@/common/Layout/Header/HeaderSearch';
+import Wallet from '@/walletLogin/components/Login/index';
 import Tabs from './Tabs';
 import StarcoinLogo from '../../../starcoin-logo-text-blue.svg';
 import StarcoinLogoDark from '../../../starcoin-logo-text-white.svg';
@@ -48,6 +49,7 @@ const useStyles = (theme: any) => createStyles({
   mainHeader: {
     alignItems: 'center',
     display: 'flex',
+    justifyContent: 'space-between',
     height: theme.spacing(8),
     flex: '0 0 auto',
     flexDirection: 'row',
@@ -120,6 +122,9 @@ const useStyles = (theme: any) => createStyles({
       display: 'block',
     },
   },
+  user_nav:{
+    display:'flex'
+  }
 });
 
 function Index(props: any) {
@@ -184,14 +189,9 @@ function Index(props: any) {
           </MenuItem>
         ))}
       </Menu>
-
-
       <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color='inherit'>
         {theme.palette.mode === 'dark' ? <Brightness7Sharp /> : <Brightness4Sharp />}
       </IconButton>
-
-
-
     </>
   );
 
@@ -537,7 +537,12 @@ function Index(props: any) {
             {aboutMenu}
             {networkMenus}
             {i18nMenu}
-            <div style={{float:'right',position:"fixed",right:theme.spacing(1)}}>  { location.pathname === "/" ? <></>: <HeaderSearch up />}</div>
+           
+            {/* <div style={{float:'right',position:"fixed",right:theme.spacing(1)}}>  { location.pathname === "/" ? <></>: <HeaderSearch up />}</div> */}
+          </div>
+          <div  className={classes.user_nav}>
+              <div style={{right:theme.spacing(1)}}>  { location.pathname === "/" ? <></>: <HeaderSearch up />}</div>
+              <Wallet/>
           </div>
         </div>
       </div>

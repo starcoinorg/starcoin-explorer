@@ -10,7 +10,8 @@
       "@/Transactions/*": ["modules/Transactions/*"],
       "@/Address/*": ["modules/Address/*"],
       "@/Search/*": ["modules/Search/*"],
-      "@/utils/*": ["utils/*"]
+      "@/utils/*": ["utils/*"],
+      "@/walletLogin/*": ["modules/walletLogin/*"]
     }
   }
 }
