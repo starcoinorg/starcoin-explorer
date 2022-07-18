@@ -7,7 +7,7 @@ import { POLLING_INTERVAL } from '@/utils/constants';
 import { checkStarMaskInstalled, connectStarMask, createStcProvider, getSign, getStarMaskInstallUrl, getSTCAccountBalance } from '../../../wallet/starMask';
 
 
-export function* connectWallet(action?:any): any {
+export function* connectWallet(action?: any): any {
 
   const isStalled = checkStarMaskInstalled();
   if (!isStalled) {
@@ -30,13 +30,13 @@ export function* connectWallet(action?:any): any {
       if (!stcProvider) {
         throw ('no provider')
       }
-      if(action?.payload){
+      if (action?.payload) {
         try {
           const res = yield call(withLoading, apis.login, types.CONNECTWALLET, { address: accounts[0], sign: sign });
           if (!res || res.status !== "200") {
             throw ('login error')
           }
-        } catch (error) {}
+        } catch (error) { }
       }
       yield put(actions.setState('stc'));
       yield fork(getBalance);
@@ -64,11 +64,15 @@ function* watchConnect() {
 }
 
 export function* getUserInfo(): any {
-  const state = yield select();
-  const res = yield call(withLoading, apis.getUserInfo, types.CONNECTWALLET, { address: state[types.SCOPENAME].accounts[0] });
-  if (res.status === '200') {
-    yield put(actions.setUserInfo(res.data || {}));
-    yield put(actions.setState('stc'));
+  try {
+    const state = yield select();
+    const res = yield call(apis.getUserInfo, { address: state[types.SCOPENAME].accounts[0] });
+    if (res.status === '200') {
+      yield put(actions.setUserInfo(res.data || {}));
+      yield put(actions.setState('stc'));
+    }
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -87,9 +91,9 @@ function* watchInit() {
   yield takeLatest(types.WALLETINIT, walletInit);
 }
 
-export function* updateUserInfo({payload,callback}:any): any {
+export function* updateUserInfo({ payload, callback }: any): any {
   const state = yield select();
-  const res = yield call(apis.updateUserInfo, { address:state[types.SCOPENAME].accounts[0],...payload });
+  const res = yield call(apis.updateUserInfo, { address: state[types.SCOPENAME].accounts[0], ...payload });
   callback(res)
 }
 
@@ -97,7 +101,7 @@ function* watchUpdateUserInfo() {
   yield takeLatest(types.UPDATE_USERINFO, updateUserInfo);
 }
 
-export function* logout({callback}:any): any {
+export function* logout({ callback }: any): any {
   const state = yield select();
   const res = yield call(withLoading, apis.logout, types.LOGOUT, { address: state[types.SCOPENAME].accounts[0] });
   if (res.status === '200') {

@@ -88,6 +88,8 @@ function Wallet(props: any) {
             if (res.status === '200') {
                 setlist(res.data)
             }
+        }).catch((error:any)=>{
+            console.log(error)
         })
     }
 
