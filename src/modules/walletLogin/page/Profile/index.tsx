@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, createStyles } from '@mui/styles';
-import { Input, InputLabel, Button, Snackbar, Alert } from '@mui/material';
+import { withStyles, createStyles, useTheme } from '@mui/styles';
+import { Input, InputLabel, Button, Snackbar, Alert, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 // import classNames from 'classnames';
 import { createSelector } from 'reselect';
@@ -12,14 +12,14 @@ import storeLogin from '@/walletLogin/store';
 import useRouterBeforeEach from '../../../../router/beforeRouter';
 import { UserInfo } from '@/walletLogin/type';
 
-const useStyles = () => createStyles({
+const useStyles = (theme:Theme) => createStyles({
     from: {
         width: '800px',
         margin: '100px auto',
         // border: '1px solid #fff',
         borderRadius: '20px',
         padding: '50px',
-        background: '#424242'
+        background: theme.palette.mode === 'dark' ? '#424242' : "rgb(237, 238, 242)",
     },
     labelName: {
         width: '33%',
@@ -27,7 +27,7 @@ const useStyles = () => createStyles({
 
     },
     formLabel: {
-        color: '#fff',
+        // color: '#fff',
         margin: '20px',
         width: '100%',
         display: 'flex',
@@ -58,6 +58,7 @@ const selector = createSelector(
     }),
 );
 function Wallet(props: any) {
+    const theme = useTheme() as any;
     const state = useSelector(selector);
     const [disabledBtn, setDisabledBtn] = useState(true);
     const dispatch = useDispatch();
@@ -118,7 +119,7 @@ function Wallet(props: any) {
                     {t('user.Username')}：
                 </div>
                 <div className={classes.labelItem}>
-                    <Input sx={{ '.Mui-disabled': { textFillColor: '#fff' } }} disabled defaultValue={state.userInfo.wallet_addr} className={classes.labelItem} />
+                    <Input sx={{ '.Mui-disabled': { textFillColor: theme.palette.mode === 'dark' ? '#fff' : "#000"  } }} disabled defaultValue={state.userInfo.wallet_addr} className={classes.labelItem} />
                 </div>
             </InputLabel>
 

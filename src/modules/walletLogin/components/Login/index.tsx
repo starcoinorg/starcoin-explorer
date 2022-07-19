@@ -11,7 +11,7 @@ import { Button, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import storeLogin from '@/walletLogin/store';
 
-const useStyles = () => createStyles({
+const useStyles = (theme:any) => createStyles({
     connectWallet: {
         textAlign: 'center',
         outline: 'none',
@@ -55,10 +55,11 @@ const useStyles = () => createStyles({
         borderRadius: '12px',
         cursor: 'pointer',
         userSelect: 'none',
-        backgroundColor: 'rgb(33, 36, 41)',
-        border: '1px solid rgb(44, 47, 54)',
-        color: 'rgb(255, 255, 255)',
+        backgroundColor: theme.palette.mode === 'dark' ? 'rgb(33, 36, 41)' : "rgb(250, 249, 254)",
+        border: theme.palette.mode === 'dark' ? '1px solid rgb(44, 47, 54)' : 'none',
+        color: theme.palette.mode === 'dark' ? 'rgb(255, 255, 255)': '#000',
         fontWeight: '500',
+        marginRight:'3px'
     },
     balances: {
         boxSizing: 'border-box',
@@ -70,7 +71,7 @@ const useStyles = () => createStyles({
     walletInfo: {
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'rgb(44, 47, 54)',
+        backgroundColor:  theme.palette.mode === 'dark' ? 'rgb(44, 47, 54)' : "rgb(237, 238, 242)",
         borderRadius: '12px',
         whiteSpace: 'nowrap',
         width: '100%',

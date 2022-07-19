@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, createStyles, useTheme } from '@mui/styles';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Input, InputLabel, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Input, InputLabel, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 
@@ -17,17 +17,17 @@ import { addApiKey, apiKeyList, removeApiKey, updateApiKey } from '@/walletLogin
 import { APIKeysItem } from '@/walletLogin/type';
 
 
-const useStyles = () => createStyles({
+const useStyles = (theme:Theme) => createStyles({
     title: {
-        color: "#fff",
+        color: theme.palette.mode === 'dark' ?"#fff" : "#000",
         fontWeight: 'bold'
     },
     addBtn: {
-        color: '#fff',
-        background: "rgb(33, 36, 41)",
+        color: theme.palette.mode === 'dark' ?"#fff" : "#000",
+        background: theme.palette.mode === 'dark' ? "rgb(33, 36, 41)" : "#fff",
         marginLeft: '10px',
         '&:hover': {
-            background: "rgb(33, 36, 41)",
+            background:  theme.palette.mode === 'dark' ?"rgb(33, 36, 41)" : "#fff",
         },
     },
     from: {
@@ -36,7 +36,7 @@ const useStyles = () => createStyles({
         // border: '1px solid #fff',
         borderRadius: '20px',
         padding: '50px',
-        background: '#424242'
+        background: theme.palette.mode === 'dark' ? '#424242' : "rgb(237, 238, 242)",
     },
     labelName: {
         width: '33%',
@@ -44,7 +44,7 @@ const useStyles = () => createStyles({
 
     },
     formLabel: {
-        color: '#fff',
+        // color: '#fff',
         width: '100%',
         display: 'flex',
         margin: '20px 0'
