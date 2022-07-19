@@ -59,16 +59,12 @@ class Index extends PureComponent<Props, IndexState> {
 
   componentDidMount() {
     const params = this.props.params;
-    this.fetchListPage(Number(params.page));
+    if(Number(params.page)){
+      this.fetchListPage(Number(params.page));
+    }else{
+      this.fetchListPage(this.state.currentPage);
+    }
   }
-
-  componentDidUpdate(){
-   console.log("执行了")
-  }
-
-  
-
-
 
   fetchListPage = (page: number) => {
     this.props.getTransactionList({ page },()=>{
@@ -86,9 +82,11 @@ class Index extends PureComponent<Props, IndexState> {
     if (type === 'prev' && this.state.currentPage > 1) {
       const page = this.state.currentPage - 1;
       this.props.navigate(`/main/transactions/${page}`);
+      this.fetchListPage(page);
     } else if (type === 'next') {
       const page = this.state.currentPage + 1;
       this.props.navigate(`/main/transactions/${page}`);
+      this.fetchListPage(page);
     }
   };
 
