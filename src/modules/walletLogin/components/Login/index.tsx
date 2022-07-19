@@ -117,24 +117,10 @@ function Wallet(props: any) {
     }
 
     const goProfile = () => {
-        // dispatch({
-        //     type: "PUSH_LOCATION",
-        //     params: {
-        //         path: `/user/Profile`,
-        //         abs: false
-        //     }
-        // })
         history(`/user/Profile`)
         setAnchorEl(null);
     }
     const goApiKeys = () => {
-        // dispatch({
-        //     type: "PUSH_LOCATION",
-        //     params: {
-        //         path: `/user/ApiKeys`,
-        //         abs: false
-        //     }
-        // })
         history(`/user/ApiKeys`);
         setAnchorEl(null);
     }
@@ -154,9 +140,7 @@ function Wallet(props: any) {
                 <div className={classNames(classes.balances)}>{formatBalance(state?.balances || '0', 4)} STC</div>
                 <Button
                     className={classNames(classes.accounts)}
-                    // aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
-                    // aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                 >
                     {shortenAddress(state?.accounts[0])}
@@ -175,14 +159,14 @@ function Wallet(props: any) {
                         'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <MenuItem onClick={goProfile}>My Profile</MenuItem>
-                    <MenuItem onClick={goApiKeys}>API Keys</MenuItem>
-                    <MenuItem onClick={logOut}>Logout</MenuItem>
+                    <MenuItem onClick={goProfile}>{t('user.My Profile')}</MenuItem>
+                    <MenuItem onClick={goApiKeys}>{t('user.API Keys')}</MenuItem>
+                    <MenuItem onClick={logOut}>{t('user.Logout')}</MenuItem>
                 </Menu>
             </div>
             :
             <div className={classNames(classes.connectWallet)} onClick={connectWallet}>
-                {t('连接钱包')}
+                {t('user.login')}
             </div>
         }
 

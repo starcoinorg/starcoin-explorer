@@ -70,12 +70,12 @@ function Wallet(props: any) {
     const { classes } = props;
     const [list, setlist] = useState<APIKeysItem[]>([])
     const [fromCreate, setFromCreate] = useState<string>('');
-    const [editItem,setEditItem] = useState<APIKeysItem>({});
+    const [editItem, setEditItem] = useState<APIKeysItem>({});
     useRouterBeforeEach();
-    const [alert,setAlert] = useState<any>({
-        open:false,
-        severity:'success',
-        message:''
+    const [alert, setAlert] = useState<any>({
+        open: false,
+        severity: 'success',
+        message: ''
     })
     const theme = useTheme() as any
     const styles = {
@@ -83,12 +83,12 @@ function Wallet(props: any) {
         color: theme.palette.getContrastText(theme.palette.background.paper),
         borderBottom: theme.palette.mode === 'dark' ? '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)'
     }
-    const init = ()=>{
+    const init = () => {
         apiKeyList({ address: state.accounts[0] }).then((res: any) => {
             if (res.status === '200') {
                 setlist(res.data)
             }
-        }).catch((error:any)=>{
+        }).catch((error: any) => {
             console.log(error)
         })
     }
@@ -99,7 +99,7 @@ function Wallet(props: any) {
         }
         // eslint-disable-next-line
     }, [state.accounts])
- 
+
     const [openAdd, setOpenAdd] = React.useState(false);
     const handleClickOpenAdd = () => {
         setFromCreate('');
@@ -109,115 +109,115 @@ function Wallet(props: any) {
     const handleCloseAdd = () => {
         setOpenAdd(false);
     };
-    const create = async() =>{
-       const res = await addApiKey({
+    const create = async () => {
+        const res = await addApiKey({
             address: state.accounts[0],
-            app_name:fromCreate
+            app_name: fromCreate
         })
-        if(res.status === '200'){
+        if (res.status === '200') {
             setAlert({
                 ...alert,
-                open:true,
-                severity:'success',
-                message:'成功'
+                open: true,
+                severity: 'success',
+                message: t("common.success")
             })
-        }else{
+        } else {
             setAlert({
                 ...alert,
-                open:true,
-                severity:'error',
-                message:'失败'
+                open: true,
+                severity: 'error',
+                message: t("common.fail")
             })
         }
         init()
         setOpenAdd(false);
     }
-    const edit = async()=>{
+    const edit = async () => {
         const res = await updateApiKey({
             // address: state.accounts[0],
-            app_name:editItem.app_name,
-            app_key:editItem.api_key
+            app_name: editItem.app_name,
+            app_key: editItem.api_key
         })
-        if(res.status === '200'){
+        if (res.status === '200') {
             setAlert({
                 ...alert,
-                open:true,
-                severity:'success',
-                message:'成功'
+                open: true,
+                severity: 'success',
+                message: t("common.success")
             })
-        }else{
+        } else {
             setAlert({
                 ...alert,
-                open:true,
-                severity:'error',
-                message:'失败'
+                open: true,
+                severity: 'error',
+                message: t("common.fail")
             })
         }
         init()
         setOpenEdit(false);
     }
-    const changeEdit = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+    const changeEdit = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setEditItem({
             ...editItem,
-            app_name:e.target.value
+            app_name: e.target.value
         })
     }
     const [openEdit, setOpenEdit] = React.useState(false);
-    const handleClickOpenEdit = (item:APIKeysItem) => {
+    const handleClickOpenEdit = (item: APIKeysItem) => {
         setEditItem(item);
         setOpenEdit(true);
     };
 
-    const itemDelete = async() => {
-        const res =await removeApiKey({
-            app_key:editItem.api_key
+    const itemDelete = async () => {
+        const res = await removeApiKey({
+            app_key: editItem.api_key
         })
-        if(res.status === '200'){
+        if (res.status === '200') {
             setAlert({
                 ...alert,
-                open:true,
-                severity:'success',
-                message:'成功'
+                open: true,
+                severity: 'success',
+                message: t("common.success")
             })
-        }else{
+        } else {
             setAlert({
                 ...alert,
-                open:true,
-                severity:'error',
-                message:'失败'
+                open: true,
+                severity: 'error',
+                message: t("common.fail")
             })
         }
         init()
         setOpenEdit(false);
     };
-    const appNameChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+    const appNameChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFromCreate(e.target.value)
     }
-    const handleCloseEdit = ()=>{
+    const handleCloseEdit = () => {
         setOpenEdit(false);
     }
-    const closeAlert = ()=>{
+    const closeAlert = () => {
         setAlert({
             ...alert,
-            open:false
+            open: false
         })
     }
     return <>
         <div className={classes.from}>
             <div className={classes.title}>
-                <span>My API Keys</span>
+                <span>{t('APIkeys.My API Keys')}</span>
                 <Button className={classes.addBtn} onClick={handleClickOpenAdd}>
                     <AddIcon />
-                    {t('Add')}
+                    {t('APIkeys.Add')}
                 </Button>
             </div>
             <TableContainer>
                 <Table sx={{ minWidth: 400 }} aria-label='simple table'>
                     <TableHead>
                         <TableRow >
-                            <TableCell sx={styles} align='left'>Action</TableCell>
-                            <TableCell sx={styles} align='left'>API-Key Token</TableCell>
-                            <TableCell sx={styles} align='left'>Created</TableCell>
+                            <TableCell sx={styles} align='center'>{t('APIkeys.Action')}</TableCell>
+                            <TableCell sx={styles} align='left'>{t('APIkeys.API-Key Token')}</TableCell>
+                            <TableCell sx={styles} align='left'>{t('APIkeys.Created')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -226,8 +226,8 @@ function Wallet(props: any) {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 key={item.api_key}
                             >
-                                <TableCell sx={styles} align='left' component='th' scope='row'>
-                                    <Button onClick={()=>{handleClickOpenEdit(item)}}>Edit</Button>
+                                <TableCell sx={styles} align='center' component='th' scope='row'>
+                                    <Button onClick={() => { handleClickOpenEdit(item) }}>{t('APIkeys.Edit')}</Button>
                                 </TableCell>
 
                                 <TableCell sx={styles} align='left' >{item.api_key}</TableCell>
@@ -254,11 +254,11 @@ function Wallet(props: any) {
                 fullWidth={true as boolean}
                 onClose={handleCloseAdd}
             >
-                <DialogTitle>Create a new API-KEY token</DialogTitle>
+                <DialogTitle>{t('APIkeys.Create a new API-KEY token')}</DialogTitle>
                 <DialogContent>
                     <InputLabel className={classes.formLabel} error={false}>
                         <div className={classes.labelName}>
-                            AppName：
+                            {t('APIkeys.AppName')}：
                         </div>
                         <div className={classes.labelItem}>
                             <Input onChange={appNameChange} />
@@ -267,8 +267,8 @@ function Wallet(props: any) {
                     </InputLabel>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseAdd}>Cancel</Button>
-                    <Button onClick={create}>Subscribe</Button>
+                    <Button onClick={handleCloseAdd}>{t('APIkeys.Cancel')}</Button>
+                    <Button onClick={create}>{t('APIkeys.Subscribe')}</Button>
                 </DialogActions>
             </Dialog>
             <Dialog
@@ -282,11 +282,11 @@ function Wallet(props: any) {
                 open={openEdit}
                 onClose={handleCloseEdit}
             >
-                <DialogTitle>Create a new API-KEY token</DialogTitle>
+                <DialogTitle>{t('APIkeys.Edit a new API-KEY token')}</DialogTitle>
                 <DialogContent>
                     <InputLabel className={classes.formLabel} error={false}>
                         <div className={classes.labelName}>
-                            ApiKey：
+                            {t('APIkeys.ApiKey')}：
                         </div>
                         <div className={classes.labelItem}>
                             {editItem.api_key}
@@ -294,7 +294,7 @@ function Wallet(props: any) {
                     </InputLabel>
                     <InputLabel className={classes.formLabel} error={false}>
                         <div className={classes.labelName}>
-                            AppName：
+                            {t('APIkeys.AppName')}：
                         </div>
                         <div className={classes.labelItem}>
                             <Input value={editItem.app_name} onChange={changeEdit} />
@@ -302,8 +302,8 @@ function Wallet(props: any) {
                     </InputLabel>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="error" onClick={itemDelete}>Delete</Button>
-                    <Button onClick={edit}>Subscribe</Button>
+                    <Button color="error" onClick={itemDelete}>{t('APIkeys.Delete')}</Button>
+                    <Button onClick={edit}>{t('APIkeys.Subscribe')}</Button>
                 </DialogActions>
             </Dialog>
         </div>

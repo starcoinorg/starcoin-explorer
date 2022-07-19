@@ -90,14 +90,14 @@ function Wallet(props: any) {
                         ...alert,
                         open: true,
                         severity: 'success',
-                        message: '成功'
+                        message: t("common.success")
                     })
                 } else {
                     setAlert({
                         ...alert,
                         open: true,
                         severity: 'error',
-                        message: '失败'
+                        message: t("common.fail")
                     })
                 }
                 setDisabledBtn(true);
@@ -115,7 +115,7 @@ function Wallet(props: any) {
         {state.userInfo.wallet_addr ? <div className={classes.from}>
             <InputLabel className={classes.formLabel} error={false}>
                 <div className={classes.labelName}>
-                    {t('Username')}：
+                    {t('user.Username')}：
                 </div>
                 <div className={classes.labelItem}>
                     <Input sx={{ '.Mui-disabled': { textFillColor: '#fff' } }} disabled defaultValue={state.userInfo.wallet_addr} className={classes.labelItem} />
@@ -124,7 +124,7 @@ function Wallet(props: any) {
 
             <InputLabel className={classes.formLabel} error={false}>
                 <div className={classes.labelName}>
-                    {t('Email address')}：
+                    {t('user.Email address')}：
                 </div>
                 <div className={classes.labelItem}>
                     <Input defaultValue={state.userInfo.e_mail} onChange={(e) => { changeFrom('email', e) }} placeholder="请输入e-amil" className={classes.labelItem} />
@@ -132,7 +132,7 @@ function Wallet(props: any) {
             </InputLabel>
             <InputLabel className={classes.formLabel} error={false}>
                 <div className={classes.labelName}>
-                    {t('Public Profile Picture')}：
+                    {t('user.Public Profile Picture')}：
                 </div>
                 <div className={classes.labelItem}>
                     <Input defaultValue={state.userInfo.avatar} onChange={(e) => { changeFrom('avatar', e) }} placeholder="请输入url" className={classes.labelItem} />
@@ -141,7 +141,7 @@ function Wallet(props: any) {
 
             <InputLabel className={classes.formLabel} error={false}>
                 <div className={classes.labelName}>
-                    {t('Profile Website')}：
+                    {t('user.Profile Website')}：
                 </div>
                 <div className={classes.labelItem}>
                     <Input defaultValue={state.userInfo.profile} onChange={(e) => { changeFrom('profile', e) }} className={classes.labelItem} />
@@ -149,7 +149,7 @@ function Wallet(props: any) {
             </InputLabel>
             <div className={classes.footer}>
                 <Button onClick={submit} disabled={disabledBtn}>
-                    {t('save change')}
+                    {t('user.save change')}
                 </Button>
             </div>
         </div> : <Loading />}
