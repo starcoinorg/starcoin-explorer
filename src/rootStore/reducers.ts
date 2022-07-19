@@ -4,13 +4,12 @@ import blocks from '@/Blocks/store';
 import tokens from '@/Tokens/store';
 import transactions from '@/Transactions/store';
 import search from '@/Search/store';
-import login from '@/walletLogin/store';
+
 const reducers = {
   [transactions.SCOPENAME]: transactions.reducer,
   [blocks.SCOPENAME]: blocks.reducer,
   [tokens.SCOPENAME]: tokens.reducer,
   [search.SCOPENAME]: search.reducer,
-  [login.SCOPENAME]: login.reducer,
 };
 
 const createRootReducer = (history: any) => (state: any, action: any) => {
