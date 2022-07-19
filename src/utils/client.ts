@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 const apiUrl = process.env.REACT_APP_STARCOIN_API_URL;
 const baseURL = `${apiUrl}`;
@@ -12,6 +10,7 @@ const clientConfig = {
     accept: 'application/json',
   },
 };
+
 const successHandler = (result: any) => {
   const response = result.data;
   if (response.code !== undefined) {
@@ -28,14 +27,9 @@ const successHandler = (result: any) => {
 };
 
 const errorHandler = (error: any) => {
-  const { response,config } = error;
+  const { response } = error;
   let reject;
-  if(response.status == 401){
-    if(config.url.indexOf('/user/login') ===-1){
-      window.location.href = '/';
-      localStorage.removeItem('wallet_status');
-    }
-  }else if (response) {
+  if (response) {
     reject = {
       code: response.data.code,
       message: response.data.message,
