@@ -12,7 +12,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAjMS_NWMCoY_YiXtKnOfrcqvkeL8yHdVU",
+    apiKey: "AIzaSyDwHyD8mDE6EeyWAjRtg078snMdagdoJ4o",
     authDomain: "starcoin.firebaseapp.com"
 };
 const app = initializeApp(firebaseConfig);
