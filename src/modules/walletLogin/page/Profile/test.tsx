@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAjMS_NWMCoY_YiXtKnOfrcqvkeL8yHdVU",
-    authDomain: "starcoin.firebaseapp.com"
+    authDomain: "test.stcscan.io"
 };
 const app = initializeApp(firebaseConfig);
 
