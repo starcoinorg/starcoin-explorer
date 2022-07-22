@@ -26,6 +26,8 @@ const Faq = lazy(() => import('../modules/Faq'));
 const Tools = lazy(() => import('../modules/Tools'));
 const Terms = lazy(() => import('../modules/Terms'));
 const Address = lazy(() => import('../modules/Address/adapter'));
+const Redirect = lazy(() => import('../modules/walletLogin/page/Profile/redirect'));
+const Test = lazy(() => import('../modules/walletLogin/page/Profile/test'));
 const Error404 = lazy(() => import('../modules/Error404'));
 
 export default function AppRouter() {
@@ -89,7 +91,9 @@ export default function AppRouter() {
     <Route path='/user'>
       <Route path='Profile' element={<Profile />} />
       <Route path='APIKeys' element={<APIKeys />} />
+      <Route path='test' element={<Test />} />
     </Route>
-     
+    <Route path='/redirect/url' element={<Redirect />} />
+ 
   </Routes>;
 }
