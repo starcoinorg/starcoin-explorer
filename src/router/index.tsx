@@ -94,6 +94,6 @@ export default function AppRouter() {
       <Route path='test' element={<Test />} />
     </Route>
     <Route path='/redirect/url' element={<Redirect />} />
- 
+    <Route path='__/auth/handler' element={<Redirect />} />
   </Routes>;
 }
