@@ -95,6 +95,10 @@ function* watchInit() {
 export function* deleteUserInfo({ callback }: any): any {
   const state = yield select();
   const res = yield call(apis.deleteUserInfo, { address: state[types.SCOPENAME].accounts[0]});
+  if(res.status == '200'){
+    yield fork(logout,{});
+    window.location.href = '/'
+  }
   callback(res)
 }
 
@@ -130,10 +134,6 @@ function* watchBalance() {
 export function* updateUserInfo({ payload, callback }: any): any {
   const state = yield select();
   const res = yield call(apis.updateUserInfo, { address: state[types.SCOPENAME].accounts[0], ...payload });
-  if(res.status == '200'){
-    yield fork(logout,{});
-    window.location.href = '/'
-  }
   callback(res)
 }
 

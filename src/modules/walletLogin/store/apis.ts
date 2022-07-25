@@ -23,7 +23,7 @@ export const updateUserInfo = (params: any) =>{
 }
 export const deleteUserInfo = (params: any) =>{
   const address = params.address;
-  return  client.get(`v2/user/destory/${address}/`);
+  return  client.get(`v2/user/destroy/${address}/`);
 }
 
 
