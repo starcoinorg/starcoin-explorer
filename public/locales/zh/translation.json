@@ -196,7 +196,10 @@
     "My Profile":"个人详情",
     "API Keys":"API Keys",
     "Logout":"退出登录",
-    "login":"登录"
+    "login":"登录",
+    "Delete User":"删除账户",
+    "warning": "警告",
+    "warning tip":"删除账户会清空账户下所有信息，确定要删除吗？"
   },
   "APIkeys":{
     "My API Keys":"我的API Keys",

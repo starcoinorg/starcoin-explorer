@@ -21,6 +21,11 @@ export const updateUserInfo = (params: any) =>{
     delete params.address;
     return  client.get(`v2/user/update/${address}/`, params);
 }
+export const deleteUserInfo = (params: any) =>{
+  const address = params.address;
+  return  client.get(`v2/user/destory/${address}/`);
+}
+
 
 export const apiKeyList = (params: any) =>{
   return  client.get(`v2/user/apikey/list/`, params);

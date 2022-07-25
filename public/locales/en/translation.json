@@ -196,7 +196,10 @@
     "My Profile":"My Profile",
     "API Keys":"API Keys",
     "Logout":"Logout",
-    "login":"login"
+    "login":"Login",
+    "Delete User":"Destory account",
+    "warning": "Warning",
+    "warning tip":"Destroying an account will clear all information. Are you sure you want to destroy it?"
   },
   "APIkeys":{
     "My API Keys":"My API Keys",

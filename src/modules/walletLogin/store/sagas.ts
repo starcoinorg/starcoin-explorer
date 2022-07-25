@@ -91,15 +91,17 @@ function* watchInit() {
   yield takeLatest(types.WALLETINIT, walletInit);
 }
 
-export function* updateUserInfo({ payload, callback }: any): any {
+
+export function* deleteUserInfo({ callback }: any): any {
   const state = yield select();
-  const res = yield call(apis.updateUserInfo, { address: state[types.SCOPENAME].accounts[0], ...payload });
+  const res = yield call(apis.deleteUserInfo, { address: state[types.SCOPENAME].accounts[0]});
   callback(res)
 }
 
-function* watchUpdateUserInfo() {
-  yield takeLatest(types.UPDATE_USERINFO, updateUserInfo);
+function* watchDeleteUserInfo() {
+  yield takeLatest(types.DELETE_USERINFO, deleteUserInfo);
 }
+
 
 export function* logout({ callback }: any): any {
   const state = yield select();
@@ -125,6 +127,20 @@ export function* getBalance(): any {
 function* watchBalance() {
   yield takeLatest(types.GET_BALANCE_DELAY, getBalance);
 }
+export function* updateUserInfo({ payload, callback }: any): any {
+  const state = yield select();
+  const res = yield call(apis.updateUserInfo, { address: state[types.SCOPENAME].accounts[0], ...payload });
+  if(res.status == '200'){
+    yield fork(logout,{});
+    window.location.href = '/'
+  }
+  callback(res)
+}
+
+function* watchUpdateUserInfo() {
+  yield takeLatest(types.UPDATE_USERINFO, updateUserInfo);
+}
+
 
 const sagas = [
   watchConnect,
@@ -132,7 +148,8 @@ const sagas = [
   watchBalance,
   watchInit,
   watchUserInfo,
-  watchUpdateUserInfo
+  watchUpdateUserInfo,
+  watchDeleteUserInfo
 ];
 
 export default sagas;
