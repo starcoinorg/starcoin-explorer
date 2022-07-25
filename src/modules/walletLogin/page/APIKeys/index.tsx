@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, createStyles, useTheme } from '@mui/styles';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Input, InputLabel, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme } from '@mui/material';
+import { Alert, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Input, InputLabel, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 
@@ -33,8 +33,6 @@ const useStyles = (theme:Theme) => createStyles({
     from: {
         width: '800px',
         margin: '100px auto',
-        // border: '1px solid #fff',
-        borderRadius: '20px',
         padding: '50px',
         background: theme.palette.mode === 'dark' ? '#424242' : "rgb(237, 238, 242)",
     },
@@ -203,7 +201,7 @@ function Wallet(props: any) {
         })
     }
     return <>
-        <div className={classes.from}>
+        <Card className={classes.from}>
             <div className={classes.title}>
                 <span>{t('APIkeys.My API Keys')}</span>
                 <Button className={classes.addBtn} onClick={handleClickOpenAdd}>
@@ -306,7 +304,7 @@ function Wallet(props: any) {
                     <Button onClick={edit}>{t('APIkeys.Subscribe')}</Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </Card>
     </>
 }
 
