@@ -128,7 +128,7 @@ function Wallet(props: any) {
                     {t('user.Email address')}：
                 </div>
                 <div className={classes.labelItem}>
-                    <Input defaultValue={state.userInfo.e_mail} onChange={(e) => { changeFrom('email', e) }} placeholder="请输入e-amil" className={classes.labelItem} />
+                    <Input defaultValue={state.userInfo.e_mail} onChange={(e) => { changeFrom('email', e) }} placeholder={t('user.Email address placeholder')} className={classes.labelItem} />
                 </div>
             </InputLabel>
             <InputLabel className={classes.formLabel} error={false}>
@@ -136,13 +136,36 @@ function Wallet(props: any) {
                     {t('user.Public Profile Picture')}：
                 </div>
                 <div className={classes.labelItem}>
-                    <Input defaultValue={state.userInfo.avatar} onChange={(e) => { changeFrom('avatar', e) }} placeholder="请输入url" className={classes.labelItem} />
+                    <Input defaultValue={state.userInfo.avatar} onChange={(e) => { changeFrom('avatar', e) }} placeholder={t('user.Picture placeholder')} className={classes.labelItem} />
                 </div>
             </InputLabel>
-
             <InputLabel className={classes.formLabel} error={false}>
                 <div className={classes.labelName}>
-                    {t('user.Profile Website')}：
+                    {t('user.twitter name')}：
+                </div>
+                <div className={classes.labelItem}>
+                    <Input defaultValue={state.userInfo.twitter_name} onChange={(e) => { changeFrom('twitter', e) }} placeholder={t('user.twitter placeholder')} className={classes.labelItem} />
+                </div>
+            </InputLabel>
+            <InputLabel className={classes.formLabel} error={false}>
+                <div className={classes.labelName}>
+                    {t('user.discord name')}：
+                </div>
+                <div className={classes.labelItem}>
+                    <Input defaultValue={state.userInfo.discord_name} onChange={(e) => { changeFrom('discord', e) }} placeholder={t('user.discord placeholder')} className={classes.labelItem} />
+                </div>
+            </InputLabel>
+            <InputLabel className={classes.formLabel} error={false}>
+                <div className={classes.labelName}>
+                    {t('user.telegram name')}：
+                </div>
+                <div className={classes.labelItem}>
+                    <Input defaultValue={state.userInfo.telegram_name} onChange={(e) => { changeFrom('telegram', e) }} placeholder={t('user.telegram placeholder')} className={classes.labelItem} />
+                </div>
+            </InputLabel>
+            <InputLabel className={classes.formLabel} error={false}>
+                <div className={classes.labelName}>
+                    {t('user.Profile')}：
                 </div>
                 <div className={classes.labelItem}>
                     <Input defaultValue={state.userInfo.profile} onChange={(e) => { changeFrom('profile', e) }} className={classes.labelItem} />
