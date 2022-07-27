@@ -11,6 +11,8 @@ import Loading from '@/common/Loading';
 import storeLogin from '@/walletLogin/store';
 import useRouterBeforeEach from '../../../../router/beforeRouter';
 import { UserInfo } from '@/walletLogin/type';
+import { getQrCode, updateUserName } from '@/walletLogin/store/apis';
+import { getSign } from '../../../../wallet/starMask';
 
 const useStyles = (theme: Theme) => createStyles({
     from: {
@@ -62,9 +64,11 @@ const selector = createSelector(
 function Wallet(props: any) {
     const theme = useTheme() as any;
     const state = useSelector(selector);
+    const ref = useRef<any>()
     const [disabledBtn, setDisabledBtn] = useState(true);
     const dispatch = useDispatch();
     const { t }: { t: any, i18n: any } = useTranslation();
+    const [useDisabled, setUseDisabled] = useState(true);
 
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -74,9 +78,14 @@ function Wallet(props: any) {
         message: ''
     })
     const form = useRef<UserInfo>({});
+    const userName = useRef<string>('');
     const { classes } = props;
     useRouterBeforeEach();
     const changeFrom = (type: string, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if(type === 'userName'){
+            userName.current = e.target.value;
+            return
+        }
         setDisabledBtn(false)
         const formData: UserInfo = {};
         formData[type] = e.target.value;
@@ -113,7 +122,7 @@ function Wallet(props: any) {
     const Delete = () => {
         setOpenDialog(true)
     }
-    const submitDelete = () =>{
+    const submitDelete = () => {
         dispatch({
             type: types.DELETE_USERINFO,
             callback: (res: any) => {
@@ -145,6 +154,45 @@ function Wallet(props: any) {
             open: false
         })
     }
+    const changeUserName = async () => {
+        if(useDisabled){
+            setUseDisabled(false);
+            setTimeout(() => {
+                ref.current.focus();
+            }, 30)
+        }else{
+            try {
+                const code = await getQrCode({ address: state.userInfo.wallet_addr, opt:2 });
+                const sign = await getSign(state.userInfo.wallet_addr,`STCSCAN_UPDATE_ADDR_CODE:${code.data}`,1);
+                const res = await updateUserName({
+                    new:userName.current,
+                    old:state.userInfo.wallet_addr,
+                    sign,
+                })
+                if (res.status === '200') {
+                    setAlert({
+                        ...alert,
+                        open: true,
+                        severity: 'success',
+                        message: t("common.success")
+                    })
+                    setTimeout(()=>{
+                        window.location.reload();
+                    },3000)
+                } else {
+                    setAlert({
+                        ...alert,
+                        open: true,
+                        severity: 'error',
+                        message: t("common.fail")
+                    })
+                }
+            } catch (error) {
+                console.error(error)
+            }
+            setUseDisabled(true);
+        }
+    }
     return <>
         {state.userInfo.wallet_addr ? <Card className={classes.from}>
             <InputLabel className={classes.formLabel} error={false}>
@@ -152,7 +200,10 @@ function Wallet(props: any) {
                     {t('user.Username')}：
                 </div>
                 <div className={classes.labelItem}>
-                    <Input sx={{ '.Mui-disabled': { textFillColor: theme.palette.mode === 'dark' ? '#fff' : "#000" } }} disabled defaultValue={state.userInfo.wallet_addr} className={classes.labelItem} />
+                    <Input sx={{ '.Mui-disabled': { textFillColor: theme.palette.mode === 'dark' ? '#fff' : "#000" } }} onChange={(e) => { changeFrom('userName', e) }} disabled={useDisabled} defaultValue={state.userInfo.wallet_addr} inputRef={ref} className={classes.labelItem} />
+                    <Button onClick={changeUserName}>
+                        {useDisabled ? '修改' : '确认修改'}
+                    </Button>
                 </div>
             </InputLabel>
 
@@ -236,7 +287,7 @@ function Wallet(props: any) {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText style={{
-                        color:'#fff'
+                        color: '#fff'
                     }}>
                         {t('user.warning tip')}
                     </DialogContentText>

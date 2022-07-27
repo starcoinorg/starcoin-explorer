@@ -154,13 +154,8 @@ export const getSTCNetworkChainId = async () => {
   * @param {*}
   * @return {*}
   */
-  export const getSign = async (account:string,networkId:number) => {
-    const s = localStorage.getItem('signToken');
-    if(s){
-      return s;
-    }
+  export const getSign = async (account:string, message:string, networkId:number) => {
     try {
-      const message = 'stcscan login'
       const msg = `0x${Buffer.from(message, 'utf8').toString('hex') }`
       const extraParams = { networkId }
       const sign = await window.starcoin.request({
@@ -170,7 +165,6 @@ export const getSTCNetworkChainId = async () => {
         // params: [msg, from, { pwd: 'Example password' }],
         params: [msg, account, extraParams],
       })
-      localStorage.setItem('signToken',sign);
       return sign;
     } catch (err) {
       console.error(err);
