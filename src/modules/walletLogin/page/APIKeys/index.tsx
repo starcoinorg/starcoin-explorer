@@ -13,9 +13,9 @@ import { getFormatDate } from '@/utils/dayjs';
 import useRouterBeforeEach from 'router/beforeRouter';
 import { useSelector } from 'react-redux';
 import storeLogin from '@/walletLogin/store';
-import { addApiKey, apiKeyList, removeApiKey, updateApiKey } from '@/walletLogin/store/apis';
+import { addApiKey, apiKeyList, getQrCode, removeApiKey, updateApiKey } from '@/walletLogin/store/apis';
 import { APIKeysItem } from '@/walletLogin/type';
-
+import { getSign } from '../../../../wallet/starMask';
 
 const useStyles = (theme:Theme) => createStyles({
     title: {
@@ -167,24 +167,33 @@ function Wallet(props: any) {
     };
 
     const itemDelete = async () => {
-        const res = await removeApiKey({
-            app_key: editItem.api_key
-        })
-        if (res.status === '200') {
-            setAlert({
-                ...alert,
-                open: true,
-                severity: 'success',
-                message: t("common.success")
+        try {
+            const code = await getQrCode({ address: state.userInfo.wallet_addr, opt:4 });
+            const sign = await getSign(state.userInfo.wallet_addr,`STCSCAN_DESTROY_APIKEY_CODE:${code.data}`,1);
+            const res = await removeApiKey({
+                app_key: editItem.api_key,
+                address:state.userInfo.wallet_addr,
+                sign
             })
-        } else {
-            setAlert({
-                ...alert,
-                open: true,
-                severity: 'error',
-                message: t("common.fail")
-            })
+            if (res.status === '200') {
+                setAlert({
+                    ...alert,
+                    open: true,
+                    severity: 'success',
+                    message: t("common.success")
+                })
+            } else {
+                setAlert({
+                    ...alert,
+                    open: true,
+                    severity: 'error',
+                    message: t("common.fail")
+                })
+            }
+        } catch (error) {
+            console.log(error)
         }
+      
         init()
         setOpenEdit(false);
     };

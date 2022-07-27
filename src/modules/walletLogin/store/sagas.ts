@@ -148,7 +148,8 @@ function* watchBalance() {
 export function* updateUserInfo({ payload, callback }: any): any {
   const state = yield select();
   const res = yield call(apis.updateUserInfo, { address: state[types.SCOPENAME].accounts[0], ...payload });
-  callback(res)
+  callback(res);
+  yield fork(getUserInfo);
 }
 
 function* watchUpdateUserInfo() {
