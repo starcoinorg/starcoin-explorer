@@ -6,7 +6,11 @@ import * as types from './constants';
 import { POLLING_INTERVAL } from '@/utils/constants';
 import { checkStarMaskInstalled, connectStarMask, createStcProvider, getSign, getStarMaskInstallUrl, getSTCAccountBalance } from '../../../wallet/starMask';
 
-
+const signJson = {
+  1: "STCSCAN_LOGIN_CODE",
+  2: "STCSCAN_UPDATE_ADDR_CODE",
+  3: "STCSCAN_DESTROY_ADDR_CODE"
+}
 export function* connectWallet(action?: any): any {
 
   const isStalled = checkStarMaskInstalled();
@@ -20,9 +24,7 @@ export function* connectWallet(action?: any): any {
   }
   try {
     const accounts = yield call(connectStarMask);
-    const sign = yield call(getSign, accounts[0], 1)
     yield put(actions.setAccounts(accounts));
-    yield put(actions.setSignResult(sign));
     const isStarMaskConnected = accounts && accounts.length > 0;
     if (isStarMaskConnected) {
       const stcProvider = yield call(createStcProvider);
@@ -32,9 +34,15 @@ export function* connectWallet(action?: any): any {
       }
       if (action?.payload) {
         try {
-          const res = yield call(withLoading, apis.login, types.CONNECTWALLET, { address: accounts[0], sign: sign });
-          if (!res || res.status !== "200") {
-            throw ('login error')
+          const code = yield call(apis.getQrCode, { address: accounts[0], opt: 1 });
+          if (code.status == '200') {
+            const sign = yield call(getSign, accounts[0], `${signJson[1]}:${code.data}`, 1);
+            const res = yield call(withLoading, apis.login, types.CONNECTWALLET, { address: accounts[0], sign: sign });
+            if (!res || res.status !== "200") {
+              throw ('login error')
+            }
+          } else {
+            throw ('code error')
           }
         } catch (error) { }
       }
@@ -94,12 +102,18 @@ function* watchInit() {
 
 export function* deleteUserInfo({ callback }: any): any {
   const state = yield select();
-  const res = yield call(apis.deleteUserInfo, { address: state[types.SCOPENAME].accounts[0]});
-  if(res.status == '200'){
-    yield fork(logout,{});
-    window.location.href = '/'
+  const code = yield call(apis.getQrCode, { address: state[types.SCOPENAME].accounts[0], opt: 3 });
+  if (code.status == '200') {
+    const sign = yield call(getSign, state[types.SCOPENAME].accounts[0], `${signJson[3]}:${code.data}`, 1);
+    const res = yield call(apis.deleteUserInfo, { address: state[types.SCOPENAME].accounts[0], sign });
+    if (res.status == '200') {
+      setTimeout(()=>{
+        window.location.href = '/'
+      },1000)
+    }
+    callback(res)
   }
-  callback(res)
+
 }
 
 function* watchDeleteUserInfo() {

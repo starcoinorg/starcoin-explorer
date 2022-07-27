@@ -35,6 +35,10 @@ const errorHandler = (error: any) => {
       window.location.href = '/';
       localStorage.removeItem('wallet_status');
     }
+    reject = {
+      code: response.data.code,
+      message: response.data.message,
+    };
   }else if (response) {
     reject = {
       code: response.data.code,

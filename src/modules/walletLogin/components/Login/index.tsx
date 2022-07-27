@@ -163,7 +163,7 @@ function Wallet(props: any) {
                     <MenuItem onClick={goProfile}>{t('user.My Profile')}</MenuItem>
                     <MenuItem onClick={goApiKeys}>{t('user.API Keys')}</MenuItem>
                     <MenuItem onClick={logOut}>{t('user.Logout')}</MenuItem>
-                    <MenuItem onClick={()=>{history(`/user/test`)}}>test</MenuItem>
+                    {/* <MenuItem onClick={()=>{history(`/user/test`)}}>test</MenuItem> */}
                 </Menu>
             </div>
             :

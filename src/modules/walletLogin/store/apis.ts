@@ -23,9 +23,9 @@ export const updateUserInfo = (params: any) =>{
 }
 export const deleteUserInfo = (params: any) =>{
   const address = params.address;
-  return  client.get(`v2/user/destroy/${address}/`);
+  delete params.address;
+  return  client.get(`v2/user/destroy/${address}/`, params);
 }
-
 
 export const apiKeyList = (params: any) =>{
   return  client.get(`v2/user/apikey/list/`, params);
@@ -45,4 +45,14 @@ export const updateApiKey = (params: any) =>{
 
 export const removeApiKey = (params: any) =>{
   return  client.get(`v2/user/apikey/remove`, params);
+}
+
+export const getQrCode = (params: any) =>{
+  return  client.get(`v2/user/code/`, params);
+}
+
+export const updateUserName = (params: any) =>{
+  const newAddress = params.new;
+  delete params.new;
+  return  client.get(`v2/user/update/address/${newAddress}`, params);
 }
