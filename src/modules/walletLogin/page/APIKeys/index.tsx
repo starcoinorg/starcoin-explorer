@@ -108,49 +108,69 @@ function Wallet(props: any) {
         setOpenAdd(false);
     };
     const create = async () => {
-        const res = await addApiKey({
-            address: state.accounts[0],
-            app_name: fromCreate
-        })
-        if (res.status === '200') {
-            setAlert({
-                ...alert,
-                open: true,
-                severity: 'success',
-                message: t("common.success")
+        try {
+            const res = await addApiKey({
+                address: state.accounts[0],
+                app_name: fromCreate
             })
-        } else {
+            if (res.status === '200') {
+                setAlert({
+                    ...alert,
+                    open: true,
+                    severity: 'success',
+                    message: t("common.success")
+                })
+            } else {
+                setAlert({
+                    ...alert,
+                    open: true,
+                    severity: 'error',
+                    message: t("common.fail")
+                })
+            }
+        } catch (error:any) {
             setAlert({
                 ...alert,
                 open: true,
                 severity: 'error',
-                message: t("common.fail")
+                message: error?.message
             })
         }
+        
         init()
         setOpenAdd(false);
     }
     const edit = async () => {
-        const res = await updateApiKey({
-            // address: state.accounts[0],
-            app_name: editItem.app_name,
-            app_key: editItem.api_key
-        })
-        if (res.status === '200') {
-            setAlert({
-                ...alert,
-                open: true,
-                severity: 'success',
-                message: t("common.success")
+        try{
+            const res = await updateApiKey({
+                // address: state.accounts[0],
+                app_name: editItem.app_name,
+                app_key: editItem.api_key
             })
-        } else {
+            if (res.status === '200') {
+                setAlert({
+                    ...alert,
+                    open: true,
+                    severity: 'success',
+                    message: t("common.success")
+                })
+            } else {
+                setAlert({
+                    ...alert,
+                    open: true,
+                    severity: 'error',
+                    message: t("common.fail")
+                })
+            }
+        }catch(error:any){
             setAlert({
                 ...alert,
                 open: true,
                 severity: 'error',
-                message: t("common.fail")
+                message: error?.message
             })
         }
+        
         init()
         setOpenEdit(false);
     }
@@ -187,11 +207,16 @@ function Wallet(props: any) {
                     ...alert,
                     open: true,
                     severity: 'error',
-                    message: t("common.fail")
+                    message: res.message
                 })
             }
-        } catch (error) {
-            console.log(error)
+        } catch (error:any) {
+            setAlert({
+                ...alert,
+                open: true,
+                severity: 'error',
+                message: error?.message
+            })
         }
       
         init()
@@ -275,7 +300,7 @@ function Wallet(props: any) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseAdd}>{t('APIkeys.Cancel')}</Button>
-                    <Button onClick={create}>{t('APIkeys.Subscribe')}</Button>
+                    <Button onClick={create}>{t('APIkeys.Create')}</Button>
                 </DialogActions>
             </Dialog>
             <Dialog
@@ -310,7 +335,7 @@ function Wallet(props: any) {
                 </DialogContent>
                 <DialogActions>
                     <Button color="error" onClick={itemDelete}>{t('APIkeys.Delete')}</Button>
-                    <Button onClick={edit}>{t('APIkeys.Subscribe')}</Button>
+                    <Button onClick={edit}>{t('APIkeys.Edit')}</Button>
                 </DialogActions>
             </Dialog>
         </Card>

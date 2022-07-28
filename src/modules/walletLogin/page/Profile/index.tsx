@@ -202,7 +202,7 @@ function Wallet(props: any) {
                 <div className={classes.labelItem}>
                     <Input sx={{ '.Mui-disabled': { textFillColor: theme.palette.mode === 'dark' ? '#fff' : "#000" } }} onChange={(e) => { changeFrom('userName', e) }} disabled={useDisabled} defaultValue={state.userInfo.wallet_addr} inputRef={ref} className={classes.labelItem} />
                     <Button onClick={changeUserName}>
-                        {useDisabled ? '修改' : '确认修改'}
+                        {useDisabled ? t('user.Edit') : t('user.Confirm')}
                     </Button>
                 </div>
             </InputLabel>
