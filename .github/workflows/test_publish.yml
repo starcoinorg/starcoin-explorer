@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: npm run build && cp build/index.html build/404.html
         env:
-          REACT_APP_STARCOIN_API_URL: ${{ secrets.API_URL }}
+          REACT_APP_STARCOIN_API_URL: ${{ secrets.TEST_API_URL }}
           REACT_APP_STARCOIN_NETWORKS: ${{ secrets.AVAILABLE_NETWORKS }}
 
       - run: rm ./build/CNAME

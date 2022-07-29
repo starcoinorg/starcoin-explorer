@@ -30,8 +30,8 @@ const errorHandler = (error: any) => {
   let reject;
   if(response.status == 401){
     if(config.url.indexOf('/user/login') ===-1){
-      window.location.href = '/';
-      localStorage.removeItem('wallet_status');
+      // window.location.href = '/';
+      // localStorage.removeItem('wallet_status');
     }
     reject = {
       code: response.data.code,
