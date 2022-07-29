@@ -128,7 +128,9 @@
     "GasUsed": "Gas消耗",
     "MaxGasAmount": "最大Gas消耗",
     "Nonce": "Nonce",
-    "": ""
+    "": "",
+    "success": "成功",
+    "fail":"失败"
   },
   "countdown": {
     "day": "天",
@@ -176,5 +178,45 @@
     "title": "代币",
     "holderList": "代币持有者列表",
     "transactionList": "代币交易列表"
+  },
+  "user":{
+    "Username":"用户名",
+    "Email address": "邮箱",
+    "Email address placeholder": "请输入e-amil",
+    "Public Profile Picture":"头像",
+    "Picture placeholder":"请输入头像url地址",
+    "twitter name":"twitter账号",
+    "discord name":"discord账号",
+    "telegram name":"telegram账号",
+    "twitter placeholder":"请输入twitter账号",
+    "discord placeholder":"请输入discord账号",
+    "telegram placeholder":"请输入telegram账号",
+    "Profile": "个人简介",
+    "save change":"保存修改",
+    "Confirm":"确认修改",
+    "Edit":"修改",
+    "My Profile":"个人详情",
+    "API Keys":"API Keys",
+    "Logout":"退出登录",
+    "login":"登录",
+    "Delete User":"删除账户",
+    "warning": "警告",
+    "warning tip":"删除账户会清空账户下所有信息，确定要删除吗？"
+  },
+  "APIkeys":{
+    "My API Keys":"我的API Keys",
+    "Add":"新增",
+    "Action":"操作",
+    "API-Key Token":"API-Key Token",
+    "Created":"创建时间",
+    "Create":"创建",
+    "Edit":"编辑",
+    "Create a new API-KEY token":"创建API Key",
+    "AppName":"名称",
+    "Cancel":"取消",
+    "Subscribe":"确定",
+    "Edit a new API-KEY token":"编辑API Key",
+    "ApiKey":"Api Key",
+    "Delete":"删除"
   }
 }

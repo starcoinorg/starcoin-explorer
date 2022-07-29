@@ -9,6 +9,9 @@ const TokensList = lazy(() => import('../modules/Tokens/components/List/adapter'
 const Home = lazy(() => import('../modules/Home/adapter'));
 const Search = lazy(() => import('../modules/Search/adapter'));
 const BlockDetail = lazy(() => import('../modules/Blocks/components/Detail/adapter'));
+
+const Profile = lazy(() => import('../modules/walletLogin/page/Profile'));
+const APIKeys = lazy(() => import('../modules/walletLogin/page/APIKeys'));
 const BlockList = lazy(() => import('../modules/Blocks/components/List/adapter'));
 const UncleBlockDetail = lazy(() => import('../modules/UncleBlocks/components/Detail/adapter'));
 const UncleBlockList = lazy(() => import('../modules/UncleBlocks/components/List/adapter'));
@@ -23,6 +26,8 @@ const Faq = lazy(() => import('../modules/Faq'));
 const Tools = lazy(() => import('../modules/Tools'));
 const Terms = lazy(() => import('../modules/Terms'));
 const Address = lazy(() => import('../modules/Address/adapter'));
+const Redirect = lazy(() => import('../modules/walletLogin/page/Profile/redirect'));
+const Test = lazy(() => import('../modules/walletLogin/page/Profile/test'));
 const Error404 = lazy(() => import('../modules/Error404'));
 
 export default function AppRouter() {
@@ -82,5 +87,13 @@ export default function AppRouter() {
 
     <Route path='/error' element={<Error404 />} />
     <Route path='*' element={<Error404 />} />
+
+    <Route path='/user'>
+      <Route path='Profile' element={<Profile />} />
+      <Route path='APIKeys' element={<APIKeys />} />
+      <Route path='test' element={<Test />} />
+    </Route>
+    <Route path='/redirect/url' element={<Redirect />} />
+    <Route path='__/auth/handler' element={<Redirect />} />
   </Routes>;
 }

@@ -128,7 +128,9 @@
     "GasUsed": "Gas Used",
     "MaxGasAmount": "Max Gas Amount",
     "Nonce": "Nonce",
-    "": ""
+    "": "",
+    "success": "success",
+    "fail":"fail"
   },
   "countdown": {
     "day": "Day",
@@ -176,5 +178,46 @@
     "title": "Token",
     "holderList": "Token Holders List",
     "transactionList": "Token Transactions List"
+  },
+  "user":{
+    "Username":"Username",
+    "Email address": "Email address",
+    "Email address placeholder": "Please enter e-amil",
+    "Public Profile Picture":"Public profile picture",
+    "Picture placeholder":"Please enter picture url",
+    "twitter name":"Twitter name",
+    "discord name":"Discord name",
+    "telegram name":"Telegram name",
+    "twitter placeholder":"Please enter twitter",
+    "discord placeholder":"Please enter discord",
+    "telegram placeholder":"Please enter telegram",
+    "Profile Website": "Profile Website",
+    "save change":"Save change",
+    "Confirm":"Confirm",
+    "Edit":"Edit",
+    "Profile":"My Profile",
+    "My Profile":"My Profile",
+    "API Keys":"API Keys",
+    "Logout":"Sign out",
+    "login":"Sign in",
+    "Delete User":"Destroy account",
+    "warning": "Warning",
+    "warning tip":"Destroying an account will clear all information. Are you sure you want to destroy it?"
+  },
+  "APIkeys":{
+    "My API Keys":"My API Keys",
+    "Add":"Add",
+    "Action":"Action",
+    "API-Key Token":"API-Key Token",
+    "Created":"Created",
+    "Create":"Create",
+    "Edit":"Edit",
+    "Create a new API-KEY token":"Create a new API-KEY token",
+    "AppName":"AppName",
+    "Cancel":"Cancel",
+    "Subscribe":"Subscribe",
+    "Edit a new API-KEY token":"Edit a new API-KEY token",
+    "ApiKey":"ApiKey",
+    "Delete":"Delete"
   }
 }
