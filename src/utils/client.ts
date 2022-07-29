@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 const apiUrl = process.env.REACT_APP_STARCOIN_API_URL;
 const baseURL = `${apiUrl}`;
