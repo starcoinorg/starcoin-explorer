@@ -12,6 +12,8 @@
     "@mui/material": "^5.6.1",
     "@mui/styles": "^5.6.1",
     "@starcoin/starcoin": "^2.1.6",
+    "@starcoin/starmask-onboarding": "^1.2.0",
+    "@starcoin/starswap-web3-core": "^0.2.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
