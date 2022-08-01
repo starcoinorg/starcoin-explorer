@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 const apiUrl = process.env.REACT_APP_STARCOIN_API_URL;
 const baseURL = `${apiUrl}`;
@@ -32,8 +31,8 @@ const errorHandler = (error: any) => {
   let reject;
   if(response.status == 401){
     if(config.url.indexOf('/user/login') ===-1){
-      // window.location.href = '/';
-      // localStorage.removeItem('wallet_status');
+      window.location.href = '/';
+      Cookies.remove('wallet_status');
     }
     reject = {
       code: response.data.code,
