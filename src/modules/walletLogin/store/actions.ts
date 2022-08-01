@@ -1,5 +1,5 @@
 import * as types from './constants';
-
+import Cookies from 'js-cookie'
 export function getAccounts(payload: any) {
   return {
     type: types.GET_ACCOUNTS,
@@ -44,13 +44,18 @@ export function setBalance(payload: any) {
 
 export function getState(payload: any) {
   return {
-    type: types.GET_STATE, 
+    type: types.GET_STATE,
     payload,
   };
 }
 
 export function setState(payload: any) {
-  payload?localStorage.setItem('wallet_status', payload):localStorage.removeItem('wallet_status');
+  // let num = 8;
+  // let time = new Date(new Date().getTime() + num * 60 * 60 * 1000 + 10 * 60 * 1000);
+  let time = new Date(new Date().getTime() + 10 * 60 * 1000);
+  payload ? Cookies.set('wallet_status', payload, {
+    expires: time
+  }) : Cookies.remove('wallet_status');
   return {
     type: types.SET_STATE,
     payload,

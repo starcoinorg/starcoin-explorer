@@ -5,6 +5,7 @@ import * as actions from './actions';
 import * as types from './constants';
 import { POLLING_INTERVAL } from '@/utils/constants';
 import { checkStarMaskInstalled, connectStarMask, createStcProvider, getSign, getStarMaskInstallUrl, getSTCAccountBalance } from '../../../wallet/starMask';
+import Cookies from 'js-cookie'
 
 const signJson = {
   1: "STCSCAN_LOGIN_CODE",
@@ -89,7 +90,7 @@ function* watchUserInfo() {
 }
 
 export function* walletInit() {
-  let connectStatus = localStorage.getItem('wallet_status');
+  let connectStatus = Cookies.get('wallet_status');
   if (connectStatus) {
     yield fork(connectWallet);
   }
