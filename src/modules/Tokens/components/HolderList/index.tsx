@@ -75,7 +75,7 @@ class Index extends PureComponent<Props, IndexState> {
     if (token_type_tag) {
       getTokenPrecision(token_type_tag).then(data => {
         if (data) {
-          this.setState({ tokenPrecision: parseInt(data[0], 10) });
+          this.setState({ tokenPrecision: parseInt(data[0] as string, 10) });
         } else {
           console.log('get precision failed');
         }

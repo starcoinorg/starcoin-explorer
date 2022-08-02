@@ -146,7 +146,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
             this.setState({ accountModuleUpdateStrategy: 1 });
           }
         }
-        this.setState({ accountModuleUpdateStrategy: data[0] });
+        this.setState({ accountModuleUpdateStrategy: data[0] as number });
       } else {
         this.setState({ accountModuleUpdateStrategy: 0 });
       }
