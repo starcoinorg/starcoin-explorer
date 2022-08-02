@@ -50,9 +50,9 @@ export function getState(payload: any) {
 }
 
 export function setState(payload: any) {
-  // let num = 8;
-  // let time = new Date(new Date().getTime() + num * 60 * 60 * 1000 + 10 * 60 * 1000);
-  let time = new Date(new Date().getTime() + 10 * 60 * 1000);
+  let num = 8;
+  let time = new Date(new Date().getTime() + num * 60 * 60 * 1000 + 10 * 60 * 1000);
+  // let time = new Date(new Date().getTime() + 10 * 60 * 1000);
   payload ? Cookies.set('wallet_status', payload, {
     expires: time
   }) : Cookies.remove('wallet_status');
