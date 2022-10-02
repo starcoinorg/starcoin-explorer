@@ -4,6 +4,9 @@
 const CracoAlias = require("craco-alias");
 
 module.exports = {
+  babel: {
+    plugins: ["babel-plugin-transform-import-meta"]
+  },
   plugins: [
     {
       plugin: CracoAlias,

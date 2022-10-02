@@ -5,7 +5,9 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import { isString } from 'lodash';
-
+import { WasmFs } from '@wasmer/wasmfs';
+import { Disassemble } from '@starcoin/move-js';
+import { useState } from 'react';
 
 type Props = {
   codes: any
@@ -29,7 +31,7 @@ function FunctionItem(props: Props) {
     }).join(', ');
 
     return <TreeItem nodeId={`function${item.name}${index}`} key={item.name + index}
-                     label={`${item.name}( ${prams} )`} />;
+      label={`${item.name}( ${prams} )`} />;
   })}</>;
 }
 
@@ -74,9 +76,9 @@ function structAbi(type_abi: any) {
 
 function StructItem(props: Props) {
   const { codes } = props;
-  return <>{codes.map((item: any,index:any) => {
+  return <>{codes.map((item: any, index: any) => {
     const fields = structField(item.fields);
-    return <div  key={item.name + index}> <TreeItem nodeId={`struct${ item.name}${index}`} label={`${item.name} { ${fields} } `} />
+    return <div key={item.name + index}> <TreeItem nodeId={`struct${item.name}${index}`} label={`${item.name} { ${fields} } `} />
       <br /> </div>;
   })}</>;
 }
@@ -84,9 +86,35 @@ function StructItem(props: Props) {
 
 export default function CodeContent(props: Props) {
   const { codes } = props;
-  if (codes.length === 0){
+
+  const [expanded, setExpanded] = useState<string[]>([]);
+  const [bytecode, setBytecode] = useState<Map<string, string>>(new Map());
+
+  const dis = (nodeIds: string[]) => {
+    nodeIds.forEach((v: string) => {
+      if (v.includes("&")) {
+        const key = v.split("&");
+        if (!bytecode?.get(key[0])) {
+          const mp = new Disassemble(new WasmFs());
+          const item = codes[parseInt(key[1], 10)];
+          mp.disassemble(item.name, item.code, (_: boolean, data: string) => {
+            setBytecode(new Map(bytecode.set(item.name, data)));
+          })
+        }
+      }
+    })
+  }
+
+  if (codes.length === 0) {
     return <div> no data </div>
   }
+
+  const handleToggle = (_: React.SyntheticEvent, nodeIds: string[]) => {
+
+    dis(nodeIds);
+    setExpanded(nodeIds);
+
+  };
 
   return (
     <Box sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}>
@@ -94,29 +122,36 @@ export default function CodeContent(props: Props) {
         aria-label='controlled'
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
+        expanded={expanded}
+        onNodeToggle={handleToggle}
         multiSelect
       >
 
         {codes.map((item: any, index: any) => {
           return <TreeItem nodeId={item.name + index} key={item.name + index} label={item.name}>
-            {item.code.script_functions.length > 0 ?
-              <TreeItem nodeId={`${item.name}${index}1`}  label='script_functions'>
-                <FunctionItem codes={item.code.script_functions} />
+            {item.info.script_functions.length > 0 ?
+              <TreeItem nodeId={`${item.name}${index}1`} label='script_functions'>
+                <FunctionItem codes={item.info.script_functions} />
               </TreeItem>
               : <TreeItem nodeId={`${item.name}${index}1`} label='script_functions' />}
 
-            {item.code.structs.length > 0 ?
-              <TreeItem nodeId={`${item.name}${index}2`}   label='structs'>
-                 <StructItem codes={item.code.structs} />
+            {item.info.structs.length > 0 ?
+              <TreeItem nodeId={`${item.name}${index}2`} label='structs'>
+                <StructItem codes={item.info.structs} />
               </TreeItem>
               : <TreeItem nodeId={`${item.name}${index}2`} label='structs' />}
 
+            <TreeItem nodeId={`${item.name}&${index}`} label='bytecode' >
+              <pre>
+                <p>{bytecode.get(item.name) ? bytecode?.get(item.name) : "loading..."}</p>
+              </pre>
+
+            </TreeItem>
           </TreeItem>;
 
         })}
 
-
       </TreeView>
-    </Box>
+    </Box >
   );
 }

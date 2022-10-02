@@ -1,5 +1,5 @@
 // https://www.npmjs.com/package/@starcoin/starcoin
-import { providers} from '@starcoin/starcoin';
+import { providers } from '@starcoin/starcoin';
 import { getNetwork } from '@/utils/helper';
 
 const networks: string[] =
@@ -42,14 +42,14 @@ export async function getAddressResources(hash: string) {
 }
 
 export async function listResources(hash: string) {
-    try {
-      const provider = providerMap[getNetwork()];
-      const result = await provider.send('state.list_resource', [hash,{decode:true}]);
-      return result;
-    } catch (error: any) {
-      console.info(error);
-      return false;
-    }
+  try {
+    const provider = providerMap[getNetwork()];
+    const result = await provider.send('state.list_resource', [hash, { decode: true }]);
+    return result;
+  } catch (error: any) {
+    console.info(error);
+    return false;
+  }
 
 }
 
@@ -61,7 +61,7 @@ export async function getBalancesData(hash: string) {
     let balanceList: any = [];
     let tokenInfoList: any = [];
     for (const value of Object.keys(result)) {
-      const resource =  getTokenPrecision(value)
+      const resource = getTokenPrecision(value)
       // @ts-ignore
       tokenInfoList.push(resource)
     }
@@ -146,11 +146,11 @@ export async function getEpochData() {
   }
 }
 
-export async function getNodeInfo(){
+export async function getNodeInfo() {
   try {
     const provider = providerMap[getNetwork()];
     const nodeInfo = await provider.perform("getNodeInfo");
-    return  nodeInfo
+    return nodeInfo
   } catch (error: any) {
     console.error(error)
     return false;
@@ -237,6 +237,6 @@ export async function getAddressCode(address: string) {
   }
   const all = await Promise.all(codeList);
   return Object.keys(codes).map((value, index) => {
-    return { 'name': value, code: all[index] };
+    return { 'name': value, info: all[index], 'code': codes[value].code };
   });
 }
