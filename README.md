@@ -41,7 +41,8 @@ $env:REACT_APP_STARCOIN_NETWORKS='main'
 >
 >`$git clone git@github.com:starcoinorg/starcoin-explorer.git`\
 >`$cd starcoin-explorer`\
->`$npm install`
+>`rm package-lock.json`\
+>`$yarn`
 
 `$yarn start`
 

@@ -6,7 +6,7 @@ import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import { isString } from 'lodash';
 import { WasmFs } from '@wasmer/wasmfs';
-import { Disassemble } from '@starcoin/move-js';
+import { Disassemble } from '@starcoin-org/stc-move-js'
 import { useState } from 'react';
 
 type Props = {
@@ -129,26 +129,25 @@ export default function CodeContent(props: Props) {
 
         {codes.map((item: any, index: any) => {
           return <TreeItem nodeId={item.name + index} key={item.name + index} label={item.name}>
-            {item.info.script_functions.length > 0 ?
-              <TreeItem nodeId={`${item.name}${index}1`} label='script_functions'>
-                <FunctionItem codes={item.info.script_functions} />
-              </TreeItem>
-              : <TreeItem nodeId={`${item.name}${index}1`} label='script_functions' />}
-
-            {item.info.structs.length > 0 ?
-              <TreeItem nodeId={`${item.name}${index}2`} label='structs'>
-                <StructItem codes={item.info.structs} />
-              </TreeItem>
-              : <TreeItem nodeId={`${item.name}${index}2`} label='structs' />}
-
-            <TreeItem nodeId={`${item.name}&${index}`} label='bytecode' >
-              <pre>
-                <p>{bytecode.get(item.name) ? bytecode?.get(item.name) : "loading..."}</p>
-              </pre>
-
+          {item?.info?.script_functions?.length > 0 ?
+            <TreeItem nodeId={`${item.name}${index}1`} label='script_functions'>
+              <FunctionItem codes={item.info.script_functions} />
             </TreeItem>
-          </TreeItem>;
+            : <TreeItem nodeId={`${item.name}${index}1`} label='script_functions' />}
 
+          {item?.info?.structs?.length > 0 ?
+            <TreeItem nodeId={`${item.name}${index}2`} label='structs'>
+              <StructItem codes={item.info.structs} />
+            </TreeItem>
+            : <TreeItem nodeId={`${item.name}${index}2`} label='structs' />}
+
+          <TreeItem nodeId={`${item.name}&${index}`} label='bytecode' >
+            <pre>
+              <p>{bytecode.get(item.name) ? bytecode?.get(item.name) : "loading..."}</p>
+            </pre>
+
+          </TreeItem>
+        </TreeItem>;
         })}
 
       </TreeView>
