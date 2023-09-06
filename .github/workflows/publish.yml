@@ -24,7 +24,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
       - name: Build
         run: npm run build && cp build/index.html build/404.html
         env:
