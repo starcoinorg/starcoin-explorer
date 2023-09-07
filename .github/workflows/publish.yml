@@ -24,6 +24,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Build
         run: npm run build && cp build/index.html build/404.html
         env:
