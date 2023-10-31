@@ -16,13 +16,17 @@ const useStyles = (theme: any) =>
     },
     [theme.breakpoints.up('sm')]: {
       root: {
-        paddingLeft: theme.spacing(2) ,
+        paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
       },
     },
     root: {
+      flex: 1,
       alignItems: 'center',
-      borderBottom: theme.palette.mode === 'dark' ?  '1px solid rgba(256, 256, 256, 0.075)' : '1px solid rgba(0, 0, 0, 0.075)',
+      borderBottom:
+        theme.palette.mode === 'dark'
+          ? '1px solid rgba(256, 256, 256, 0.075)'
+          : '1px solid rgba(0, 0, 0, 0.075)',
       display: 'flex',
       justifyContent: 'space-between',
       // paddingBottom: theme.spacing(1),
@@ -55,8 +59,7 @@ interface InternalProps {
   classes: any;
 }
 
-interface Props extends ExternalProps, InternalProps {
-}
+interface Props extends ExternalProps, InternalProps {}
 
 class TransactionSummary extends PureComponent<Props> {
   render() {
