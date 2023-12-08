@@ -29,7 +29,7 @@ import Loading from '@/common/Loading';
 import EventViewTable from '@/common/View/EventViewTable';
 import PageView from '@/common/View/PageView';
 import CommonLink from '@/common/Link';
-import { withRouter,RoutedProps } from '@/utils/withRouter';
+import { withRouter, RoutedProps } from '@/utils/withRouter';
 
 
 
@@ -44,9 +44,9 @@ function formatArgsWithTypeTag(
       switch (typeTag) {
         case 'Signer':
         case 'Address': {
-          let decodeAddress:string='0x';
-          for(let i=0;i<16;i++){
-            decodeAddress+=deserializer.deserializeU8().toString(16);
+          let decodeAddress: string = '0x';
+          for (let i = 0; i < 16; i++) {
+            decodeAddress += deserializer.deserializeU8().toString(16);
           }
           return decodeAddress;
         }
@@ -75,15 +75,13 @@ function formatArgsWithTypeTag(
       // return hexlify(deserializer.deserializeBytes());
     }
     if ('Struct' in typeTag) {
-      return `${typeTag.Struct.address}::${typeTag.Struct.module}::${
-        typeTag.Struct.name
-      }${
-        typeTag.Struct.type_params
+      return `${typeTag.Struct.address}::${typeTag.Struct.module}::${typeTag.Struct.name
+        }${typeTag.Struct.type_params
           ? `<${typeTag.Struct.type_params
             .map((param) => formatArgsWithTypeTag(deserializer, param))
             .join(', ')}>`
           : ''
-      }`;
+        }`;
     }
     return undefined;
   } catch {
@@ -106,10 +104,10 @@ export function useResolveFunction(functionId?: string, network?: string) {
 }
 
 const DecodedPayloadContent = ({
-                                 network,
-                                 txnPayload,
-                                 alt,
-                               }: {
+  network,
+  txnPayload,
+  alt,
+}: {
   network: string;
   alt: string;
   txnPayload: any;
@@ -136,11 +134,10 @@ const DecodedPayloadContent = ({
   const decodedArgs = args ? args.map((arg: string, index: number) => {
     const type_tag = resolvedFunction?.args[index + 1]?.type_tag;
     return resolvedFunction?.args[index + 1]
-      ? `${types.formatTypeTag(resolvedFunction.args[index + 1]?.type_tag)}: ${
-        type_tag !== 'Address' ? formatArgsWithTypeTag(
-          new bcs.BcsDeserializer(arrayify(arg)),
-          resolvedFunction.args[index + 1]?.type_tag,
-        ) : arg
+      ? `${types.formatTypeTag(resolvedFunction.args[index + 1]?.type_tag)}: ${type_tag !== 'Address' ? formatArgsWithTypeTag(
+        new bcs.BcsDeserializer(arrayify(arg)),
+        resolvedFunction.args[index + 1]?.type_tag,
+      ) : arg
       }`
       : arg;
   }) : {};
@@ -177,7 +174,7 @@ const useStyles = (theme: any) =>
     rawData: {
       wordBreak: 'break-all',
       overflow: 'auto',
-      fontSize:theme.spacing(1)
+      fontSize: theme.spacing(1)
     },
 
     accordion: {
@@ -190,8 +187,8 @@ const useStyles = (theme: any) =>
     csvExportIcon: {
       verticalAlign: 'middle',
     },
-    card:{
-      marginTop:theme.spacing(2),
+    card: {
+      marginTop: theme.spacing(2),
       display: 'flex',
       backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
       color: theme.palette.getContrastText(theme.palette.background.paper),
@@ -201,16 +198,18 @@ const useStyles = (theme: any) =>
 
 interface IndexState {
   resolvedFunction: any;
-  tabSelect:number,
+  tabSelect: number,
   headNumber: number
 }
 
-interface IndexProps extends  RoutedProps {
+interface IndexProps extends RoutedProps {
   classes: any;
   t: any;
   match: any;
   transaction: any;
+  failureFunction: any;
   getTransaction: (data: any, callback?: any) => any;
+  getModuleFunctionIndex: (data: any, callback?: any) => any;
 }
 
 class Index extends PureComponent<IndexProps, IndexState> {
@@ -218,6 +217,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
   static defaultProps = {
     match: {},
     transaction: null,
+    failureFunction: null,
     getTransaction: () => {
     },
   };
@@ -225,9 +225,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
   constructor(props: IndexProps) {
     super(props);
     this.state = {
-      resolvedFunction:undefined,
-      tabSelect:0,
-      headNumber:0,
+      resolvedFunction: undefined,
+      tabSelect: 0,
+      headNumber: 0,
     };
   }
 
@@ -236,18 +236,38 @@ class Index extends PureComponent<IndexProps, IndexState> {
     const tabList = ["events", "RawData", "decodedPayload"];
     const tabIndex = tabList.indexOf(this.props.params.tab);
     if (tabIndex > -1) {
-      this.setState({tabSelect:tabIndex});
+      this.setState({ tabSelect: tabIndex });
     }
     const hash = this.props.params.hash;
     this.props.getTransaction({ hash });
 
-    getNodeInfo().then((info)=>{
-      if (info){
-        const headNumber = parseInt(info.peer_info.chain_info.head.number,10);
-        this.setState({ resolvedFunction: undefined, tabSelect: 0, headNumber})
+    getNodeInfo().then((info) => {
+      if (info) {
+        const headNumber = parseInt(info.peer_info.chain_info.head.number, 10);
+        this.setState({ resolvedFunction: undefined, tabSelect: 0, headNumber })
       }
     })
 
+  }
+
+  componentDidUpdate(prevProps: IndexProps) {
+    if (this.props.transaction === null) {
+      return;
+    }
+
+    if (prevProps.failureFunction === null && this.props.transaction.status !== "Executed") {
+      try {
+        const status = JSON.parse(this.props.transaction.status);
+        if (status.ExecutionFailure !== undefined) {
+          const st = status.ExecutionFailure;
+          const moduleId = `${st.location.Module.address}::${st.location.Module.name}`;
+          const index = st.function;
+          this.props.getModuleFunctionIndex({ moduleId, index });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
   generateExtraTabs() {
@@ -313,7 +333,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       <Typography variant='body1'>{t('transaction.NoRawData')}</Typography>
     );
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-      this.setState({tabSelect:newValue});
+      this.setState({ tabSelect: newValue });
       const { navigate } = this.props;
       const tabList = ["events", "RawData", "decodedPayload"];
       const hash = this.props.params.hash;
@@ -321,40 +341,39 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const path = `/${getNetwork()}/transactions/detail/${hash}/${tabName}`;
       navigate(path);
     };
-
     return (<Card className={classes.card}>
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
-            <Tabs value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label={t('header.events')} {...a11yProps(0)} />
-              <Tab label= {t('transaction.RawData')} {...a11yProps(1)} />
-              <Tab label= {t('transaction.decodedPayload')} {...a11yProps(2)} />
-            </Tabs>
-          </Box>
-          <ScanTabPanel value={this.state.tabSelect} index={0}>
-            {isInitialLoad ? <Loading /> : eventsContent}
-          </ScanTabPanel>
-          <ScanTabPanel value={this.state.tabSelect} index={1}>
-            <div className={classes.rawData}>
-            {isInitialLoad ? <Loading /> : rawContent}
-            </div>
-          </ScanTabPanel>
-          <ScanTabPanel value={this.state.tabSelect} index={2}>
-            <div className={classes.rawData}>
-              {isInitialLoad ? (
-                <Loading />
-              ) : (
-                <DecodedPayloadContent
-                  network={network}
-                  alt={t('transaction.NoDecodedPayload')}
-                  txnPayload={txnPayload}
-                />
-              )}
-            </div>
-          </ScanTabPanel>
-
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
+          <Tabs value={this.state.tabSelect} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label={t('header.events')} {...a11yProps(0)} />
+            <Tab label={t('transaction.RawData')} {...a11yProps(1)} />
+            <Tab label={t('transaction.decodedPayload')} {...a11yProps(2)} />
+          </Tabs>
         </Box>
-      </Card>);
+        <ScanTabPanel value={this.state.tabSelect} index={0}>
+          {isInitialLoad ? <Loading /> : eventsContent}
+        </ScanTabPanel>
+        <ScanTabPanel value={this.state.tabSelect} index={1}>
+          <div className={classes.rawData}>
+            {isInitialLoad ? <Loading /> : rawContent}
+          </div>
+        </ScanTabPanel>
+        <ScanTabPanel value={this.state.tabSelect} index={2}>
+          <div className={classes.rawData}>
+            {isInitialLoad ? (
+              <Loading />
+            ) : (
+              <DecodedPayloadContent
+                network={network}
+                alt={t('transaction.NoDecodedPayload')}
+                txnPayload={txnPayload}
+              />
+            )}
+          </div>
+        </ScanTabPanel>
+
+      </Box>
+    </Card>);
   }
 
   render() {
@@ -392,26 +411,26 @@ class Index extends PureComponent<IndexProps, IndexState> {
     /*
     if ('ScriptFunction' in txnPayload) {
       const func = txnPayload.ScriptFunction.func as {
-        address: types.AccountAddress;
+          address: types.AccountAddress;
         module: types.Identifier;
         functionName: types.Identifier;
       };
-      moduleAddress = func.address;
-      moduleName = func.module;
-      functionName = func.functionName;
+        moduleAddress = func.address;
+        moduleName = func.module;
+        functionName = func.functionName;
       // const args = txnPayload.ScriptFunction.args;
       /*
       let de2;
       try {
-        arg0 = args[0];
+          arg0 = args[0];
         arg1 = args[1];
         de2 = new bcs.BcsDeserializer(arrayify(args[2]));
         arg2 = de2.deserializeU128().toString();
       } catch (e) {
-        console.log(e);
+          console.log(e);
       }
     }
-    */
+        */
     if ('ScriptFunction' in txnPayload) {
       args = txnPayload.ScriptFunction.args;
       txn_type_args = txnPayload.ScriptFunction.ty_args;
@@ -440,7 +459,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         functionId = `${moduleAddress}::${moduleName}::${functionName}`;
         /*
         const func = txnPayload.Package.init_script.func;
-        const { address, module, functionName } = func;
+        const {address, module, functionName} = func;
         functionId = `${address}::${module}::${functionName}`;
         */
       }
@@ -448,14 +467,14 @@ class Index extends PureComponent<IndexProps, IndexState> {
 
     /*
     if ('ScriptFunction' in txnPayload) {
-      args = txnPayload.ScriptFunction.args;
+          args = txnPayload.ScriptFunction.args;
     }
-    if ('Package' in txnPayload) {
+        if ('Package' in txnPayload) {
       if (txnPayload.Package.init_script) {
-        args = txnPayload.Package.init_script.args;
+          args = txnPayload.Package.init_script.args;
       }
     }
-    */
+        */
     const provider = new providers.JsonRpcProvider(
       `https://${network}-seed.starcoin.org`,
     );
@@ -464,7 +483,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
       this.setState({ resolvedFunction: data });
     };
     const resolvedFunction = this.state?.resolvedFunction;
-    if (!resolvedFunction){
+    if (!resolvedFunction) {
       getResolvedFunction();
     }
 
@@ -473,10 +492,10 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const type_tag = resolvedFunction?.args[index + 1]?.type_tag;
       return resolvedFunction?.args[index + 1]
         ? [types.formatTypeTag(type_tag),
-          type_tag !== 'Address' ? formatArgsWithTypeTag(
-            new bcs.BcsDeserializer(arrayify(arg)),
-            resolvedFunction.args[index + 1].type_tag,
-          ) : arg,
+        type_tag !== 'Address' ? formatArgsWithTypeTag(
+          new bcs.BcsDeserializer(arrayify(arg)),
+          resolvedFunction.args[index + 1].type_tag,
+        ) : arg,
         ]
         : arg;
     }) : {};
@@ -514,12 +533,18 @@ class Index extends PureComponent<IndexProps, IndexState> {
       // [t('common.Time'), new Date(parseInt(blockTime, 10)).toLocaleString()],
       [t('transaction.StateRootHash'), source.state_root_hash],
       [t('transaction.Status'), source.status],
-      [t('common.GasUsed'), source.gas_used],
-      [
-        t('transaction.Sender'),
-        <CommonLink path={`/${network}/address/${sender}`} title={sender} />,
-      ],
+
     ];
+
+    if (this.props.failureFunction !== null) {
+      columns.push([t('transaction.FailureFunctionName'), this.props.failureFunction.name]);
+    }
+
+    columns.push([t('common.GasUsed'), source.gas_used]);
+    columns.push([
+      t('transaction.Sender'),
+      <CommonLink path={`/${network}/address/${sender}`} title={sender} />,
+    ])
 
     if (moduleAddress) {
       columns.push([t('transaction.FunctionModuleAddress'), moduleAddress]);
@@ -551,9 +576,9 @@ class Index extends PureComponent<IndexProps, IndexState> {
       const savData = [
         [t('common.Hash'), source.transaction_hash],
         [t('transaction.Type'), type],
-        [t('common.Time'),`${new Date(parseInt(source.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
-        [t('transaction.BlockHash'),source.block_hash],
-        [t('transaction.BlockHeight'),source.block_number],
+        [t('common.Time'), `${new Date(parseInt(source.timestamp, 10)).toLocaleString()} ${new Date().toTimeString().slice(9)}`],
+        [t('transaction.BlockHash'), source.block_hash],
+        [t('transaction.BlockHeight'), source.block_number],
         [t('transaction.StateRootHash'), source.state_root_hash],
         [t('transaction.Status'), source.status],
         [t('common.GasUsed'), source.gas_used],
@@ -572,13 +597,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
       if (txn_type_args) {
         savData.push([t('transaction.TxnTypeArgs'), JSON.stringify(txn_type_args[0] || [])]);
       }
-      
+
       for (let i = 0; i < decodedArgs.length; i++) {
         if (decodedArgs[i][0] === 'address') {
           const address = decodedArgs[i][1];
-          savData.push([`${t('transaction.arg')} ${i+1}`,address]);
+          savData.push([`${t('transaction.arg')} ${i + 1}`, address]);
         } else {
-          savData.push([`${t('transaction.arg')} ${i+1}`, decodedArgs[i][1]]);
+          savData.push([`${t('transaction.arg')} ${i + 1}`, decodedArgs[i][1]]);
         }
       }
 
@@ -591,7 +616,7 @@ class Index extends PureComponent<IndexProps, IndexState> {
         csvRow += `"${element[1]}",`;
       }
       csvData = `${csvTitle}\r\n${csvRow}`;
-      const blob = new Blob([csvData], {type: "text/plain;charset=utf-8"});
+      const blob = new Blob([csvData], { type: "text/plain;charset=utf-8" });
       FileSaver.saveAs(blob, `${source.transaction_hash}.csv`);
 
     }
@@ -599,13 +624,13 @@ class Index extends PureComponent<IndexProps, IndexState> {
     columns.push([
       ``,
       <div className={this.props.classes.csvExport}>
-        [<Button onClick={()=>{csvExport()}}>
-            Download CSV Export
-          </Button>
+        [<Button onClick={() => { csvExport() }}>
+          Download CSV Export
+        </Button>
         <GetApp className={this.props.classes.csvExportIcon} />]
       </div>
     ]);
-      
+
 
 
     return (
@@ -622,4 +647,4 @@ class Index extends PureComponent<IndexProps, IndexState> {
   }
 }
 
-export default withStyles(useStyles)(withTranslation()(withRouter(Index)) );
+export default withStyles(useStyles)(withTranslation()(withRouter(Index)));

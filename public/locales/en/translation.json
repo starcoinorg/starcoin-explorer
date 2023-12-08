@@ -78,6 +78,7 @@
     "StateRootHash": "State Root Hash",
     "Status": "Status",
     "Sender": "Sender",
+    "FailureFunctionName": "Executtion Failure Function",
     "FunctionModuleAddress": "Contract Address",
     "FunctionModuleName": "Module Name",
     "FunctionName": "Function Name",
