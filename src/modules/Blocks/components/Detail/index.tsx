@@ -261,7 +261,20 @@ class Index extends PureComponent<IndexProps, IndexState> {
       [t('common.GasUsed'), formatNumber(header.gas_used)],
       [t('block.ParentHash'),
         <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`}
-                    title={header.parent_hash} />],
+                    title={header.parent_hash} />
+      ],
+      [t('block.ParentsHash'),
+        header.parents_hash.map((hash: string) => (
+            <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
+        ))
+      ],
+      [t('block.DaaScore'),formatNumber(block.daa_score)],
+      [t('block.HeightgroupIndex'),formatNumber(block.heightgroup_index)],
+      [t('block.MergedBlueset'),
+        block.merged_blueset.map((hash: string) => (
+          <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
+        ))
+      ],
     ];
 
     return (

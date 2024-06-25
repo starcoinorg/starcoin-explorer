@@ -44,10 +44,14 @@
     "Height": "Height",
     "Author": "Author",
     "Difficulty": "Difficulty",
-    "ParentHash": "Parant Hash",
+    "ParentHash": "Selected Parant Hash",
     "Transactions": "Transactions",
     "GasUsed": "Gas Used",
     "Uncles": "Uncles",
+    "ParentsHash": "Parant Hash Set",
+    "HeightgroupIndex": "Height group Index",
+    "DaaScore": "Difficulty Adjustment Algorithm Score",
+    "MergedBlueset": "Merged Blueset",
     "": ""
   },
   "uncleblock": {
