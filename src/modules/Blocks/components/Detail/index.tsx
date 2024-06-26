@@ -259,10 +259,31 @@ class Index extends PureComponent<IndexProps, IndexState> {
         <CommonLink key={header.author} path={`/${network}/address/${header.author}`} title={header.author} />],
       [t('block.Difficulty'), formatNumber(header.difficulty_number)],
       [t('common.GasUsed'), formatNumber(header.gas_used)],
-      [t('block.ParentHash'),
-        <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`}
-                    title={header.parent_hash} />],
     ];
+
+    if (network === 'vega' || network === 'halley') {
+      columns.push(
+        [t('block.ParentsHash'),
+          header.parents_hash.map((hash: string) => (
+            <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
+          ))
+        ],
+        [t('block.DaaScore'),formatNumber(block.daa_score)],
+        [t('block.HeightgroupIndex'),formatNumber(block.heightgroup_index)],
+        [t('block.MergedBlueset'),
+          block.merged_blueset.map((hash: string) => (
+            <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
+          ))
+        ]
+      );
+    } else {
+      columns.push(
+        [t('block.ParentHash'),
+          <CommonLink key={header.parent_hash} path={`/${network}/blocks/detail/${header.parent_hash}`}
+                    title={header.parent_hash} />
+        ]
+      );
+    }
 
     return (
       <PageView
