@@ -262,20 +262,33 @@ class Index extends PureComponent<IndexProps, IndexState> {
     ];
 
     if (network === 'vega' || network === 'halley') {
-      columns.push(
-        [t('block.ParentsHash'),
-          header.parents_hash.map((hash: string) => (
-            <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
-          ))
-        ],
-        [t('block.DaaScore'),formatNumber(block.daa_score)],
-        [t('block.HeightgroupIndex'),formatNumber(block.heightgroup_index)],
-        [t('block.MergedBlueset'),
-          block.merged_blueset.map((hash: string) => (
-            <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
-          ))
-        ]
-      );
+      if (header.parents_hash !== null && header.parents_hash !== undefined) {
+        columns.push(
+          [t('block.ParentsHash'),
+            header.parents_hash.map((hash: string) => (
+              <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
+            ))
+          ]
+        );
+      }
+
+      if (block.daa_score !== null && block.daa_score !== undefined) {
+        columns.push([t('block.DaaScore'),formatNumber(block.daa_score)]);
+      }
+
+      if (block.heightgroup_index !== null && block.heightgroup_index !== undefined) {
+        columns.push([t('block.HeightgroupIndex'),formatNumber(block.heightgroup_index)]);
+      }
+
+      if (block.merged_blueset !== null && block.merged_blueset !== undefined) {
+        columns.push(
+          [t('block.MergedBlueset'),
+            block.merged_blueset.map((hash: string) => (
+              <CommonLink key={hash} path={`/${network}/blocks/detail/${hash}`} title={hash} />
+            )),
+          ],
+        );
+      }
     } else {
       columns.push(
         [t('block.ParentHash'),
