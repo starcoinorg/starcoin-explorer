@@ -2,6 +2,9 @@
   "name": "starcoin-explorer",
   "version": "1.6.9",
   "private": false,
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@craco/craco": "^6.0.0",
     "@emotion/react": "^11.9.0",
