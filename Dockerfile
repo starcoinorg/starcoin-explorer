@@ -6,7 +6,7 @@ COPY package*.json yarn*.lock ./
 
 # Set enviroments
 ENV REACT_APP_STARCOIN_API_URL=https://doapi.stcscan.io
-ENV REACT_APP_STARCOIN_NETWORKS=main,barnard,proxima,halley,vega
+ENV REACT_APP_STARCOIN_NETWORKS=main,barnard,proxima,vega
 
 COPY . .
 
