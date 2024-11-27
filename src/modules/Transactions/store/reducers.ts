@@ -51,6 +51,9 @@ export default function reducers(state: any = initState, action: any) {
     case types.SET_BLOCK_TRANSACTIONS: {
       return { ...state, blockTransactions: action.payload };
     }
+    case types.SET_MODULE_FUNCTION_INDEX: {
+      return { ...state, failureFunction: action.payload };
+    }
     default:
       return state;
   }

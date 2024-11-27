@@ -1,5 +1,6 @@
 import { call, put, takeLatest, fork, delay } from 'redux-saga/effects';
 import withLoading from '@/sagaMiddleware/index';
+import * as sdk from '@/utils/sdk';
 import * as api from './apis';
 import * as actions from './actions';
 import * as types from './constants';
@@ -170,6 +171,24 @@ function* watchGetTransactionListInDelay() {
   yield takeLatest(types.GET_TRANSACTION_LIST_IN_DELAY, getTransactionListInDelay);
 }
 
+
+
+export function* getModuleFunctionIndex(action: ReturnType<typeof actions.getModuleFunctionIndex>) {
+  try {
+    // @ts-ignore
+    const res = yield call(sdk.getResolveModuleFunctionIndex, action.payload.moduleId, action.payload.index);
+    yield put(actions.setModuleFunctionIndex(res));
+  } catch ({ message }) {
+    if (message) {
+      console.log(message);
+    }
+  }
+}
+
+function* watchGetModuleFunctionIndex() {
+  yield takeLatest(types.GET_MODULE_FUNCTION_INDEX, getModuleFunctionIndex);
+}
+
 const sagas = [
   watchGetTransaction,
   watchGetPendingTransaction,
@@ -180,6 +199,7 @@ const sagas = [
   watchGetAddressTransactions,
   watchGetBlockTransactions,
   watchGetBlockTransactionsByHeight,
+  watchGetModuleFunctionIndex,
 ];
 
 export default sagas;
